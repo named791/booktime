@@ -15,6 +15,10 @@ public class BookContoller {
 	public void productDetail(String isbn13) {
 		logger.info("상품 디테일 파라미터 isbn13={}",isbn13);
 		
-		
+	}
+	
+	@RequestMapping("/bookGrade.do")
+	public void productGrade() {
+		logger.info("평점 보여주기");
 	}
 }

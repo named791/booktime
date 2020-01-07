@@ -4,10 +4,11 @@
 
 <div class="container">
 	<div class="page-header">
-	  <h1>책제목 <small>부제목</small></h1>
+	  <h1>책제목 <small>-부제목</small></h1>
 	</div>
 	<p>지은이 / 옮긴이 | 출판사 | 출판일 </p>
-	
+	<c:import url="/book/bookGrade.do"></c:import>
+	<hr>
 </div>
 
 <%@include file="../inc/bottom.jsp" %>
