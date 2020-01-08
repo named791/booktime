@@ -3,8 +3,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.ez</groupId>
-	<artifactId>booktime</artifactId>
-	<name>booktime</name>
+	<artifactId>herb</artifactId>
+	<name>springherb</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
@@ -203,54 +203,30 @@
 		</dependency> -->
 
 	    <!-- Jackson -->
-	    
 	    <dependency>
 	      <groupId>com.fasterxml.jackson.core</groupId>
 	      <artifactId>jackson-annotations</artifactId>
 	      <version>2.7.5</version>
 	    </dependency>
-	    
-	    <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
-		<dependency>
-		    <groupId>com.fasterxml.jackson.core</groupId>
-		    <artifactId>jackson-core</artifactId>
-		    <version>2.10.1</version>
-		</dependency>
 	
-	    <!-- <dependency>
+	    <dependency>
 	      <groupId>com.fasterxml.jackson.core</groupId>
 	      <artifactId>jackson-core</artifactId>
 	      <version>2.7.5</version>
-	    </dependency> -->
+	    </dependency>
 	
-	    <!-- <dependency>
+	    <dependency>
 	      <groupId>com.fasterxml.jackson.core</groupId>
 	      <artifactId>jackson-databind</artifactId>
 	      <version>2.7.5</version>
-	    </dependency> -->
-	    
-	    <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
-		<dependency>
-		    <groupId>com.fasterxml.jackson.core</groupId>
-		    <artifactId>jackson-databind</artifactId>
-		    <version>2.9.10.1</version>
-		</dependency>
-	    
+	    </dependency>
     
 		<!-- Commons FileUpload -->
-		<!-- <dependency>
+		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
 			<version>1.3.1</version>
-		</dependency> -->
-		
-		<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
-		<dependency>
-		    <groupId>commons-fileupload</groupId>
-		    <artifactId>commons-fileupload</artifactId>
-		    <version>1.3.3</version>
 		</dependency>
-		
 
 		<dependency>
 			<groupId>commons-io</groupId>
@@ -289,15 +265,31 @@
 			<artifactId>spring-context-support</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-		
-		<!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
+
+	<!-- apache POI api-->
+	<dependency>
+    <groupId>org.apache.poi</groupId>
+    <artifactId>poi</artifactId>
+    <version>3.17</version>
+	</dependency>
+	
+	 <!-- To convert XML File in to JSON -->
+        <!-- https://mvnrepository.com/artifact/org.json/json -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20140107</version>
+        </dependency>
+        
+        <!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
 		<dependency>
 		    <groupId>com.googlecode.json-simple</groupId>
 		    <artifactId>json-simple</artifactId>
-		    <version>1.1.1</version>
+		    <version>1.1</version>
 		</dependency>
 
 	</dependencies>
+
 
 	<repositories>
 		<!-- <repository>

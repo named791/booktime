@@ -61,8 +61,8 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">주문내역</a>
-          <!-- </li>
-          	 <a class="nav-link" href="#">장바구니</a>  -->
+          </li>
+          	 <a class="nav-link" href="#">장바구니</a>
           </li>
         </ul>
       </div>

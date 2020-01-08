@@ -24,11 +24,5 @@ public class loginController {
 		
 		return "mypage/memberInfo";
 	}
-	
-	@RequestMapping("/freeBoard/List.do")
-	public String freeBoardList() {
-		logger.info("자유게시판 목록");
-		
-		return "freeBoard/List";
-	}
+
 }
