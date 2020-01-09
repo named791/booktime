@@ -83,7 +83,7 @@
   <!-- Page Content -->
   <div class="container">
   <!-- Content Row -->
-    <div class="row">
+    <div class="row justify-content-end">
       <!-- Sidebar Column -->
       <div class="col-lg-2 mb-4">
         <div class="list-group">
@@ -121,41 +121,304 @@
       <h2 class="display-4">&nbsp;추천도서</h2>
       <hr>
       <br>
-      <div class="col-lg-3 col-sm-6" style="display: inline-block;margin-bottom: 30px;">        
-        <div class="card h-380">
-          <a href="#"><img class="card-img-top" src="https://image.aladin.co.kr/product/21984/15/cover150/k622636607_2.jpg" alt=""></a>
-        </div>
-      </div>>
-      <div class="col-lg-3 col-sm-6" style="display: inline-block;margin-bottom: 30px;">
-        <div class="card h-380">
-          <a href="#"><img class="card-img-top" src="https://image.aladin.co.kr/product/19359/16/cover150/s432636215_1.jpg" alt=""></a>
-        </div>
-      </div>
-      <div class="col-lg-3 col-sm-6" style="display: inline-block;margin-bottom: 30px;">
-        <div class="card h-380">
-          <a href="#"><img class="card-img-top" src="https://image.aladin.co.kr/product/22064/21/cover150/k162636917_1.jpg" alt=""></a>
+      <div class="row justify-content-around">
+      <div class="col-lg-3 col-sm-6 portfolio-item" style="display: inline-block;margin-bottom: 30px;">        
+        <div class="card h-100">
+          <a href="#"><img class="card-img-top" src="https://image.aladin.co.kr/product/21984/15/cover500/k622636607_2.jpg" alt=""></a>
+	        <div class="card-body">
+	            <h4 class="card-title">
+	              <a href="#">도서1</a>
+	            </h4>
+	            <p class="card-text">책 소개</p>
+	         </div>
         </div>
       </div>
-      <div class="col-lg-3 col-sm-6" style="display: inline-block;margin-bottom: 30px;">
-        <div class="card h-380">
-          <a href="#"><img class="card-img-top" src="https://image.aladin.co.kr/product/21265/76/cover150/k702636286_1.jpg" alt=""></a>
+      <div class="col-lg-3 col-sm-6 portfolio-item" style="display: inline-block;margin-bottom: 30px;">
+        <div class="card h-100">
+          <a href="#"><img class="card-img-top" src="https://image.aladin.co.kr/product/19359/16/cover500/s432636215_1.jpg" alt=""></a>
+        	<div class="card-body">
+	            <h4 class="card-title">
+	              <a href="#">도서2</a>
+	            </h4>
+	            <p class="card-text">책 소개</p>
+	         </div>
         </div>
       </div>
-      <div class="col-lg-3 col-sm-6" style="display: inline-block;margin-bottom: 30px;">
-        <div class="card h-380">
-          <a href="#"><img class="card-img-top" src="https://image.aladin.co.kr/product/18827/60/cover150/8954655971_3.jpg" alt=""></a>
+      <div class="col-lg-3 col-sm-6 portfolio-item" style="display: inline-block;margin-bottom: 30px;">
+        <div class="card h-100">
+          <a href="#"><img class="card-img-top" src="https://image.aladin.co.kr/product/22160/14/cover500/k842636310_1.jpg" alt=""></a>
+        	<div class="card-body">
+	            <h4 class="card-title">
+	              <a href="#">도서3</a>
+	            </h4>
+	            <p class="card-text">책 소개</p>
+	         </div>
         </div>
       </div>
-      <div class="col-lg-3 col-sm-6" style="display: inline-block;margin-bottom: 30px;">
-        <div class="card h-380">
-          <a href="#"><img class="card-img-top" src="https://image.aladin.co.kr/product/22342/33/cover150/k432636124_1.jpg" alt=""></a>
+      <div class="col-lg-3 col-sm-6 portfolio-item" style="display: inline-block;margin-bottom: 30px;">
+        <div class="card h-100">
+          <a href="#"><img class="card-img-top" src="https://image.aladin.co.kr/product/21265/76/cover500/k702636286_1.jpg" alt=""></a>
+        	<div class="card-body">
+	            <h4 class="card-title">
+	              <a href="#">도서4</a>
+	            </h4>
+	            <p class="card-text">책 소개</p>
+	         </div>
         </div>
       </div>
+      <div class="col-lg-3 col-sm-6 portfolio-item" style="display: inline-block;margin-bottom: 30px;">
+        <div class="card h-100">
+          <a href="#"><img class="card-img-top" src="https://image.aladin.co.kr/product/18827/60/cover500/8954655971_3.jpg" alt=""></a>
+        	<div class="card-body">
+	            <h4 class="card-title">
+	              <a href="#">도서5</a>
+	            </h4>
+	            <p class="card-text">책 소개</p>
+	         </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-6 portfolio-item" style="display: inline-block;margin-bottom: 30px;">
+        <div class="card h-100">
+          <a href="#"><img class="card-img-top" src="https://image.aladin.co.kr/product/22039/45/cover500/k662636816_1.jpg" alt=""></a>
+        	<div class="card-body">
+	            <h4 class="card-title">
+	              <a href="#">도서6</a>
+	            </h4>
+	            <p class="card-text">책 소개</p>
+	         </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-6 portfolio-item" style="display: inline-block;margin-bottom: 30px;">
+        <div class="card h-100">
+          <a href="#"><img class="card-img-top" src="https://image.aladin.co.kr/product/22370/49/cover500/k132636222_1.jpg" alt=""></a>
+        	<div class="card-body">
+	            <h4 class="card-title">
+	              <a href="#">도서7</a>
+	            </h4>
+	            <p class="card-text">책 소개</p>
+	         </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-6 portfolio-item" style="display: inline-block;margin-bottom: 30px;">
+        <div class="card h-100">
+          <a href="#"><img class="card-img-top" src="https://image.aladin.co.kr/product/22271/23/cover500/8932919550_1.jpg" alt=""></a>
+        	<div class="card-body">
+	            <h4 class="card-title">
+	              <a href="#">도서8</a>
+	            </h4>
+	            <p class="card-text">책 소개</p>
+	         </div>
+        </div>
+      </div>
+    </div>
+    </div><!-- row -->
+    
+    <div class="col-lg-2 mb-4">
+        <div class="list-group">
+        &nbsp;
+        </div>
     </div>
     
+    <!-- Content Column -->
+      <div class="col-lg-10 mb-4">
+      <br>
+      <h2 class="display-4">&nbsp;베스트 셀러</h2>
+      <hr>
+      <br>
+      <div class="row justify-content-around">
+      <div class="col-lg-3 col-sm-6 portfolio-item" style="display: inline-block;margin-bottom: 30px;">        
+        <div class="card h-100">
+          <a href="#"><img class="card-img-top" src="https://image.aladin.co.kr/product/21984/15/cover500/k622636607_2.jpg" alt=""></a>
+	        <div class="card-body">
+	            <h4 class="card-title">
+	              <a href="#">도서1</a>
+	            </h4>
+	            <p class="card-text">책 소개</p>
+	         </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-6 portfolio-item" style="display: inline-block;margin-bottom: 30px;">
+        <div class="card h-100">
+          <a href="#"><img class="card-img-top" src="https://image.aladin.co.kr/product/19359/16/cover500/s432636215_1.jpg" alt=""></a>
+        	<div class="card-body">
+	            <h4 class="card-title">
+	              <a href="#">도서2</a>
+	            </h4>
+	            <p class="card-text">책 소개</p>
+	         </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-6 portfolio-item" style="display: inline-block;margin-bottom: 30px;">
+        <div class="card h-100">
+          <a href="#"><img class="card-img-top" src="https://image.aladin.co.kr/product/22160/14/cover500/k842636310_1.jpg" alt=""></a>
+        	<div class="card-body">
+	            <h4 class="card-title">
+	              <a href="#">도서3</a>
+	            </h4>
+	            <p class="card-text">책 소개</p>
+	         </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-6 portfolio-item" style="display: inline-block;margin-bottom: 30px;">
+        <div class="card h-100">
+          <a href="#"><img class="card-img-top" src="https://image.aladin.co.kr/product/21265/76/cover500/k702636286_1.jpg" alt=""></a>
+        	<div class="card-body">
+	            <h4 class="card-title">
+	              <a href="#">도서4</a>
+	            </h4>
+	            <p class="card-text">책 소개</p>
+	         </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-6 portfolio-item" style="display: inline-block;margin-bottom: 30px;">
+        <div class="card h-100">
+          <a href="#"><img class="card-img-top" src="https://image.aladin.co.kr/product/18827/60/cover500/8954655971_3.jpg" alt=""></a>
+        	<div class="card-body">
+	            <h4 class="card-title">
+	              <a href="#">도서5</a>
+	            </h4>
+	            <p class="card-text">책 소개</p>
+	         </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-6 portfolio-item" style="display: inline-block;margin-bottom: 30px;">
+        <div class="card h-100">
+          <a href="#"><img class="card-img-top" src="https://image.aladin.co.kr/product/22039/45/cover500/k662636816_1.jpg" alt=""></a>
+        	<div class="card-body">
+	            <h4 class="card-title">
+	              <a href="#">도서6</a>
+	            </h4>
+	            <p class="card-text">책 소개</p>
+	         </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-6 portfolio-item" style="display: inline-block;margin-bottom: 30px;">
+        <div class="card h-100">
+          <a href="#"><img class="card-img-top" src="https://image.aladin.co.kr/product/22370/49/cover500/k132636222_1.jpg" alt=""></a>
+        	<div class="card-body">
+	            <h4 class="card-title">
+	              <a href="#">도서7</a>
+	            </h4>
+	            <p class="card-text">책 소개</p>
+	         </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-6 portfolio-item" style="display: inline-block;margin-bottom: 30px;">
+        <div class="card h-100">
+          <a href="#"><img class="card-img-top" src="https://image.aladin.co.kr/product/22271/23/cover500/8932919550_1.jpg" alt=""></a>
+        	<div class="card-body">
+	            <h4 class="card-title">
+	              <a href="#">도서8</a>
+	            </h4>
+	            <p class="card-text">책 소개</p>
+	         </div>
+        </div>
+      </div>
     </div>
-    <!-- /.row -->
-
+    </div><!-- row -->
+	
+	<div class="col-lg-2 mb-4">
+    	&nbsp;
+    </div>
+	
+	 <!-- Content Column -->
+      <div class="col-lg-10 mb-4">
+      <br>
+      <h2 class="display-4">&nbsp;신간</h2>
+      <hr>
+      <br>
+      <div class="row justify-content-around">
+      <div class="col-lg-3 col-sm-6 portfolio-item" style="display: inline-block;margin-bottom: 30px;">        
+        <div class="card h-100">
+          <a href="#"><img class="card-img-top" src="https://image.aladin.co.kr/product/21984/15/cover500/k622636607_2.jpg" alt=""></a>
+	        <div class="card-body">
+	            <h4 class="card-title">
+	              <a href="#">도서1</a>
+	            </h4>
+	            <p class="card-text">책 소개</p>
+	         </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-6 portfolio-item" style="display: inline-block;margin-bottom: 30px;">
+        <div class="card h-100">
+          <a href="#"><img class="card-img-top" src="https://image.aladin.co.kr/product/19359/16/cover500/s432636215_1.jpg" alt=""></a>
+        	<div class="card-body">
+	            <h4 class="card-title">
+	              <a href="#">도서2</a>
+	            </h4>
+	            <p class="card-text">책 소개</p>
+	         </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-6 portfolio-item" style="display: inline-block;margin-bottom: 30px;">
+        <div class="card h-100">
+          <a href="#"><img class="card-img-top" src="https://image.aladin.co.kr/product/22160/14/cover500/k842636310_1.jpg" alt=""></a>
+        	<div class="card-body">
+	            <h4 class="card-title">
+	              <a href="#">도서3</a>
+	            </h4>
+	            <p class="card-text">책 소개</p>
+	         </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-6 portfolio-item" style="display: inline-block;margin-bottom: 30px;">
+        <div class="card h-100">
+          <a href="#"><img class="card-img-top" src="https://image.aladin.co.kr/product/21265/76/cover500/k702636286_1.jpg" alt=""></a>
+        	<div class="card-body">
+	            <h4 class="card-title">
+	              <a href="#">도서4</a>
+	            </h4>
+	            <p class="card-text">책 소개</p>
+	         </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-6 portfolio-item" style="display: inline-block;margin-bottom: 30px;">
+        <div class="card h-100">
+          <a href="#"><img class="card-img-top" src="https://image.aladin.co.kr/product/18827/60/cover500/8954655971_3.jpg" alt=""></a>
+        	<div class="card-body">
+	            <h4 class="card-title">
+	              <a href="#">도서5</a>
+	            </h4>
+	            <p class="card-text">책 소개</p>
+	         </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-6 portfolio-item" style="display: inline-block;margin-bottom: 30px;">
+        <div class="card h-100">
+          <a href="#"><img class="card-img-top" src="https://image.aladin.co.kr/product/22039/45/cover500/k662636816_1.jpg" alt=""></a>
+        	<div class="card-body">
+	            <h4 class="card-title">
+	              <a href="#">도서6</a>
+	            </h4>
+	            <p class="card-text">책 소개</p>
+	         </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-6 portfolio-item" style="display: inline-block;margin-bottom: 30px;">
+        <div class="card h-100">
+          <a href="#"><img class="card-img-top" src="https://image.aladin.co.kr/product/22370/49/cover500/k132636222_1.jpg" alt=""></a>
+        	<div class="card-body">
+	            <h4 class="card-title">
+	              <a href="#">도서7</a>
+	            </h4>
+	            <p class="card-text">책 소개</p>
+	         </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-6 portfolio-item" style="display: inline-block;margin-bottom: 30px;">
+        <div class="card h-100">
+          <a href="#"><img class="card-img-top" src="https://image.aladin.co.kr/product/22271/23/cover500/8932919550_1.jpg" alt=""></a>
+        	<div class="card-body">
+	            <h4 class="card-title">
+	              <a href="#">도서8</a>
+	            </h4>
+	            <p class="card-text">책 소개</p>
+	         </div>
+        </div>
+      </div>
+    </div>
+    </div><!-- row -->
+	
 	</div>
   <!-- /.container -->
 
