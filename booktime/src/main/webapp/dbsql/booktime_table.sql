@@ -1,4 +1,5 @@
 -- 멤버
+drop table "USER" cascade constraints;
 CREATE TABLE "USER" (
 	userid           varchar2(30)  NOT NULL, -- 아이디
 	pwd              varchar2(60)  NOT NULL, -- 비밀번호
@@ -19,7 +20,7 @@ CREATE TABLE "USER" (
 	withdrawalReason date          NULL      -- 탈퇴사유
 );
 
---drop sequence user_seq;
+drop sequence user_seq;
 create sequence user_seq
 increment by 1
 start with 1
@@ -40,13 +41,14 @@ ALTER TABLE "USER"
 		);
 
 -- 게시판
+drop table board cascade constraints;
 CREATE TABLE BOARD (
 	boardNo          number        NOT NULL, -- 게시글번호
-	userid           varchar2(30)  NULL,     -- 아이디
+	userid           varchar2(30)  not NULL,     -- 아이디
 	category         varchar2(30)  NOT NULL, -- 카테고리
 	title            varchar2(60)  NOT NULL, -- 제목
 	content          CLOB          NULL,     -- 내용
-	regdate          date          NULL,     -- 작성일
+	regdate          date          default sysdate,     -- 작성일
 	filename         varchar2(600) NULL,     -- 파일이름
 	originalFilename varchar2(600) NULL,     -- 원래 파일 이름
 	filesize         number        NULL,     -- 파일크기
@@ -55,7 +57,7 @@ CREATE TABLE BOARD (
 	qType            varchar2(60)  NULL      -- 문의 유형
 );
 
---drop sequence board_seq;
+drop sequence board_seq;
 create sequence board_seq
 increment by 1
 start with 1
@@ -76,18 +78,19 @@ ALTER TABLE BOARD
 		);
 
 -- 댓글
+drop table reply cascade constraints;
 CREATE TABLE REPLY (
 	replyNo         number       NOT NULL, -- 댓글번호
 	boardNo         number       NULL,     -- 게시글번호
 	userid          varchar2(30) NULL,     -- 아이디
 	replyContent    CLOB         NOT NULL, -- 내용
-	replyRegdate    date         NULL,     -- 작성시간
+	replyRegdate    date         default sysdate,     -- 작성시간
 	groupNo         number       NOT NULL, -- 그룹번호
 	step            char(5)      NOT NULL, -- 단계
 	replyDeleteDate date         NULL      -- 삭제일
 );
 
---drop sequence reply_seq;
+drop sequence reply_seq;
 create sequence reply_seq
 increment by 1
 start with 1
@@ -108,6 +111,7 @@ ALTER TABLE REPLY
 		);
 
 -- 즐겨찾기
+drop table favorite cascade constraints;
 CREATE TABLE FAVORITE (
 	favoriteNo number        NOT NULL, -- 찜 번호
 	userid     varchar2(30)  NOT NULL, -- 아이디
@@ -119,7 +123,7 @@ CREATE TABLE FAVORITE (
 	price      number        NOT NULL  -- 책가격
 );
 
---drop sequence favorite_seq;
+drop sequence favorite_seq;
 create sequence favorite_seq
 increment by 1
 start with 1
@@ -140,6 +144,7 @@ ALTER TABLE FAVORITE
 		);
 
 -- 평점
+drop table BOOKGRADE cascade constraints;
 CREATE TABLE BOOKGRADE (
 	bookGradeNo number       NOT NULL, -- 평점번호
 	userid      varchar2(30) NULL,     -- 아이디
@@ -147,7 +152,7 @@ CREATE TABLE BOOKGRADE (
 	bookGrade   number       NOT NULL  -- 평점
 );
 
---drop sequence bookgrade_seq;
+drop sequence bookgrade_seq;
 create sequence bookgrade_seq
 increment by 1
 start with 1
@@ -168,14 +173,16 @@ ALTER TABLE BOOKGRADE
 		);
 
 -- 주문
+drop table PAYMENT cascade constraints;
 CREATE TABLE PAYMENT (
 	payNo         number        NOT NULL, -- 결제 번호
-	userid        varchar2(30)  NOT NULL, -- 아이디
-	isbn          varchar2(90)  NOT NULL, -- 책번호
-	bookName      varchar2(100) NOT NULL, -- 책이름
+	userid        varchar2(30)  NULL, -- 아이디
+	email1        varchar2(100) not null,   --이메일
+	email2        varchar2(100) not null,
+	nonMember     number        null,     --비회원용 식별번호
 	price         number        NOT NULL, -- 결제총금액
 	usePoint      number        NULL,     -- 결제포인트
-	payDate       date          NULL,     -- 결제일
+	payDate       date          default sysdate,     -- 결제일
 	cancleDate    date          NULL,     -- 취소일
 	instrument    varchar2(30)  NOT NULL, -- 결제수단
 	zipcode       varchar2(20)  NOT NULL, -- 우편번호
@@ -185,7 +192,7 @@ CREATE TABLE PAYMENT (
 	progress      varchar2(60)  NOT NULL  -- 진행상태
 );
 
---drop sequence payment_seq;
+drop sequence payment_seq;
 create sequence payment_seq
 increment by 1
 start with 1
@@ -206,17 +213,18 @@ ALTER TABLE PAYMENT
 		);
 
 -- 마일리지
+drop table MILEAGE cascade constraints;
 CREATE TABLE MILEAGE (
 	mileageNo   number       NOT NULL, -- 마일리지번호
 	userid      varchar2(30) NOT NULL, -- 아이디
-	savingDate  date         NULL,     -- 적립일
+	savingDate  date         default sysdate,     -- 적립일
 	savingPoint number       NULL,     -- 적립포인트
 	payNo       number       NULL,     -- 결제 번호
 	usePoint    number       NULL,     -- 결제포인트
-	endDate     date         NOT NULL  -- 만료일
+	endDate     date         NULL  -- 만료일
 );
 
---drop sequence mileage_seq;
+drop sequence mileage_seq;
 create sequence mileage_seq
 increment by 1
 start with 1
@@ -237,18 +245,19 @@ ALTER TABLE MILEAGE
 		);
 
 -- 추천도서
+drop table RECOMMENDBOOK cascade constraints;
 CREATE TABLE RECOMMENDBOOK (
 	recomBookNo number        NOT NULL, -- 추천도서번호
 	isbn        number        NOT NULL, -- 책번호
-	cateCode    number        NULL,     -- 카테고리 번호
+	cateCode    number        NOT NULL,     -- 카테고리 번호
 	bookName    varchar2(100) NOT NULL, -- 책이름
 	price       number        NOT NULL, -- 가격
 	publisher   varchar2(50)  NOT NULL, -- 출판사
 	writer      varchar2(30)  NOT NULL, -- 저자
-	managerid   varchar2(30)  NOT NULL  -- 관리자아이디
+	managerid   varchar2(30)  NULL  -- 관리자아이디
 );
 
---drop sequence recommendbook_seq;
+drop sequence recommendbook_seq;
 create sequence recommendbook_seq
 increment by 1
 start with 1
@@ -269,6 +278,7 @@ ALTER TABLE RECOMMENDBOOK
 		);
 
 -- 주문 상세
+drop table PAYMENTDETAIL cascade constraints;
 CREATE TABLE PAYMENTDETAIL (
 	payNo    number        NOT NULL, -- 결제 번호
 	isbn     varchar2(90)  NOT NULL, -- 책번호
@@ -277,20 +287,21 @@ CREATE TABLE PAYMENTDETAIL (
 	price    number        NOT NULL  -- 권당가격
 );
 
---drop sequence paymentdetail_seq;
+drop sequence paymentdetail_seq;
 create sequence paymentdetail_seq
 increment by 1
 start with 1
 nocache;
 
 -- 카테고리
+drop table BOOKCATEGORY cascade constraints;
 CREATE TABLE BOOKCATEGORY (
 	cateCode number       NOT NULL, -- 카테고리 번호
 	cateName varchar2(60) NOT NULL, -- 카테고리명
-	regdate  date         NULL      -- 등록일
+	regdate  date         default sysdate      -- 등록일
 );
 
---drop sequence bookcategory_seq;
+drop sequence bookcategory_seq;
 create sequence bookcategory_seq
 increment by 1
 start with 1
@@ -401,7 +412,7 @@ ALTER TABLE MILEAGE
 -- 추천도서
 ALTER TABLE RECOMMENDBOOK
 	ADD
-		CONSTRAINT FK_BOOKCATEGORY_TO_RECOMMENDBOOK -- 카테고리 -> 추천도서
+		CONSTRAINT FK_BOOKCATE_TO_RECOMMENDBOOK -- 카테고리 -> 추천도서
 		FOREIGN KEY (
 			cateCode -- 카테고리 번호
 		)
