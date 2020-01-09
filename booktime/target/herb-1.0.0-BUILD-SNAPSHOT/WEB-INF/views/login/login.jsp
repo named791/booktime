@@ -38,7 +38,7 @@
 						<div class="flex-sb-m w-full p-t-3 p-b-24">
 						<div class="contact100-form-checkbox"></div>
 						<div>
-							<a href="#" class="txt1">
+							<a href="<c:url value='/login/nonLogin.do'/>" class="txt1">
 								비회원 주문조회
 							</a>
 						</div>
@@ -64,8 +64,11 @@
 						</div>
 
 						<div>
-							<a href="#" class="txt1">
-								아이디/비밀번호 찾기
+							<a href="<c:url value='/login/searchID.do'/>" class="txt1">
+								아이디
+							</a>
+							<a href="<c:url value='/login/searchPWD.do'/>" class="txt1">
+								/ 비밀번호 찾기
 							</a>
 						</div>
 					</div>
