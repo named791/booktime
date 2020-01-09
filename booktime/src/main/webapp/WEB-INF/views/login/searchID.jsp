@@ -26,6 +26,14 @@
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/main.css">
 <!--===============================================================================================-->
 </head>
+<script type="text/javascript" src="<c:url value='/resources/vendor/jquery/jquery.min.js'/>"></script>
+<script type="text/javascript">
+	$(function(){
+		$("#btnId").click(function(){
+			window.open("<c:url value='/login/getId.do'/>","","width=500,height=500");
+		});
+	});
+</script>
 <body>
 	
 	<div class="limiter">
@@ -33,52 +41,30 @@
 			<div class="wrap-login100 p-t-50 p-b-90">
 				<form class="login100-form validate-form flex-sb flex-w">
 					<span class="login100-form-title p-b-51">
-						로그인
+						아이디 찾기
 					</span>
-						<div class="flex-sb-m w-full p-t-3 p-b-24">
-						<div class="contact100-form-checkbox"></div>
-						<div>
-							<a href="<c:url value='/login/nonLogin.do'/>" class="txt1">
-								비회원 주문조회
-							</a>
-						</div>
-						</div>
-					
+					<p>- 이름과 E-mail 주소를 입력 후 "가입 여부 확인하기" 버튼을 클릭해주시면 가입 여부를 알려드립니다.</p>
 					<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
-						<input class="input100" type="text" name="username" placeholder="아이디">
+						<input class="input100" type="text" name="name" placeholder="이름을 입력하세요">
 						<span class="focus-input100"></span>
 					</div>
-					
-					
-					<div class="wrap-input100 validate-input m-b-16" data-validate = "Password is required">
-						<input class="input100" type="password" name="pass" placeholder="비밀번호">
+					<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
+						<input class="input100" type="text" name="email" placeholder="E-mail 주소">
 						<span class="focus-input100"></span>
 					</div>
-					
-					<div class="flex-sb-m w-full p-t-3 p-b-24">
-						<div class="contact100-form-checkbox">
-							<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
-							<label class="label-checkbox100" for="ckb1">
-								아이디 저장하기
-							</label>
-						</div>
-
-						<div>
-							<a href="<c:url value='/login/searchID.do'/>" class="txt1">
-								아이디
-							</a>
-							<a href="<c:url value='/login/searchPWD.do'/>" class="txt1">
-								/ 비밀번호 찾기
-							</a>
-						</div>
-					</div>
-
-					<div class="container-login100-form-btn m-t-17">
-						<button class="login100-form-btn">
-							로그인
+					<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
+						<button class="login100-form-btn" id="btnId">
+							가입 여부 확인
 						</button>
 					</div>
-
+						<div>
+							<a href="<c:url value='/login/searchPWD.do'/>" class="txt1">
+								비밀번호 찾기
+							</a>
+							<a href="<c:url value='/login/login.do'/>" class="txt1">
+								/ 로그인
+							</a>
+						</div>
 				</form>
 			</div>
 		</div>
