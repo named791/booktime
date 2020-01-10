@@ -30,5 +30,5 @@
 		<img class="selStar" alt="star${i}" src='<c:url value="/resources/images/icons/starEmpty.png"/>'>
 	</c:forEach>
 	<b id="selGrade">3.0</b>
-	<input type="text" name="bookGrade" id="bookGrade">
+	<input type="hidden" name="bookGrade" id="bookGrade">
 </div>

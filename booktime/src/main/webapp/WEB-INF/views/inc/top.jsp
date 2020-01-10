@@ -24,6 +24,9 @@
 	<style>
 	@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic&display=swap');
 	</style>
+	
+	<!-- 아이콘 :ㅣ font-awesome -->  
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <body>
 
@@ -75,3 +78,5 @@
    <!-- Bootstrap core JavaScript -->
   <script src="<c:url value='/resources/vendor/jquery/jquery.min.js'/>"></script>
   <script src="<c:url value='/resources/vendor/bootstrap/js/bootstrap.bundle.min.js'/>"></script>
+
+  
