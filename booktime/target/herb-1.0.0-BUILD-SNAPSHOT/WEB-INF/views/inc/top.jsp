@@ -42,7 +42,7 @@
             <a class="nav-link" href="${pageContext.request.contextPath}/login/login.do">로그인</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">회원가입</a>
+            <a class="nav-link" href='<c:url value="/user/register.do"/>'>회원가입</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="${pageContext.request.contextPath}/freeBoard/List.do">게시판</a>
@@ -62,6 +62,7 @@
           <li class="nav-item">
             <a class="nav-link" href="#">주문내역</a>
           </li>
+          <li class="nav-item">
           	 <a class="nav-link" href="#">장바구니</a>
           </li>
         </ul>

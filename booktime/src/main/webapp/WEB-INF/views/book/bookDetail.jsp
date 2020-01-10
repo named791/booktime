@@ -185,8 +185,13 @@
 		<h5 class="card-header">리뷰 남기기</h5>
 		<div class="card-body">
 			<form name="reviewFrm" action="" method="post" enctype="multipart/form-data">
-				<div class="form-group">
-					<input type="text" name="title" class="form-control" placeholder="제목을 입력하세요">
+				<div class="form-group row">
+					<div class="col">
+						<input type="text" name="title" class="form-control" placeholder="제목을 입력하세요">
+					</div>
+					<div class="col text-center" style="max-width: 225px;">
+						<c:import url="/book/bookGradePicker.do"/>
+					</div>
 				</div>
 				<div class="form-group">
 					<div class="container">
