@@ -21,4 +21,9 @@ public class BookContoller {
 	public void productGrade() {
 		logger.info("평점 보여주기");
 	}
+	
+	@RequestMapping("/bookGradePicker.do")
+	public void productGradePicker() {
+		logger.info("평점 picker 보여주기");
+	}
 }
