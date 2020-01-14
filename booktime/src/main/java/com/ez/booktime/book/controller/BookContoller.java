@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ez.booktime.api.AladinAPI;
+import com.ez.booktime.category.model.BookCategoryService;
+import com.ez.booktime.category.model.BookCategoryVO;
 
 @Controller
 @RequestMapping("/book")
@@ -21,6 +23,9 @@ public class BookContoller {
 	@Autowired
 	private AladinAPI aladinApi;
 	
+	@Autowired
+	private BookCategoryService cateService;
+	
 	@RequestMapping("/bookDetail.do")
 	public void productDetail(@RequestParam String ItemId, Model model) {
 		logger.info("상품 디테일 파라미터 isbn13={}",ItemId);
@@ -28,7 +33,16 @@ public class BookContoller {
 		Map<String, Object> map = null;
 		try {
 			 map = aladinApi.selectBook(ItemId);
-			 logger.info("map={}",map);
+			 
+			 String cateName = (String)map.get("cateName");
+			 BookCategoryVO cateVo = cateService.selectCategoryInfoByName(cateName);
+			 
+			 map.put("cateCode", cateVo.getCateCode());
+			 
+			 logger.info("상품 상세보기 결과 map={}",map);
+			 
+			 
+			 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
