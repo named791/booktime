@@ -16,15 +16,13 @@
 		});
 	});
 </script>
-
-<div class="container mt-3">
-
-	<div class="page-header my-4 p-3"
+<div class="container">
+	<div class="page-header my-4 p-2"
 		style="border: 2px solid lightGray;">
-		<h3><i class="fa fa-heart"></i> 즐겨찾기</h3>
-		<small>바로 구입할 예정은 없지만 기억해놓고 싶은 책들을 담아두세요.</small>
+		<h3>즐겨찾기</h3>
+		<small>당장 구입할 예정은 없지만 읽고싶은 책들을 담아두세요.</small>
 	</div>
-
+	
 	<div class="table-responsive">
 		<form name="frmFavorite" method="post"
 					action='<c:url value="/favorite/delete.do"/>'>
@@ -61,7 +59,8 @@
 								
 								<div class="ml-3 d-inline-block align-middle">
 									<h5 class="mb-0">
-										<a href="#" class="text-dark d-inline-block align-middle"><b>상품명</b></abbr></a>
+										<a href="<c:url value='/book/bookDetail.do?isbn='/>" 
+											class="text-dark d-inline-block align-middle"><b>상품명</b></abbr></a>
 									</h5>
 									<a href="#"><small class="text-muted font-italic d-block">카테고리 : 도서</small></a>
 								</div>
@@ -89,7 +88,7 @@
 								
 								<div class="ml-3 d-inline-block align-middle">
 									<h5 class="mb-0">
-										<a href="#" class="text-dark d-inline-block align-middle"><b>상품명</b></a>
+										<a href="#" class="text-dark d-inline-block align-middle"><b>상품명</b></abbr></a>
 									</h5>
 									<a href="#"><small class="text-muted font-italic d-block">카테고리 : 도서</small></a>
 								</div>

@@ -66,7 +66,7 @@
             <a class="nav-link" href="#">주문내역</a>
           </li>
           <li class="nav-item">
-          	 <a class="nav-link" href="#">장바구니</a>
+          	 <a class="nav-link" href="<c:url value='/favorite/cart.do'/>">장바구니</a>
           </li>
         </ul>
       </div>

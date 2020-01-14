@@ -17,9 +17,9 @@
 	});
 </script>
 <div class="container">
-	<div class="page-header my-4 p-2"
+	<div class="page-header my-4 p-3"
 		style="border: 2px solid lightGray;">
-		<h3>장바구니</h3>
+		<h3><i class="fa fa-shopping-cart"></i> 장바구니</h3>
 		<small>장바구니 상품은 30일간만 보관됩니다.</small>
 	</div>
 	

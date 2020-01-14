@@ -94,19 +94,51 @@
 
 <br><br><br>
 <div class="container">
+	${map }
 	<div class="row">
 		<div class="col-md-5">
 			<img class="cover" alt="cover"
-				src='https://image.aladin.co.kr/product/21959/69/cover500/8967356897_1.jpg'>
+				src='${map["cover"]}'>
 		</div>
 	
 		<div class="col-md-7">
 			<div class="bookInfo" style="height: 100%;position: relative;">
-				<div style="height: 150px;">
+				<div style="height: 45%;">
 					<div class="page-header">
-					  <h1>책제목 <small>-부제목</small></h1>
+					  <h1>${fn:substring(map['title'], 0, fn:indexOf(map['title'], '-')) }
+					  	<c:if test="${!empty map['subTitle'] }">
+						  	<small>- ${map['subTitle'] }</small>
+					  	</c:if>
+					  </h1>
 					</div>
-					<p>지은이 / 옮긴이 | 출판사 | 출판일 </p>
+					
+					<c:set var="pubDate" value="${fn:split(map['pubDate'],'-') }"/>
+					<p>
+						<c:set var="author" value="${fn:split(map['author'],',') }"/>
+						<c:forEach var="i" begin="0" end="${fn:length(author)}">
+							
+							<c:set value="${fn:trim(fn:substring(author[i], 0, fn:indexOf(author[i], '('))) }"
+								var="authorKeyword"/>
+							<a href="<c:url
+								value="&QueryType=Author&searchKeyword=${authorKeyword }"/>">
+								${author[i]}
+							</a>
+								
+							<c:if test="${i<fn:length(author)-1 }">,</c:if>
+						</c:forEach>
+						<br>
+						
+						<c:set value="${fn:trim(fn:substring(map['publisher'], 0, fn:indexOf(map['publisher'], '('))) }"
+							var="publisherKeyword"/>
+						<a href="<c:url
+								value="&QueryType=Publisher&searchKeyword=${publisherKeyword }"/>">
+							${map['publisher'] }
+						</a>
+						<br>
+						
+						${pubDate[0]}년 ${pubDate[1]}월 ${pubDate[2]}일
+					</p>
+					
 					<c:import url="/book/bookGrade.do"></c:import>
 					<hr style="margin-bottom: 0;">
 				</div>
@@ -115,18 +147,30 @@
 					style="height: 300px;">
 					<div style="height: 90%;" id="info">
 						<div class="pull-left">정가</div>
-						<div>15,000원</div><br>
+						<div>
+							<fmt:formatNumber value="${map['priceStandard'] }" 
+								pattern="#,###"/>원
+						</div><br>
 						
 						<div class="pull-left"><b>할인가</b></div>
-						<div class="sellPrice" style="color: red;font-size: 1.3em;">13,500원 
-							<small>(10% 할인)</small>
+						<div class="sellPrice" style="color: red;font-size: 1.3em;">
+							<fmt:formatNumber value="${map['priceSales'] }" 
+								pattern="#,###"/>원
+							<small>
+								(${(map['priceStandard']-map['priceSales'])/map['priceStandard']*100 }% 할인)
+							</small>
 						</div><br>
 						
 						<div class="pull-left">적립 마일리지</div>
-						<div>130원(10%)</div><br>
+						<div>${map['mileage'] }원</div><br>
 						
 						<div class="pull-left">배송비</div>
-						<div>무료</div><br>
+						<c:if test="${map['priceSales']<30000 }">
+							<div>2,500원</div><br>
+						</c:if>
+						<c:if test="${map['priceSales']>=30000 }">
+							<div class="text-danger">무료</div><br>
+						</c:if>
 						
 						<div class="pull-left">수량</div>
 						<input type="number" min="1" value="1" name="qty" id="qty" style="width: 50px;">
@@ -149,17 +193,25 @@
 	
 	<h3>도서정보</h3>
 	<table title="도서정보" class="table table-bordered">
+		<c:if test="${!empty map['originalTitle'] }">
+			<tr>
+				<th>원제</th>
+				<td>${map['originalTitle'] }</td>
+			</tr>
+		</c:if>
+		
 		<tr>
 			<th>출간일</th>
-			<td>2019년 12월 30일</td>
+			<td>${pubDate[0]}년 ${pubDate[1]}월 ${pubDate[2]}일</td>
 		</tr>
 		<tr>
-			<th>쪽수, 무게, 크기</th>
-			<td>248쪽 | 416g | 145*210*20mm</td>
+			<th>판형, 쪽수, 무게, 크기</th>
+			<td>${map['styleDesc'] } | ${map['itemPage'] }쪽 | ${map['weight'] }g 
+				| ${map['sizeWidth'] }*${map['sizeHeight'] }*${map['sizeDepth'] }mm</td>
 		</tr>
 		<tr>
 			<th>ISBN13</th>
-			<td>9788901238753</td>
+			<td>${map['isbn13'] }</td>
 		</tr>
 	</table>
 	
@@ -207,7 +259,8 @@
 							</div>
 						</div>
 					</div>
-					<input type='file' id="imgInput" name="upImage" value="" style="visibility: hidden;"/>
+					<input type='file' id="imgInput" name="upImage" style="visibility: hidden;"
+						accept="image/*"/>
 				</div>
 				<input type="submit" value="등록" class="btn btn-primary">
 			</form>
