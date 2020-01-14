@@ -20,11 +20,11 @@
 				Website 2019</p>
 				<br><br>
 			<div class="text-center">
-				<button class="btn btn-primary btn-lg align-middle" type="button">자주 묻는 질문</button>
+				<button class="btn btn-primary btn-lg align-middle" type="button" 
+				onclick="location.href='faq.do'">자주 묻는 질문</button>
 			</div>
 		</div>
 		<!-- /.container -->
 	</footer>
-
 </body>
 </html>
