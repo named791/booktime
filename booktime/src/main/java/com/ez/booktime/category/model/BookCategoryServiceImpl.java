@@ -20,4 +20,9 @@ public class BookCategoryServiceImpl implements BookCategoryService{
 	public BookCategoryVO selectCategoryInfoByName(String categoryName) {
 		return cateDao.selectCategoryInfoByName(categoryName);
 	}
+
+	@Override
+	public List<BookCategoryVO> selectCatgoryBar() {
+		return cateDao.selectCatgoryBar();
+	}
 }

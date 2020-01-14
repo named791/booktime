@@ -22,5 +22,10 @@ public class BookCategoryDAOMybatis implements BookCategoryDAO{
 	public BookCategoryVO selectCategoryInfoByName(String categoryName) {
 		return sqlSession.selectOne(namespace+"selectCategoryInfoByName", categoryName);
 	}
+
+	@Override
+	public List<BookCategoryVO> selectCatgoryBar() {
+		return sqlSession.selectList(namespace+"selectAllCategory");
+	}
 	
 }
