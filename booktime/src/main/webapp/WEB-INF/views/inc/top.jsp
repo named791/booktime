@@ -24,9 +24,6 @@
 	<style>
 	@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic&display=swap');
 	</style>
-	
-	<!-- 아이콘 :ㅣ font-awesome -->  
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <body>
 
@@ -41,12 +38,21 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
+        
+        <c:if test="${empty sessionScope.userid }">
           <li class="nav-item">
-            <a class="nav-link" href="${pageContext.request.contextPath}/login/login.do">로그인</a>
+            <a class="nav-link" href="<c:url value='/login/login.do'/>">로그인</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href='<c:url value="/user/register.do"/>'>회원가입</a>
+            <a class="nav-link" href="<c:url value='/user/agreement.do'/>">회원가입</a>
           </li>
+        </c:if>
+        <!-- 로그인 되었을때 -->
+        <c:if test="${!empty sessionScope.userid }">
+        	<li class="nav-item">
+            	<a class="nav-link" href="<c:url value='/login/logout.do'/>">로그아웃</a>
+          	</li>
+        </c:if>
           <li class="nav-item">
             <a class="nav-link" href="${pageContext.request.contextPath}/freeBoard/List.do">게시판</a>
           </li>
@@ -64,9 +70,8 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">주문내역</a>
-          </li>
-          <li class="nav-item">
-          	 <a class="nav-link" href="<c:url value='/favorite/cart.do'/>">장바구니</a>
+          <!-- </li>
+          	 <a class="nav-link" href="#">장바구니</a>  -->
           </li>
         </ul>
       </div>
@@ -78,5 +83,3 @@
    <!-- Bootstrap core JavaScript -->
   <script src="<c:url value='/resources/vendor/jquery/jquery.min.js'/>"></script>
   <script src="<c:url value='/resources/vendor/bootstrap/js/bootstrap.bundle.min.js'/>"></script>
-
-  

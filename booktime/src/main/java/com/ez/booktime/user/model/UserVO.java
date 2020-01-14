@@ -8,26 +8,25 @@ public class UserVO {
 	private String name;
 	private String birth;
 	private String gender;
-	private String grade;
+	private String grade; //등급
 	private String email1;
 	private String email2;
-	private String emailagree;
+	private char emailagree; 
 	private String zipcode;
-	private String parseladdress;
-	private String newaddress;
+	private String parseladdress; //지번주소
+	private String newaddress; //도로명
 	private String addressdetail;
 	private String phone;
 	private int mileage;
-	private Timestamp withrawaldate;
-	private Timestamp withrawalreason;
+	private Timestamp withrawaldate; //탈퇴일
+	private Timestamp withrawalreason; //탈퇴사유
 	
 	public UserVO() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public UserVO(String userid, String pwd, String name, String birth, String gender, String grade, String email1,
-			String email2, String emailagree, String zipcode, String parseladdress, String newaddress,
+			String email2, char emailagree, String zipcode, String parseladdress, String newaddress,
 			String addressdetail, String phone, int mileage, Timestamp withrawaldate, Timestamp withrawalreason) {
 		super();
 		this.userid = userid;
@@ -113,11 +112,11 @@ public class UserVO {
 		this.email2 = email2;
 	}
 
-	public String getEmailagree() {
+	public char getEmailagree() {
 		return emailagree;
 	}
 
-	public void setEmailagree(String emailagree) {
+	public void setEmailagree(char emailagree) {
 		this.emailagree = emailagree;
 	}
 

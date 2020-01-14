@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@include file="../inc/top.jsp" %> 
 <!DOCTYPE html>
 <html>
@@ -31,7 +32,8 @@
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100 p-t-50 p-b-90">
-				<form class="login100-form validate-form flex-sb flex-w">
+				<form class="login100-form validate-form flex-sb flex-w" method="post"
+					action="<c:url value='/login/login.do'/>">
 					<span class="login100-form-title p-b-51">
 						로그인
 					</span>
@@ -45,23 +47,25 @@
 						</div>
 					
 					<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
-						<input class="input100" type="text" name="username" placeholder="아이디">
+						<input class="input100" type="text" name="userid" placeholder="아이디"
+							value="${cookie.ck_userid.value }">
 						<span class="focus-input100"></span>
 					</div>
 					
 					
 					<div class="wrap-input100 validate-input m-b-16" data-validate = "Password is required">
-						<input class="input100" type="password" name="pass" placeholder="비밀번호">
+						<input class="input100" type="password" name="pwd" placeholder="비밀번호">
 						<span class="focus-input100"></span>
 					</div>
 					
 					<div class="flex-sb-m w-full p-t-3 p-b-24">
-						<div class="contact100-form-checkbox">
-							<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
-							<label class="label-checkbox100" for="ckb1">
-								아이디 저장하기
-							</label>
-						</div>
+						<div class="form-group form-check">
+						    <input name="idSave" type="checkbox" class="form-check-input" id="idSave"
+						    	<c:if test="${!empty cookie.c_userid }">
+						    		checked
+						    	</c:if>>
+						    <label class="form-check-label" for="idSave">아이디 저장하기</label>
+						 </div>
 
 						<div>
 							<a href="<c:url value='/login/searchID.do'/>" class="txt1">
@@ -88,20 +92,20 @@
 	<div id="dropDownSelect1"></div>
 	
 <!--===============================================================================================-->
-	<script src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery-3.2.1.min.js"></script>
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->
-	<script src="${pageContext.request.contextPath}/resources/vendor/animsition/js/animsition.min.js"></script>
+	<script src="vendor/animsition/js/animsition.min.js"></script>
 <!--===============================================================================================-->
 	<script src="vendor/bootstrap/js/popper.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 <!--===============================================================================================-->
-	<script src="${pageContext.request.contextPath}/resources/vendor/select2/select2.min.js"></script>
+	<script src="vendor/select2/select2.min.js"></script>
 <!--===============================================================================================-->
-	<script src="${pageContext.request.contextPath}/resources/vendor/daterangepicker/moment.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/vendor/daterangepicker/daterangepicker.js"></script>
+	<script src="vendor/daterangepicker/moment.min.js"></script>
+	<script src="vendor/daterangepicker/daterangepicker.js"></script>
 <!--===============================================================================================-->
-	<script src="${pageContext.request.contextPath}/resources/vendor/countdowntime/countdowntime.js"></script>
+	<script src="vendor/countdowntime/countdowntime.js"></script>
 <!--===============================================================================================-->
-	<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
+	<script src="js/main.js"></script>
 
 <%@include file="../inc/bottom.jsp" %>

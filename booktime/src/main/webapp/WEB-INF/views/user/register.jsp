@@ -9,126 +9,194 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/register.css">
 <title>회원등록</title>
 </head>
-<script type="text/javascript" src="${pageContext.request.contextPath }/resources/vendor/jquery/jquery.js"></script>
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script type="text/javascript">
-	$('.form-check-input').prop('indeterminate', true)
+	$('.form-check-input').prop('indeterminate', true);
+	
+	function sample4_execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+                
+                // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var roadAddr = data.roadAddress; // 도로명 주소 변수
+                var extraRoadAddr = ''; // 참고 항목 변수
+
+                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                    extraRoadAddr += data.bname;
+                }
+                // 건물명이 있고, 공동주택일 경우 추가한다.
+                if(data.buildingName !== '' && data.apartment === 'Y'){
+                   extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+                // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                if(extraRoadAddr !== ''){
+                    extraRoadAddr = ' (' + extraRoadAddr + ')';
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('zipcode').value = data.zonecode;
+                document.getElementById("newaddress").value = roadAddr;
+                document.getElementById("parseladdress").value = data.jibunAddress;
+                
+                // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
+                if(roadAddr !== ''){
+                    document.getElementById("extraAddress").value = extraRoadAddr;
+                } else {
+                    document.getElementById("extraAddress").value = '';
+                }
+
+                var guideTextBox = document.getElementById("guide");
+                // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
+                if(data.autoRoadAddress) {
+                    var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
+                    guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
+                    guideTextBox.style.display = 'block';
+
+                } else if(data.autoJibunAddress) {
+                    var expJibunAddr = data.autoJibunAddress;
+                    guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
+                    guideTextBox.style.display = 'block';
+                } else {
+                    guideTextBox.innerHTML = '';
+                    guideTextBox.style.display = 'none';
+                }
+            }
+        }).open()
+	}
+	
+	function btnId(){ //아이디 중복확인
+		var userid=frm1.userid.value;
+		window.open("<c:url value='/user/chkId.do?userid="+userid+"'/>","",
+			"width=500px, height=200px, scrollbars=yes, resizable=yes");
+	}
+	
+	$(document).ready(function(){
+		$("#error1").hide();
+		$("#error2").hide();
+		$("#errorid").hide();
+		$("#error3").hide();
+		$("#error4").hide();
+		$("#error5").hide();
+		$("#email3").hide();
+		
+		var y="Y";
+		
+		$(".submit").click(function(event){
+			if($("#userid").val().length<8){ //아이디가 8자리 이하일때
+				$("#errorid").show();
+				event.preventDefault();
+				$("#userid").focus();
+			}else if($("#pwd").val().length<8){ //비밀번호가 8자리 이하일때
+				$("#error2").show();
+				event.preventDefault();
+				$("#pwd").focus();
+			}else if($("#name").val().length<1){ //이름이 비어있다면
+				$("#error3").show();
+				event.preventDefault();
+				$("#name").focus();
+			}else if($("#email2").val=="etc"){
+				$("#email3").show();
+			}
+		});
+	});
+	
+	
 </script>
 <body>
-<form class="needs-validation" novalidate method="post" action="<c:url value='/user/register.do'/>">
-
-    <div class="col-md-4 mb-3">
-      <label for="validationTooltip01">아이디</label>
-      <input name="id" type="text" class="form-control" id="validationTooltip01" required>
-      <div class="invalid-feedback">
-        *아이디 중복확인을 해주세요
-      </div>
+<h2>회원가입</h2>
+<form name="frm1" class="frm1" method="post" action="<c:url value='/user/userWrite.do'/>">
+<div class="allBox">
+    <div class="insertId">
+      <label for="">아이디 : </label>
+      <input name="userid" type="text" class="" id="userid" required >
+      <input type="button" value="중복확인" onclick="btnId()">
+      <label id="error1">*아이디 중복확인을 해주세요</label>
+      <label id="errorid">*아이디는 8자리 이상입력해야 합니다.</label>
+      <input type="text" name="chkid" id="chkid">
     </div>
     
-    <div class="col-md-4 mb-3">
-      <label for="validationTooltip02">패스워드</label>
-      <input name="pwd" type="text" class="form-control" id="validationTooltip02" required>
-      <div class="invalid-feedback">
-        *비밀번호는 영 대소문자 8-20자리까지 유효합니다.
-      </div>
+    <div class="insertPwd">
+      <label for="">패스워드 : </label>
+      <input name="pwd" type="password" class="" id="pwd" required size="20">
+      <label id="error2">*비밀번호는 영대소문자,문자,숫자를 조합한 8~20자 이내로 입력해주세요</label>
     </div>
     
-    <div class="col-md-4 mb-3">
-      <label for="validationTooltipUsername">이름</label>
-      <input name="name" type="text" class="form-control" id="validationTooltipUsername" aria-describedby="validationTooltipUsernamePrepend" required>
-      	<div class="invalid-feedback">
-        *이름은 비워둘 수 없습니다.
-      	</div>
+    <div class="insertName">
+      <label for="">이름 : </label>
+      <input name="name" type="text" class="" id="name" required >
+      <label id="error3">*이름은 비워둘 수 없습니다.</label>
     </div>
   
-    <div class="col-md-4 mb-3">
-      <label for="birth" id="forBirth">생년월일</label><br>
-      <input type="date" id="birth">
+    <div class="insertBirth">
+      <label for="birth" id="birth">생년월일 : </label>
+      <input name="birth" type="date" id="birth" required>
     </div>
     
-    <p class="custom-control-label">성별</p>
-   	<div class="custom-control custom-radio custom-control-inline">
-		 <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
-		 <label class="custom-control-label" for="customRadioInline1">여성</label>
-	</div>
-	<div class="custom-control custom-radio custom-control-inline">
-		 <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
-		 <label class="custom-control-label" for="customRadioInline2">남성</label>
-	</div>
+    <label id="allGender">성별 : </label>
+    <div class="insertGender">
+	  	<div>
+			 <input type="radio" id="female" name="gender">
+			 <label for="female" value="F"> 여성</label>
+			 <input type="radio" id="male" name="gender">
+			 <label for="male" value="M"> 남성</label>
+		</div>
+    </div>
     
     <div><input type="hidden" name="grade" value="일반회원"></div>
     
-    <div class="form-row align-items-center">
-    <div class="col-auto">
-      <label class="sr-only" for="inlineFormInput">Name</label>
-      <input type="text" class="form-control mb-2" id="inlineFormInput" placeholder="account..">
-    </div>
-    <div class="col-auto">
-      <div class="input-group mb-2">
-        <div class="input-group-prepend">
-          <div class="input-group-text">@</div>
-      	  <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-        	<option selected>선택하세요</option>
+    <div class="email">
+      <label>E-mail : </label>
+      <input name="email1" type="text" id="email1" required> @
+      <select name="email2" id="email2" required>
+        	<option value="">선택하세요</option>
         	<option value="naver.com">naver.com</option>
         	<option value="etc">직접입력</option>
-      	  </select>
-        </div>
-        <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="직접입력">
-      </div>
-    </div>
-    <div class="custom-control custom-checkbox mb-3">
-	    <input type="checkbox" class="custom-control-input" id="customControlValidation1" required>
-	    <label class="custom-control-label" for="customControlValidation1">이메일 수신에 동의합니다.</label>
+      </select>
+      <input name="email3" type="text" id="email3">
+	  <input name="emailagree" type="checkbox" id="emailagree" value=" ">
+	  <label id="agree" for="emailagree"> 이메일 수신에 동의합니다.</label>
+	  <div id="info"></div>
   	</div>
-   </div> 
-  	
-  	
-    <div class="col-md-3 mb-3">
-      <label for="validationTooltip03">우편번호</label>
-      <input type="text" class="form-control" id="validationTooltip03" required>
-      <button type="button" class="btn btn-secondary">검색</button>
-      <div class="invalid-tooltip">
-        *우편번호를 입력해주세요
-      </div>
+  	  	
+    <div class="">
+      <label for="">우편번호 : </label>
+      <input name="zipcode" type="text" class="" id="zipcode" required>
+      <button type="button" class="" onclick="sample4_execDaumPostcode()">우편번호 찾기</button>
     </div>
-    <div class="col-md-6 mb-3">
-      <label for="validationTooltip04">도로명주소</label>
-      <input type="text" class="form-control" id="validationTooltip04" required>
-      <div class="invalid-tooltip">
-        *주소는 비워둘 수 없습니다.
-      </div>
+    
+    <div class="">
+      <label for="">도로명주소 : </label>
+      <input name="newaddress" type="text" class="" id="newaddress" required>
     </div>
-    <div class="col-md-6 mb-3">
-      <label for="validationTooltip05" style="display: none;">지번주소</label>
-      <input type="hidden" class="form-control" id="validationTooltip05" required>
-      <div class="invalid-tooltip">
-        *주소는 비워둘 수 없습니다.
-      </div>
+    
+    <div class="">
+      <label for="">지번주소 : </label>
+      <input name="parseladdress" type="text" class="" id="parseladdress" required>
+      <span id="guide" style="color:#999;display:none"></span>
     </div>
-    <div class="col-md-6 mb-3">
-      <label for="validationTooltip06">상세주소</label>
-      <input type="text" class="form-control" id="validationTooltip06" required>
-      <div class="invalid-tooltip">
-        *주소는 비워둘 수 없습니다.
-      </div>
+    
+    <div class="">
+      <label for="">상세주소 : </label>
+      <input name="addressdetail" type="text" class="" id="addressdetail" required>
+      <input type="text" id="extraAddress">
     </div>
-    <div class="form-group col-md-2">
-    <label>휴대폰 번호</label>
-    </div>
-    <div class="form-row">
-		<div class="form-group col-md-2">
-	    <select id="h1" class="form-control">
+    
+    <div class="">
+    <label>휴대폰 번호 : </label>
+		<select name="hp1" id="h1" class="" required>
 	    	<option selected>010</option>
 	        <option>...</option>
-	    </select>
-	    </div>
-	    <div class="form-group col-md-2">
-	    	<input type="text" class="form-control" id="h2">
-	    </div>
-	    <div class="form-group col-md-2">
-	      	<input type="text" class="form-control" id="h3">
-	    </div>
+	    </select> - 
+	    <input name="hp2" type="text" class="" id="h2" required> - 
+	    <input name="hp3" type="text" class="" id="h3" required>
     </div>
-  <button class="btn btn-secondary" type="submit">회원가입</button>
+  <input class="submit" type="submit" value="회원가입">
+</div> 
 </form>
 </body>
 </html>
