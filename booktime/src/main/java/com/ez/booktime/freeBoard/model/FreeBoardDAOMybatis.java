@@ -29,7 +29,6 @@ public class FreeBoardDAOMybatis implements FreeBoardDAO{
 		return sqlSession.selectOne(namespace+"selectByNo",boardNo);
 	}
 
-<<<<<<< HEAD
 	@Override
 	public FreeBoardVO selectById(String userid) {
 		return sqlSession.selectOne(namespace+"selectById",userid);
@@ -45,6 +44,4 @@ public class FreeBoardDAOMybatis implements FreeBoardDAO{
 		return sqlSession.update(namespace+"drawBoard",boardNo);
 	}
 
-=======
->>>>>>> branch 'develope' of https://github.com/named791/booktime
 }

@@ -6,10 +6,7 @@ public interface FreeBoardService {
 	int insertBoard(FreeBoardVO boardVo);
 	List<FreeBoardVO> selectFreeBoardAll();
 	FreeBoardVO selectByNo(int boardNo);
-<<<<<<< HEAD
 	FreeBoardVO selectById(String userid);
 	int updateBoard(FreeBoardVO freeBoardVo);
 	int drawBoard(int boardNo);
-=======
->>>>>>> branch 'develope' of https://github.com/named791/booktime
 }

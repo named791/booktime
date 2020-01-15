@@ -14,7 +14,6 @@
 	
 	<select id="selectAllBoard" resultType="freeBoardVo">
 		select * from board
-<<<<<<< HEAD
 		where deletedate is null
 		order by boardNo desc
 	</select>
@@ -39,14 +38,5 @@
 		set deletedate=sysdate 
 		where boardNo=#{boardNo}
 	</update>
-=======
-		order by boardNo desc
-	</select>
-	
-	<select id="selectByNo" resultType="freeBoardVo">
-		select * from board
-		where boardNo=#{boardNo}
-	</select>
->>>>>>> branch 'develope' of https://github.com/named791/booktime
 	
 </mapper>

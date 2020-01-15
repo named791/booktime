@@ -45,18 +45,6 @@ public class IndexController {
 	public String showSearchResult(@RequestParam(defaultValue="0")
 	String searchKeyword, Model model) throws Exception{
 		logger.info("검색어 searchKeyword={}",searchKeyword);
-<<<<<<< HEAD
-
-=======
-		
-		AladinAPI aladinApi=new AladinAPI();
-		
-		String searchType="QueryType=title&";
-		
-		List<Map<String, Object>> list=aladinApi.searchBy(searchType, searchKeyword, 1, 10);
-		
-		model.addAttribute("list",list);
->>>>>>> branch 'develope' of https://github.com/named791/booktime
 		return "searchList";
 	}
 	
