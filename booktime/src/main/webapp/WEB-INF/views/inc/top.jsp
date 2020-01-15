@@ -49,6 +49,26 @@
         </c:if>
         <!-- 로그인 되었을때 -->
         <c:if test="${!empty sessionScope.userid }">
+	        <li class="nav-item dropdown">
+	            <a class="nav-link dropdown-toggle" 
+	            	href="#"
+	            	 id="navbarDropdownMypage" data-toggle="dropdown" 
+	            	 aria-haspopup="true" aria-expanded="false">
+	              	<b>${sessionScope.userid }님</b>
+	            </a>
+	            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMypage">
+	              
+	              <a style="text-align: center;" class="dropdown-item" href="${pageContext.request.contextPath}/mypage/mypage.do">마이페이지</a>
+	              <hr width="110px">
+	              <a style="text-align: center;" class="dropdown-item" href="#">주문/배송조회</a>
+	              <hr width="110px">
+	              <a style="text-align: center;" class="dropdown-item" href="#">찜목록</a>
+	              <hr width="110px">
+	              <a style="text-align: center;" class="dropdown-item" href="#">나의 서재</a>
+	              <hr width="110px">
+	              <a style="text-align: center;" class="dropdown-item" href="#">쿠폰 내역</a>
+	            </div>
+	        </li>
         	<li class="nav-item">
             	<a class="nav-link" href="<c:url value='/login/logout.do'/>">로그아웃</a>
           	</li>
@@ -56,22 +76,12 @@
           <li class="nav-item">
             <a class="nav-link" href="${pageContext.request.contextPath}/freeBoard/List.do">게시판</a>
           </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMypage" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              	마이페이지
-            </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMypage">
-              <a class="dropdown-item" href="${pageContext.request.contextPath}/mypage/memberInfo.do">회원정보</a>
-              <a class="dropdown-item" href="#">주문내역</a>
-              <a class="dropdown-item" href="#">찜하기</a>
-              <a class="dropdown-item" href="#">마일리지</a>
-              <a class="dropdown-item" href="#">1:1문의</a>
-            </div>
-          </li>
           <li class="nav-item">
             <a class="nav-link" href="#">주문내역</a>
-          <!-- </li>
-          	 <a class="nav-link" href="#">장바구니</a>  -->
+          </li>
+          	 <a class="nav-link" href="#">
+          	 <img style="width: 25px;" src="<c:url value='/resources/images/icons/cart.png'/>"
+          	 >장바구니</a>
           </li>
         </ul>
       </div>

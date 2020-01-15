@@ -8,7 +8,6 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/register.css">
 <title>회원등록</title>
-</head>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script type="text/javascript">
@@ -107,6 +106,7 @@
 	
 	
 </script>
+</head>
 <body>
 <h2>회원가입</h2>
 <form name="frm1" class="frm1" method="post" action="<c:url value='/user/userWrite.do'/>">

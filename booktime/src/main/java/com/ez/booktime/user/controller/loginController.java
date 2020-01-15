@@ -74,6 +74,14 @@ public class loginController {
 		return "common/message";
 	}
 	
+	@RequestMapping("/login/logout.do")
+	public String logout(HttpSession session) {
+		logger.info("로그아웃 처리 성공");
+		session.invalidate();
+		
+		return "redirect:/index.do";
+	}
+	
 	@RequestMapping(value="/login/nonLogin.do", method = RequestMethod.GET)
 	public void nonLogin_get() {
 		logger.info("비회원 주문조회 화면 보여주기");
