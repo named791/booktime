@@ -105,7 +105,11 @@
 							${vo.title }
 							</a>
 							</td>
+<<<<<<< HEAD
 							<td><fmt:formatDate value="${vo.regdate }" pattern="yyyy-MM-dd" /></td>
+=======
+							<td>${vo.regdate }</td>
+>>>>>>> branch 'develope' of https://github.com/named791/booktime
 						</tr>
 					</c:forEach>
 				</c:if>
@@ -119,9 +123,13 @@
 					role="button">글쓰기</a>
 			</div>
 			<br>
+<<<<<<< HEAD
 			
 			<div class="text-center" id="paging"></div>
 			
+=======
+
+>>>>>>> branch 'develope' of https://github.com/named791/booktime
 		</div>
 	</div>
 

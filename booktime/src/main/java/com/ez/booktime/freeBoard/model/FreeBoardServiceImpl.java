@@ -26,6 +26,7 @@ public class FreeBoardServiceImpl implements FreeBoardService{
 		return boardDao.selectByNo(boardNo);
 	}
 
+<<<<<<< HEAD
 	@Override
 	public FreeBoardVO selectById(String userid) {
 		return boardDao.selectById(userid);
@@ -41,4 +42,6 @@ public class FreeBoardServiceImpl implements FreeBoardService{
 		return boardDao.drawBoard(boardNo);
 	}
 
+=======
+>>>>>>> branch 'develope' of https://github.com/named791/booktime
 }

@@ -25,14 +25,18 @@
 	<br>
 	<form name="frmWrite" method="post" 
 	action="<c:url value='/freeBoard/Edit.do'/>" >
+<<<<<<< HEAD
 		<input class="form-control" id="boardNo" name="boardNo" type="hidden" value="${boardVo.boardNo }" />
 		<div class="form-group">
 			<!-- Name field -->
 			<label class="control-label " for="name">작성자</label> <input
 				class="form-control" id="name" name="name" type="text" value="${boardVo.name }" readonly />
 		</div>
+=======
+>>>>>>> branch 'develope' of https://github.com/named791/booktime
 
 		<div class="form-group">
+<<<<<<< HEAD
 			<!-- Email field -->
 			<label class="control-label" for="category">카테고리</label> 
 			<select class="form-control" id="category" name="category" >
@@ -86,6 +90,67 @@
 		<div class="form-group">
 			<button class="btn btn-primary " name="submit" type="submit"
 				id="btn_write">글 수정하기</button>
+=======
+			<!-- Name field -->
+			<label class="control-label " for="name">작성자</label> <input
+				class="form-control" id="name" name="name" type="text" value="${boardVo.name }"/>
+		</div>
+
+		<div class="form-group">
+			<!-- Email field -->
+			<label class="control-label" for="category">카테고리</label> 
+			<select class="form-control" id="category" name="category">
+				<option>자유게시판</option>
+			</select>
+		</div>
+
+		<div class="form-group">
+			<!-- Subject field -->
+			<label class="control-label " for="title">제목</label> <input
+				class="form-control" id="title" name="title" type="text" value="${boardVo.title }"/>
+		</div>
+
+		<div class="form-group">
+			<!-- Message field -->
+			<label class="control-label " for="content">내용</label>
+			<textarea class="form-control" cols="40" id="content" name="content"
+				rows="10">${boardVo.content }</textarea>
+			<script>
+				$(function() {
+
+					CKEDITOR.replace('content', {//해당 이름으로 된 textarea에 에디터를 적용
+						width : '100%',
+						height : '400px',
+						filebrowserImageUploadUrl : '${pageContext.request.contextPath }/freeBoard/imageUpload.do' //여기 경로로 파일을 전달하여 업로드 시킨다.
+					});
+
+					CKEDITOR.on('dialogDefinition', function(ev) {
+						var dialogName = ev.data.name;
+						var dialogDefinition = ev.data.definition;
+
+						switch (dialogName) {
+						case 'image': //Image Properties dialog
+							//dialogDefinition.removeContents('info');
+							dialogDefinition.removeContents('Link');
+							dialogDefinition.removeContents('advanced');
+							break;
+						}
+					});
+
+				});
+			</script>
+
+			<script type='text/javascript'>
+   window.parent.CKEDITOR.tools.callFunction(callback + 
+      ",'" + fileUrl + "','이미지를 업로드 하였습니다.'")
+			</script>
+			
+		</div>
+
+		<div class="form-group">
+			<button class="btn btn-primary " name="submit" type="submit"
+				id="btn_write">글 올리기</button>
+>>>>>>> branch 'develope' of https://github.com/named791/booktime
 			<button class="btn btn-primary " name="btn" type="button"
 				id="btn_cancel">취소</button>
 		</div>

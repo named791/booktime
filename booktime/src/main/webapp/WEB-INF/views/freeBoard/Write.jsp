@@ -29,7 +29,11 @@
 		<div class="form-group">
 			<!-- Name field -->
 			<label class="control-label " for="name">작성자</label> <input
+<<<<<<< HEAD
 				class="form-control" id="name" name="name" type="text" value="${boardVo.name }"/>
+=======
+				class="form-control" id="name" name="name" type="text" />
+>>>>>>> branch 'develope' of https://github.com/named791/booktime
 		</div>
 
 		<div class="form-group">
