@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@include file="../inc/top.jsp" %>
+
 <style type="text/css">
 	.pull-left{
 		float: left;
@@ -57,6 +58,26 @@
 		float: left;
 		padding: 0;
 	}
+	#cover{
+		display: none;
+	    background-color: rgba(100, 100, 100, 0.3);
+	    width: 100%;
+	    height: 100%;
+	    position: fixed;
+	    z-index: 10;
+	}
+	#FavoriteOk{
+		width: 400px;
+	    margin: 0 auto;
+	    top: 25%;
+	}
+	#cover .card-header, #cover a{
+		color: white;
+		font-weight: bold;
+	}
+	#cover .details{
+		transition-duration: 1s;
+	}
 	
 </style>
 <script type="text/javascript">
@@ -88,34 +109,66 @@
 			}
 		});
 		
-		$("input[button=submit]").click(function(){
+		$("input[type=button]").click(function(){
 			var id = $(this).attr("id");
-			if(id=="btFavorite"){
-				$("input[name=group]").val("FAVORTITE");
-				$("form[name=frmPayment]").attr("action", "<c:url value='/favorrite/favorite.do'/>")
-			}else if(id=="btCart"){
+			
+			if(id=="btFavorite" || id=="btCart"){
+				if(id=="btFavorite"){
+					$("input[name=group]").val("FAVORTITE");
+				}else if(id=="btCart"){
+					$("input[name=group]").val("CART");
+				}
+				
+				$.ajax({
+					url:"<c:url value='/favorite/addFavorite.do'/>",
+					type:"post",
+					data:$("form[name=frmPayment]").serialize(),
+					dataType:"json",
+					success:function(res){
+						if(res>0){
+							$(".details").css("filter", "blur(10px)");
+							$("#cover").fadeIn();
+							
+							var group = $("input[name=group]").val();
+							if(group=="FAVORTITE"){
+								$(".addResult").text("즐겨찾기");
+							}else if(group=="CART"){
+								$(".addResult").text("장바구니");
+								$(".btn-goFavorite").attr("href"
+										, "<c:url value='/favorite/cart.do'/>");
+							}
+						}
+					},
+					error:function(xhr, status, error){
+						alert("ERROR : "+status+", "+error);
+					}
+				});		
 				
 			}
-			event.preventDefault();
 		});
 		
-		$.sendPost = function(){
-			var frm = $("form[name=frmPayment]").serialize();
-			
-			$.ajax({
-				url:"/favorite/favorite.do",
-				data : frm,
-				type : "POST",
-				dataType : "json"
-			}).done(function(result){
-				
-			})
-		}
+		$("#hide").click(function(){
+			$("#cover").fadeOut();
+			$(".details").css("filter", "blur(0px)");
+		});
+
 	});
 </script>
 
+<div id="cover">
+	<div id="FavoriteOk" class="card border-primary" >
+		<div class="card-header bg-primary text-center"><b><span class="addResult"></span>를 추가했습니다</b></div>
+		<div class="card-body text-center">
+			<a href="<c:url value="/favorite/favorite.do"/>" 
+				class="btn btn-info btn-goFavorite"><span class="addResult"></span> 확인</a>
+			<a href="#" id="hide"
+				class="btn btn-info">더 둘러보기</a>
+		</div>
+	</div>
+</div>
+
 <br><br><br>
-<div class="container">
+<div class="container details" >
 	<div class="row">
 		<div class="col-md-5">
 			<img class="cover" alt="cover"
@@ -217,7 +270,7 @@
 							<input type="submit" class="btn col" id="btOrder" value="바로구매">
 						</c:if>
 						<c:if test="${!empty map['stockstatus'] }"> <!-- 재고가 없으면 -->
-							<input type="button" class="btn col" id="btOrder" value="지금은 구매할 수 없습니다."
+							<input type="submit" class="btn col" id="btOrder" value="지금은 구매할 수 없습니다."
 								style="width: 50%;" disabled="disabled">
 						</c:if>
 					</div>

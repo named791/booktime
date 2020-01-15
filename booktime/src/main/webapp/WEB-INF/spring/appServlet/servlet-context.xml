@@ -52,5 +52,14 @@
          </beans:props>
       </beans:property>
    </beans:bean>
+   
+   <interceptors>
+		<interceptor>
+			<mapping path="/favorite/cart.do"/>
+			<mapping path="/payment/paymentSheet.do"/>
+			<beans:ref bean="cartInterceptor"/>
+		</interceptor>
+		
+	</interceptors>
 	
 </beans:beans>

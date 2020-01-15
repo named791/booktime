@@ -1,5 +1,10 @@
 package com.ez.booktime.favorite.model;
 
-public interface FavoriteService {
+import java.util.List;
 
+public interface FavoriteService {
+	int insertFavorite(FavoriteVO vo);
+	int deleteCartOverDate();
+	List<FavoriteVO> selectCart(String userid);
+	int updateQty(FavoriteVO vo);
 }

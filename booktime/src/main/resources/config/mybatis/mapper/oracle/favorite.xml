@@ -3,7 +3,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.mybatis.mapper.favorite">
-	<insert id="insertCart" parameterType="favoriteVo">
+	<insert id="insertFavorite" parameterType="favoriteVo">
 		<selectKey keyProperty="favoriteNo" 
 			resultType="int" order="BEFORE">
 			select favorite_seq.nextval from dual
@@ -12,12 +12,41 @@
 		insert into favorite
 		values(#{favoriteNo}, #{userid}, #{group}, #{isbn}
 			,#{bookName}, #{writer}, #{publisher}, #{price}
-		<if test="group == CART">
-			,#{qty}
-		</if>
-		)
-		
+			,#{qty}, default)
 	</insert>
+	
+	<sql id="whereMyFavorite">
+		where userid=#{userid} and isbn=#{isbn} and "group"=#{group}
+	</sql>
+	
+	<select id="selectFavoriteCount" parameterType="favoriteVo" resultType="int">
+		select count(*)
+		from favorite
+		<include refid="whereMyFavorite"></include>
+	</select>
+	
+	<update id="updateCart" parameterType="favoriteVo">
+		update favorite
+		set qty= qty+#{qty}
+		<include refid="whereMyFavorite"></include>
+	</update>
+	
+	<update id="updateQty" parameterType="favoriteVo">
+		update favorite
+		set qty = #{qty}
+		where favoriteNo = #{favoriteNo}
+	</update>
+	
+	<delete id="deleteCartOverDate">
+		delete favorite
+		<![CDATA[ where regdate+30 <= sysdate and "group"='CART' ]]> 
+	</delete>
+	
+	<select id="selectCart" parameterType="String" resultType="favoriteVo">
+		select * from favorite
+		where userid=#{userid} and "group"='CART'
+		order by favoriteNo desc
+	</select>
 </mapper>
 
 

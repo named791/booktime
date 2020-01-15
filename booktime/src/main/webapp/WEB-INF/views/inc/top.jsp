@@ -83,3 +83,6 @@
    <!-- Bootstrap core JavaScript -->
   <script src="<c:url value='/resources/vendor/jquery/jquery.min.js'/>"></script>
   <script src="<c:url value='/resources/vendor/bootstrap/js/bootstrap.bundle.min.js'/>"></script>
+  <!-- 아이콘용 Font Awesome -->
+  <script src="https://kit.fontawesome.com/a73e110cf5.js" crossorigin="anonymous"></script>
+  
