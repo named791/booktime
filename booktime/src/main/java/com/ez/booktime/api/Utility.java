@@ -20,6 +20,7 @@ public class Utility {
 		= LoggerFactory.getLogger(Utility.class);
 	
 	public JSONObject getJson(URL url, String method, Map<String, String> keyMap) throws Exception {
+		System.out.println("유틸");
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		method = method.toUpperCase();
 		con.setRequestMethod(method);

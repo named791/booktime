@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.mybatis.mapper.board">
+<mapper namespace="com.mybatis.mapper.reply">
 	
 	<insert id="writeFreeBoard" parameterType="freeBoardVo">
 		<selectKey keyProperty="boardNo" resultType="int" order="BEFORE">
@@ -14,7 +14,6 @@
 	
 	<select id="selectAllBoard" resultType="freeBoardVo">
 		select * from board
-		where deletedate is null
 		order by boardNo desc
 	</select>
 	
@@ -26,17 +25,5 @@
 	<select id="selectById" resultType="freeBoardVo">
 		select * from "USER" where userid=#{userid}
 	</select>
-	
-	<update id="updateBoard" parameterType="freeBoardVo">
-		update board
-		set title=#{title}, content=#{content}
-		where boardNo=#{boardNo}
-	</update>
-	
-	<update id="drawBoard" parameterType="int">
-		update board
-		set deletedate=sysdate 
-		where boardNo=#{boardNo}
-	</update>
 	
 </mapper>
