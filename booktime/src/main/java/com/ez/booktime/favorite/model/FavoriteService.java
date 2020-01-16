@@ -5,6 +5,8 @@ import java.util.List;
 public interface FavoriteService {
 	int insertFavorite(FavoriteVO vo);
 	int deleteCartOverDate();
-	List<FavoriteVO> selectCart(String userid);
+	List<FavoriteVO> selectFavorite(FavoriteVO vo);
 	int updateQty(FavoriteVO vo);
+	int deleteFavorite(String favoriteNoList, String group);
+	int moveFavorite(String favoriteNoList);
 }

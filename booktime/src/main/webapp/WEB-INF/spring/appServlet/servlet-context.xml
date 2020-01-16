@@ -60,6 +60,11 @@
 			<beans:ref bean="cartInterceptor"/>
 		</interceptor>
 		
+		<interceptor>
+			<mapping path="/favorite/favorite.do"/>
+			<beans:ref bean="loginIntercepter"/>
+		</interceptor>
+		
 	</interceptors>
 	
 </beans:beans>

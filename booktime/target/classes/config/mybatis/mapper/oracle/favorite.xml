@@ -12,7 +12,8 @@
 		insert into favorite
 		values(#{favoriteNo}, #{userid}, #{group}, #{isbn}
 			,#{bookName}, #{writer}, #{publisher}, #{price}
-			,#{qty}, default)
+			,#{qty}
+			, default)
 	</insert>
 	
 	<sql id="whereMyFavorite">
@@ -37,16 +38,35 @@
 		where favoriteNo = #{favoriteNo}
 	</update>
 	
-	<delete id="deleteCartOverDate">
+	<sql id="delCartOverDateSql">
 		delete favorite
-		<![CDATA[ where regdate+30 <= sysdate and "group"='CART' ]]> 
+		<![CDATA[ where regdate+#{day} <= sysdate and "group"='CART' ]]>
+	</sql>
+	
+	<delete id="deleteCartOverDate" parameterType="int">
+		<include refid="delCartOverDateSql"></include> 
 	</delete>
 	
-	<select id="selectCart" parameterType="String" resultType="favoriteVo">
+	<delete id="deleteCartOverDateByNonUser" parameterType="int">
+		<include refid="delCartOverDateSql"></include>
+		and userid like '#%'
+	</delete>
+	
+	<select id="selectFavorite" parameterType="favoriteVo" resultType="favoriteVo">
 		select * from favorite
-		where userid=#{userid} and "group"='CART'
+		where userid=#{userid} and "group"=#{group}
 		order by favoriteNo desc
 	</select>
+	
+	<select id="selectOneFavorite" parameterType="int" resultType="favoriteVo">
+		select * from favorite
+		where favoriteNo = #{favoriteNo}
+	</select>
+	
+	<delete id="deleteFavorite" parameterType="favoriteVo">
+		delete favorite
+		where "group"=#{group} and favoriteNo=#{favoriteNo}
+	</delete>
 </mapper>
 
 

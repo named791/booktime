@@ -114,7 +114,7 @@
 			
 			if(id=="btFavorite" || id=="btCart"){
 				if(id=="btFavorite"){
-					$("input[name=group]").val("FAVORTITE");
+					$("input[name=group]").val("FAVORITE");
 				}else if(id=="btCart"){
 					$("input[name=group]").val("CART");
 				}
@@ -130,7 +130,7 @@
 							$("#cover").fadeIn();
 							
 							var group = $("input[name=group]").val();
-							if(group=="FAVORTITE"){
+							if(group=="FAVORITE"){
 								$(".addResult").text("즐겨찾기");
 							}else if(group=="CART"){
 								$(".addResult").text("장바구니");

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ez.booktime.api.AladinAPI;
@@ -39,8 +40,16 @@ public class FavoriteController {
 	private AladinAPI aladinApi;
 	
 	@RequestMapping("/favorite.do")
-	public void favorite() {
-		logger.info("즐겨찾기 리스트");
+	public void favorite(HttpSession session, Model model) {
+		String userid = (String)session.getAttribute("userid");
+		logger.info("즐겨찾기 리스트, 파라미터 userid={}",userid);
+		
+		FavoriteVO fVo = new FavoriteVO();
+		fVo.setUserid(userid);
+		fVo.setGroup("FAVORITE");
+		
+		getFavorites(fVo, model);
+		
 	}
 	
 	@RequestMapping("/cart.do")
@@ -51,7 +60,15 @@ public class FavoriteController {
 		}
 		logger.info("장바구니 리스트, 파라미터 userid={}",userid);
 		
-		List<FavoriteVO> list = favoriteSerivce.selectCart(userid);
+		FavoriteVO fVo = new FavoriteVO();
+		fVo.setUserid(userid);
+		fVo.setGroup("CART");
+			
+		getFavorites(fVo, model);
+	}
+	
+	private void getFavorites(FavoriteVO fVo, Model model) {
+		List<FavoriteVO> list = favoriteSerivce.selectFavorite(fVo);
 		
 		List<Map<String, Object>> infoList = new ArrayList<Map<String, Object>>();
 		for(FavoriteVO vo : list) {
@@ -72,11 +89,13 @@ public class FavoriteController {
 				e.printStackTrace();
 			}
 		}
-	
+		
+		logger.info("favorite 그룹={}, 조회된 favoriteList.size={}",fVo.getGroup(), list.size());
 		
 		model.addAttribute("list", list);
 		model.addAttribute("infoList", infoList);
 	}
+	
 	
 	@RequestMapping("/addFavorite.do")
 	@ResponseBody
@@ -91,17 +110,40 @@ public class FavoriteController {
 		}
 		
 		
-		logger.info("즐겨찾기,장바구니 추가 처리, 파라미터vo={}",vo);
+		logger.info("장바구니 추가 처리, 파라미터vo={}",vo);
 		
 		return favoriteSerivce.insertFavorite(vo);
 	}
 	
-	@RequestMapping("/updateCart")
+	@RequestMapping("/moveFavorite.do")
+	@ResponseBody
+	public int moveFavorite(String favoriteNoList) {
+		int count = favoriteSerivce.moveFavorite(favoriteNoList);
+		
+		if(count>0) {
+			favoriteSerivce.deleteFavorite(favoriteNoList, "FAVORITE");
+		}
+		
+		return count;
+	}
+	
+	@RequestMapping("/updateCart.do")
 	public String updateCart(@ModelAttribute FavoriteVO vo) {
 		logger.info("장바구니 수량 처리, 파라미터 vo={}",vo);
 		
 		int cnt = favoriteSerivce.updateQty(vo);
 		
 		return "redirect:/favorite/cart.do";
+	}
+	
+	@RequestMapping("/deleteFavorite.do")
+	@ResponseBody
+	public int deleteFavorite(@RequestParam String favoriteNoList
+			,@RequestParam String group) {
+		logger.info("favorite삭제 처리, 파라미터 favoriteNoList={}, group={}",favoriteNoList, group);
+		
+		int count = favoriteSerivce.deleteFavorite(favoriteNoList, group);
+		
+		return count;
 	}
 }

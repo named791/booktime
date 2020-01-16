@@ -29,18 +29,33 @@ public class FavoriteDAOMybatis implements FavoriteDAO{
 	}
 
 	@Override
-	public int deleteCartOverDate() {
-		return sqlSession.delete(namespace+"deleteCartOverDate");
+	public int deleteCartOverDate(int date) {
+		return sqlSession.delete(namespace+"deleteCartOverDate",date);
+	}
+	@Override
+	public int deleteCartOverDateByNonUser(int date) {
+		return sqlSession.delete(namespace+"deleteCartOverDateByNonUser",date);
 	}
 
 	@Override
-	public List<FavoriteVO> selectCart(String userid) {
-		return sqlSession.selectList(namespace+"selectCart",userid);
+	public List<FavoriteVO> selectFavorite(FavoriteVO vo) {
+		return sqlSession.selectList(namespace+"selectFavorite",vo);
 	}
 
 	@Override
 	public int updateQty(FavoriteVO vo) {
 		return sqlSession.update(namespace+"updateQty", vo);
 	}
+
+	@Override
+	public int deleteFavorite(FavoriteVO vo) {
+		return sqlSession.delete(namespace+"deleteFavorite", vo);
+	}
+
+	@Override
+	public FavoriteVO selectOneFavorite(int favoriteNo) {
+		return sqlSession.selectOne(namespace+"selectOneFavorite", favoriteNo);
+	}
+
 	
 }

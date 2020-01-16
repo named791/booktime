@@ -22,9 +22,10 @@ public class CartInterceptor extends HandlerInterceptorAdapter{
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		
-		int cnt = favoriteService.deleteCartOverDate();	//30일 경과된 장바구니 모두 삭제
-		logger.info("30일 경과 장바구니 삭제결과 cnt={}",cnt);
+		int cnt = favoriteService.deleteCartOverDate();
+		//회원은 30일 경과된 장바구니 모두 삭제
+		//비회원은 1일 경과된 장바구니 모두 삭제
+		logger.info("기일 경과 장바구니 삭제결과 cnt={}",cnt);
 		
 		return true;
 	}
