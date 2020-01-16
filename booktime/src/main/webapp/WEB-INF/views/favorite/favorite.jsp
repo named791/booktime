@@ -53,14 +53,23 @@
 					dataType:"text",
 					type:"POST",
 					success:function(res){
-						alert(res+"개를 장바구니로 옮겼습니다.");
-						location.reload();
+						$(".favorites").css("filter", "blur(10px)");
+						$(".addResult").text(res);
+						$("#cover").fadeIn();
 					},
 					error:function(xhr, status, error){
 						alert("ERROR.."+status+".."+error);
 					}
 				});
 			}
+			
+		});
+		
+		$("#hide").click(function(){
+			$(".favorites").css("filter", "blur(0px)");
+			$("#cover").fadeOut(500, function(){
+				location.reload();
+			});
 			
 		});
 		
@@ -104,10 +113,10 @@
 
 <div id="cover">
 	<div id="FavoriteOk" class="card border-primary" >
-		<div class="card-header bg-primary text-center"><b><span class="addResult"></span>장바구니를 추가했습니다</b></div>
+		<div class="card-header bg-primary text-center"><b><span class="addResult"></span>개 항목을 장바구니로 옮겼습니다.</b></div>
 		<div class="card-body text-center">
 			<a href="<c:url value='/favorite/cart.do'/>" 
-				class="btn btn-info btn-goFavorite"><span class="addResult"></span>장바구니 확인</a>
+				class="btn btn-info btn-goFavorite"><span></span>장바구니 확인</a>
 			<a href="#" id="hide"
 				class="btn btn-info">더 둘러보기</a>
 		</div>
@@ -115,7 +124,7 @@
 </div>
 
 
-<div class="container mt-3">
+<div class="container mt-3 favorites">
 
 	<div class="page-header my-4 p-3"
 		style="border: 2px solid lightGray;">
