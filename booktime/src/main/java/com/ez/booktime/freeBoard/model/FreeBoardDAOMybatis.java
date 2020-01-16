@@ -6,6 +6,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.ez.booktime.common.SearchVO;
+
 @Repository
 public class FreeBoardDAOMybatis implements FreeBoardDAO{
 
@@ -20,8 +22,8 @@ public class FreeBoardDAOMybatis implements FreeBoardDAO{
 	}
 
 	@Override
-	public List<FreeBoardVO> selectFreeBoardAll() {
-		return sqlSession.selectList(namespace+"selectAllBoard");
+	public List<FreeBoardVO> selectFreeBoardAll(SearchVO searchVo) {
+		return sqlSession.selectList(namespace+"selectAllBoard",searchVo);
 	}
 
 	@Override
@@ -42,6 +44,11 @@ public class FreeBoardDAOMybatis implements FreeBoardDAO{
 	@Override
 	public int drawBoard(int boardNo) {
 		return sqlSession.update(namespace+"drawBoard",boardNo);
+	}
+
+	@Override
+	public int selectTotalRecord(SearchVO searchVo) {
+		return sqlSession.selectOne(namespace+"selectTotalRecord",searchVo);
 	}
 
 }

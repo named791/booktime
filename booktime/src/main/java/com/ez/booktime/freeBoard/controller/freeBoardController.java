@@ -3,6 +3,7 @@ package com.ez.booktime.freeBoard.controller;
 
 import java.util.List;
 
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -15,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ez.booktime.common.PageNumber;
+import com.ez.booktime.common.PaginationInfo;
+import com.ez.booktime.common.SearchVO;
 import com.ez.booktime.freeBoard.model.FreeBoardService;
 import com.ez.booktime.freeBoard.model.FreeBoardVO;
-import com.ez.booktime.user.model.UserService;
 
 @Controller
 @RequestMapping("/freeBoard")
@@ -27,9 +30,6 @@ public class freeBoardController {
 	
 	@Autowired
 	private FreeBoardService boardService;
-	
-	@Autowired
-	private UserService userService;
 	
 	@RequestMapping(value="/Write.do",method=RequestMethod.GET)
 	public void freeBoardWrite_get(HttpSession session,
@@ -96,13 +96,34 @@ public class freeBoardController {
 	
 	
 	@RequestMapping("/List.do")
-	public void freeBoardList(Model model) {
-		logger.info("자유게시판 목록");
-
-		List<FreeBoardVO> list=boardService.selectFreeBoardAll();
+	public void freeBoardList(@ModelAttribute SearchVO searchVo,
+			Model model) {
+		//1
+		logger.info("글 목록, 파라미터 searchVo={}",searchVo);
+				
+		//[1] 먼저 PaginationInfo객체를 생성하여 firstRecordIndex 값을 구한다
+		PaginationInfo pagingInfo=new PaginationInfo();
+		pagingInfo.setBlockSize(PageNumber.BLOCK_SIZE);
+		pagingInfo.setRecordCountPerPage(PageNumber.RECORD_COUNT);
+		pagingInfo.setCurrentPage(searchVo.getCurrentPage());
+		
+		//[2] searchVo에 recordCountPerPage와 firstRecordIndex를 셋팅한다
+		searchVo.setRecordCountPerPage(PageNumber.RECORD_COUNT);
+		searchVo.setFirstRecordIndex(pagingInfo.getFirstRecordIndex());
+			
+		logger.info("값 셋팅 후 searchVo={}", searchVo);
+		
+		List<FreeBoardVO> list=boardService.selectFreeBoardAll(searchVo);
 		logger.info("자유게시판 리스트 크기={}",list.size());
 		
+		//[3] 레코드 개수 조회후 셋팅
+		int totalRecord=boardService.selectTotalRecord(searchVo);
+		logger.info("totalRecord={}", totalRecord);
+				
+		pagingInfo.setTotalRecord(totalRecord);
+		
 		model.addAttribute("list",list);
+		model.addAttribute("pagingInfo", pagingInfo);
 	}
 	
 	@RequestMapping("/Detail.do")

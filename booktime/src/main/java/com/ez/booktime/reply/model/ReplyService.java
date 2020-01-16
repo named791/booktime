@@ -1,5 +1,8 @@
 package com.ez.booktime.reply.model;
 
-public interface ReplyService {
+import java.util.List;
 
+public interface ReplyService {
+	int insertReply(ReplyVO replyVo);
+	List<ReplyVO> selectReplyList();
 }

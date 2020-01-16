@@ -22,19 +22,12 @@
         <hr>
 
         <!-- Date/Time -->
-<<<<<<< HEAD
         <p><fmt:formatDate value="${boardVo.regdate }" pattern="yyyy-MM-dd HH:mm:ss" /> </p>
-=======
-        <p><fmt:formatDate value="${boardVo.regdate }" pattern="yyyy-MM-dd" /> </p>
->>>>>>> branch 'develope' of https://github.com/named791/booktime
-
         <hr>
 
         <!-- Post Content -->
-		 ${boardVo.content }
-
+		 <p>${boardVo.content }</p>
         <hr>
-<<<<<<< HEAD
         <!-- 본인 체크하고 본인에게만 수정/삭제 보여주기 -->
         <c:if test="${boardVo.userid == chkid}">
 			<a class="btn btn-info"
@@ -45,66 +38,8 @@
 						role="button">삭제하기</a>			
 		</c:if>
         <%@include file="reply/replyWrite.jsp" %><!-- 댓글 작성란 -->
-=======
-		<a class="btn btn-info"
-					href="${pageContext.request.contextPath}/freeBoard/Edit.do?boardNo=${boardVo.boardNo }"
-					role="button">수정하기</a>
-		<a class="btn btn-info"
-					href=""
-					role="button">삭제하기</a>			
-		
-        <!-- Comments Form -->
-        <div class="card my-4">
-          <h5 class="card-header">댓글:</h5>
-          <div class="card-body">
-            <form>
-              <div class="form-group">
-                <textarea class="form-control" rows="3"></textarea>
-              </div>
-              <button type="submit" class="btn btn-primary">작성완료</button>
-            </form>
-          </div>
-        </div>
->>>>>>> branch 'develope' of https://github.com/named791/booktime
 
-<<<<<<< HEAD
         <%@include file="reply/replyList.jsp" %><!-- 댓글 목록 -->
-=======
-        <!-- Single Comment -->
-        <div class="media mb-4">
-          <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-          <div class="media-body">
-            <h5 class="mt-0">댓글러1</h5>
-            	잘 읽었습니다 
-          </div>
-        </div>
-
-        <!-- Comment with nested comments -->
-        <div class="media mb-4">
-          <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-          <div class="media-body">
-            <h5 class="mt-0">댓글러2</h5>
-            	책 중간에 나오는 부분이 이해가 안돼요
-
-            <div class="media mt-4">
-              <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-              <div class="media-body">
-                <h5 class="mt-0">댓글러3</h5>
-                	어느 부분인지 구체적으로 말씀해 주시겠어요?
-              </div>
-            </div>
-
-            <div class="media mt-4">
-              <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-              <div class="media-body">
-                <h5 class="mt-0">댓글러2</h5>
-                214부터 227 페이지 까지의 내용이요
-              </div>
-            </div>
-
-          </div>
-        </div>
->>>>>>> branch 'develope' of https://github.com/named791/booktime
 
       </div>
 
@@ -132,13 +67,7 @@
               <div class="col-lg-6">
                 <ul class="list-unstyled mb-0">
                   <li>
-                    <a href="freeBoard/List.do">공지사항</a>
-                  </li>
-                  <li>
-                    <a href="freeBoard/List.do">이벤트</a>
-                  </li>
-                  <li>
-                    <a href="freeBoard/List.do">자유게시판</a>
+                    <a href="List.do">목록으로</a>
                   </li>
                 </ul>
               </div>
@@ -174,11 +103,6 @@
 
   </div>
   <!-- /.container -->
- 
- <!-- 각 게시판 탭 링크 -->
- <<script type="text/javascript">
-
-</script>
  
  <!-- 글 삭제 모달창 --> 
 <script>

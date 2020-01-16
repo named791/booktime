@@ -1,32 +1,32 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!-- Single Comment -->
-<div class="media mb-4">
 
-	<div class="media-body">
-		<div class=row>
-			<div class="col text-left">
-				<h5 class="mt-0">댓글러1</h5>
-				잘 읽었습니다
-			</div>
-			<div class="col text-right">
-				<button class="border-0 btn-transition btn btn-outline-success">
-					<i class="fas fa-pencil-alt"></i>
-				</button>
-				<button class="border-0 btn-transition btn btn-outline-danger">
-					<i class="fas fa-times"></i>
-				</button>
+<c:if test="${empty list}">
+	<hr>
+	<div class="media mb-4">
+
+		<div class="media-body">
+			<div class=row>
+				<div class="col text-center">아직 댓글이 없습니다</div>
 			</div>
 		</div>
-		<hr>
-		<!-- Comment with nested comments -->
+	</div>
+	<hr>
+</c:if>
+<!-- Single Comment -->
+<c:if test="${!empty list}">
+	<c:forEach var="replyVo" items="${list }">
 		<div class="media mb-4">
 
 			<div class="media-body">
 				<div class=row>
 					<div class="col text-left">
-						<h5 class="mt-0">댓글러2</h5>
-						책 중간에 나오는 부분이 이해가 안돼요
+					<input type="hidden" id="replyNo" name="replyNo" value="${replyVo.replyNo }"/>
+					<input type="hidden" id="replyNo" name="replyNo" value="${replyVo.groupNo }"/>
+					<input type="hidden" id="replyNo" name="replyNo" value="${replyVo.sort }"/>
+						<h5 class="mt-0">${replyVo.userid }</h5>
+						<p>${replyVo.replyContent }</p>
+						<p color="gray">${replyVo.replyRegdate }</p>
 					</div>
 					<div class="col text-right">
 						<button class="border-0 btn-transition btn btn-outline-success">
@@ -38,50 +38,8 @@
 					</div>
 				</div>
 				<hr>
-				<div class="media md-4">
-
-					<div class="media-body">
-						<div class=row>
-							<div class="col text-left">
-								<h5 class="mt-0">댓글러3</h5>
-								어느 부분인지 구체적으로 말씀해 주시겠어요?
-							</div>
-							<div class="col text-right">
-								<button class="border-0 btn-transition btn btn-outline-success">
-									<i class="fas fa-pencil-alt"></i>
-								</button>
-								<button class="border-0 btn-transition btn btn-outline-danger">
-									<i class="fas fa-times"></i>
-								</button>
-							</div>
-						</div>
-<hr>
-						<div class="media md-4">
-
-							<div class="media-body">
-								<div class=row>
-									<div class="col text-left">
-										<h5 class="mt-0">댓글러2</h5>
-										214부터 227 페이지 까지의 내용이요
-									</div>
-									<div class="col text-right">
-										<button
-											class="border-0 btn-transition btn btn-outline-success">
-											<i class="fas fa-pencil-alt"></i>
-										</button>
-										<button class="border-0 btn-transition btn btn-outline-danger">
-											<i class="fas fa-times"></i>
-										</button>
-									</div>
-								</div>
-
-							</div>
-						</div>
-						
-<hr>						
-					</div>
-				</div>
 			</div>
+
 		</div>
-	</div>
-</div>
+	</c:forEach>
+</c:if>

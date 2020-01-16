@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ez.booktime.common.SearchVO;
+
 @Service
 public class FreeBoardServiceImpl implements FreeBoardService{
 
@@ -17,8 +19,8 @@ public class FreeBoardServiceImpl implements FreeBoardService{
 	}
 
 	@Override
-	public List<FreeBoardVO> selectFreeBoardAll() {
-		return boardDao.selectFreeBoardAll();
+	public List<FreeBoardVO> selectFreeBoardAll(SearchVO searchVo) {
+		return boardDao.selectFreeBoardAll(searchVo);
 	}
 
 	@Override
@@ -39,6 +41,11 @@ public class FreeBoardServiceImpl implements FreeBoardService{
 	@Override
 	public int drawBoard(int boardNo) {
 		return boardDao.drawBoard(boardNo);
+	}
+
+	@Override
+	public int selectTotalRecord(SearchVO searchVo) {
+		return boardDao.selectTotalRecord(searchVo);
 	}
 
 }
