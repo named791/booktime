@@ -13,30 +13,58 @@ src="${pageContext.request.contextPath }/resources/vendor/jquery/jquery.js"></sc
 <script type="text/javascript"> 
 	function send(frmAgree){ 
 		if(!frmAgree.chkAgree.checked){ 
-			alert("약관에 동의하셔야 합니다!!"); 
+			alert("약관에 동의해주십시오"); 
 			frmAgree.chkAgree.focus(); 
 			return false; 
 		}
 		return true;
 	} 
 </script>
+<style type="text/css">
+	#frame{	text-align: center;	}
+	h2{	margin-top: 80px;
+		color: rgb(0 153 174);
+	}
+	#clause{
+		margin-top: 30px;
+		width: 1000px;
+	}
+	#chkBox{
+		position: absolute;
+		margin-left: 1330px;
+		font-size: 0.8em;
+		margin-top: 10px;
+	}
+	#btn{
+		position: absolute;
+		margin-left: 880px;
+		margin-top: 30px;
+	}
+	#sub,#res{
+		width: 80px;
+		border: none;
+		background-color: lightgray;
+		height: 30px;
+	}
+</style>
 <body>
-<h2>회원 약관</h2><br> 
-<iframe src="<c:url value='/user/provision.do'/>" width="900px" height="300px" ></iframe> 
-<br><br>
-<div style="width:700px"> 
-	<form id="frmAgree" name="frmAgree" method="post" 
-	action='<c:url value="/user/register.do"/>' 
-	onsubmit="return send(this)"> 
-	<div style="text-align:right"> 
-		<input type="checkbox" name="chkAgree" id="chkAgree"> 
-		<label for="chkAgree">약관에 동의합니다.</label> 
-	</div> 
-	<div style="text-align:center"> 
-		<input type="submit" value="확인" > 
-		<input type="reset" value="취소">
+<div id="frame">
+	<h2>회원 약관</h2><br> 
+	<iframe id="clause" src="<c:url value='/user/provision.do'/>" width="900px" height="300px" ></iframe> 
+	<div style="width:700px"> 
+		<form id="frmAgree" name="frmAgree" method="post" 
+		action='<c:url value="/user/register.do"/>' 
+		onsubmit="return send(this)"> 
+			<div id="chkBox" style="text-align:right"> 
+				<input type="checkbox" name="chkAgree" id="chkAgree"> 
+				<label for="chkAgree">약관에 동의합니다.</label> 
+			</div> 
+			<div id="btn" style="text-align:center"> 
+				<input id="sub" type="submit" value="확인" > 
+				<input id="res" type="reset" value="취소">
+			</div>
+		</form>
 	</div>
-	</form>
 </div>
 </body>
 </html>

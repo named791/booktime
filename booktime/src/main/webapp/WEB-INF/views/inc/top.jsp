@@ -73,14 +73,36 @@
             	<a class="nav-link" href="<c:url value='/login/logout.do'/>">로그아웃</a>
           	</li>
         </c:if>
+        <c:if test="${empty sessionScope.userid }">
+        	<li class="nav-item dropdown">
+	          <a class="nav-link dropdown-toggle" 
+	            href="#"
+	            id="navbarDropdownMypage" data-toggle="dropdown" 
+	             aria-haspopup="true" aria-expanded="false">
+	             <b>마이페이지</b>
+	          </a>
+	          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMypage">
+	          <a style="text-align: center;" class="dropdown-item" href="${pageContext.request.contextPath}/mypage/mypage.do">마이페이지</a>
+	          <hr width="110px">
+	          <a style="text-align: center;" class="dropdown-item" href="#">주문/배송조회</a>
+	          <hr width="110px">
+	          <a style="text-align: center;" class="dropdown-item" href="#">찜목록</a>
+	          <hr width="110px">
+	          <a style="text-align: center;" class="dropdown-item" href="#">나의 서재</a>
+	          <hr width="110px">
+	          <a style="text-align: center;" class="dropdown-item" href="#">쿠폰 내역</a>
+	          </div>
+	   	  </li>
+	   	  </c:if>
+	   	  
           <li class="nav-item">
-            <a class="nav-link" href="${pageContext.request.contextPath}/freeBoard/List.do">게시판</a>
+            <a class="nav-link" href="/freeBoard/List.do">게시판</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">주문내역</a>
           </li>
-          	 <a class="nav-link" href="#">
-          	 <img style="width: 25px;" src="<c:url value='/resources/images/icons/cart.png'/>"
+          	 <a class="nav-link" href="#"s>
+          	 <img style="width: 18px;" src="<c:url value='/resources/images/icons/cart1.png'/>"
           	 >장바구니</a>
           </li>
         </ul>
