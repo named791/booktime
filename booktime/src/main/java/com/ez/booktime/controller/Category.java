@@ -31,7 +31,8 @@ public class Category {
 		//카테고리 번호
 		
 		String category = "categoryId="
-		+cateNo
+		//+cateNo
+		+2551		
 		+"&";
 		
 		//url 조립
@@ -79,11 +80,11 @@ public class Category {
 			String author=(String) jsonObj2.get("author");
 			map.put("author", author); //지은이
 			System.out.println(author);
-			//map.put("publisher", jsonObj.get("publisher"));	//출판사
-	        //map.put("pubDate", jsonObj.get("pubDate"));	//출간일
-			//map.put("discription", jsonObj.get("discription"));	//설명
-			//map.put("priceStandard", jsonObj.get("priceStandard"));	//가격
-			//map.put("cover", jsonObj.get("cover"));	//표지
+			map.put("publisher", jsonObj2.get("publisher"));	//출판사
+	        map.put("pubDate", jsonObj2.get("pubDate"));	//출간일
+			//map.put("discription", jsonObj2.get("discription"));	//설명
+			map.put("priceStandard", jsonObj2.get("priceStandard"));	//가격
+			map.put("cover", jsonObj2.get("cover"));	//표지
 			
 			list.add(map);
         }

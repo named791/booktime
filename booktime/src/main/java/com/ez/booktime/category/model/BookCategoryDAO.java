@@ -5,4 +5,5 @@ import java.util.List;
 public interface BookCategoryDAO {
 	List<BookCategoryVO> selectAllCategory();
 	BookCategoryVO selectCategoryInfoByName(String categoryName);
+	List<BookCategoryVO> selectCatgoryBar();
 }

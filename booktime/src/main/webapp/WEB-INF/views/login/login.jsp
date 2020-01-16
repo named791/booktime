@@ -26,6 +26,22 @@
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/util.css">
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/main.css">
 <!--===============================================================================================-->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$("#btn").click(function(){
+			if($("#userid").val().length<1){
+				alert("아이디를 입력하세요");
+				event.preventDefault();
+				$("#userid").focus();
+			}else if($("#pwd").val().length<1){
+				alert("비밀번호를 입력하세요");
+				event.preventDefault();
+				$("#pwd").focus();
+			}
+		});
+	});
+</script>
 </head>
 <body>
 	
@@ -47,14 +63,14 @@
 						</div>
 					
 					<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
-						<input class="input100" type="text" name="userid" placeholder="아이디"
+						<input id="userid" class="input100" type="text" name="userid" placeholder="아이디"
 							value="${cookie.ck_userid.value }">
 						<span class="focus-input100"></span>
 					</div>
 					
 					
 					<div class="wrap-input100 validate-input m-b-16" data-validate = "Password is required">
-						<input class="input100" type="password" name="pwd" placeholder="비밀번호">
+						<input id="pwd" class="input100" type="password" name="pwd" placeholder="비밀번호">
 						<span class="focus-input100"></span>
 					</div>
 					
@@ -78,7 +94,7 @@
 					</div>
 
 					<div class="container-login100-form-btn m-t-17">
-						<button class="login100-form-btn">
+						<button id="btn" class="login100-form-btn">
 							로그인
 						</button>
 					</div>

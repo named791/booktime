@@ -9,8 +9,8 @@
   <div class="container">
 
     <!-- Page Heading/Breadcrumbs -->
-    <h1 class="mt-4 mb-3">마이페이지
-      <small>회원정보 수정</small>
+    <h1 class="mt-4 mb-3">Welcome
+      <small style="color: rgb(0 153 174)"> ${sessionScope.userid }!</small>
     </h1>
 
     <!-- Content Row -->

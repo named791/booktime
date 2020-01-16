@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@include file="../inc/top.jsp" %>
+
 <style type="text/css">
 	.pull-left{
 		float: left;
@@ -57,6 +58,26 @@
 		float: left;
 		padding: 0;
 	}
+	#cover{
+		display: none;
+	    background-color: rgba(100, 100, 100, 0.3);
+	    width: 100%;
+	    height: 100%;
+	    position: fixed;
+	    z-index: 10;
+	}
+	#FavoriteOk{
+		width: 400px;
+	    margin: 0 auto;
+	    top: 25%;
+	}
+	#cover .card-header, #cover a{
+		color: white;
+		font-weight: bold;
+	}
+	#cover .details{
+		transition-duration: 1s;
+	}
 	
 </style>
 <script type="text/javascript">
@@ -86,15 +107,68 @@
 					lb.find("img").fadeIn();
 				});
 			}
-			
 		});
 		
+		$("input[type=button]").click(function(){
+			var id = $(this).attr("id");
+			
+			if(id=="btFavorite" || id=="btCart"){
+				if(id=="btFavorite"){
+					$("input[name=group]").val("FAVORITE");
+				}else if(id=="btCart"){
+					$("input[name=group]").val("CART");
+				}
+				
+				$.ajax({
+					url:"<c:url value='/favorite/addFavorite.do'/>",
+					type:"post",
+					data:$("form[name=frmPayment]").serialize(),
+					dataType:"json",
+					success:function(res){
+						if(res>0){
+							$(".details").css("filter", "blur(10px)");
+							$("#cover").fadeIn();
+							
+							var group = $("input[name=group]").val();
+							if(group=="FAVORITE"){
+								$(".addResult").text("즐겨찾기");
+							}else if(group=="CART"){
+								$(".addResult").text("장바구니");
+								$(".btn-goFavorite").attr("href"
+										, "<c:url value='/favorite/cart.do'/>");
+							}
+						}
+					},
+					error:function(xhr, status, error){
+						alert("ERROR : "+status+", "+error);
+					}
+				});		
+				
+			}
+		});
+		
+		$("#hide").click(function(){
+			$("#cover").fadeOut();
+			$(".details").css("filter", "blur(0px)");
+		});
+
 	});
 </script>
 
+<div id="cover">
+	<div id="FavoriteOk" class="card border-primary" >
+		<div class="card-header bg-primary text-center"><b><span class="addResult"></span>를 추가했습니다</b></div>
+		<div class="card-body text-center">
+			<a href="<c:url value="/favorite/favorite.do"/>" 
+				class="btn btn-info btn-goFavorite"><span class="addResult"></span> 확인</a>
+			<a href="#" id="hide"
+				class="btn btn-info">더 둘러보기</a>
+		</div>
+	</div>
+</div>
+
 <br><br><br>
-<div class="container">
-	${map }
+<div class="container details" >
 	<div class="row">
 		<div class="col-md-5">
 			<img class="cover" alt="cover"
@@ -105,11 +179,11 @@
 			<div class="bookInfo" style="height: 100%;position: relative;">
 				<div style="height: 45%;">
 					<div class="page-header">
-					  <h1>${fn:substring(map['title'], 0, fn:indexOf(map['title'], '-')) }
+					  <h2>${fn:substring(map['title'], 0, fn:indexOf(map['title'], '-')) }
 					  	<c:if test="${!empty map['subTitle'] }">
 						  	<small>- ${map['subTitle'] }</small>
 					  	</c:if>
-					  </h1>
+					  </h2>
 					</div>
 					
 					<c:set var="pubDate" value="${fn:split(map['pubDate'],'-') }"/>
@@ -143,8 +217,15 @@
 					<hr style="margin-bottom: 0;">
 				</div>
 				
-				<form name="frmPayment" method="post" action=""
+				<form name="frmPayment" method="post" action="/favorrite/order.do"
 					style="height: 300px;">
+					<input type="hidden" name="bookName" value="${map['title'] }">
+					<input type="hidden" name="isbn" value="${map['isbn13'] }">
+					<input type="hidden" name="writer" value="${map['author'] }">
+					<input type="hidden" name="publisher" value="${map['publisher'] }">
+					<input type="hidden" name="price"  value="${map['priceSales'] }">
+					<input type="hidden" name="group"  value="CART">
+					
 					<div style="height: 90%;" id="info">
 						<div class="pull-left">정가</div>
 						<div>
@@ -177,18 +258,31 @@
 					</div>
 					
 					<div class="btn-group" style="position: absolute;bottom: 0;">
-						<input type="button" id="btFavorite"
-							class="btn col" value="즐겨찾기 등록"
-							style="border: 2px solid lightgray;width: 25%;color: #555;">
-						<input type="submit" class="btn col" id="btCart" value="장바구니 담기"
-							style="width: 25%;">
-						<input type="submit" class="btn col" id="btOrder" value="바로구매">
+						<c:if test="${!empty sessionScope.userid }"> <!-- 로그인 되어 있을때 -->
+							<input type="button" id="btFavorite"
+								class="btn col" value="즐겨찾기 등록"
+								style="border: 2px solid lightgray;width: 25%;color: #555;">
+						</c:if>
+						
+						<c:if test="${empty map['stockstatus'] }"> <!-- 재고가 있으면 -->
+							<input type="button" class="btn col" id="btCart" value="장바구니 담기"
+								style="width: 25%;">
+							<input type="submit" class="btn col" id="btOrder" value="바로구매">
+						</c:if>
+						<c:if test="${!empty map['stockstatus'] }"> <!-- 재고가 없으면 -->
+							<input type="submit" class="btn col" id="btOrder" value="지금은 구매할 수 없습니다."
+								style="width: 50%;" disabled="disabled">
+						</c:if>
 					</div>
 					
 				</form>
 			</div>
 		</div>
 	</div>
+	<hr>
+	
+	<h3>책소개</h3>
+	<p class="container">${map['description'] }</p>
 	<hr>
 	
 	<h3>도서정보</h3>
@@ -216,7 +310,9 @@
 	</table>
 	
 	<h3>분류</h3>
-	<p>100 - 도서</p>
+	<a href="<c:url value='/book/bookListByCate.do?categoryId=${map["cateCode"]}'/>">
+		${map['cateCode'] } - ${map['cateName'] }
+	</a>
 	<hr>
 	
 	<h3>이벤트</h3>
@@ -231,41 +327,51 @@
 		<hr style="clear: both;">
 	</div>
 	
-	<h3>회원 리뷰(2건)</h3>
+	<h3 id="review">회원 리뷰(2건)</h3>
 	우수리뷰를 작성해주시는 회원분들께 마일리지 1000원을 드립니다.
-	<div class="card my-4">
-		<h5 class="card-header">리뷰 남기기</h5>
-		<div class="card-body">
-			<form name="reviewFrm" action="" method="post" enctype="multipart/form-data">
-				<div class="form-group row">
-					<div class="col">
-						<input type="text" name="title" class="form-control" placeholder="제목을 입력하세요">
-					</div>
-					<div class="col text-center" style="max-width: 225px;">
-						<c:import url="/book/bookGradePicker.do"/>
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="container">
-						<div class="row">
-		   					<div id="dummy" class="col text-center">
-			   					<label for="imgInput" style="line-height: 150px;">
-			   						<img id="image_section" alt="미리보기" style="width: 150px;height: 150px;display:none;"/>
-			   						<span>이미지 업로드</span>
-			   					</label>
-		   					</div>
-		   					<div class="col" style="padding-right: 0;">
-								<textarea placeholder="내용을 입력하세요" style="width: 100%;height: 160px;" translate="no" class=" form-control"></textarea>
-							</div>
+	
+	<c:if test="${false }">	<!-- 구입내역 없으면  -->
+		<div class="card my-4">
+		<h5 class="card-header">구매자 리뷰</h5>
+		<div class="card-body text-center">구매기록이 없으면 작성할 수 없습니다.</div>
+		</div>
+	</c:if>
+	
+	<c:if test="${true}">	<!-- 구입내역 있고, 리뷰를 처음 작성할 때  -->
+		<div class="card my-4">
+			<h5 class="card-header">구매자 리뷰</h5>
+			<div class="card-body">
+				<form name="reviewFrm" action="" method="post" enctype="multipart/form-data">
+					<div class="form-group row">
+						<div class="col">
+							<input type="text" name="title" class="form-control" placeholder="제목을 입력하세요">
+						</div>
+						<div class="col text-center" style="max-width: 225px;">
+							<c:import url="/book/bookGradePicker.do"/>
 						</div>
 					</div>
-					<input type='file' id="imgInput" name="upImage" style="visibility: hidden;"
-						accept="image/*"/>
-				</div>
-				<input type="submit" value="등록" class="btn btn-primary">
-			</form>
+					<div class="form-group">
+						<div class="container">
+							<div class="row">
+			   					<div id="dummy" class="col text-center">
+				   					<label for="imgInput" style="line-height: 150px;">
+				   						<img id="image_section" alt="미리보기" style="width: 150px;height: 150px;display:none;"/>
+				   						<span>이미지 업로드</span>
+				   					</label>
+			   					</div>
+			   					<div class="col" style="padding-right: 0;">
+									<textarea placeholder="내용을 입력하세요" style="width: 100%;height: 160px;" translate="no" class=" form-control"></textarea>
+								</div>
+							</div>
+						</div>
+						<input type='file' id="imgInput" name="upImage" style="visibility: hidden;"
+							accept="image/*"/>
+					</div>
+					<input type="submit" value="등록" class="btn btn-primary">
+				</form>
+			</div>
 		</div>
-	</div>
+	</c:if>
 	
 	<a href="#" class="btn">최신순</a> | <a href="#" class="btn">오래된순</a><br>
 	<div class="container" >
