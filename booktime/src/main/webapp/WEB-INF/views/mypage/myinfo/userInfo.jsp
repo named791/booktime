@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<%@include file="../inc/top.jsp" %>   
+<%@include file="../../inc/top.jsp" %>   
   <!-- Page Content -->
   <div class="container">
 
@@ -44,4 +44,4 @@
       </div>
     </div>
     <!-- /.row -->
-<%@include file="../inc/bottom.jsp" %>
+<%@include file="../../inc/bottom.jsp" %>
