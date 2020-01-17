@@ -21,4 +21,9 @@ public class MyPageController {
 		logger.info("마이페이지 화면 보여주기");
 	}
 	
+	@RequestMapping(value="/mypage/myinfo/userout.do", method = RequestMethod.GET)
+	public void userout() {
+		logger.info("회원탈퇴 화면 보여주기");
+	}
+	
 }

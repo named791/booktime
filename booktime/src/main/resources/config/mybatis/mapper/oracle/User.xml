@@ -19,6 +19,10 @@
 		select pwd from "USER"
 		where userid=#{userid} and withdrawaldate is null
 	</select>
+	
+	<select id="selectByUserid" parameterType="string" resultType="string">
+		select name from "USER" where userid=#{userid}
+	</select>
 </mapper>
 
 
