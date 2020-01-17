@@ -6,8 +6,13 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<style type="text/css">
+	#foot{
+		margin-top: 150px;
+	}
+</style>
 <body>
-	<footer class="py-5 bg-info">
+	<footer id="foot" class="py-5 bg-info">
 		<div class="container">
 		<p class="m-0 text-center text-white">
 		대표:이도서 사업자정보 : 123-45-67890 
@@ -20,11 +25,11 @@
 				Website 2019</p>
 				<br><br>
 			<div class="text-center">
-				<button class="btn btn-primary btn-lg align-middle" type="button">자주 묻는 질문</button>
+				<button class="btn btn-primary btn-lg align-middle" type="button" 
+				onclick="location.href='faq.do'">자주 묻는 질문</button>
 			</div>
 		</div>
 		<!-- /.container -->
 	</footer>
-
 </body>
 </html>

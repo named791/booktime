@@ -3,7 +3,22 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="config.mybatis.mapper.oracle.user">
+	<insert id="insertUser" parameterType="userVo">
+		insert into "USER"(userid, pwd, name, birth, gender, grade, email1,email2, 
+		emailagree, zipcode, parseladdress, newaddress,addressdetail,phone)
+		values(#{userid},#{pwd},#{name},#{birth},#{gender},#{grade},
+		#{email1},#{email2},#{emailagree},#{zipcode},#{parseladdress},#{newaddress},
+		#{addressdetail},#{phone})
+	</insert>
+
+	<select id="chkUserid" parameterType="string" resultType="int">
+		select count(*) from "USER" where userid=#{userid}
+	</select>
 	
+	<select id="userGetPwd" parameterType="string" resultType="string">
+		select pwd from "USER"
+		where userid=#{userid} and withdrawaldate is null
+	</select>
 </mapper>
 
 

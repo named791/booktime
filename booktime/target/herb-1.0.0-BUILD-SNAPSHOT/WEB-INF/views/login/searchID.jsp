@@ -30,6 +30,7 @@
 <script type="text/javascript">
 	$(function(){
 		$("#btnId").click(function(){
+			//alert("작성하신 메일 주소가 존재하진 않습니다.");
 			window.open("<c:url value='/login/getId.do'/>","","width=500,height=500");
 		});
 	});
@@ -43,7 +44,8 @@
 					<span class="login100-form-title p-b-51">
 						아이디 찾기
 					</span>
-					<p>- 이름과 E-mail 주소를 입력 후 "가입 여부 확인하기" 버튼을 클릭해주시면 가입 여부를 알려드립니다.</p>
+					<p style="font-size: 0.8em; color: red;">
+					- 이름과 E-mail 주소를 입력 후 "가입 여부 확인하기" 버튼을 클릭해주시면 가입 여부를 알려드립니다.</p>
 					<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
 						<input class="input100" type="text" name="name" placeholder="이름을 입력하세요">
 						<span class="focus-input100"></span>
