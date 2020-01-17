@@ -12,7 +12,7 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script type="text/javascript">
 	$(function(){
-		
+
 	});
 </script>
 <form name="frm" method="post" action="<c:url value='/index.do'/>">
@@ -51,17 +51,24 @@
 							<tr>
 								<th>탈퇴사유</th>
 								<td>
-									
+									<input id="b1" type="radio"><label for="b1">상품품질 불만</label>
+									<input id="b2" type="radio"><label for="b2">이용빈도 낮음</label>
+									<input id="b3" type="radio"><label for="b3">개인정보유출 우려</label>
+									<input id="b4" type="radio"><label for="b4">배송지연</label><br>
+									<input id="b5" type="radio"><label for="b5">교환/환불/품질 불만</label>
+									<input id="b6" type="radio"><label for="b6">A/S 불만</label>
+									<input id="b7" type="radio"><label for="b7">기타</label>
 								</td>
 							</tr>
 							<tr>
 								<th>기타</th>
 								<td>
-									
+									<textarea rows="1" cols="1" placeholder="기타 불편사항 등 고객님의 충고를 부탁 드립니다."></textarea>
 								</td>
 							</tr>
 						</table>
 					</div>
+				<label>본인 확인</label>
 					<div id="chkuser">
 						
 					</div>

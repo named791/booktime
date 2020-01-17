@@ -78,7 +78,34 @@ input[type=button]{
 #info label{
 	font-size: 1.2em;
 	font-weight: bold;
+	margin-top: 20px;
 }
-#cause table{
-	border-top: 3p
+table{
+	border-top: 2px solid rgb(79, 79, 78);
+	width: 800px;
+	height: 300px;
+}
+#tbl tr th{
+	background: lightgray;
+	font-size: 0.8em;
+	width: 100px;
+	text-align: center;
+}
+input[type=radio]{
+	margin-left: 30px;
+	margin-top: 20px;
+}
+#tbl tr {
+	border-top: 1px solid gray;
+	border-bottom: 1px solid gray;
+}
+tr{
+	height: 150px;
+}
+textarea{
+	width: 690px;
+	height: 130px;
+}
+#tbl label{
+	font-size: 0.8em;
 }
