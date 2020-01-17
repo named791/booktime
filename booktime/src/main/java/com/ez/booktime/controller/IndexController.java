@@ -45,6 +45,7 @@ public class IndexController {
 	public String showSearchResult(@RequestParam(defaultValue="0")
 	String searchKeyword, Model model) throws Exception{
 		logger.info("검색어 searchKeyword={}",searchKeyword);
+
 		return "searchList";
 	}
 	

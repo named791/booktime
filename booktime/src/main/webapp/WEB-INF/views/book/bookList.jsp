@@ -128,6 +128,29 @@ img.image_circle {
     position: relative;
     top: -2px;
 }
+
+.bookBestSection {
+    margin-left: 6px;
+}
+.bookBestTable {
+    float: left;
+}
+.divPage {
+    margin-bottom: 10px;
+    text-align: center;
+}
+.search_t_g{
+	margin-top: 10px;
+}
+a.bk66 {
+    font-size: 14px;
+}
+span.author {
+    font-size: 12px;
+}
+td.bookBestContent {
+    font-size: 14px;
+}
 </style>
 
 <script type="text/javascript">
@@ -203,63 +226,10 @@ img.image_circle {
 					</tbody>
 				</table>
 				
-				<div class="top_best">
-    				<table width=100%  cellpadding="0" cellspacing="1" bgcolor="#dddddd" style="margin-top:9px;">
-    					<tbody>
-    						<tr>
-    							<td style="background:url(//image.aladin.co.kr/img/browse/2010/bg_08.gif) repeat-x top;
-    									background-color:#FFFFFF;
-    									padding:19px 9px 10px 9px;">
-
-        			<table width=90% border="0" align="center" cellpadding="0" cellspacing="0">
-        				<tbody>
-        					<tr>
-        						<td width="172" valign="top" style="text-align:center; 
-        							background:url(//image.aladin.co.kr/img/browse/2010/subnum_01.gif) top left no-repeat;">
-            						<div style="position:relative;
-            								text-align:center;">
-            							<a href="http://www.aladin.co.kr/shop/wproduct.aspx?ItemId=226667290">
-            							<img src="https://image.aladin.co.kr/product/22666/72/coversum/k692636032_1.jpg">
-            							</a>
-            						</div>
-            						<br> 
-            						<a href="http://www.aladin.co.kr/shop/wproduct.aspx?ItemId=226667290" class="bk66">
-            						다이아몬드 에이스 ACT2 : 15
-            						</a>
-            						<br> <span class="author">테라지마 유우지 지음 | 학산문화사(만화)</span>
-            						<br> <span class="br2010_p2">4,500</span>원(<span class="br2010_p2">10%</span>할인)/
-            						<img src="//www.aladin.co.kr/ucl_editor/img_secur/icon/m.gif" align="absmiddle">250원
-						        </td>
-						        <td width="10">&nbsp;</td>
-						        <td width="172" align="center" valign="top" style="text-align:center; background:url(//image.aladin.co.kr/img/browse/2010/subnum_02.gif) top left no-repeat;">
-						            <div style="position:relative;text-align:center;"><a href="http://www.aladin.co.kr/shop/wproduct.aspx?ItemId=225061469"><img src="https://image.aladin.co.kr/product/22506/14/coversum/k572636739_1.jpg"></a></div><br> <a href="http://www.aladin.co.kr/shop/wproduct.aspx?ItemId=225061469" class="bk66">타마요미 3</a><br> <span class="author">마운틴 푸쿠이치 지음 | ㈜소미미디어</span><br> <span class="br2010_p2">4,500</span>원(<span class="br2010_p2">10%</span>할인)/<img src="//www.aladin.co.kr/ucl_editor/img_secur/icon/m.gif" align="absmiddle">250원
-						        </td>
-						        <td width="10">&nbsp;</td>
-						        <td width="172" align="center" valign="top" style="text-align:center; background:url(//image.aladin.co.kr/img/browse/2010/subnum_03.gif) top left no-repeat;">
-						            <div style="position:relative;text-align:center;"><a href="http://www.aladin.co.kr/shop/wproduct.aspx?ItemId=207856285"><img src="https://image.aladin.co.kr/product/20785/62/coversum/k402636778_1.jpg"></a></div><br> <a href="http://www.aladin.co.kr/shop/wproduct.aspx?ItemId=207856285" class="bk66">하이큐!! 38</a><br> <span class="author">후루다테 하루이치 지음 | 대원씨아이(만화)</span><br> <span class="br2010_p2">4,500</span>원(<span class="br2010_p2">10%</span>할인)/<img src="//www.aladin.co.kr/ucl_editor/img_secur/icon/m.gif" align="absmiddle">250원
-						        </td>
-						        <td width="10">&nbsp;</td>
-						        <td width="172" align="center" valign="top" style="text-align:center; background:url(//image.aladin.co.kr/img/browse/2010/subnum_04.gif) top left no-repeat;">
-						            <div style="position:relative;text-align:center;">
-						            	<a href="http://www.aladin.co.kr/shop/wproduct.aspx?ItemId=222534460">
-						            	<img src="https://image.aladin.co.kr/product/22253/44/coversum/k162636820_1.jpg"></a>
-						            </div><br> 
-						            <a href="http://www.aladin.co.kr/shop/wproduct.aspx?ItemId=222534460" class="bk66">하이큐!! 39</a><br> <span class="author">후루다테 하루이치 지음 | 대원씨아이(만화)</span><br> <span class="br2010_p2">4,500</span>원(<span class="br2010_p2">10%</span>할인)/<img src="//www.aladin.co.kr/ucl_editor/img_secur/icon/m.gif" align="absmiddle">250원
-						        </td>
-       						</tr>
-       				 </tbody>
-       		</table>
-        
-    	</td>
-    </tr>
-    </tbody></table>
-    <table width=100% border="0" cellspacing="0" cellpadding="0">
-    <tbody><tr>
-        <td><img src="//image.aladin.co.kr/img/browse/2010/sh_book03.gif" width=100% height="4"></td>
-    </tr>
-    </tbody></table>
-</div>
-				
+				<!-- 신간베스트 -->
+				<div class="bookBestSection">
+					<c:import url="/book/bookBestList.do"></c:import>	
+				</div>
 			<!-- 테이블 -->
 				<div class="ss_line5" style="padding-top: 10px;">
 					<table width="100%">
@@ -274,7 +244,8 @@ img.image_circle {
 						</tbody>
 					</table>
 				</div>
-				<div class="divList">
+				<!-- 조건 조회 => api에서 지원하지 않아 조회 불가 -->
+				<!-- <div class="divList">
 					<hr class="top_hr">
 					<table class="box2">
 						<thead>
@@ -291,7 +262,7 @@ img.image_circle {
 						</thead>
 					</table>
 					<hr class="bottom_hr">
-				</div>
+				</div> -->
 				<div class="divPage">
 					<!-- 이전블럭으로 이동 -->
 					<c:if test="${pagingInfo.firstPage>1 }">	

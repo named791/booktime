@@ -22,6 +22,7 @@ public class Category {
 	private static final String TTB_KEY = "?ttbkey=ttbstjgh5051633001&";
 	
 	private static final String LIST_NEW_ALL = "QueryType=ItemNewAll&";
+	private static final String LIST_NEW_SPECIAL = "QueryType=ItemNewSpecial&";
 	
 	private static final Logger logger
 		=LoggerFactory.getLogger(AladinAPI.class);
@@ -35,7 +36,7 @@ public class Category {
 		+2551		
 		+"&";
 		
-		//url 조립
+		//신간 전체 List url 조립
 		String apiURL = LIST_URL+TTB_KEY
 				+LIST_NEW_ALL
 				+category
@@ -93,9 +94,87 @@ public class Category {
 	
 	public String options() {
 		String cover = "Cover=big&";	//표지 크기
+		String coverSmall = "Cover=Small&";	// 표지 크기
 		String output = "Output=JS&";	//json
 		String version = "Version=20131101";
 		
 		return cover+output+version;
+	}
+	
+	public List<Map<String, Object>> categorySpecial(int cateNo) throws Exception {
+		
+		//카테고리 번호
+		
+		String category = "categoryId="
+		//+cateNo
+		+2551		
+		+"&";
+		
+		//신간 분야별 Special List url 조립
+		String apiSpecialURL = LIST_URL+TTB_KEY
+				+LIST_NEW_SPECIAL
+				+category
+				+optionsCover();
+		URL urlSpecial = new URL(apiSpecialURL);
+		System.out.println(urlSpecial);
+		
+		HttpURLConnection con = (HttpURLConnection)urlSpecial.openConnection();
+        con.setRequestMethod("GET");
+        int responseCode = con.getResponseCode();
+        BufferedReader br;
+        if(responseCode==200) { // 정상 호출
+            br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        } else {  // 에러 발생
+            br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+        }
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+        while ((inputLine = br.readLine()) != null) {
+            response.append(inputLine);
+        }
+        br.close();
+        con.disconnect();
+        
+        String cateResult=response.toString();
+        System.out.println(cateResult);
+        
+        JSONParser jp = new JSONParser();
+        JSONObject jsonObj = (JSONObject) jp.parse(cateResult);
+        
+		// String totalResults = (String)jsonObj.get("totalResults"); 
+        
+        JSONArray memberArray = (JSONArray)jsonObj.get("item");
+        System.out.println(memberArray.toString());
+		
+        List<Map<String, Object>> specialList = new ArrayList<Map<String,Object>>();
+		for(int i=0;i<memberArray.size();i++) {
+			JSONObject jsonObjSpecial = (JSONObject)memberArray.get(i);
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			String title=(String) jsonObjSpecial.get("title");
+			map.put("title", title);	//제목
+			System.out.println(title);
+			String author=(String) jsonObjSpecial.get("author");
+			map.put("author", author); //지은이
+			System.out.println(author);
+			map.put("publisher", jsonObjSpecial.get("publisher"));	//출판사
+	        map.put("pubDate", jsonObjSpecial.get("pubDate"));	//출간일
+			//map.put("discription", jsonObjSpecial.get("discription"));	//설명
+			map.put("priceStandard", jsonObjSpecial.get("priceStandard"));	//가격
+			map.put("cover", jsonObjSpecial.get("cover"));	//표지
+			//map.put("totalResults", totalResults);
+			
+			specialList.add(map);
+        }
+		return specialList;
+	}
+	
+	public String optionsCover() {
+		String coverSmall = "Cover=Small&";	// 표지 크기
+		String output = "Output=JS&";	//json
+		String version = "Version=20131101";
+		
+		return coverSmall+output+version;
 	}
 }
