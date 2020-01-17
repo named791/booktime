@@ -18,4 +18,5 @@ public class AdminIndexController {
 		logger.info("관리자 메인 화면 보여주기");
 		return "admin/adminMain";
 	}
+	
 }

@@ -14,6 +14,9 @@
 
   <title>책 읽기 좋은 시간</title>
 
+  <!-- Custom fonts for this template-->
+  <link href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
   <!-- Bootstrap core CSS -->
   <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/vendor/bootstrap/css/bootstrap.css">
 
@@ -96,12 +99,13 @@
 	   	  </c:if>
 	   	  
           <li class="nav-item">
-            <a class="nav-link" href="/freeBoard/List.do">게시판</a>
+            <a class="nav-link" href="freeBoard/List.do">게시판</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">주문내역</a>
           </li>
-          	 <a class="nav-link" href="#"s>
+          <li>
+          	 <a class="nav-link" href="#">
           	 <img style="width: 18px;" src="<c:url value='/resources/images/icons/cart1.png'/>"
           	 >장바구니</a>
           </li>

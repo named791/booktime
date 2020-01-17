@@ -8,10 +8,10 @@
 </script>
 <div id="contact">
 	<h1>1:1 문의하기</h1>
-	<form action="#" method="post">
+	<form action="<c:url value='/mail/mailSending.do'/>" method="post">
 		<fieldset>
 			<label for="title">제목 : </label>
-			<input type="text" id="title" placeholder="제목을 입력해주세요." />
+			<input type="text" name="title" id="title" placeholder="제목을 입력해주세요." />
 			
 			<label for="qType">문의 유형</label>
 		    	<select name="qType" id="qType" title="문의 유형">
@@ -25,16 +25,16 @@
 		        </select>
 			
 			<label for="name">이름 : </label>
-			<input type="text" id="name" placeholder="이름을 입력해주세요." />
+			<input type="text" name="name" id="name" placeholder="이름을 입력해주세요." />
 			
 			<label for="userid">ID : </label>
-			<input type="text" id="userid" placeholder="ID를 입력해주세요." />
+			<input type="text" name="userid" id="userid" placeholder="ID를 입력해주세요." />
 			
 			<label for="email">Email : </label>
-			<input type="email" id="email" placeholder="E-Mail 주소를 입력해주세요." />
+			<input type="email" name="email" id="email" placeholder="E-Mail 주소를 입력해주세요." />
 			
 			<label for="message">문의 내용 : </label>
-			<textarea id="message" placeholder="문의하실 내용을 입력해주세요."></textarea>
+			<textarea id="message" name= "message" placeholder="문의하실 내용을 입력해주세요."></textarea>
 			
 			<!-- 파일 첨부 영역 => 추후 추가 -->
 			<!-- <div class="filebox">

@@ -27,6 +27,23 @@
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/main.css">
 <!--===============================================================================================-->
 </head>
+<script type="text/javascript" src="<c:url value='/resources/vendor/jquery/jquery.min.js'/>"></script>
+<script type="text/javascript">
+	$(function(){
+		$("#btnPWD").click(function(){
+			//alert("작성하신 메일 주소가 존재하진 않습니다.");
+			//window.open("<c:url value='/login/resetPWD.do'/>","","width=500,height=500");
+			$("#chkId").val().css("display","inline");
+		});
+	});
+</script>
+<style type="text/css">
+#chkId{
+	font-size: 0.8em;
+	color: red;
+	display: none;
+}
+</style>
 <body>
 	
 	<div class="limiter">
@@ -40,16 +57,19 @@
 						<input class="input100" type="text" name="userid" placeholder="아이디">
 						<span class="focus-input100"></span>
 					</div>
+					<p id="chkId">*아이디가 틀립니다.</p>
+					
 					<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
 						<input class="input100" type="text" name="username" placeholder="이름">
 						<span class="focus-input100"></span>
 					</div>
+					
 					<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
 						<input class="input100" type="text" name="emial" placeholder="E-mail 주소">
 						<span class="focus-input100"></span>
 					</div>
 					<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
-						<button class="login100-form-btn">
+						<button class="login100-form-btn" id="btnPWD">
 							다음단계<img src="<c:url value='/resources/images/icons/NicePng_white-arrow-png-transparent_7587037.png'/>"
 								style="width: 8px">
 						</button>
