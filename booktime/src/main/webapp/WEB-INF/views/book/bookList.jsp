@@ -143,14 +143,27 @@ img.image_circle {
 	margin-top: 10px;
 }
 a.bk66 {
-    font-size: 14px;
+    font-size: 13.2px;
 }
 span.author {
-    font-size: 12px;
+    font-size: 13px;
 }
 td.bookBestContent {
-    font-size: 14px;
+    font-size: 13px;
 }
+.br2010_p2 {
+	font-size:13px;
+}
+.book .bo3{
+	font-size:16px;
+}
+.book li{
+	font-size:13px;
+}
+a{
+	color:black;
+} 
+
 </style>
 
 <script type="text/javascript">
@@ -161,8 +174,6 @@ td.bookBestContent {
 						"<c:url value='/admin/product/deleteMulti.do'/>");	
 				$('form[name=frmList]').submit();	
 				
-				//document.frmList.action="";
-				//document.frmList.submit();
 			}else{
 				alert("삭제할 상품들을 체크하세요");
 			}
@@ -172,6 +183,7 @@ td.bookBestContent {
 			$("tbody input[type=checkbox]")
 				.prop("checked", this.checked);
 		});
+		
 	});
 	
 	function pageFunc(curPage){		
@@ -203,23 +215,26 @@ td.bookBestContent {
     	<!-- Content Column -->
     	<div class="col-lg-10 mt-3">
 	    	<div class="top_div">
-				<table align="right" cellpadding="0" >
+				<table align="right" cellpadding="0" 
+				action="<c:url value='/book/bookList.do'/>">
 				    <tbody>
 				    	<tr>
 					        <td>
 					        	<h1 class="br2010_subt">
 					        		<img class="image_circle" 
-					        			src="//image.aladin.co.kr/img/browse/2010/blet_rec2.gif" 
+					        			src="<c:url value='/resources/images/blet_rec2.gif'/>" 
 					        			width="17" height="15">
 					        		이 분야 신간 베스트</h1>
 					        </td>
         					<td>
         						<input id="txtBrowse-Search-Category" 
-        							type="text" class="br2010_fbox watermark">
+        							type="text" class="br2010_fbox watermark"
+        							placeholder="분야 내 검색"
+        							value=${param.searchKeyword }>
         					</td>
         					<td>
         						<img id="btnBrowse-Search-Category" 
-        						src="//image.aladin.co.kr/img/browse/2010/bu_search.gif" 
+        						src="//image.aladin.co.kr/img/browse/2010/bu_search.gif"
         						alt="검색" style="cursor: pointer;">
         					</td>
     					</tr>
@@ -377,7 +392,7 @@ td.bookBestContent {
 														<div class="ss_book_list">
 															<ul class="book">
 																<li><a href=
-																	"<c:url value='#'/>" class="bo3">
+																	"<c:url value='#'/>" class="bo3" style="color:#3399FF">
 																		<b>${map['title'] }</b>
 																	</a>&nbsp;</li>
 																<li><a href=
@@ -388,12 +403,16 @@ td.bookBestContent {
 																		| ${map['pubDate'] }</li>
 																<li><span class="">${map['priceStandard'] }</span>원 → <span
 																		class="ss_p2"><b>
-																		<span class="">
-																		${map['priceStandard']-(map['priceStandard']/100*10) }</span>원</b></span>
+																		<span style="color:red">
+																		<fmt:formatNumber value=
+																		"${map['priceStandard']-(map['priceStandard']/100*10) }"/>
+																		</span>원</b></span>
 																	(<span class="ss_p">10%</span>할인), 마일리지 <span
-																		class="ss_p">250</span>원 (<span class="ss_p">5%</span>
-																	적립)</li>
-																<li>세일즈포인트 :<b> 1,210</b></li>
+																		class="ss_p">
+																		<fmt:formatNumber value="${map['priceStandard']/100*5}"/>
+																		</span>원 
+																		(<span class="ss_p" style="color:red">5</span>
+																	% 적립)</li>
 															</ul>
 														</div>
 														<div class="ss_book_list">
@@ -414,18 +433,18 @@ td.bookBestContent {
 													<td width="80" valign="top">
 														<div class="book_Rfloat_02">
 															<div class="button_search_cart_new">
-																<a href="/shop/wbasket.aspx?AddBook=K692636032"
+																<a href="/shop/wbasket.aspx?AddBook=K692636032" style="color:white"
 																	onclick="return SafeBasket_ListOneAddByAjax('K692636032', document.getElementById('divBasketAddResult_K692636032'), {top: 0, left: -55});">장바구니</a>
 															</div>
 															<div id="divBasketAddResult_K692636032"></div>
 															<div class="button_search_buyitnow_new">
-																<a href="https://www.aladin.co.kr/order/worder_chk_order.aspx?CartType=4&amp;ISBN=K692636032"
+																<a href="https://www.aladin.co.kr/order/worder_chk_order.aspx?CartType=4&amp;ISBN=K692636032" style="color:white"
 																	onclick="return QuickBuyCheck('K692636032');">바로구매</a>
 															</div>
 															<div class="Search3_Result_SafeBasketArea"
 																isbn="K692636032" style="position: relative;">
 																<div class="button_search_storage">
-																	<a href="javascript:void(0);">즐겨찾기 <img alt=""
+																	<a href="javascript:void(0);" style="color:#3399FF">즐겨찾기 <img alt=""
 																		src="//image.aladin.co.kr/img/search/btn_bg5_arrow.png"></a>
 																</div>
 															</div>

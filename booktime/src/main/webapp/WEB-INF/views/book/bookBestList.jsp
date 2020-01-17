@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@	taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <div class="top_best">
 	<!-- 신간베스트 for -->
 	<c:forEach var="map" items="${specialList }" end="3">
@@ -16,10 +17,15 @@
    										<div style="position:relative; text-align:center; font-size:1em;">
    											<a href="#"><img src="${map['cover'] }"></a>
    										</div><br> 
-   										<a href="#" class="bk66">${map['title'] }</a>
+   										<a href="#" class="bk66" style="color:#3399FF">${map['title'] }</a>
    										<br> <span class="author">${map['author'] } 지음 | ${MAP['publisher'] }</span>
-   										<br> <span class="br2010_p2">4,500</span>원(<span class="br2010_p2">10%</span>할인)/
-       										<img src="//www.aladin.co.kr/ucl_editor/img_secur/icon/m.gif" align="absmiddle">250원
+   										<br> <span class="br2010_p2" style="color:red">
+   										<fmt:formatNumber value="${map['priceStandard']-(map['priceStandard']/100*10)}"/>
+   										</span>원
+   										(<span class="br2010_p2" style="color:red">10</span>% 할인)/
+       										<img class="wonImage" src='<c:url value="/resources/images/m.gif"/>' 
+       										align="absmiddle"> 
+       										<fmt:formatNumber value="${map['priceStandard']/100*5}"/>원
 			        				</td>
 			        				<td width="10">&nbsp;</td>
 	       						</tr>
