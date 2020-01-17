@@ -1,6 +1,7 @@
 package com.ez.booktime.favorite.model;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class FavoriteVO {
 	private int favoriteNo;
@@ -13,6 +14,8 @@ public class FavoriteVO {
 	private int price;
 	private int qty;
 	private Timestamp regdate;
+	
+	private List<FavoriteVO> voList;
 	
 	public int getFavoriteNo() {
 		return favoriteNo;
@@ -75,10 +78,20 @@ public class FavoriteVO {
 		this.regdate = regdate;
 	}
 	
+	
+	
+	public List<FavoriteVO> getVoList() {
+		return voList;
+	}
+	public void setVoList(List<FavoriteVO> voList) {
+		this.voList = voList;
+	}
 	@Override
 	public String toString() {
 		return "FavoriteVO [favoriteNo=" + favoriteNo + ", userid=" + userid + ", group=" + group + ", isbn=" + isbn
 				+ ", bookName=" + bookName + ", writer=" + writer + ", publisher=" + publisher + ", price=" + price
-				+ ", qty=" + qty + ", regdate=" + regdate + "]";
+				+ ", qty=" + qty + ", regdate=" + regdate + ", voList=" + voList + "]";
 	}
+	
+	
 }

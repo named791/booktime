@@ -29,7 +29,7 @@ public class UserMybatis implements UserDAO{
 	}
 	
 	@Override
-	public String selectByUserid(String userid) {
+	public UserVO selectByUserid(String userid) {
 		return sqlSession.selectOne(namespace+"selectByUserid", userid);
 	}
 	

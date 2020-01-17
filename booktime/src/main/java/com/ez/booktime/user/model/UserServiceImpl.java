@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	@Override
-	public String selectByUserid(String userid) {
+	public UserVO selectByUserid(String userid) {
 		return userDao.selectByUserid(userid);
 	}
 }

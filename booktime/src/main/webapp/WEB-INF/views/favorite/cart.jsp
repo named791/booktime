@@ -31,6 +31,14 @@
 			
 			
 		});
+		
+		$("#selPayment, #allPayment").click(function(){
+			$("input[name=favoriteNo]").remove();
+			
+			$("form[name=frmQty]")
+			.attr("action", "<c:url value='/payment/paymentSheetSend.do'/>").submit();
+		});
+		
 	});
 	
 	function deleteFavorite(favoriteNo) {
@@ -87,16 +95,24 @@
 						<tr><td colspan="5" class="text-center">장바구니에 등록된 상품이 없습니다.</td></tr>
 					</c:if>
 					<c:if test="${!empty list }">
+<form name="frmQty" method="post"
+		action="<c:url value='/favorite/updateCart.do'/>">
 						<!-- 반복 시작 -->
 						<c:forEach var="i" begin="0" end="${fn:length(list)-1}">
 							<tr>
 								<th scope="row">
 									<div class="p-2">
-										<input type="checkbox" id="ck${i}" name="favoritNo" value="${list[i].favoriteNo }" class="align-middle mr-3">
+										<input type="checkbox" id="ck${i}" name="voList[${i}].favoriteNo" value="${list[i].favoriteNo }" class="align-middle mr-3">
+										<input type="hidden" name="voList[${i }].group" value="${list[i].group }">
+										<input type="hidden" name="voList[${i }].isbn" value="${list[i].isbn }">
+										<input type="hidden" name="voList[${i }].bookName" value="${list[i].bookName }">
+										<input type="hidden" name="voList[${i }].price" value="${list[i].price }">
+										<input type="hidden" name="voList[${i }].qty" value="${list[i].qty }">
+										
 										<label for="ck${i}"><!-- 번호매기기 -->
 											<img
 												src="${infoList[i]['cover']}"
-												alt="" width="70" class="img-fluid rounded shadow-sm">
+												alt="${list[i].bookName}" width="70" class="img-fluid rounded shadow-sm">
 										</label>
 										
 										<div class="ml-3 d-inline-block align-middle">
@@ -126,15 +142,13 @@
 								</td>
 								
 								<td class="align-middle text-center">
-									<form name="frmQty" method="post"
-										action="<c:url value='/favorite/updateCart.do'/>">
+									
 										<input type="hidden" name="favoriteNo" value="${list[i].favoriteNo }">
 										<div class="input-group">
 											<input type="number" min="1" name="qty"
 												value="${list[i].qty }" class="text-right" style="width: 50px;">
 											&nbsp;<input type="submit" value="수정" class="btn btn-info btn-sm">
 										</div>
-									</form>
 								</td>
 								
 								<td class="align-middle text-center">
@@ -148,6 +162,7 @@
 								</td>
 							</tr>
 						</c:forEach>
+</form>
 						<!-- 반복 끝 -->
 					</c:if>
 					
@@ -159,7 +174,8 @@
 					<input type="button" id="selAll" value="전체선택" class="btn btn-info">
 					<input type="button" id="selOff" value="선택 해제" class="btn btn-light" style="border: 1px solid lightGray;">
 					<input type="button" id="selDel" value="선택한 상품 삭제" class="btn btn-light" style="border: 1px solid lightGray;">
-					<input type="button" id="cart" value="선택한 상품  구매하기" class="btn btn-info">
+					<input type="button" id="selPayment" value="선택한 상품  구매하기" class="btn btn-info">
+					<input type="button" id="allPayment" value="상품  구매하기" class="btn btn-danger">
 			</div>
 			
 	</div>
