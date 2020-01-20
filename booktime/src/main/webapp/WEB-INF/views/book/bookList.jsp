@@ -256,7 +256,7 @@ a{
 							<tr>
 								<td height="19">
 									<div class="search_t_g" style="float: left;">
-										이 분야에 <strong>${list.totalResults }</strong>개의 상품이 있습니다.
+										이 분야에 <strong></strong>개의 상품이 있습니다.
 									</div>
 								</td>
 							</tr>
