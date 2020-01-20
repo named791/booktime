@@ -9,7 +9,6 @@ import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.mortbay.util.ajax.JSON;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +18,12 @@ import org.springframework.stereotype.Component;
 public class AladinAPI {
 	private static final String TTB_KEY = "?ttbkey=ttbstjgh5051633001&";
 	
-	private static final String SEARCH_TITLE = "QueryType=title&";
-	private static final String SEARCH_AUTHOR = "QueryType=Author&";
-	private static final String SEARCH_PUBLISHER = "QueryType=Publisher&";
+	public static final String SEARCH_TITLE = "QueryType=Title&";
+	public static final String SEARCH_AUTHOR = "QueryType=Author&";
+	public static final String SEARCH_PUBLISHER = "QueryType=Publisher&";
 	
-	private static final String LIST_NEW_ALL = "QueryType=ItemNewAll&";
-	private static final String LIST_BEST_SELLER = "QueryType=Bestseller&";
+	public static final String LIST_NEW_ALL = "QueryType=ItemNewAll&";
+	public static final String LIST_BEST_SELLER = "QueryType=Bestseller&";
 	
 	private static final Logger logger
 		=LoggerFactory.getLogger(AladinAPI.class);
@@ -58,7 +57,7 @@ public class AladinAPI {
 		//필수
 		String searchUrl = "http://www.aladdin.co.kr/ttb/api/ItemSearch.aspx";
 		
-		String query = "Query="+searchKeyword+"&";	//제목
+		String query = "Query="+URLEncoder.encode(searchKeyword, "UTF-8")+"&";	//제목
 		logger.info("알라딘 검색, 파라미터 searchKeyword={}",searchKeyword);
 		logger.info("파라미터 start={},maxResults={}",start,maxResults);
 		
@@ -74,8 +73,35 @@ public class AladinAPI {
 		return list;
 	}
 	
+	//상품 검색 API
+	//AladinAPI.SEARCH_~ 상수, searchKeyword 검색어, 
+		//start 시작페이지, maxResults 한페이지 출력결과수
+		public List<Map<String, Object>> searchByTitleAndCate( 
+				String searchKeyword, int cateNo, 
+				int start, int maxResults) throws Exception {
+			//필수
+			String searchUrl = "http://www.aladdin.co.kr/ttb/api/ItemSearch.aspx";
+			
+			String categoryId="CategoryId="+cateNo+"&";
+			String query = "Query="+URLEncoder.encode(searchKeyword,"UTF-8")+"&";	//제목
+			logger.info("알라딘 검색, 파라미터 searchKeyword={}",searchKeyword);
+			logger.info("파라미터 start={},maxResults={}",start,maxResults);
+			
+			//url 조립
+			String apiURL = searchUrl+TTB_KEY
+					+SEARCH_TITLE+query
+					+categoryId
+					+options();
+			URL url = new URL(apiURL);
+			logger.info("제목으로 검색하기 URL={}",url);
+			
+			JSONObject jsonObj = util.getJson(url,"get",null);
+			List<Map<String, Object>> list = parse(jsonObj);
+			
+			return list;
+		}
 	
-	private List<Map<String, Object>> parse(JSONObject jsonObj) {
+	public List<Map<String, Object>> parse(JSONObject jsonObj) {
 		JSONArray jsonArr = (JSONArray) jsonObj.get("item");
 		logger.info("검색결과 arrSize={}",jsonArr.size());
 		
@@ -102,6 +128,8 @@ public class AladinAPI {
 	
 			String coverURL = (String)jsonObj.get("cover");
 			map.put("cover", coverURL.replace("/cover/", "/cover500/"));	//표지
+			
+			map.put("totalResults", jsonObj.get("totalResults"));	//총 결과 수
 			
 			//상품 조회 API의 경우 subInfo 담기
 			JSONObject subObj = (JSONObject)jsonObj.get("subInfo");	//부가정보

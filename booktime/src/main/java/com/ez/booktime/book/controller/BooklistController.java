@@ -20,40 +20,46 @@ import com.ez.booktime.controller.Category;
 public class BooklistController {
 	private static final Logger logger
 		= LoggerFactory.getLogger(BooklistController.class);
-	
-	@Autowired
+
+	@Autowired 
 	private AladinAPI aladinApi;
 	
-	/*
-	 * @RequestMapping("/book/bookList.do") public String
-	 * bookList_post(@RequestParam(defaultValue="0") int cateNo, Model model) throws
-	 * Exception { logger.info("카테고리 번호 cateNo={}",cateNo);
-	 * 
-	 * Category category=new Category(); List<Map<String, Object>>
-	 * list=category.categoryFind(cateNo);
-	 * logger.info("카테고리 검색 리스트 크기={}",list.size());
-	 * 
-	 * model.addAttribute("list",list);
-	 * 
-	 * return "book/bookList"; }
-	 */
-	
-	/*
-	@RequestMapping("/book/bookList.do")
-	public String bookList_post(@ModelAttribute SearchVO searchVo,
-			@RequestParam(defaultValue="0") int cateNo, 
-			@RequestParam String title, Model model) throws Exception {
+	@RequestMapping("/book/bookList.do") 
+	public String bookList_post(@RequestParam(defaultValue="0") int cateNo, 
+			Model model) throws Exception { 
 		logger.info("카테고리 번호 cateNo={}",cateNo);
 		
 		Category category=new Category();
 		List<Map<String, Object>> list=category.categoryFind(cateNo);
 		logger.info("카테고리 검색 리스트 크기={}",list.size());
-		
+		  
 		model.addAttribute("list",list);
+		  
+		return "book/bookList"; 
+	}
+	 
+	
+	@RequestMapping("/book/bookList/searchBook.do")
+	public String bookList(@RequestParam(required = false) String searchKeyword
+			, @RequestParam(defaultValue = "0") int cateNo
+			, @RequestParam(defaultValue = "1") int start
+			, Model model) {
+		logger.info("제목으로 리스트 검색, 파라미터 searchKeyword={}, cateNo={}",searchKeyword, cateNo);
+		
+		List<Map<String, Object>> searchBookList = null;
+		try {
+			searchBookList = aladinApi.searchByTitleAndCate(searchKeyword, cateNo, start, 15);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		logger.info("제목 검색 결과 list.size={}",searchBookList.size());
+		
+		model.addAttribute("list", searchBookList);
 		
 		return "book/bookList";
 	}
-	*/
+	
 	
 
 	
@@ -70,4 +76,10 @@ public class BooklistController {
 		
 		return "book/bookBestList";
 	}
+	
+	/*
+	 * @RequestMapping("") public String searchCateBook() {
+	 * 
+	 * }
+	 */
 }

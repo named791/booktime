@@ -32,8 +32,7 @@ public class Category {
 		//카테고리 번호
 		
 		String category = "categoryId="
-		//+cateNo
-		+2551		
+		+cateNo
 		+"&";
 		
 		//신간 전체 List url 조립
@@ -94,7 +93,6 @@ public class Category {
 	
 	public String options() {
 		String cover = "Cover=big&";	//표지 크기
-		String coverSmall = "Cover=Small&";	// 표지 크기
 		String output = "Output=JS&";	//json
 		String version = "Version=20131101";
 		
@@ -105,9 +103,8 @@ public class Category {
 		
 		//카테고리 번호
 		
-		String category = "categoryId="
-		//+cateNo
-		+2551		
+		String category = "CategoryId="
+		+cateNo
 		+"&";
 		
 		//신간 분야별 Special List url 조립
