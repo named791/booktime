@@ -1,6 +1,7 @@
 package com.ez.booktime.api;
 
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -73,31 +74,6 @@ public class AladinAPI {
 		return list;
 	}
 	
-	//상품 검색 API
-		//AladinAPI.SEARCH_~ 상수, searchKeyword 검색어, 
-		//start 시작페이지, maxResults 한페이지 출력결과수
-		public List<Map<String, Object>> searchByCate(String searchType, 
-				String searchKeyword, int CategoryId, 
-				int start, int maxResults) throws Exception {
-			//필수
-			String searchUrl = "http://www.aladdin.co.kr/ttb/api/ItemSearch.aspx";
-			
-			String cateNo="Query="+CategoryId+"&";
-			String query = "Query="+searchKeyword+"&";	//제목
-			logger.info("알라딘 검색, 파라미터 searchKeyword={}",searchKeyword);
-			logger.info("파라미터 start={},maxResults={}",start,maxResults);
-			
-			//url 조립
-			String apiURL = searchUrl+TTB_KEY
-					+searchType+query
-					+options();
-			URL url = new URL(apiURL);
-			
-			JSONObject jsonObj = util.getJson(url,"get",null);
-			List<Map<String, Object>> list = parse(jsonObj);
-			
-			return list;
-		}
 	
 	private List<Map<String, Object>> parse(JSONObject jsonObj) {
 		JSONArray jsonArr = (JSONArray) jsonObj.get("item");
@@ -130,7 +106,7 @@ public class AladinAPI {
 			//상품 조회 API의 경우 subInfo 담기
 			JSONObject subObj = (JSONObject)jsonObj.get("subInfo");	//부가정보
 			
-			if(subObj!=null) {
+			if(subObj!=null && !subObj.isEmpty()) {
 				String subTitle = (String)subObj.get("subTitle");
 				if(subTitle!=null) {
 					map.put("subTitle", subTitle); //부제
@@ -158,12 +134,6 @@ public class AladinAPI {
 		
 		return list;
 	}
-
-	/*
-	public List<Map<String, Object>> selectList(){
-		
-	}
-	*/
 
 	public String options() {
 		String cover = "Cover=big&";	//표지 크기

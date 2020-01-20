@@ -67,10 +67,7 @@
 		
 		$("#hide").click(function(){
 			$(".favorites").css("filter", "blur(0px)");
-			$("#cover").fadeOut(500, function(){
-				location.reload();
-			});
-			
+			$("#cover").fadeOut(500);
 		});
 		
 		$("#selDel").click(function(){

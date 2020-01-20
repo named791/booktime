@@ -37,29 +37,42 @@ public class PaymentController {
 	
 	@RequestMapping("/paymentSheetSend.do")
 	public String paymentSheetSend(@ModelAttribute FavoriteVO vo
-			, HttpSession session) {
+			, HttpSession session, Model model) {
 		String userid=(String)session.getAttribute("userid");
 		if(userid==null || userid.isEmpty()) {
 			userid = "#"+session.getId();	//비회원
 		}
 		
-		logger.info("선택한 항목 장바구니 넣기 처리 파라미터 vo={}, userid={}",vo, userid);
+		logger.info("선택한 항목만 주문서 작성 파라미터 vo={}, userid={}",vo, userid);
 		
-		List<FavoriteVO> voList = vo.getVoList();
+		List<FavoriteVO> list = vo.getVoList();
 		
-		if(voList!=null && !voList.isEmpty()) {
-			for(FavoriteVO fVo :voList) {
-				if(fVo.getFavoriteNo()!=0) {
-					// 선택하여 구매하기의 경우
-					// 선택된 상품들을 장바구니에 추가하기
-					fVo.setUserid(userid);
-					fVo.setGroup("CART");
-					favoriteservice.insertFavorite(fVo);
-				}
+		List<FavoriteVO> voList = new ArrayList<FavoriteVO>();
+		for(FavoriteVO fVo:list) {
+			if(fVo.getFavoriteNo()!=0) {
+				voList.add(favoriteservice.selectOneFavorite(fVo.getFavoriteNo()));
 			}
 		}
 		
-		return "redirect:/payment/paymentSheet.do";
+		List<Map<String, Object>> infoList = new ArrayList<Map<String,Object>>();
+		for(FavoriteVO fVo : voList) {
+			try {
+				Map<String, Object> info = aladinApi.selectBook(fVo.getIsbn());
+				
+				infoList.add(info);	//세부정보 표지등 가져오기..
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		logger.info("선택된 항목으로 주문서 작성 가져오기 결과 list.size={}",voList.size());
+		
+		model.addAttribute("infoList", infoList);
+		model.addAttribute("list", voList);
+		model.addAttribute("userVo", userService.selectByUserid(userid));
+		
+		return "payment/paymentSheet";
 	}
 	
 	@RequestMapping("/paymentSheet.do")

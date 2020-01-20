@@ -5,12 +5,14 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ez.booktime.api.AladinAPI;
 import com.ez.booktime.common.SearchVO;
 import com.ez.booktime.controller.Category;
 
@@ -18,7 +20,10 @@ import com.ez.booktime.controller.Category;
 public class BooklistController {
 	private static final Logger logger
 		= LoggerFactory.getLogger(BooklistController.class);
-
+	
+	@Autowired
+	private AladinAPI aladinApi;
+	
 	/*
 	 * @RequestMapping("/book/bookList.do") public String
 	 * bookList_post(@RequestParam(defaultValue="0") int cateNo, Model model) throws
@@ -33,6 +38,7 @@ public class BooklistController {
 	 * return "book/bookList"; }
 	 */
 	
+	/*
 	@RequestMapping("/book/bookList.do")
 	public String bookList_post(@ModelAttribute SearchVO searchVo,
 			@RequestParam(defaultValue="0") int cateNo, 
@@ -47,6 +53,9 @@ public class BooklistController {
 		
 		return "book/bookList";
 	}
+	*/
+	
+
 	
 	@RequestMapping("/book/bookBestList.do")
 	public String bestBook(@RequestParam(defaultValue="0")
