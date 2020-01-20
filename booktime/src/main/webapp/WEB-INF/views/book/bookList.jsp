@@ -184,6 +184,10 @@ a{
 				.prop("checked", this.checked);
 		});
 		
+		$("#btnBrowse-Search-Category").click(function(){
+			location.href=
+				"<c:url value='/book/bookList/searchBook.do?cateNo=${param.cateNo}&searchKeyword="+$("#txtBrowse-Search-Category").val()+"'/>";
+		});
 	});
 	
 	function pageFunc(curPage){		
@@ -196,11 +200,11 @@ a{
 <!-- 페이징 처리 관련 form -->
 <form action="<c:url value='/reBoard/list.do'/>" 
 	name="frmPage" method="post">
-	<input type="hidden" name="searchCondition" 
-		value="${param.searchCondition}">
-	<input type="hidden" name="searchKeyword" 
-		value="${param.searchKeyword}">
-	<input type="hidden" name="currentPage" >
+	<input type="text" name="cateNo" 
+		value="${param.cateNo}">
+	<input type="text" name="searchKeyword" 
+		value="${param.searchKeyword }">
+	<input type="hidden" name="start" >
 </form>
 
 <!-- Page Content -->
@@ -215,8 +219,7 @@ a{
     	<!-- Content Column -->
     	<div class="col-lg-10 mt-3">
 	    	<div class="top_div">
-				<table align="right" cellpadding="0" 
-				action="<c:url value='/book/bookList.do'/>">
+				<table align="right" cellpadding="0" >
 				    <tbody>
 				    	<tr>
 					        <td>
@@ -228,7 +231,8 @@ a{
 					        </td>
         					<td>
         						<input id="txtBrowse-Search-Category" 
-        							type="text" class="br2010_fbox watermark"
+        							type="text" name="searchKeyword"
+        							class="br2010_fbox watermark"
         							placeholder="분야 내 검색"
         							value=${param.searchKeyword }>
         					</td>
@@ -243,7 +247,7 @@ a{
 				
 				<!-- 신간베스트 -->
 				<div class="bookBestSection">
-					<c:import url="/book/bookBestList.do"></c:import>	
+					<c:import url="/book/bookBestList.do?cateNo=${param.cateNo }"></c:import>	
 				</div>
 			<!-- 테이블 -->
 				<div class="ss_line5" style="padding-top: 10px;">
@@ -252,7 +256,7 @@ a{
 							<tr>
 								<td height="19">
 									<div class="search_t_g" style="float: left;">
-										이 분야에 <strong>814</strong>개의 상품이 있습니다.
+										이 분야에 <strong>${list.totalResults }</strong>개의 상품이 있습니다.
 									</div>
 								</td>
 							</tr>
@@ -280,14 +284,14 @@ a{
 				</div> -->
 				<div class="divPage">
 					<!-- 이전블럭으로 이동 -->
-					<c:if test="${pagingInfo.firstPage>1 }">	
-						<a href="#" onclick="pageFunc(${pagingInfo.firstPage-1})">
+					<c:if test="${param.start>1 }">	
+						<a href="#" onclick="pageFunc(${param.start})">
 							<img src="<c:url value='/resources/images/first.JPG'/>" alt="이전 블럭으로">
 						</a>
 					</c:if>
 					<!-- 페이지 번호 추가 -->						
 					<!-- [1][2][3][4][5][6][7][8][9][10] -->
-					<c:forEach var="i" begin="${pagingInfo.firstPage }" 
+					<c:forEach var="i" begin="${param.start }" 
 						end="${pagingInfo.lastPage }">		
 						<c:if test="${i==pagingInfo.currentPage }">
 							<span style="color:blue;font-weight: bold">${i}</span>
@@ -341,7 +345,6 @@ a{
 				</div>
 	
 				<!-- 책종류 테이블 -->
-	
 				<div class="ss_book_box">
 					<c:forEach var="map" items="${list }">
 						<table width="100%" class="ss_book_table">
