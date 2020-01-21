@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@include file="../inc/top.jsp"%>
+<!-- <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script> -->
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+
 <style type="text/css">
 	.deliveryInfo{
 		border-top: 1px solid #dee2e6;
@@ -11,6 +14,31 @@
 		text-align: center;
 		padding: 10px;
 		font-weight: bold;
+	}
+	.btInstrument{
+		border: 2px solid #dee2e6;
+		font-weight: bold;
+		transition-duration: 0.5s;
+	}
+	
+	.btInstrument span{
+		vertical-align: super;
+	}
+	
+	.btOn{
+		box-shadow: 0px 0px 5px dodgerblue;
+	    color: white;
+	    background-color: #007bff;
+	    transition-duration: 0.5s;
+	}
+	
+	.btOn img{
+		transition-duration: 0.5s;
+		filter:invert(1);
+	}
+	
+	.btOn:hover{
+		color: white;
 	}
 </style>
 <script type="text/javascript">
@@ -47,6 +75,10 @@
 			}
 		});
 		
+		var IMP = window.IMP;
+		IMP.init("imp86151581");
+		
+		var payOk = false;
 		$("form[name=frmPayment]").submit(function(){
 			if(!$("input[name=customerName]").val()){
 				shake($("input[name=customerName]"));
@@ -66,13 +98,61 @@
 			}else if(!$("input[name=addressDetail]").val()){
 				shake($("input[name=addressDetail]"));
 				return false;
+			}else if(!$("input[name=instrument]").val()){
+				shake($(".instrumentDiv"));
+				return false;
 			}
+			if(!payOk){
+				event.preventDefault();
+			}
+			
+			var orderName = $(".bookName").eq(0).text();
+			if($(".bookName").length>1){
+				orderName += " 외 "+($(".bookName").length-1)+"권";
+			}
+			IMP.request_pay({
+			    pg : 'inicis', // version 1.1.0부터 지원.
+			    pay_method : $("input[name=instrument]").val(),
+			    merchant_uid : 'merchant_' + new Date().getTime(),
+			    name : orderName,
+			    amount : $("input[name=price]").val(),
+			    buyer_email : $("input[name=email1]").val()
+			    	+"@"+$("input[name=email2]").val(),
+			    buyer_name : '${sessionScope.name}',
+			    buyer_tel : $("input[name=hp]").val(),
+			    buyer_addr : $("input[name=newAddress]").val()
+			    	+" "+$("input[name=addressDetail]").val(),
+			    buyer_postcode : $("input[name=zipcode]").val()
+			    /* m_redirect_url : 'https://www.yourdomain.com/payments/complete' */
+			}, function(rsp) {
+			    var msg = "";
+			    
+				if ( rsp.success ) {
+			        msg = '결제가 완료되었습니다.';
+			        msg += '고유ID : ' + rsp.imp_uid;
+			        msg += '상점 거래ID : ' + rsp.merchant_uid;
+			        msg += '결제 금액 : ' + rsp.paid_amount;
+			        msg += '카드 승인번호 : ' + rsp.apply_num;
+			        
+			        if("${sessionScope.userid}"==null){
+			        	$("input[name=nonMember]").val(getOrderDate())	
+			        }
+			        payOk = true;
+			        $("form[name=frmPayment]").submit();
+			    } else {
+			        msg = '결제에 실패하였습니다.';
+			        msg += '에러내용 : ' + rsp.error_msg;
+			        return false;
+			    }
+			    alert(msg);
+			});
 		});
 		
+		
 		var val = $("input[name=price]").val();
-		$("input[name=usePoint]").change(function(){
+		$("input[name=usePoint]").change(function(){	//포인트 적용
 			var price = $("input[name=price]");
-			var limit = ${userVo.mileage};
+			var limit = $("#useFul").val();
 			
 			if($(this).val()>limit){
 				$(this).val($(this).val()-$(this).val());
@@ -81,6 +161,7 @@
 			price.val(val-$(this).val());
 			$("#sum").html(formatNum(val-$(this).val())+"원");
 		});
+		
 		
 		$("select").change(function(){
 			var sel = $("option:selected").val();
@@ -93,9 +174,34 @@
 			$("input[name=email2]").val(sel);
 			
 		});
+		
+		var old = null;
+		$(".btInstrument").click(function(){
+			event.preventDefault();
+			if(old!=null){
+				old.removeClass("btOn");
+			}
+			$(this).addClass("btOn");
+			
+			var instrument = $(this).find("span").text();
+			if(instrument=="휴대폰"){
+				instrument = "phone";
+			}else if(instrument=="실시간 계좌이체"){
+				instrument = "trans";
+			}else if(instrument=="신용카드"){
+				instrument = "card";
+			}else if(instrument=="삼성페이"){
+				instrument = "samsung";
+			}
+			
+			$("input[name=instrument]").val(instrument);
+			
+			old = $(this);
+			
+		});
 	})
 	
-	function setPaymentInfo(){
+	function setPaymentInfo(){	//기존 주소 입력
 		$("input[name=customerName]").val("${sessionScope.name}");
 		$("input[name=hp]").val("${userVo.phone}");
 		$("input[name=email1]").val("${userVo.email1}");
@@ -116,13 +222,13 @@
 		$("input[name=addressDetail]").val("${userVo.addressdetail}");
 	}
 	
-	function hpPattern(hp){
+	function hpPattern(hp){	//전화번호 패턴
 		var exp = /^\d{2,3}-\d{3,4}-\d{4}$/;
 		
 		return exp.test(hp);
 	}
 	
-	function shake(el){
+	function shake(el){	//에러시 애니메이션
 		el.animate({
 			"margin-left": "15px"
 		}, 100,function(){
@@ -133,8 +239,16 @@
 		el.focus();
 	}
 	
-	function formatNum(x) {
+	function formatNum(x) {	//jquery용 숫자 천단위 패턴
 	    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+	
+	function getOrderDate(){ //현재 주문일 코드 생성
+		var today = new Date();
+		var orderDate = today.getFullYear() + "Y" + (today.getMonth()+1) 
+			+ "M" + today.getDate()+"D"+ today.getSeconds()+today.getMilliseconds();
+		
+		return orderDate;
 	}
 </script>
 
@@ -148,7 +262,7 @@
 	
 	<div class="table-responsive">
 		<form name="frmPayment" method="post" class="form-inline"
-					action='<c:url value="/payment/paymentSheet.do"/>'>
+					action='<c:url value="/payment/paymentComplete.do"/>'>
 					
 			<table class="table mb-0" title="즐겨찾기 목록">
 				<thead>
@@ -193,7 +307,7 @@
 											</c:if>
 											
 											<a href="<c:url value='/book/bookDetail.do?ItemId=${list[i].isbn }'/>" 
-													class="text-dark d-inline-block align-middle"><b>${bookName }</b></a>
+													class="text-dark d-inline-block align-middle"><b class="bookName">${bookName }</b></a>
 										</h5>
 										<a href="#"><small class="text-muted font-italic d-block">카테고리 : 도서</small></a>
 									</div>
@@ -217,7 +331,9 @@
 						<td colspan="3" class="text-right">
 							<b>총 상품 금액 :<br>
 							+ 배송비 :<br>
-							<span class="text-danger limit">- 포인트 사용(${userVo.mileage }점 사용가능) : </span><br>
+							<c:if test="${!empty sessionScope.userid }">
+								<span class="text-danger limit">- 포인트 사용(${userVo.mileage }점 사용가능) : </span><br>
+							</c:if>
 							<span style="font-size: 1.5em;">총 결제 금액 :</span>
 							</b>
 							
@@ -230,14 +346,16 @@
 									<c:set var="sum" value="${sum+2500}"/>
 								</c:if>
 								<br>
-								<span class="text-danger">
-								<input type="number" min="0" max="${userVo.mileage }"
-									value="0" class="form-control text-right pr-0 text-danger"
-									name="usePoint" style="width: 80px;height: 16px;" step="10">원</span><br>
+								<c:if test="${!empty sessionScope.userid }">
+									<span class="text-danger">
+									<input type="number" min="0" max="${userVo.mileage }"
+										value="0" class="form-control text-right pr-0 text-danger"
+										name="usePoint" style="width: 80px;height: 16px;" step="10">원</span><br>
+								</c:if>
 								<span style="font-size: 1.5em;" id="sum">
 									<fmt:formatNumber value="${sum}" pattern="#,###"/>원
 								</span>
-								<input type="hidden" value="${sum}" name="price">
+								<input type="text" value="${sum}" name="price">
 							</b>
 						</td>
 					</tr>
@@ -248,13 +366,15 @@
 			<c:if test="${!empty list}">
 				<div class="container">
 					<h3><i class="fa fa-truck"></i> 배송지 정보</h3>
-					<div class="row">
-						<div class="deliveryInfo header col-md-3">배송지 선택</div>
-						<div class="deliveryInfo col-md-9 form-group">
-							<label><input type="radio" name="ck" checked="checked" value="1">회원정보</label>&nbsp;
-							<label><input type="radio" name="ck" value="2">새로운 주소</label>
+					<c:if test="${!empty sessionScope.userid }">
+						<div class="row">
+							<div class="deliveryInfo header col-md-3">배송지 선택</div>
+							<div class="deliveryInfo col-md-9 form-group">
+								<label><input type="radio" name="ck" checked="checked" value="1">회원정보</label>&nbsp;
+								<label><input type="radio" name="ck" value="2">새로운 주소</label>
+							</div>
 						</div>
-					</div>
+					</c:if>
 					<div class="row">
 						<div class="deliveryInfo header col-md-3">수령인</div>
 						<div class="deliveryInfo col-md-9">
@@ -299,13 +419,40 @@
 								placeholder="예)부재시 경비실에 맡겨주세요.">
 						</div>
 					</div>
-			
-					<div class="text-center my-5">
-						<a href="<c:url value="/favorite/cart.do"/>" class="btn btn-light" style="border: 1px solid lightGray;">장바구니로 가기</a>
-						<input type="submit" value="결제하기" class="btn btn-primary">
-					</div>
+					
 				</div>
+				
+				<hr class="mt-4" style="border: 3px solid lightGray;width: 100%;">
+				<div class="col-md-3">
+					<h3><i class="fa fa-won-sign"></i> 결제수단</h3>
+				</div>
+				<div class="col-md-8 text-center instrumentDiv">
+					<a href="#" class="btn btInstrument">
+						<i class="fa fa-mobile-alt fa-2x"></i> <span>휴대폰</span>
+					</a>
+					<a href="#" class="btn btInstrument">
+						<i class="fa fa-money-check-alt fa-2x"></i> <span>실시간 계좌이체</span>
+					</a>
+					<a href="#" class="btn btInstrument align-middle">
+						<i class="fa fa-credit-card fa-2x"></i> <span>신용카드</span>
+					</a>
+					<a href="#" class="btn btInstrument">
+						<img src="<c:url value="/resources/images/icons/samsungPayBlack.png"/>"
+							width="35px;"> <span style="vertical-align: middle;">삼성페이</span>
+					</a>
+					<input type="hidden" name="instrument">
+				</div>
+				
+				<hr class="mt-3" style="border: 3px solid lightGray;width: 100%;">
+				<div class="text-center my-5" style="width: 100%;">
+					<a href="<c:url value="/favorite/cart.do"/>" class="btn btn-light" style="border: 1px solid lightGray;">장바구니로 가기</a>
+					<input type="submit" value="결제하기" class="btn btn-primary">
+				</div>
+				
+				<input type="hidden" name="nonMember">
+				<input type="hidden" id="useFul" value="${userVo.mileage }">
 			</c:if>
+			
 			<c:if test="${empty list }">
 				<div class="text-center my-5" style="width: 100%">
 					<a href="<c:url value="#"/>" class="btn btn-light" style="border: 1px solid lightGray;">책 둘러보기</a>
