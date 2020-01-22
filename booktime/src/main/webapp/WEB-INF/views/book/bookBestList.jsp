@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@	taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <div class="top_best">
 	<!-- 신간베스트 for -->
 	<c:forEach var="map" items="${specialList }" end="3">
@@ -15,13 +16,16 @@
 								<tr>
 									<td class="bookBestContent" width="172" valign="top" style="text-align:center;">
    										<div style="position:relative; text-align:center; font-size:1em;">
-   											<a href="#"><img src="${map['cover'] }"></a>
+   											<a href='<c:url value="/book/bookDetail.do?ItemId=${map['isbn13'] }"/>'>
+   											<img src="${map['cover'] }"></a>
    										</div><br> 
-   										<a href="#" class="bk66" style="color:#3399FF">${map['title'] }</a>
-   										<br> <span class="author">${map['author'] } 지음 | ${MAP['publisher'] }</span>
-   										<br> <span class="br2010_p2" style="color:red">
-   										<fmt:formatNumber value="${map['priceStandard']-(map['priceStandard']/100*10)}"/>
-   										</span>원
+   										<a href='<c:url value="/book/bookDetail.do?ItemId=${map['isbn13'] }"/>' 
+   										class="bk66" style="color:#3399FF">${map['title'] }</a>
+   										<br> <span class="author">
+   										${fn:substring(map["author"], 0, fn:indexOf(map["author"], "("))} 
+   										지음 | ${MAP['publisher'] }</span>
+   										<br> <span class="br2010_p2" style="color:red;"  >
+   										${map['priceSales'] }</span>원
    										(<span class="br2010_p2" style="color:red">10</span>% 할인)/
        										<img class="wonImage" src='<c:url value="/resources/images/m.gif"/>' 
        										align="absmiddle"> 
