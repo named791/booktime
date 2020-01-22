@@ -1,5 +1,6 @@
 package com.ez.booktime.payment.controller;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -13,10 +14,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ez.booktime.api.AladinAPI;
 import com.ez.booktime.favorite.model.FavoriteService;
 import com.ez.booktime.favorite.model.FavoriteVO;
+import com.ez.booktime.payment.model.PaymentDetailVO;
+import com.ez.booktime.payment.model.PaymentService;
+import com.ez.booktime.payment.model.PaymentVO;
 import com.ez.booktime.user.model.UserService;
 import com.ez.booktime.user.model.UserVO;
 
@@ -34,6 +39,9 @@ public class PaymentController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private PaymentService paymentService;
 	
 	@RequestMapping("/paymentSheetSend.do")
 	public String paymentSheetSend(@ModelAttribute FavoriteVO vo
@@ -110,5 +118,54 @@ public class PaymentController {
 		model.addAttribute("userVo", userService.selectByUserid(userid));
 	}
 	
+	@RequestMapping("/directPayment.do")
+	public String directPayment(@ModelAttribute FavoriteVO vo
+			, HttpSession session) {
+		String userid = (String)session.getAttribute("userid");
+		vo.setUserid(userid);
+		logger.info("디테일페이지에서 구매하기 처리 파라미터 vo={}");
+		
+		int cnt = favoriteservice.insertFavorite(vo);
+		logger.info("주문서 페이지로 넘어가기전 장바구니에 넣기 결과 cnt={}",cnt);
+		
+		return "redirect:/payment/paymentSheet.do";
+	}
 	
+	
+	@RequestMapping("/paymentProcess.do")
+	public String paymentProcess(@ModelAttribute PaymentVO vo
+			, HttpSession session, Model model) {
+		String userid = (String)session.getAttribute("userid");
+		vo.setUserid(userid);
+		
+		logger.info("주문처리 파라미터 vo={}",vo);
+		
+		int cnt = paymentService.insertPayment(vo);
+		if(cnt<0) {
+			model.addAttribute("msg", "주문이 비정상적으로 처리되었습니다.");
+			model.addAttribute("url", "/favorite/cart.do");
+			
+			return "common/message";
+		}
+		
+		return "redirect:/payment/paymentResult.do";
+	}
+	
+	@RequestMapping("/paymentResult.do")
+	public String paymentResult(HttpSession session
+			,@RequestParam String payNo
+			,@RequestParam String nonMember
+			, Model model) {
+		String userid = (String)session.getAttribute("userid");
+		
+		if(payNo==null || payNo.trim().isEmpty() 
+				&& nonMember==null || nonMember.trim().isEmpty()) {
+			model.addAttribute("msg", "잘못된 URL입니다.");
+			model.addAttribute("url", "/index.do");
+			
+			return "common/message";
+		}//아직 조회전
+		
+		return "payment/paymentResult";
+	}
 }
