@@ -10,4 +10,6 @@ public interface UserService {
 	boolean chkUserid(String userid);
 	int userGetPwd(String userid, String pwd);
 	UserVO selectByUserid(String userid);
+	int deleteUser(String userid, String withdrawalreason);
+	String selectPWD(String userid);
 }
