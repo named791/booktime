@@ -1,7 +1,7 @@
 -- 멤버
 drop table "USER" cascade constraints;
 CREATE TABLE "USER" (
-	userid           varchar2(30)  NOT NULL, -- 아이디
+	userid           varchar2(60)  NOT NULL, -- 아이디
 	pwd              varchar2(60)  NOT NULL, -- 비밀번호
 	name             varchar2(30)  NOT NULL, -- 이름
 	birth            varchar2(30)  NOT NULL, -- 생년월일
@@ -9,22 +9,38 @@ CREATE TABLE "USER" (
 	grade            varchar2(20)  NOT NULL, -- 등급
 	email1           varchar2(100) NOT NULL, -- 이메일1
 	email2           varchar2(100) NOT NULL, -- 이메일2
-	emailAgree       char(3)       NULL,     -- 메일수신동의
+	emailAgree       char(3)       default 'N' NULL,     -- 메일수신동의
 	zipcode          varchar2(20)  NOT NULL, -- 우편번호
 	parselAddress    varchar2(300) NOT NULL, -- 지번주소
 	newAddress       varchar2(300) NOT NULL, -- 도로명주소
 	addressDetail    varchar2(300) NOT NULL, -- 상세주소
 	phone            varchar2(30)  NULL,     -- 전화번호
-	mileage          number        NULL,     -- 마일리지
+	mileage          number        default 0 NULL,     -- 마일리지
 	withdrawalDate   date          NULL,     -- 탈퇴일
-	withdrawalReason date          NULL      -- 탈퇴사유
+	withdrawalReason varchar2(1000)         NULL      -- 탈퇴사유
 );
 
-drop sequence user_seq;
-create sequence user_seq
-increment by 1
-start with 1
-nocache;
+--테스트용 일반유저
+insert into "USER"(userid, pwd, name, birth, gender, grade
+    , email1, email2, emailAgree
+    , zipcode, parselAddress, newAddress, addressDetail
+    , phone)
+values('test', '123', '김테스트', '1994-06-13', 'M', 'M1'
+    , 'zxczxc613' ,'naver.com', 'Y'
+    , '15369', '경기도 안산시 단원구 선부1동', '경기도 안산시 단원구 화정로 9', '100동 100호'
+    , '010-9999-0000');
+    
+--테스트용 관리자
+insert into "USER"(userid, pwd, name, birth, gender, grade
+    , email1, email2, emailAgree
+    , zipcode, parselAddress, newAddress, addressDetail
+    , phone)
+values('admin', '123', '킹김', '1994-05-05', 'F', 'A'
+    , 'admin123' ,'booktime.do', 'N'
+    , '15369', '경기도 안산시 단원구 선부1동', '경기도 안산시 단원구 화정로 9', '100동 100호'
+    , '010-0000-1111');
+
+select * from "USER";
 
 -- 멤버 기본키
 CREATE UNIQUE INDEX PK_USER
@@ -44,7 +60,7 @@ ALTER TABLE "USER"
 drop table board cascade constraints;
 CREATE TABLE BOARD (
 	boardNo          number        NOT NULL, -- 게시글번호
-	userid           varchar2(30)  not NULL,     -- 아이디
+	userid           varchar2(60)  not NULL,     -- 아이디
 	category         varchar2(30)  NOT NULL, -- 카테고리
 	title            varchar2(60)  NOT NULL, -- 제목
 	content          CLOB          NULL,     -- 내용
@@ -82,7 +98,7 @@ drop table reply cascade constraints;
 CREATE TABLE REPLY (
 	replyNo         number       NOT NULL, -- 댓글번호
 	boardNo         number       NULL,     -- 게시글번호
-	userid          varchar2(30) NULL,     -- 아이디
+	userid          varchar2(60) NULL,     -- 아이디
 	replyContent    CLOB         NOT NULL, -- 내용
 	replyRegdate    date         default sysdate,     -- 작성시간
 	groupNo         number       NOT NULL, -- 그룹번호
@@ -114,13 +130,15 @@ ALTER TABLE REPLY
 drop table favorite cascade constraints;
 CREATE TABLE FAVORITE (
 	favoriteNo number        NOT NULL, -- 찜 번호
-	userid     varchar2(30)  NOT NULL, -- 아이디
+	userid     varchar2(60)  NOT NULL, -- 아이디
 	"group"      varchar2(30)  NOT NULL, -- 분류
 	isbn       varchar2(90)  NOT NULL, -- 책번호
-	bookName   varchar2(100) NOT NULL, -- 책이름
-	writer     varchar2(30)  NOT NULL, -- 저자
+	bookName   varchar2(300) NOT NULL, -- 책이름
+	writer     varchar2(300)  NOT NULL, -- 저자
 	publisher  varchar2(50)  NOT NULL, -- 출판사
-	price      number        NOT NULL  -- 책가격
+	price      number        NOT NULL,  -- 책가격
+	qty         number,  --수량
+	regdate     date    default sysdate
 );
 
 drop sequence favorite_seq;
@@ -147,9 +165,10 @@ ALTER TABLE FAVORITE
 drop table BOOKGRADE cascade constraints;
 CREATE TABLE BOOKGRADE (
 	bookGradeNo number       NOT NULL, -- 평점번호
-	userid      varchar2(30) NULL,     -- 아이디
+	userid      varchar2(60) NULL,     -- 아이디
 	isbn        varchar2(90) NOT NULL, -- 책번호
-	bookGrade   number       NOT NULL  -- 평점
+	bookGrade   number       NOT NULL,  -- 평점
+	boardNo     number       NULL   --게시글 번호
 );
 
 drop sequence bookgrade_seq;
@@ -176,7 +195,7 @@ ALTER TABLE BOOKGRADE
 drop table PAYMENT cascade constraints;
 CREATE TABLE PAYMENT (
 	payNo         number        NOT NULL, -- 결제 번호
-	userid        varchar2(30)  NULL, -- 아이디
+	userid        varchar2(60)  NULL, -- 아이디
 	email1        varchar2(100) not null,   --이메일
 	email2        varchar2(100) not null,
 	nonMember     number        null,     --비회원용 식별번호
@@ -189,7 +208,10 @@ CREATE TABLE PAYMENT (
 	parselAddress varchar2(300) NOT NULL, -- 지번주소
 	newAddress    varchar2(300) NOT NULL, -- 도로명주소
 	addressDetail varchar2(300) NOT NULL, -- 상세주소
-	progress      varchar2(60)  NOT NULL  -- 진행상태
+	progress      varchar2(60)  NOT NULL,  -- 진행상태
+	customerName    varchar2(30) not NULL,
+	message       varchar2(300),
+	hp            varchar2(60)
 );
 
 drop sequence payment_seq;
@@ -216,7 +238,7 @@ ALTER TABLE PAYMENT
 drop table MILEAGE cascade constraints;
 CREATE TABLE MILEAGE (
 	mileageNo   number       NOT NULL, -- 마일리지번호
-	userid      varchar2(30) NOT NULL, -- 아이디
+	userid      varchar2(60) NOT NULL, -- 아이디
 	savingDate  date         default sysdate,     -- 적립일
 	savingPoint number       NULL,     -- 적립포인트
 	payNo       number       NULL,     -- 결제 번호
@@ -250,10 +272,10 @@ CREATE TABLE RECOMMENDBOOK (
 	recomBookNo number        NOT NULL, -- 추천도서번호
 	isbn        number        NOT NULL, -- 책번호
 	cateCode    number        NOT NULL,     -- 카테고리 번호
-	bookName    varchar2(100) NOT NULL, -- 책이름
+	bookName    varchar2(300) NOT NULL, -- 책이름
 	price       number        NOT NULL, -- 가격
 	publisher   varchar2(50)  NOT NULL, -- 출판사
-	writer      varchar2(30)  NOT NULL, -- 저자
+	writer      varchar2(300)  NOT NULL, -- 저자
 	managerid   varchar2(30)  NULL  -- 관리자아이디
 );
 
@@ -282,7 +304,7 @@ drop table PAYMENTDETAIL cascade constraints;
 CREATE TABLE PAYMENTDETAIL (
 	payNo    number        NOT NULL, -- 결제 번호
 	isbn     varchar2(90)  NOT NULL, -- 책번호
-	bookName varchar2(100) NOT NULL, -- 책이름
+	bookName varchar2(300) NOT NULL, -- 책이름
 	qty      number        NULL,     -- 수량
 	price    number        NOT NULL  -- 권당가격
 );
@@ -297,8 +319,9 @@ nocache;
 drop table BOOKCATEGORY cascade constraints;
 CREATE TABLE BOOKCATEGORY (
 	cateCode number       NOT NULL, -- 카테고리 번호
-	cateName varchar2(60) NOT NULL, -- 카테고리명
-	regdate  date         default sysdate      -- 등록일
+	cateName varchar2(100) NOT NULL, -- 카테고리명
+	mall varchar2(60)   not null,
+	orderNo number  not Null
 );
 
 drop sequence bookcategory_seq;
@@ -354,6 +377,7 @@ ALTER TABLE REPLY
 			userid -- 아이디
 		);
 
+/*
 -- 즐겨찾기
 ALTER TABLE FAVORITE
 	ADD
@@ -364,6 +388,7 @@ ALTER TABLE FAVORITE
 		REFERENCES "USER" ( -- 멤버
 			userid -- 아이디
 		);
+*/
 
 -- 평점
 ALTER TABLE BOOKGRADE
@@ -375,6 +400,18 @@ ALTER TABLE BOOKGRADE
 		REFERENCES "USER" ( -- 멤버
 			userid -- 아이디
 		);
+
+-- 평점
+ALTER TABLE bookgrade
+	ADD
+		CONSTRAINT FK_BOARD_TO_BOOKGRADE -- 게시판 -> 평점 
+		FOREIGN KEY (
+			boardNo -- 게시글번호
+		)
+		REFERENCES BOARD ( -- 게시판
+			boardNo -- 게시글번호
+		);
+
 
 -- 주문
 ALTER TABLE PAYMENT
@@ -430,3 +467,4 @@ ALTER TABLE PAYMENTDETAIL
 		REFERENCES PAYMENT ( -- 주문
 			payNo -- 결제 번호
 		);
+

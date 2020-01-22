@@ -17,7 +17,7 @@ CREATE TABLE "USER" (
 	phone            varchar2(30)  NULL,     -- 전화번호
 	mileage          number        default 0 NULL,     -- 마일리지
 	withdrawalDate   date          NULL,     -- 탈퇴일
-	withdrawalReason date          NULL      -- 탈퇴사유
+	withdrawalReason varchar2(1000)         NULL      -- 탈퇴사유
 );
 
 --테스트용 일반유저

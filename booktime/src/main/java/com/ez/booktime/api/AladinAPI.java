@@ -73,6 +73,32 @@ public class AladinAPI {
 		return list;
 	}
 	
+	//상품 검색 API
+		//AladinAPI.SEARCH_~ 상수, searchKeyword 검색어, 
+		//start 시작페이지, maxResults 한페이지 출력결과수
+		public List<Map<String, Object>> searchByCate(String searchType, 
+				String searchKeyword, int CategoryId, 
+				int start, int maxResults) throws Exception {
+			//필수
+			String searchUrl = "http://www.aladdin.co.kr/ttb/api/ItemSearch.aspx";
+			
+			String cateNo="Query="+CategoryId+"&";
+			String query = "Query="+searchKeyword+"&";	//제목
+			logger.info("알라딘 검색, 파라미터 searchKeyword={}",searchKeyword);
+			logger.info("파라미터 start={},maxResults={}",start,maxResults);
+			
+			//url 조립
+			String apiURL = searchUrl+TTB_KEY
+					+searchType+query
+					+options();
+			URL url = new URL(apiURL);
+			
+			JSONObject jsonObj = util.getJson(url,"get",null);
+			List<Map<String, Object>> list = parse(jsonObj);
+			
+			return list;
+		}
+	
 	private List<Map<String, Object>> parse(JSONObject jsonObj) {
 		JSONArray jsonArr = (JSONArray) jsonObj.get("item");
 		logger.info("검색결과 arrSize={}",jsonArr.size());

@@ -75,7 +75,6 @@
           <div class="card-footer small text-muted">마지막 업데이트 11:59 PM</div>
         </div>
 
-      </div>
       <!-- /.container-fluid -->
 
      <%@ include file="inc/bottom.jsp" %>

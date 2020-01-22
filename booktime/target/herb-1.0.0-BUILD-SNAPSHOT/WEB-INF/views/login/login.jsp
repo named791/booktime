@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@include file="../inc/top.jsp" %> 
 <!DOCTYPE html>
 <html>
@@ -25,13 +26,30 @@
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/util.css">
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/main.css">
 <!--===============================================================================================-->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$("#btn").click(function(){
+			if($("#userid").val().length<1){
+				alert("아이디를 입력하세요");
+				event.preventDefault();
+				$("#userid").focus();
+			}else if($("#pwd").val().length<1){
+				alert("비밀번호를 입력하세요");
+				event.preventDefault();
+				$("#pwd").focus();
+			}
+		});
+	});
+</script>
 </head>
 <body>
 	
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100 p-t-50 p-b-90">
-				<form class="login100-form validate-form flex-sb flex-w">
+				<form class="login100-form validate-form flex-sb flex-w" method="post"
+					action="<c:url value='/login/login.do'/>">
 					<span class="login100-form-title p-b-51">
 						로그인
 					</span>
@@ -45,23 +63,25 @@
 						</div>
 					
 					<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
-						<input class="input100" type="text" name="username" placeholder="아이디">
+						<input id="userid" class="input100" type="text" name="userid" placeholder="아이디"
+							value="${cookie.ck_userid.value }">
 						<span class="focus-input100"></span>
 					</div>
 					
 					
 					<div class="wrap-input100 validate-input m-b-16" data-validate = "Password is required">
-						<input class="input100" type="password" name="pass" placeholder="비밀번호">
+						<input id="pwd" class="input100" type="password" name="pwd" placeholder="비밀번호">
 						<span class="focus-input100"></span>
 					</div>
 					
 					<div class="flex-sb-m w-full p-t-3 p-b-24">
-						<div class="contact100-form-checkbox">
-							<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
-							<label class="label-checkbox100" for="ckb1">
-								아이디 저장하기
-							</label>
-						</div>
+						<div class="form-group form-check">
+						    <input name="idSave" type="checkbox" class="form-check-input" id="idSave"
+						    	<c:if test="${!empty cookie.c_userid }">
+						    		checked
+						    	</c:if>>
+						    <label class="form-check-label" for="idSave">아이디 저장하기</label>
+						 </div>
 
 						<div>
 							<a href="<c:url value='/login/searchID.do'/>" class="txt1">
@@ -74,7 +94,7 @@
 					</div>
 
 					<div class="container-login100-form-btn m-t-17">
-						<button class="login100-form-btn">
+						<button id="btn" class="login100-form-btn">
 							로그인
 						</button>
 					</div>

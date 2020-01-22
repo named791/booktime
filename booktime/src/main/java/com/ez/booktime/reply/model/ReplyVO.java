@@ -2,16 +2,21 @@ package com.ez.booktime.reply.model;
 
 import java.sql.Timestamp;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.ez.booktime.freeBoard.model.FreeBoardVO;
 
-public class ReplyVO extends FreeBoardVO{
+public class ReplyVO{
 	private int replyNo;
 	private int boardNo;
 	private String userid;
 	private String replyContent;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Timestamp replyRegdate;
 	private int groupNo;
 	private char step;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Timestamp replyDeleteDate;
 	
 	public int getReplyNo() {
@@ -67,6 +72,7 @@ public class ReplyVO extends FreeBoardVO{
 	public String toString() {
 		return "ReplyVO [replyNo=" + replyNo + ", boardNo=" + boardNo + ", userid=" + userid + ", replyContent="
 				+ replyContent + ", replyRegdate=" + replyRegdate + ", groupNo=" + groupNo + ", step=" + step
-				+ ", replyDeleteDate=" + replyDeleteDate + ", toString()=" + super.toString() + "]";
-	}	
+				+ ", replyDeleteDate=" + replyDeleteDate + "]";
+	}
+	
 }

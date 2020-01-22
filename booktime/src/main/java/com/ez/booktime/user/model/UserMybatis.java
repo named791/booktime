@@ -28,4 +28,9 @@ public class UserMybatis implements UserDAO{
 		return sqlSession.selectOne(namespace+"userGetPwd", userid);
 	}
 	
+	@Override
+	public UserVO selectByUserid(String userid) {
+		return sqlSession.selectOne(namespace+"selectByUserid", userid);
+	}
+	
 }

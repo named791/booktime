@@ -26,7 +26,7 @@
         <hr>
 
         <!-- Post Content -->
-		 <p>${boardVo.content }</p>
+		${boardVo.content }</p>
         <hr>
         <!-- 본인 체크하고 본인에게만 수정/삭제 보여주기 -->
         <c:if test="${boardVo.userid == chkid}">
@@ -38,8 +38,6 @@
 						role="button">삭제하기</a>			
 		</c:if>
         <%@include file="reply/replyWrite.jsp" %><!-- 댓글 작성란 -->
-
-        <%@include file="reply/replyList.jsp" %><!-- 댓글 목록 -->
 
       </div>
 

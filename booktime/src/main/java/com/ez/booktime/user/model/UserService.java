@@ -9,4 +9,5 @@ public interface UserService {
 	int insertUser(UserVO userVo);
 	boolean chkUserid(String userid);
 	int userGetPwd(String userid, String pwd);
+	UserVO selectByUserid(String userid);
 }

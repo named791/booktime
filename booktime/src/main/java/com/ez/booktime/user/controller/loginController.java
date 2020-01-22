@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ez.booktime.user.model.UserService;
+import com.ez.booktime.user.model.UserVO;
 
 @Controller
 public class loginController {
@@ -42,9 +43,15 @@ public class loginController {
 		
 		String msg="", url="/login/login.do";
 		if(result==userService.LOGIN_OK) { //로그인 완료시
+			String name=userService.selectByUserid(userid).getName(); //userid로 name조회
+			logger.info("조회 결과, name={}", name);
+			
 			//세션생성(request,response 필요) - 쿠키에 아이디 저장
 			HttpSession session=request.getSession();
 			session.setAttribute("userid", userid);
+			session.setAttribute("name", name);
+			
+			logger.info("name={}",name );
 			
 			Cookie ck= new Cookie("ck_userid", userid); //name은 session과 다르게 줄것
 			ck.setPath("/");
@@ -67,7 +74,7 @@ public class loginController {
 			msg="로그인 실패!";
 			url="/login/login.do";
 		}
-		
+				
 		model.addAttribute("msg", msg);
 		model.addAttribute("url", url);
 		

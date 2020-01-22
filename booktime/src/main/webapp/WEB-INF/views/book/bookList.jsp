@@ -128,6 +128,42 @@ img.image_circle {
     position: relative;
     top: -2px;
 }
+
+.bookBestSection {
+    margin-left: 6px;
+}
+.bookBestTable {
+    float: left;
+}
+.divPage {
+    margin-bottom: 10px;
+    text-align: center;
+}
+.search_t_g{
+	margin-top: 10px;
+}
+a.bk66 {
+    font-size: 13.2px;
+}
+span.author {
+    font-size: 13px;
+}
+td.bookBestContent {
+    font-size: 13px;
+}
+.br2010_p2 {
+	font-size:13px;
+}
+.book .bo3{
+	font-size:16px;
+}
+.book li{
+	font-size:13px;
+}
+a{
+	color:black;
+} 
+
 </style>
 
 <script type="text/javascript">
@@ -138,8 +174,6 @@ img.image_circle {
 						"<c:url value='/admin/product/deleteMulti.do'/>");	
 				$('form[name=frmList]').submit();	
 				
-				//document.frmList.action="";
-				//document.frmList.submit();
 			}else{
 				alert("삭제할 상품들을 체크하세요");
 			}
@@ -149,6 +183,7 @@ img.image_circle {
 			$("tbody input[type=checkbox]")
 				.prop("checked", this.checked);
 		});
+		
 	});
 	
 	function pageFunc(curPage){		
@@ -180,86 +215,36 @@ img.image_circle {
     	<!-- Content Column -->
     	<div class="col-lg-10 mt-3">
 	    	<div class="top_div">
-				<table align="right" cellpadding="0" >
+				<table align="right" cellpadding="0" 
+				action="<c:url value='/book/bookList.do'/>">
 				    <tbody>
 				    	<tr>
 					        <td>
 					        	<h1 class="br2010_subt">
 					        		<img class="image_circle" 
-					        			src="//image.aladin.co.kr/img/browse/2010/blet_rec2.gif" 
+					        			src="<c:url value='/resources/images/blet_rec2.gif'/>" 
 					        			width="17" height="15">
 					        		이 분야 신간 베스트</h1>
 					        </td>
         					<td>
         						<input id="txtBrowse-Search-Category" 
-        							type="text" class="br2010_fbox watermark">
+        							type="text" class="br2010_fbox watermark"
+        							placeholder="분야 내 검색"
+        							value=${param.searchKeyword }>
         					</td>
         					<td>
         						<img id="btnBrowse-Search-Category" 
-        						src="//image.aladin.co.kr/img/browse/2010/bu_search.gif" 
+        						src="//image.aladin.co.kr/img/browse/2010/bu_search.gif"
         						alt="검색" style="cursor: pointer;">
         					</td>
     					</tr>
 					</tbody>
 				</table>
 				
-				<div class="top_best">
-    				<table width=100%  cellpadding="0" cellspacing="1" bgcolor="#dddddd" style="margin-top:9px;">
-    					<tbody>
-    						<tr>
-    							<td style="background:url(//image.aladin.co.kr/img/browse/2010/bg_08.gif) repeat-x top;
-    									background-color:#FFFFFF;
-    									padding:19px 9px 10px 9px;">
-
-        			<table width=90% border="0" align="center" cellpadding="0" cellspacing="0">
-        				<tbody>
-        					<tr>
-        						<td width="172" valign="top" style="text-align:center; 
-        							background:url(//image.aladin.co.kr/img/browse/2010/subnum_01.gif) top left no-repeat;">
-            						<div style="position:relative;
-            								text-align:center;">
-            							<a href="http://www.aladin.co.kr/shop/wproduct.aspx?ItemId=226667290">
-            							<img src="https://image.aladin.co.kr/product/22666/72/coversum/k692636032_1.jpg">
-            							</a>
-            						</div>
-            						<br> 
-            						<a href="http://www.aladin.co.kr/shop/wproduct.aspx?ItemId=226667290" class="bk66">
-            						다이아몬드 에이스 ACT2 : 15
-            						</a>
-            						<br> <span class="author">테라지마 유우지 지음 | 학산문화사(만화)</span>
-            						<br> <span class="br2010_p2">4,500</span>원(<span class="br2010_p2">10%</span>할인)/
-            						<img src="//www.aladin.co.kr/ucl_editor/img_secur/icon/m.gif" align="absmiddle">250원
-						        </td>
-						        <td width="10">&nbsp;</td>
-						        <td width="172" align="center" valign="top" style="text-align:center; background:url(//image.aladin.co.kr/img/browse/2010/subnum_02.gif) top left no-repeat;">
-						            <div style="position:relative;text-align:center;"><a href="http://www.aladin.co.kr/shop/wproduct.aspx?ItemId=225061469"><img src="https://image.aladin.co.kr/product/22506/14/coversum/k572636739_1.jpg"></a></div><br> <a href="http://www.aladin.co.kr/shop/wproduct.aspx?ItemId=225061469" class="bk66">타마요미 3</a><br> <span class="author">마운틴 푸쿠이치 지음 | ㈜소미미디어</span><br> <span class="br2010_p2">4,500</span>원(<span class="br2010_p2">10%</span>할인)/<img src="//www.aladin.co.kr/ucl_editor/img_secur/icon/m.gif" align="absmiddle">250원
-						        </td>
-						        <td width="10">&nbsp;</td>
-						        <td width="172" align="center" valign="top" style="text-align:center; background:url(//image.aladin.co.kr/img/browse/2010/subnum_03.gif) top left no-repeat;">
-						            <div style="position:relative;text-align:center;"><a href="http://www.aladin.co.kr/shop/wproduct.aspx?ItemId=207856285"><img src="https://image.aladin.co.kr/product/20785/62/coversum/k402636778_1.jpg"></a></div><br> <a href="http://www.aladin.co.kr/shop/wproduct.aspx?ItemId=207856285" class="bk66">하이큐!! 38</a><br> <span class="author">후루다테 하루이치 지음 | 대원씨아이(만화)</span><br> <span class="br2010_p2">4,500</span>원(<span class="br2010_p2">10%</span>할인)/<img src="//www.aladin.co.kr/ucl_editor/img_secur/icon/m.gif" align="absmiddle">250원
-						        </td>
-						        <td width="10">&nbsp;</td>
-						        <td width="172" align="center" valign="top" style="text-align:center; background:url(//image.aladin.co.kr/img/browse/2010/subnum_04.gif) top left no-repeat;">
-						            <div style="position:relative;text-align:center;">
-						            	<a href="http://www.aladin.co.kr/shop/wproduct.aspx?ItemId=222534460">
-						            	<img src="https://image.aladin.co.kr/product/22253/44/coversum/k162636820_1.jpg"></a>
-						            </div><br> 
-						            <a href="http://www.aladin.co.kr/shop/wproduct.aspx?ItemId=222534460" class="bk66">하이큐!! 39</a><br> <span class="author">후루다테 하루이치 지음 | 대원씨아이(만화)</span><br> <span class="br2010_p2">4,500</span>원(<span class="br2010_p2">10%</span>할인)/<img src="//www.aladin.co.kr/ucl_editor/img_secur/icon/m.gif" align="absmiddle">250원
-						        </td>
-       						</tr>
-       				 </tbody>
-       		</table>
-        
-    	</td>
-    </tr>
-    </tbody></table>
-    <table width=100% border="0" cellspacing="0" cellpadding="0">
-    <tbody><tr>
-        <td><img src="//image.aladin.co.kr/img/browse/2010/sh_book03.gif" width=100% height="4"></td>
-    </tr>
-    </tbody></table>
-</div>
-				
+				<!-- 신간베스트 -->
+				<div class="bookBestSection">
+					<c:import url="/book/bookBestList.do"></c:import>	
+				</div>
 			<!-- 테이블 -->
 				<div class="ss_line5" style="padding-top: 10px;">
 					<table width="100%">
@@ -274,7 +259,8 @@ img.image_circle {
 						</tbody>
 					</table>
 				</div>
-				<div class="divList">
+				<!-- 조건 조회 => api에서 지원하지 않아 조회 불가 -->
+				<!-- <div class="divList">
 					<hr class="top_hr">
 					<table class="box2">
 						<thead>
@@ -291,7 +277,7 @@ img.image_circle {
 						</thead>
 					</table>
 					<hr class="bottom_hr">
-				</div>
+				</div> -->
 				<div class="divPage">
 					<!-- 이전블럭으로 이동 -->
 					<c:if test="${pagingInfo.firstPage>1 }">	
@@ -406,7 +392,7 @@ img.image_circle {
 														<div class="ss_book_list">
 															<ul class="book">
 																<li><a href=
-																	"<c:url value='#'/>" class="bo3">
+																	"<c:url value='#'/>" class="bo3" style="color:#3399FF">
 																		<b>${map['title'] }</b>
 																	</a>&nbsp;</li>
 																<li><a href=
@@ -417,12 +403,16 @@ img.image_circle {
 																		| ${map['pubDate'] }</li>
 																<li><span class="">${map['priceStandard'] }</span>원 → <span
 																		class="ss_p2"><b>
-																		<span class="">
-																		${map['priceStandard']-(map['priceStandard']/100*10) }</span>원</b></span>
+																		<span style="color:red">
+																		<fmt:formatNumber value=
+																		"${map['priceStandard']-(map['priceStandard']/100*10) }"/>
+																		</span>원</b></span>
 																	(<span class="ss_p">10%</span>할인), 마일리지 <span
-																		class="ss_p">250</span>원 (<span class="ss_p">5%</span>
-																	적립)</li>
-																<li>세일즈포인트 :<b> 1,210</b></li>
+																		class="ss_p">
+																		<fmt:formatNumber value="${map['priceStandard']/100*5}"/>
+																		</span>원 
+																		(<span class="ss_p" style="color:red">5</span>
+																	% 적립)</li>
 															</ul>
 														</div>
 														<div class="ss_book_list">
@@ -443,18 +433,18 @@ img.image_circle {
 													<td width="80" valign="top">
 														<div class="book_Rfloat_02">
 															<div class="button_search_cart_new">
-																<a href="/shop/wbasket.aspx?AddBook=K692636032"
+																<a href="/shop/wbasket.aspx?AddBook=K692636032" style="color:white"
 																	onclick="return SafeBasket_ListOneAddByAjax('K692636032', document.getElementById('divBasketAddResult_K692636032'), {top: 0, left: -55});">장바구니</a>
 															</div>
 															<div id="divBasketAddResult_K692636032"></div>
 															<div class="button_search_buyitnow_new">
-																<a href="https://www.aladin.co.kr/order/worder_chk_order.aspx?CartType=4&amp;ISBN=K692636032"
+																<a href="https://www.aladin.co.kr/order/worder_chk_order.aspx?CartType=4&amp;ISBN=K692636032" style="color:white"
 																	onclick="return QuickBuyCheck('K692636032');">바로구매</a>
 															</div>
 															<div class="Search3_Result_SafeBasketArea"
 																isbn="K692636032" style="position: relative;">
 																<div class="button_search_storage">
-																	<a href="javascript:void(0);">즐겨찾기 <img alt=""
+																	<a href="javascript:void(0);" style="color:#3399FF">즐겨찾기 <img alt=""
 																		src="//image.aladin.co.kr/img/search/btn_bg5_arrow.png"></a>
 																</div>
 															</div>
