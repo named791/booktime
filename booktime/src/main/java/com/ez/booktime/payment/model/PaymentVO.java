@@ -17,6 +17,7 @@ public class PaymentVO {
 	private String zipcode;
 	private String parselAddress;
 	private String newAddress;
+	private String addressDetail;
 	private String progress;
 	private String customerName;
 	private String message;
@@ -132,15 +133,21 @@ public class PaymentVO {
 	public void setDetails(List<PaymentDetailVO> details) {
 		this.details = details;
 	}
+	
+	public String getAddressDetail() {
+		return addressDetail;
+	}
+	public void setAddressDetail(String addressDetail) {
+		this.addressDetail = addressDetail;
+	}
 	@Override
 	public String toString() {
 		return "PaymentVO [payNo=" + payNo + ", userid=" + userid + ", email1=" + email1 + ", email2=" + email2
 				+ ", nonMember=" + nonMember + ", price=" + price + ", usePoint=" + usePoint + ", payDate=" + payDate
 				+ ", cancleDate=" + cancleDate + ", instrument=" + instrument + ", zipcode=" + zipcode
-				+ ", parselAddress=" + parselAddress + ", newAddress=" + newAddress + ", progress=" + progress
-				+ ", customerName=" + customerName + ", message=" + message + ", hp=" + hp + ", details=" + details
-				+ "]";
+				+ ", parselAddress=" + parselAddress + ", newAddress=" + newAddress + ", addressDetail=" + addressDetail
+				+ ", progress=" + progress + ", customerName=" + customerName + ", message=" + message + ", hp=" + hp
+				+ ", details=" + details + "]";
 	}
-	
 	
 }

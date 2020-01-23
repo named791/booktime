@@ -9,11 +9,14 @@
 		</selectKey>
 		
 		insert into mileage(mileageNo, userid, savingPoint
-			, payNo, usePoint, endDate)
+			, payNo, usePoint
+			<if test="savingPoint!=null and savingPoint!='' and savingPoint>0">
+			, endDate
+			</if>)
 		values(#{mileageNo}, #{userid}, #{savingPoint}
 			, #{payNo}, #{usePoint}
 			<if test="savingPoint!=null and savingPoint!='' and savingPoint>0">
-				, sysdate+(interval '2' year)
+				, sysdate+(interval '1' year)
 			</if>
 			)
 	</insert>

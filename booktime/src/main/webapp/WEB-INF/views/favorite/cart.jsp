@@ -134,7 +134,7 @@
 												<a href="<c:url value='/book/bookDetail.do?ItemId=${list[i].isbn }'/>" 
 													class="text-dark d-inline-block align-middle"><b>${bookName }</b></a>
 											</h5>
-											<a href="categoryId=${infoList[i]['cateCode']}">
+											<a href='<c:url value="/book/bookList.do?cateNo=${infoList[i]['cateCode']}"/>'>
 												<small class="text-muted font-italic d-block">
 													카테고리 : ${infoList[i]['cateName']}
 												</small>

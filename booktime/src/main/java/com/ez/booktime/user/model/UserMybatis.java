@@ -7,6 +7,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.ez.booktime.mileage.model.MileageVO;
+
 @Repository
 public class UserMybatis implements UserDAO{
 	@Autowired
@@ -44,5 +46,10 @@ public class UserMybatis implements UserDAO{
 	@Override
 	public String selectPWD(String userid) {
 		return sqlSession.selectOne(namespace+"selectPWD", userid);
+	}
+
+	@Override
+	public int updateMileage(MileageVO vo) {
+		return sqlSession.update(namespace+"updateMileage", vo);
 	}
 }

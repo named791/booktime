@@ -1,5 +1,7 @@
 package com.ez.booktime.user.model;
 
+import com.ez.booktime.mileage.model.MileageVO;
+
 public interface UserService {
 	//로그인 관련 상수
 	public static final int LOGIN_OK=1; 
@@ -12,4 +14,5 @@ public interface UserService {
 	UserVO selectByUserid(String userid);
 	int deleteUser(String userid, String withdrawalreason);
 	String selectPWD(String userid);
+	int updateMileage(MileageVO vo);
 }

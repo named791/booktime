@@ -46,4 +46,3 @@
 			<a id="k4" href="<c:url value='/mypage/myinfo/userout.do'/>" class="list-group-item list-group-item-action">회원탈퇴</a>
 		</div>
 	  </div>
-	  

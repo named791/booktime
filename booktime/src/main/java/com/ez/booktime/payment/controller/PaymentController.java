@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ez.booktime.api.AladinAPI;
+import com.ez.booktime.category.model.BookCategoryService;
+import com.ez.booktime.category.model.BookCategoryVO;
 import com.ez.booktime.favorite.model.FavoriteService;
 import com.ez.booktime.favorite.model.FavoriteVO;
 import com.ez.booktime.payment.model.PaymentDetailVO;
@@ -42,6 +44,9 @@ public class PaymentController {
 	
 	@Autowired
 	private PaymentService paymentService;
+	
+	@Autowired
+	private BookCategoryService cateService;
 	
 	@RequestMapping("/paymentSheetSend.do")
 	public String paymentSheetSend(@ModelAttribute FavoriteVO vo
@@ -104,6 +109,10 @@ public class PaymentController {
 			try {
 				Map<String, Object> info = aladinApi.selectBook(fVo.getIsbn());
 				
+				BookCategoryVO cateVo
+					= cateService.selectCategoryInfoByName((String) info.get("cateName"));
+				info.put("cateCode",cateVo.getCateCode());	//카테고리 번호
+				
 				infoList.add(info);	//세부정보 표지등 가져오기..
 				
 			} catch (Exception e) {
@@ -122,6 +131,9 @@ public class PaymentController {
 	public String directPayment(@ModelAttribute FavoriteVO vo
 			, HttpSession session) {
 		String userid = (String)session.getAttribute("userid");
+		if(userid==null || userid.isEmpty()) {
+			userid = "#"+session.getId();
+		}
 		vo.setUserid(userid);
 		logger.info("디테일페이지에서 구매하기 처리 파라미터 vo={}");
 		
@@ -136,6 +148,9 @@ public class PaymentController {
 	public String paymentProcess(@ModelAttribute PaymentVO vo
 			, HttpSession session, Model model) {
 		String userid = (String)session.getAttribute("userid");
+		if(userid==null || userid.isEmpty()) {
+			userid = "#"+session.getId();
+		}
 		vo.setUserid(userid);
 		
 		logger.info("주문처리 파라미터 vo={}",vo);
@@ -148,23 +163,29 @@ public class PaymentController {
 			return "common/message";
 		}
 		
-		return "redirect:/payment/paymentResult.do";
+		return "redirect:/payment/paymentResult.do?payNo="+vo.getPayNo()+"&nonMember="+vo.getNonMember();
 	}
 	
 	@RequestMapping("/paymentResult.do")
 	public String paymentResult(HttpSession session
-			,@RequestParam String payNo
-			,@RequestParam String nonMember
+			,@ModelAttribute PaymentVO vo
 			, Model model) {
 		String userid = (String)session.getAttribute("userid");
+		vo.setUserid(userid);
+		logger.info("주문 결과 보여주기, 파라미터 vo={}",vo);
 		
-		if(payNo==null || payNo.trim().isEmpty() 
-				&& nonMember==null || nonMember.trim().isEmpty()) {
+		if((vo.getPayNo()==null || vo.getPayNo().trim().isEmpty() 
+				|| vo.getPayNo().equals("0"))
+				&& (vo.getNonMember()==null || vo.getNonMember().trim().isEmpty()
+				|| vo.getNonMember().equals("0"))) {
 			model.addAttribute("msg", "잘못된 URL입니다.");
 			model.addAttribute("url", "/index.do");
 			
 			return "common/message";
 		}//아직 조회전
+		
+		vo = paymentService.selectPayment(vo);
+		model.addAttribute("vo", vo);
 		
 		return "payment/paymentResult";
 	}

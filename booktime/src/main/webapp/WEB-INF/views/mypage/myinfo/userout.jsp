@@ -109,6 +109,8 @@
 		</div>
 	</div>
 </form>
+</div>
+</div>
 <%@include file="../../inc/bottom.jsp" %>
 
 

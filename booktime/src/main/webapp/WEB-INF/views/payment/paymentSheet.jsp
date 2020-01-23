@@ -158,8 +158,9 @@
 			        var payNo = rsp.imp_uid.substring(rsp.imp_uid.indexOf("_")+1);
 		        	$("input[name=payNo]").val(payNo); 
 		        	
-			        if("${sessionScope.userid}"==null){
+			        if("${sessionScope.userid}".length<1){
 			        	$("input[name=nonMember]").val(getOrderDate());	//비회원용 조회코드
+			        	alert($("input[name=nonMember]").val());
 			        }else{
 			        	$("input[name=nonMember]").val(0);	//회원일때 DefaultValue
 			        }
@@ -168,9 +169,9 @@
 			    } else {
 			        msg = '결제에 실패하였습니다.';
 			        msg += '에러내용 : ' + rsp.error_msg;
+			        alert(msg);
 			        return false;
 			    }
-			    alert(msg);
 			});
 		});
 		
@@ -271,10 +272,10 @@
 	
 	function getOrderDate(){ //현재 주문일 코드 생성
 		var today = new Date();
-		var orderDate = today.getFullYear()+(today.getMonth()+1) 
-			+today.getDate()+today.getSeconds()+today.getMilliseconds();
+		var orderDate = today.getFullYear()+""+(today.getMonth()+1)+"" 
+			+today.getDate()+""+today.getSeconds()+""+today.getMilliseconds();
 		
-		return orderDate+"";
+		return orderDate;
 	}
 </script>
 
@@ -339,7 +340,11 @@
 											<a href="<c:url value='/book/bookDetail.do?ItemId=${list[i].isbn }'/>" 
 													class="text-dark d-inline-block align-middle"><b class="bookName">${bookName }</b></a>
 										</h5>
-										<a href="#"><small class="text-muted font-italic d-block">카테고리 : 도서</small></a>
+										<a href="<c:url value="/book/bookList.do?cateNo=${infoList[i]['cateCode']}"/>">
+												<small class="text-muted font-italic d-block">
+													카테고리 : ${infoList[i]['cateName']}
+												</small>
+										</a>
 									</div>
 									
 								</div>
@@ -351,6 +356,7 @@
 							<td class="align-middle text-center">
 								<strong><fmt:formatNumber value="${list[i].price*list[i].qty }" pattern="#,###"/> 원</strong>
 								<c:set var="sum" value="${sum+(list[i].price*list[i].qty) }"/>
+								<br><small class="text-danger">${infoList[i]['mileage']*list[i].qty }p 적립예정</small>
 							</td>
 						</tr>
 						</c:forEach>
@@ -481,6 +487,7 @@
 				</div>
 				
 				<input type="hidden" name="nonMember">
+				<input type="hidden" name="progress" value="결제완료">
 				<input type="hidden" id="useFul" value="${userVo.mileage }">
 			</c:if>
 			

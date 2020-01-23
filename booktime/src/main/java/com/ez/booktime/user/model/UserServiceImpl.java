@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ez.booktime.mileage.model.MileageVO;
+
 @Service
 @Transactional
 public class UserServiceImpl implements UserService{
@@ -59,6 +61,11 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public String selectPWD(String userid) {
 		return userDao.selectPWD(userid);
+	}
+
+	@Override
+	public int updateMileage(MileageVO vo) {
+		return userDao.updateMileage(vo);
 	}
 
 }
