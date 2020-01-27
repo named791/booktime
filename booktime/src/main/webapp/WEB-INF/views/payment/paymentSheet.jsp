@@ -356,7 +356,9 @@
 							<td class="align-middle text-center">
 								<strong><fmt:formatNumber value="${list[i].price*list[i].qty }" pattern="#,###"/> 원</strong>
 								<c:set var="sum" value="${sum+(list[i].price*list[i].qty) }"/>
-								<br><small class="text-danger">${infoList[i]['mileage']*list[i].qty }p 적립예정</small>
+								<c:if test="${!empty sessionScope.userid }">
+									<br><small class="text-danger">${infoList[i]['mileage']*list[i].qty }p 적립예정</small>
+								</c:if>
 							</td>
 						</tr>
 						</c:forEach>

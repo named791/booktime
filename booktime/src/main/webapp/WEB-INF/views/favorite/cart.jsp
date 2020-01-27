@@ -70,39 +70,68 @@
 		});
 	}
 </script>
-<div class="container">
-	<div class="page-header my-4 p-3"
-		style="border: 2px solid lightGray;">
-		<h3><i class="fa fa-shopping-cart"></i> 장바구니</h3>
-		<small>회원의 장바구니 상품은 30일간만 보관됩니다.</small>
-	</div>
+<style type="text/css">
+	table{
+		border-top: 3px solid gray;
+		border-bottom: 3px solid gray;
+	}
+	td img{
+		filter: invert(0.3);
+	}
+</style>
+<c:if test="${!empty sessionScope.userid }">
+	<%@include file="../mypage/includeMy.jsp" %>
+</c:if>
+
+<div class="container 
+	<c:if test="${!empty sessionScope.userid }">col-lg-9</c:if>">
 	
 	<div class="table-responsive">
+			<c:if test="${empty sessionScope.userid }">
+				<div class="page-header my-4 p-3"
+					style="border: 2px solid lightGray;">
+					<h3><i class="fa fa-shopping-cart"></i> 장바구니</h3>
+					<small>로그인하거나 브라우저 종료시 장바구니 내역이 사라집니다.</small>
+				</div>		
+			</c:if>
 					
 			<table class="table" title="즐겨찾기 목록">
 				<thead>
 					<tr>
-						<th scope="col" class="border-0 bg-light">
-							<div class="p-2 px-3">도서정보</div>
+						<th scope="col" class="border-0 bg-light py-0">
+							<div class="p-2">
+							<c:if test="${!empty sessionScope.userid }">
+								<i class="fa fa-shopping-cart"></i> <b>장바구니</b>
+								(30일간 보관됩니다)
+							</c:if>
+							<c:if test="${empty sessionScope.userid }">
+								도서정보
+							</c:if>
+							
+							</div>
 						</th>
-						<th scope="col" class="border-0 bg-light text-center">
-							<div class="py-2">가격</div>
-						</th>
-						<th scope="col" class="border-0 bg-light text-center">
-							<div class="py-2">수량</div>
-						</th>
-						<th scope="col" class="border-0 bg-light text-center">
-							<div class="py-2">합계</div>
-						</th>
-						<th scope="col" class="border-0 bg-light text-center">
-							<div class="py-2">삭제</div>
-						</th>
+						<c:if test="${!empty list }">
+							<th scope="col" class="border-0 bg-light text-center py-0">
+								<div class="py-2">가격</div>
+							</th>
+							<th scope="col" class="border-0 bg-light text-center py-0">
+								<div class="py-2">수량</div>
+							</th>
+							<th scope="col" class="border-0 bg-light text-center py-0">
+								<div class="py-2">합계</div>
+							</th>
+							<th scope="col" class="border-0 bg-light text-center py-0">
+								<div class="py-2">삭제</div>
+							</th>
+						</c:if>
 					</tr>
 				</thead>
 				
 				<tbody>
 					<c:if test="${empty list }">
-						<tr><td colspan="5" class="text-center">장바구니에 등록된 상품이 없습니다.</td></tr>
+						<tr><td class="text-center align-middle">
+							<img alt="cart이미지" src="<c:url value='/resources/images/icons/cart.png'/>" height="395px;">
+							</td></tr>
 					</c:if>
 					<c:if test="${!empty list }">
 <form name="frmQty" method="post"
@@ -129,7 +158,7 @@
 												<c:set var="bookName" value="${list[i].bookName }"/>
 												
 												<c:if test="${fn:length(bookName)>30 }">
-													<c:set var="bookName" value="${fn:substring(bookName, 0, 30)}<br>${fn:substring(bookName, 30,fn:length(bookName))}"/>
+													<c:set var="bookName" value="${fn:substring(bookName, 0, 19)}..."/>
 												</c:if>
 												<a href="<c:url value='/book/bookDetail.do?ItemId=${list[i].isbn }'/>" 
 													class="text-dark d-inline-block align-middle"><b>${bookName }</b></a>
@@ -177,16 +206,18 @@
 					
 				</tbody>
 			</table>
-			<hr>
-			
-			<div class="text-center mb-5">
-					<input type="button" id="selAll" value="전체선택" class="btn btn-info">
-					<input type="button" id="selOff" value="선택 해제" class="btn btn-light" style="border: 1px solid lightGray;">
-					<input type="button" id="selDel" value="선택한 상품 삭제" class="btn btn-light" style="border: 1px solid lightGray;">
-					<input type="button" id="selPayment" value="선택한 상품  구매하기" class="btn btn-info">
-					<input type="button" id="allPayment" value="상품  구매하기" class="btn btn-danger">
-			</div>
-			
+			<c:if test="${!empty list }">	
+				<div class="text-center mb-5">
+						<input type="button" id="selAll" value="전체선택" class="btn btn-info">
+						<input type="button" id="selOff" value="선택 해제" class="btn btn-light" style="border: 1px solid lightGray;">
+						<input type="button" id="selDel" value="선택한 상품 삭제" class="btn btn-light" style="border: 1px solid lightGray;">
+						<input type="button" id="selPayment" value="선택한 상품  구매하기" class="btn btn-info">
+						<input type="button" id="allPayment" value="상품  구매하기" class="btn btn-danger">
+				</div>
+			</c:if>
 	</div>
+</div>
+
+</div>
 </div>
 <%@include file="../inc/bottom.jsp"%>
