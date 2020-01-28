@@ -200,25 +200,98 @@ a{
 			}
 		});
 		
+		$(".btCart").click(function(obj){
+			var isbn=$(this).attr("data-isbn");
+			console.log($(this).attr("data-isbn"));
+			
+			$.ajax({
+				url:"<c:url value='/book/bookInfo.do'/>",
+				type:"post",
+				data:$(this).attr("data-isbn").serialize(),
+				dataType:"json",
+				success:function(res){
+					if(res>0){
+						$(".details").css("filter", "blur(10px)");
+						$("#cover").fadeIn();
+						
+						var group = $("input[name=group]").val();
+						if(group=="FAVORITE"){
+							$(".addResult").text("즐겨찾기");
+						}else if(group=="CART"){
+							$(".addResult").text("장바구니");
+							$(".btn-goFavorite").attr("href"
+									, "<c:url value='/favorite/cart.do'/>");
+						}
+					}
+				},
+				error:function(xhr, status, error){
+					alert("ERROR : "+status+", "+error);
+				}
+			});	
+		}); 
+		
+		$("input[type=image]").click(function(){
+			var id = $(this).attr("id");
+			
+			if(id=="btFavorite" || id=="btCart"){
+				if(id=="btFavorite"){
+					$("input[name=group]").val("FAVORITE");
+				}else if(id=="btCart"){
+					$("input[name=group]").val("CART");
+				}
+				
+				$.ajax({
+					url:"<c:url value='/favorite/addFavorite.do'/>",
+					type:"post",
+					data:$("form[name=frmData]").serialize(),
+					dataType:"json",
+					success:function(res){
+						if(res>0){
+							$(".details").css("filter", "blur(10px)");
+							$("#cover").fadeIn();
+							
+							var group = $("input[name=group]").val();
+							if(group=="FAVORITE"){
+								$(".addResult").text("즐겨찾기");
+							}else if(group=="CART"){
+								$(".addResult").text("장바구니");
+								$(".btn-goFavorite").attr("href"
+										, "<c:url value='/favorite/cart.do'/>");
+							}
+						}
+					},
+					error:function(xhr, status, error){
+						alert("ERROR : "+status+", "+error);
+					}
+				});		
+				
+			}
+		});
+		
 	});
 	
 	function pageFunc(curPage){		
-		$("input[name=currentPage]").val(curPage);
+		$("input[name=start]").val(curPage);
 		$("form[name=frmPage]").submit();
 	}
 	
 </script>	
 
 <!-- 페이징 처리 관련 form -->
-<form action="<c:url value='/reBoard/list.do'/>" 
+<form action="<c:url value='/book/bookList.do'/>" 
 	name="frmPage" method="post">
-	<input type="text" name="cateNo" 
+	<input type="hidden" name="cateNo"
 		value="${param.cateNo}">
-	<input type="text" name="searchKeyword" 
+	<input type="hidden" name="searchKeyword" 
 		value="${param.searchKeyword }">
-	<input type="hidden" name="start" >
-	<input type="text" name="startIndex" value="${list[0]['startIndex'] }" >
-	<input type="text" name="totalResults" value="${list[0]['totalResult'] }">
+		
+	<!-- 한 페이지당 게시글 수  -->
+	<input type= "text" name="MaxResults" value="20">
+	<!-- 한 블럭당 페이지 수 -->
+	<input type="text" name="blockSize" value="10">
+	<!-- 전체 개수 -->
+	<input type="text" name="totalResults" value="${pagingInfo.totalRecord }">
+	<input type="text" name="start" value="${pagingInfo.currentPage }">
 </form>
 
 <!-- Page Content -->
@@ -251,8 +324,10 @@ a{
         							value=${param.searchKeyword }>
         					</td>
         					<td>
+        						<input type="submit">
         						<img id="btnBrowse-Search-Category" 
         						src="//image.aladin.co.kr/img/browse/2010/bu_search.gif"
+        						class="searchBt"
         						alt="검색" style="cursor: pointer;">
         					</td>
     					</tr>
@@ -271,7 +346,8 @@ a{
 								<td height="19">
 									<div class="search_t_g" style="float: left;">
 										이 분야에 <strong style="color: red;">
-										${list[0]['totalResult'] }</strong>개의 상품이 있습니다.
+										${pagingInfo.totalRecord }
+										</strong>개의 상품이 있습니다.
 									</div> 
 								</td>
 							</tr>
@@ -298,15 +374,17 @@ a{
 					<hr class="bottom_hr">
 				</div> -->
 				<div class="divPage">
+					
 					<!-- 이전블럭으로 이동 -->
-					<c:if test="${param.start>1 }">	
-						<a href="#" onclick="pageFunc(${param.start})">
+					<c:if test="${pagingInfo.firstPage>1 }">	
+						<a href="#" onclick="pageFunc(${pagingInfo.firstPage-1})">
 							<img src="<c:url value='/resources/images/first.JPG'/>" alt="이전 블럭으로">
 						</a>
 					</c:if>
 					<!-- 페이지 번호 추가 -->						
 					<!-- [1][2][3][4][5][6][7][8][9][10] -->
-					<c:forEach var="i" begin="${param.start }" 
+					
+					<c:forEach var="i" begin="${pagingInfo.firstPage }" 
 						end="${pagingInfo.lastPage }">		
 						<c:if test="${i==pagingInfo.currentPage }">
 							<span style="color:blue;font-weight: bold">${i}</span>
@@ -319,7 +397,7 @@ a{
 					<!--  페이지 번호 끝 -->
 					
 					<!-- 다음블럭으로 이동 -->
-					<c:if test="${pagingInfo.lastPage<pagingInfo.totalPage }">
+					<c:if test="${pagingInfo.lastPage<pagingInfo.totalRecord  }">
 						<a href="#" onclick="pageFunc(${pagingInfo.lastPage+1})">	
 							<img src="<c:url value='/resources/images/last.JPG'/>" alt="다음 블럭으로">
 						</a>
@@ -335,13 +413,13 @@ a{
 										alt="체크박스 전체 선택"
 										style="cursor: pointer;"></td>
 	
-									<td style="padding: 0px 0px 0px 5px;"><input
+									<td style="padding: 0px 0px 0px 5px;"><input id="btCart"
 										type="image" alt="체크한 도서를 모두 장바구니에 담습니다."
 										src="//image.aladin.co.kr/img/search/btn_basket_2.jpg"
 										border="0" name="Submit.AddBookAll"></td>
 	
-									<td style="padding: 0px 0px 0px 5px;"><input type="image"
-										name="submit.AddMyListAll" onclick="return AddMyListAll();"
+									<td style="padding: 0px 0px 0px 5px;"><input type="image" 
+										name="submit.AddMyListAll" id="btFavorite"
 										alt="체크한 상품을 즐겨찾기에 등록합니다."
 										src="//image.aladin.co.kr/img/search/btn_mylist_s.jpg"
 										border="0"></td>
@@ -353,8 +431,112 @@ a{
 				</div>
 	
 				<!-- 책종류 테이블 -->
+				<form name="frmData" >
 				<div class="ss_book_box">
-					<c:forEach var="map" items="${list }">
+					<table width="100%" class="ss_book_table">
+						<tbody>
+						<c:forEach var="map" items="${list }">
+								<tr class="tb_row">
+									<td><input name="chkCart.K692636032" type="checkbox" class="checkbox"></td>
+									<td>
+										<a href='<c:url value="/book/bookDetail.do?ItemId=${map['isbn13'] }"/>' id="book_a">
+											<img src="${map['cover'] }" width="150" border="0" class="i_cover">
+										</a>
+									</td>
+									<td>
+										<div class="ss_book_list">
+											<ul class="book">
+												<li><a href=
+													'<c:url value="/book/bookDetail.do?ItemId=${map['isbn13'] }"/>' 
+													class="bo3" style="color:#3399FF">
+														<b>${map['title'] }</b>
+													</a>&nbsp;</li>
+												<li><a href=
+													"<c:url value='/book/bookList/authorBook.do?cateNo=${param.cateNo}&
+													author=${fn:substring(map["author"], 0, fn:indexOf(map["author"], "("))}'/>">
+														${map['author'] }</a> 
+														| 
+														<a href=
+														"<c:url value='/book/bookList/publBook.do?cateNo=${param.cateNo}&
+														publisher=${map["publisher"] }'/>">
+														${map['publisher'] }</a>
+														| ${map['pubDate'] }</li>
+												<li><span class="">${map['priceStandard'] }</span>원 → <span
+														class="ss_p2"><b>
+														<span style="color:red; font-size:17px">
+														${map['priceSales'] }
+														</span>원</b></span>
+													(<span class="ss_p">10%</span>할인), 마일리지 <span
+														class="ss_p">
+														<fmt:formatNumber value="${map['priceStandard']/100*5}"/>
+														</span>원 
+														(<span class="ss_p" style="color:red">5</span>
+													% 적립)</li>
+											</ul>
+										</div>
+										<div class="ss_book_list">
+											<ul class="book">
+												<li>지금 <strong>택배</strong>로 주문하면 <strong>내일</strong>
+													수령
+													<div>
+														최근 1주 88.0% (중구 중림동) <img
+															src="//image.aladin.co.kr/img/shop/2012/bu_driveaway_ch.gif"
+															onclick="FindZipByList('addInputShop_226667290');"
+															style="cursor: pointer; vertical-align: middle; margin: -3px 0 0 0px;"
+															alt="지역변경"><span id="addInputShop_226667290"></span>
+													</div>
+												</li>
+											</ul>
+										</div>
+									</td>
+									<td>
+										<c:if test="${!empty sessionScope.userid }">
+											<div class="button_search_cart_new btCart" data-isbn="${map['isbn13'] }" style="font-size: 13px; color:#fff; " >
+												<!-- 로그인 되어 있을때 -->
+												장바구니
+											</div>
+										</c:if>
+										<c:if test="${empty map['stockstatus'] }">
+												<!-- 재고가 있으면 -->
+											<div class="button_search_buyitnow_new" style="font-size: 13px;">
+												<a href="https://www.aladin.co.kr/order/worder_chk_order.aspx?CartType=4&amp;ISBN=K692636032" style="color:white"
+												>바로구매</a>
+											</div>
+											<div class="button_search_storage" style="position: relative; font-size: 13px;"
+											 id="btFavorite">
+													<a href="#" style="color:#3399FF">찜목록 <img alt=""
+														src="<c:url value='/resources/images/btn_bg5_arrow.png'/>"></a>
+											</div>
+										</c:if>
+										<c:if test="${!empty map['stockstatus'] }">
+											<!-- 재고가 없으면 -->
+											<input type="submit" class="btn col" id="btOrder"
+												value="지금은 구매할 수 없습니다." style="width: 50%;"
+												disabled="disabled">
+										</c:if>
+										<input type="text" name="bookName" value="${map['title'] }">
+										<input type="text" name="isbn" value="${map['isbn13'] }">
+										<input type="text" name="writer" value="${map['author'] }">
+										<input type="text" name="publisher" value="${map['publisher'] }">
+										<input type="text" name="price" value="${map['priceSales'] }">
+										<input type="text" name="qty" value="1">
+										<input type="text" name="group" value="CART">
+									</td>					
+								</tr>
+						</c:forEach>
+						</tbody>
+					</table>
+				
+				
+					<%-- <c:forEach var="map" items="${list }">
+							<input type="text" name="bookName" value="${map['title'] }">
+							<input type="text" name="isbn" value="${map['isbn13'] }">
+							<input type="text" name="writer" value="${map['author'] }">
+							<input type="text" name="publisher" value="${map['publisher'] }">
+							<input type="text" name="price" value="${map['priceSales'] }">
+							<input type="text" name="group" value="CART">
+						
+						
 						<table width="100%" class="ss_book_table">
 							<tbody>
 								<tr>
@@ -413,12 +595,14 @@ a{
 																	author=${fn:substring(map["author"], 0, fn:indexOf(map["author"], "("))}'/>">
 																		${map['author'] }</a> 
 																		| 
-																		<a href="<c:url value='/book/bookList/publBook.do?publisher=${map["publisher"] }'/>">
+																		<a href=
+																		"<c:url value='/book/bookList/publBook.do?cateNo=${param.cateNo}&
+																		publisher=${map["publisher"] }'/>">
 																		${map['publisher'] }</a>
 																		| ${map['pubDate'] }</li>
 																<li><span class="">${map['priceStandard'] }</span>원 → <span
 																		class="ss_p2"><b>
-																		<span style="color:red">
+																		<span style="color:red; font-size:17px">
 																		${map['priceSales'] }
 																		</span>원</b></span>
 																	(<span class="ss_p">10%</span>할인), 마일리지 <span
@@ -447,12 +631,9 @@ a{
 													<td width="80" valign="top">
 														
 															<c:if test="${!empty sessionScope.userid }">
-																<div class="button_search_cart_new" style="font-size: 13px;">
+																<div class="button_search_cart_new btCart" style="font-size: 13px; color:#fff; " >
 																	<!-- 로그인 되어 있을때 -->
-																	<!-- <input type="button" class="btn col" id="btCart"
-																		style="width: 25%;">장바구니 -->
-																	<a href="https://www.aladin.co.kr/order/worder_chk_order.aspx?CartType=4&amp;ISBN=K692636032" style="color:white"
-																	>장바구니</a>
+																	장바구니
 																</div>
 															</c:if>
 															<c:if test="${empty map['stockstatus'] }">
@@ -461,7 +642,8 @@ a{
 																	<a href="https://www.aladin.co.kr/order/worder_chk_order.aspx?CartType=4&amp;ISBN=K692636032" style="color:white"
 																	>바로구매</a>
 																</div>
-																<div class="button_search_storage" style="position: relative; font-size: 13px;">
+																<div class="button_search_storage" style="position: relative; font-size: 13px;"
+																 id="btFavorite">
 																		<a href="#" style="color:#3399FF">찜목록 <img alt=""
 																			src="<c:url value='/resources/images/btn_bg5_arrow.png'/>"></a>
 																</div>
@@ -472,7 +654,7 @@ a{
 																	value="지금은 구매할 수 없습니다." style="width: 50%;"
 																	disabled="disabled">
 															</c:if>
-															<%-- <div class="button_search_cart_new">
+															<div class="button_search_cart_new">
 																<a href=
 																"<c:url value='/favorite/addFavorite.do'/>" style="color:white"
 																	>장바구니</a>
@@ -488,7 +670,7 @@ a{
 																	<a href="javascript:void(0);" style="color:#3399FF">즐겨찾기 <img alt=""
 																		src="//image.aladin.co.kr/img/search/btn_bg5_arrow.png"></a>
 																</div>
-															</div> --%>
+															</div>
 													</td>
 												</tr>
 												<tr>
@@ -500,8 +682,9 @@ a{
 								</tr>
 							</tbody>
 						</table>
-					</c:forEach> 
+					</c:forEach>  --%>
 				</div>
+				</form>
 				<div class="divPage">
 					<!-- 이전블럭으로 이동 -->
 					<c:if test="${pagingInfo.firstPage>1 }">	

@@ -189,8 +189,10 @@ public class AladinAPI {
 			String coverURL = (String)jsonObj.get("cover");
 			map.put("cover", coverURL.replace("/cover/", "/cover500/"));	//표지
 			
-			map.put("totalResult", jsonTemp.get("totalResults"));
+			map.put("totalResult", jsonTemp.get("totalResults"));	//API 총 결과 수
 			map.put("startIndex", jsonTemp.get("startIndex"));
+			map.put("start", jsonObj.get("Start"));	//검색결과 시작페이지
+			map.put("maxResult", jsonObj.get("MaxResults"));	//검색결과 한 페이지당 최대 출력 개수 
 			
 			
 			//상품 조회 API의 경우 subInfo 담기
