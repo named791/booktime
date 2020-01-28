@@ -5,7 +5,9 @@
 <div class="col-lg-2 mb-4">
 	<div class="list-group">
 		<c:forEach var="bookCategoryVo" items="${list }">
-			<a href="#" class="list-group-item">${bookCategoryVo.cateName }</a> 
+			<a href=
+			"<c:url value='/book/bookList.do?cateNo=${bookCategoryVo.cateCode }'/>" 
+			class="list-group-item">${bookCategoryVo.cateName }</a> 
 		</c:forEach>
 	</div>
 </div>

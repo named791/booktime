@@ -22,4 +22,9 @@ public class MileageServiceImpl implements MileageService{
 		return mileageDao.selectTotalRecord(searchVo);
 	}
 	
+	@Override
+	public int insertMileage(MileageVO vo) {
+		return mileageDao.insertMileage(vo);
+	}
+	
 }

@@ -29,21 +29,5 @@ $(document).ready(function() {
   $('#dataTable').DataTable({
 	  language : lang_kor //or lang_eng
   });
-
-  $('#dataTable3').DataTable({
-	language : lang_kor, //or lang_eng
-
-	// 기본 표시 건수를 50건으로 설정 
-	displayLength: 5, 
-
-	// 표시 건수기능 숨기기
-	lengthChange: false,
-	// 정렬 기능 숨기기
-	ordering: false,
-	
-	initComplete: function () {
-	    $('.dataTables_filter input[type="search"]').css({ 'width': '400px', 'display': 'block', 'float': 'right' });
-	    }
-  });
   
 });

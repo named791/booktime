@@ -32,8 +32,7 @@ public class Category {
 		//카테고리 번호
 		
 		String category = "categoryId="
-		//+cateNo
-		+2551		
+		+cateNo
 		+"&";
 		
 		//신간 전체 List url 조립
@@ -71,6 +70,7 @@ public class Category {
 		
         List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
 		for(int i=0;i<memberArray.size();i++) {
+			
 			JSONObject jsonObj2 = (JSONObject)memberArray.get(i);
 			
 			Map<String, Object> map = new HashMap<String, Object>();
@@ -84,8 +84,13 @@ public class Category {
 			map.put("publisher", jsonObj2.get("publisher"));	//출판사
 	        map.put("pubDate", jsonObj2.get("pubDate"));	//출간일
 			//map.put("discription", jsonObj2.get("discription"));	//설명
-			map.put("priceStandard", jsonObj2.get("priceStandard"));	//가격
+			map.put("priceStandard", jsonObj2.get("priceStandard"));	//정가
+			map.put("priceSales", jsonObj2.get("priceSales"));
 			map.put("cover", jsonObj2.get("cover"));	//표지
+			map.put("totalResult", jsonObj.get("totalResults"));
+			map.put("startIndex", jsonObj.get("startIndex"));
+			map.put("isbn13", jsonObj2.get("isbn13"));	//isbn13(13자리)
+			
 			
 			list.add(map);
         }
@@ -94,7 +99,6 @@ public class Category {
 	
 	public String options() {
 		String cover = "Cover=big&";	//표지 크기
-		String coverSmall = "Cover=Small&";	// 표지 크기
 		String output = "Output=JS&";	//json
 		String version = "Version=20131101";
 		
@@ -105,9 +109,8 @@ public class Category {
 		
 		//카테고리 번호
 		
-		String category = "categoryId="
-		//+cateNo
-		+2551		
+		String category = "CategoryId="
+		+cateNo
 		+"&";
 		
 		//신간 분야별 Special List url 조립
@@ -116,6 +119,7 @@ public class Category {
 				+category
 				+optionsCover();
 		URL urlSpecial = new URL(apiSpecialURL);
+		
 		System.out.println(urlSpecial);
 		
 		HttpURLConnection con = (HttpURLConnection)urlSpecial.openConnection();
@@ -162,7 +166,9 @@ public class Category {
 	        map.put("pubDate", jsonObjSpecial.get("pubDate"));	//출간일
 			//map.put("discription", jsonObjSpecial.get("discription"));	//설명
 			map.put("priceStandard", jsonObjSpecial.get("priceStandard"));	//가격
+			map.put("priceSales", jsonObjSpecial.get("priceSales"));	//가격
 			map.put("cover", jsonObjSpecial.get("cover"));	//표지
+			map.put("isbn13", jsonObjSpecial.get("isbn13"));	//isbn13(13자리)
 			//map.put("totalResults", totalResults);
 			
 			specialList.add(map);

@@ -1,85 +1,190 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>관리자 등록</title>
 
-  <!-- Custom fonts for this template-->
-  <link href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+<!-- Custom fonts for this template-->
+<link
+	href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css"
+	rel="stylesheet" type="text/css">
 
-  <!-- Custom styles for this template-->
-  <link href="${pageContext.request.contextPath}/resources/css/sb-admin.css" rel="stylesheet">
+<!-- Custom styles for this template-->
+<link
+	href="${pageContext.request.contextPath}/resources/css/sb-admin.css"
+	rel="stylesheet">
 
 </head>
 
 <body class="bg-dark">
 
-  <div class="container">
-    <div class="card card-register mx-auto mt-5">
-      <div class="card-header">관리자 등록하기</div>
-      <div class="card-body">
-        <form>
-          <div class="form-group">
-            <div class="form-row">
-              <div class="col-md-6">
-                <div class="form-label-group">
-                  <input type="text" id="firstName" class="form-control" placeholder="First name" required="required" autofocus="autofocus">
-                  <label for="firstName">이름</label>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-label-group">
-                  <input type="text" id="lastName" class="form-control" placeholder="Last name" required="required">
-                  <label for="lastName">아이디</label>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="form-label-group">
-              <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="required">
-              <label for="inputEmail">이메일</label>
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="form-row">
-              <div class="col-md-6">
-                <div class="form-label-group">
-                  <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="required">
-                  <label for="inputPassword">비밀번호</label>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-label-group">
-                  <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm password" required="required">
-                  <label for="confirmPassword">비밀번호 확인</label>
-                </div>
-              </div>
-            </div>
-          </div>
-          <a class="btn btn-primary btn-block" href="${pageContext.request.contextPath}/admin/adminLogin.do">
-          	등록하기
-          </a>
-        </form>
-        <div class="text-center">
-          <a class="d-block small mt-3" href="${pageContext.request.contextPath}/admin/adminLogin.do">로그인으로 이동</a>
-          <a class="d-block small" href="forgot-password.html">암호를 잊었나요</a>
-        </div>
-      </div>
-    </div>
-  </div>
+	<div class="container">
+		<div class="card card-register mx-auto mt-5">
+			<div class="card-header">관리자 등록하기</div>
+			<div class="card-body">
+				<form>
+					<div class="form-group">
+						<div class="form-label-group">
+							<input type="text" id="userid" class="form-control"
+								placeholder="아이디" required="required"> <label
+								for="userid">관리자 아이디</label>
+						</div>
+					</div>
 
-  <!-- Bootstrap core JavaScript-->
-  <script src="<c:url value='/resources/vendor/jquery/jquery.min.js' />"></script>
-  <script src="<c:url value='/resources/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
+					<div class="form-group">
+						<div class="form-row">
+							<div class="col-md-6">
+								<div class="form-label-group">
+									<input type="password" id="inputPassword" class="form-control"
+										placeholder="Password" required="required"> <label
+										for="inputPassword">비밀번호</label>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-label-group">
+									<input type="password" id="confirmPassword"
+										class="form-control" placeholder="Confirm password"
+										required="required"> <label for="confirmPassword">비밀번호
+										확인</label>
+								</div>
+							</div>
+						</div>
+					</div>
 
-  <!-- Core plugin JavaScript-->
-  <script src="<c:url value='/resources/vendor/jquery-easing/jquery.easing.min.js' />"></script>
+					<div class="form-group">
+						<div class="form-label-group">
+							<input type="text" id="name" class="form-control"
+								placeholder="이름" required="required"> <label for="name">이름</label>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="form-row">
+							<div class="col-md-5">
+								<div class="form-label-group">
+									<input type="text" id="email1" class="form-control"
+										placeholder="이메일" required="required"> <label
+										for="email1">이메일</label>
+								</div>
+							</div>
+							@
+							<div class="col-md-6">
+								<div class="form-label-group">
+									<input type="text" id="email2" class="form-control"
+										placeholder="메일 주소" required="required"> <label
+										for="email1">메일 주소(셀렉트)</label>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="form-label-group">
+							<input class="form-control" type="date" value="2020-01-01"
+								id="example-date-input"> <label for="example-date-input">생년월일</label>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="form-label-group">
+							<select class="form-control" id="exampleSelect1">
+								<option>성별을 고르세요</option>
+								<option>남자</option>
+								<option>여자</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="form-row">
+							<div class="col-md-3">
+
+								<input type="text" id="phone1" class="form-control"
+									placeholder="연락처" required="required">
+
+							</div>
+							-
+							<div class="col-md-3">
+
+								<input type="text" id="phone2" class="form-control"
+									required="required">
+
+							</div>
+							-
+							<div class="col-md-3">
+
+								<input type="text" id="phone3" class="form-control"
+									required="required">
+
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="form-row">
+							<div class="col-md-5">
+
+								<input type="text" id="zipcode" class="form-control"
+									placeholder="우편번호" required="required">
+
+							</div>
+							
+							<div class="col-md-3">
+
+								<button type="button" class="btn btn-info">우편번호 찾기</button>
+									
+							</div>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<div class="form-label-group">
+							<input type="text" id="adress1" class="form-control"
+								placeholder="도로명 주소" required="required"> 
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<div class="form-label-group">
+							<input type="text" id="adress2" class="form-control"
+								placeholder="지번 주소" required="required">
+						</div>
+					</div>
+					
+					<div class="form-group">
+
+							<input type="text" id="adressDetail" class="form-control"
+								placeholder="상세주소" required="required">
+
+					</div>
+
+					<a class="btn btn-primary btn-block"
+						href="${pageContext.request.contextPath}/admin/adminLogin.do">
+						등록하기 </a>
+				</form>
+				<div class="text-center">
+					<a class="d-block small mt-3"
+						href="${pageContext.request.contextPath}/admin/adminLogin.do">로그인으로
+						이동</a> <a class="d-block small" href="forgot-password.html">암호를
+						잊었나요</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bootstrap core JavaScript-->
+	<script src="<c:url value='/resources/vendor/jquery/jquery.min.js' />"></script>
+	<script
+		src="<c:url value='/resources/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
+
+	<!-- Core plugin JavaScript-->
+	<script
+		src="<c:url value='/resources/vendor/jquery-easing/jquery.easing.min.js' />"></script>
 
 </body>
 </html>

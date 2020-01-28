@@ -22,26 +22,22 @@
       <div class="card-body">
         <form>
           <div class="form-group">
-            <div class="form-label-group">
-              <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="required" autofocus="autofocus">
-              <label for="inputEmail">아이디</label>
-            </div>
+              <input type="text" id="userid" class="form-control" placeholder="아이디" required="required" autofocus="autofocus">
+
           </div>
           <div class="form-group">
-            <div class="form-label-group">
-              <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="required">
-              <label for="inputPassword">비밀번호</label>
+              <input type="password" id="inputPassword" class="form-control" placeholder="비밀번호" required="required">
             </div>
           </div>
           <div class="form-group">
             <div class="checkbox">
               <label>
-                <input type="checkbox" value="remember-me">
+                <input type="checkbox" value="아이디 저장하기" id="idSave">
                 아이디 저장하기
               </label>
             </div>
           </div>
-          <a class="btn btn-primary btn-block" href="${pageContext.request.contextPath}/admin/adminMain.html">로그인</a>
+          <a class="btn btn-primary btn-block" href="${pageContext.request.contextPath}/admin/adminLogin.do">로그인</a>
         </form>
         <div class="text-center">
           <a class="d-block small mt-3" href="${pageContext.request.contextPath}/index.do">사용자 홈페이지로</a>
