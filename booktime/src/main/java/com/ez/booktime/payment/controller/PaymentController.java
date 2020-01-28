@@ -185,7 +185,22 @@ public class PaymentController {
 		}//아직 조회전
 		
 		vo = paymentService.selectPayment(vo);
+		
+		List<PaymentDetailVO> detailList = vo.getDetails();
+		List<Map<String, Object>> infoList = new ArrayList<Map<String,Object>>();
+		for(PaymentDetailVO dVo : detailList) {
+			try {
+				Map<String, Object> map = aladinApi.selectBook(dVo.getIsbn());
+				
+				infoList.add(map);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		logger.info("주문완료 상품 상제정보 infoList.size={}",infoList.size());
+		
 		model.addAttribute("vo", vo);
+		model.addAttribute("infoList", infoList);
 		
 		return "payment/paymentResult";
 	}
