@@ -33,7 +33,7 @@
         <div class="modal-body">관리 모드를 종료하고 관리자 로그인으로 돌아가려면 '로그아웃'을 선택하세요</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button>
-          <a class="btn btn-primary" href="${pageContext.request.contextPath}/admin/adminLogout.do">로그아웃</a>
+          <a class="btn btn-primary" href="${pageContext.request.contextPath}/admin/adminLogin.do">로그아웃</a>
         </div>
       </div>
     </div>

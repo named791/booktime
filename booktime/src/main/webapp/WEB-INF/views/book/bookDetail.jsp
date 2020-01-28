@@ -217,7 +217,7 @@
 					<hr style="margin-bottom: 0;">
 				</div>
 				
-				<form name="frmPayment" method="post" action="<c:url value='/payment/directPayment.do'/>"
+				<form name="frmPayment" method="post" action="/order/orderSheet.do"
 					style="height: 300px;">
 					<input type="hidden" name="bookName" value="${map['title'] }">
 					<input type="hidden" name="isbn" value="${map['isbn13'] }">

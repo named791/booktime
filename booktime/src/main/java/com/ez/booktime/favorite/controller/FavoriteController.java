@@ -120,6 +120,10 @@ public class FavoriteController {
 	public int moveFavorite(String favoriteNoList) {
 		int count = favoriteSerivce.moveFavorite(favoriteNoList);
 		
+		if(count>0) {
+			favoriteSerivce.deleteFavorite(favoriteNoList, "FAVORITE");
+		}
+		
 		return count;
 	}
 	
@@ -127,8 +131,7 @@ public class FavoriteController {
 	public String updateCart(@ModelAttribute FavoriteVO vo) {
 		logger.info("장바구니 수량 처리, 파라미터 vo={}",vo);
 		
-		int count = favoriteSerivce.updateQty(vo);
-		logger.info("장바구니 수량 수정 결과 count={}",count);
+		int cnt = favoriteSerivce.updateQty(vo);
 		
 		return "redirect:/favorite/cart.do";
 	}

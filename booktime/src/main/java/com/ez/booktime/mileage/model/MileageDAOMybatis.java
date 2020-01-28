@@ -25,9 +25,4 @@ public class MileageDAOMybatis implements MileageDAO{
 		return sqlSession.selectOne(namespace+"selectTotalRecord",searchVo);
 	}
 	
-	@Override
-	public int insertMileage(MileageVO vo) {
-		return sqlSession.insert(namespace+"insertMileage", vo);
-	}
-
 }

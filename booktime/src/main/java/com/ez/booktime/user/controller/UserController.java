@@ -1,9 +1,5 @@
 package com.ez.booktime.user.controller;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ez.booktime.user.model.UserService;
 import com.ez.booktime.user.model.UserVO;
-import com.google.api.client.googleapis.auth.clientlogin.ClientLogin.Response;
-
-import oracle.net.aso.p;
 
 @Controller
 public class UserController {
@@ -79,7 +72,7 @@ public class UserController {
 		logger.info("파라미터 저장후 userVo={}", userVo);
 		
 		int cnt=userService.insertUser(userVo);
-		String msg="", url="/login/login.do";
+		String msg="", url="/user/login.do";
 		if(cnt>0) {
 			msg="회원가입이 완료되었습니다.";
 		}else {
@@ -106,45 +99,6 @@ public class UserController {
 		return "/user/chkId";
 	}
 	
-	@RequestMapping("user/userOut.do")
-	public String userOut(@RequestParam String withdrawalreason, @RequestParam String pwd, HttpSession session, HttpServletResponse response , Model model) {
-		//회원탈퇴 처리하기
-		String userid=(String) session.getAttribute("userid"); //아이디 가져오기
-		logger.info("회원탈퇴, 파라미터 pwd={}, userid={}", pwd, userid);
-		logger.info("withdrawalreason={}", withdrawalreason);
-
-		String msg="", url="/mypage/myinfo/userout.do";
-		
-		int result=userService.userGetPwd(userid, pwd); //비밀번호 체크
-		logger.info("비밀번호 체크 result={}", result);
-		if(result==UserService.LOGIN_OK) { //로그인 되어있으면
-			int cnt=userService.deleteUser(userid, withdrawalreason);
-			
-			if(cnt>0) {
-				msg="회원탈퇴가 완료되었습니다.";
-				url="/index.do";
-				session.invalidate();
-				Cookie ck=new Cookie("ck_userid",userid); //쿠키 제거
-				ck.setMaxAge(0);
-				ck.setPath("/");
-				response.addCookie(ck);
-			}else {
-				msg="회원탈퇴중 오류가 발생했습니다.!";
-				url="/mypage/myinfo/userout.do";
-			}
-		}else if(result==UserService.PWD_DISAGREE) {
-			msg="비밀번호가 일치하지 않습니다!";
-			url="/mypage/myinfo/userout.do";
-		}else {
-			msg="오류발생!";
-			url="/mypage/myinfo/userout.do";
-		}
-		
-		model.addAttribute("msg", msg);
-		model.addAttribute("url", url);
-		
-		return "common/message";
-	}
 	
 	
 	

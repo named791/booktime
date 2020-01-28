@@ -9,6 +9,8 @@
 				$("input[type=checkbox]").prop("checked",true);
 			}else if(attr=="selOff"){
 				$("input[type=checkbox]").prop("checked",false);
+			}else if(attr=="cart"){
+				
 			}
 			
 		});
@@ -30,23 +32,11 @@
 			
 		});
 		
-		$("#selPayment").click(function(){
-			if($("input[type=checkbox]:checked").length<1){
-				alert("하나 이상 상품을 선택해주세요!");
-				return;
-			}
-			
-			$(".editOnly").val("0");
-			$("input[type=checkbox]").not(":checked").val("0");
+		$("#selPayment, #allPayment").click(function(){
+			$("input[name=favoriteNo]").remove();
 			
 			$("form[name=frmQty]")
 			.attr("action", "<c:url value='/payment/paymentSheetSend.do'/>").submit();
-		});
-		
-		$("#allPayment").click(function(){
-			
-			$("form[name=frmQty]")
-			.attr("action", "<c:url value='/payment/paymentSheet.do'/>").submit();
 		});
 		
 	});
@@ -117,6 +107,7 @@
 										<input type="hidden" name="voList[${i }].isbn" value="${list[i].isbn }">
 										<input type="hidden" name="voList[${i }].bookName" value="${list[i].bookName }">
 										<input type="hidden" name="voList[${i }].price" value="${list[i].price }">
+										<input type="hidden" name="voList[${i }].qty" value="${list[i].qty }">
 										
 										<label for="ck${i}"><!-- 번호매기기 -->
 											<img
@@ -134,7 +125,7 @@
 												<a href="<c:url value='/book/bookDetail.do?ItemId=${list[i].isbn }'/>" 
 													class="text-dark d-inline-block align-middle"><b>${bookName }</b></a>
 											</h5>
-											<a href='<c:url value="/book/bookList.do?cateNo=${infoList[i]['cateCode']}"/>'>
+											<a href="categoryId=${infoList[i]['cateCode']}">
 												<small class="text-muted font-italic d-block">
 													카테고리 : ${infoList[i]['cateName']}
 												</small>
@@ -152,9 +143,9 @@
 								
 								<td class="align-middle text-center">
 									
-										<input type="hidden" name="voList[${i}].favoriteNo" class="editOnly" value="${list[i].favoriteNo }">
+										<input type="hidden" name="favoriteNo" value="${list[i].favoriteNo }">
 										<div class="input-group">
-											<input type="number" min="1" name="voList[${i}].qty"
+											<input type="number" min="1" name="qty"
 												value="${list[i].qty }" class="text-right" style="width: 50px;">
 											&nbsp;<input type="submit" value="수정" class="btn btn-info btn-sm">
 										</div>

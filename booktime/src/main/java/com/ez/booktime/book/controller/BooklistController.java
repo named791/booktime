@@ -5,14 +5,12 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.ez.booktime.api.AladinAPI;
 import com.ez.booktime.common.SearchVO;
 import com.ez.booktime.controller.Category;
 
@@ -21,91 +19,39 @@ public class BooklistController {
 	private static final Logger logger
 		= LoggerFactory.getLogger(BooklistController.class);
 
-	@Autowired 
-	private AladinAPI aladinApi;
+	/*
+	 * @RequestMapping("/book/bookList.do") public String
+	 * bookList_post(@RequestParam(defaultValue="0") int cateNo, Model model) throws
+	 * Exception { logger.info("카테고리 번호 cateNo={}",cateNo);
+	 * 
+	 * Category category=new Category(); List<Map<String, Object>>
+	 * list=category.categoryFind(cateNo);
+	 * logger.info("카테고리 검색 리스트 크기={}",list.size());
+	 * 
+	 * model.addAttribute("list",list);
+	 * 
+	 * return "book/bookList"; }
+	 */
 	
-	@RequestMapping("/book/bookList.do") 
-	public String bookList_post(@RequestParam(defaultValue="0") int cateNo, 
-			Model model) throws Exception { 
+	@RequestMapping("/book/bookList.do")
+	public String bookList_post(@ModelAttribute SearchVO searchVo,
+			@RequestParam(defaultValue="0") int cateNo, 
+			@RequestParam String title, Model model) throws Exception {
 		logger.info("카테고리 번호 cateNo={}",cateNo);
 		
 		Category category=new Category();
 		List<Map<String, Object>> list=category.categoryFind(cateNo);
 		logger.info("카테고리 검색 리스트 크기={}",list.size());
-		  
+		
 		model.addAttribute("list",list);
-		  
-		return "book/bookList"; 
-	}
-	 
-	
-	@RequestMapping("/book/bookList/searchBook.do")
-	public String bookList_searchTitle(@RequestParam(required = false) String searchKeyword
-			, @RequestParam(defaultValue = "0") int cateNo
-			, @RequestParam(defaultValue = "1") int start
-			, Model model) {
-		logger.info("제목으로 리스트 검색, 파라미터 searchKeyword={}, cateNo={}",searchKeyword, cateNo);
-		
-		List<Map<String, Object>> searchBookList = null;
-		try {
-			searchBookList = aladinApi.searchByTitleAndCate(searchKeyword, cateNo, start, 15);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		logger.info("제목 검색 결과 list.size={}",searchBookList.size());
-		
-		model.addAttribute("list", searchBookList);
-		
-		return "book/bookList";
-	}
-	
-	@RequestMapping("/book/bookList/authorBook.do")
-	public String bookList_author(@RequestParam(required = false) String author
-			, @RequestParam(defaultValue = "0") int cateNo
-			, @RequestParam(defaultValue = "1") int start
-			, Model model) {
-		logger.info("특정 저자로 리스트 검색, 파라미터 author={}, cateNo={}",author, cateNo);
-		
-		List<Map<String, Object>> authorBookList = null;
-		try {
-			authorBookList = aladinApi.searchByAuthorAndCate(author, cateNo, start, 15);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		logger.info("특정 저자 검색 결과 list.size={}",authorBookList.size());
-		
-		model.addAttribute("list", authorBookList);
-		
-		return "book/bookList";
-	}
-
-	@RequestMapping("/book/bookList/publBook.do")
-	public String bookList_publ(@RequestParam(required = false) String publisher
-			, @RequestParam(defaultValue = "0") int cateNo
-			, @RequestParam(defaultValue = "1") int start
-			, Model model) {
-		logger.info("출판사로 리스트 검색, 파라미터 publisher={}, cateNo={}",publisher, cateNo);
-		
-		List<Map<String, Object>> publBookList = null;
-		try {
-			publBookList = aladinApi.searchByPublAndCate(publisher, cateNo, start, 15);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		logger.info("제목 검색 결과 list.size={}",publBookList.size());
-		
-		model.addAttribute("list", publBookList);
 		
 		return "book/bookList";
 	}
 	
 	@RequestMapping("/book/bookBestList.do")
-	public String bestBook(@RequestParam(defaultValue="0") int cateNo, 
-			Model model) throws Exception {
-		logger.info("카테고리 번호={}, isbn13={}", cateNo);
+	public String bestBook(@RequestParam(defaultValue="0")
+	int cateNo, Model model) throws Exception {
+		logger.info("카테고리 번호={}",cateNo);
 		
 		Category category=new Category();
 		List<Map<String, Object>> specialList=category.categorySpecial(cateNo);

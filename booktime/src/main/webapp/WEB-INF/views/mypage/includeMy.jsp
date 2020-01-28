@@ -33,16 +33,24 @@
 		<div class="list-group">
 			<a id="a1" class="list-group-item list-group-item-action active"> 주문내역</a>
 			<a id="h1" href="#" class="list-group-item list-group-item-action">주문 조회/변경/취소</a>
+			<a href="#" class="list-group-item list-group-item-action">ebook구매 목록</a>
+			<a href="#" class="list-group-item list-group-item-action">반품/교환 내역</a>
 			  
 			<a id="a2" class="list-group-item list-group-item-action active"> 나의 포인트</a>
+			<a href="#" class="list-group-item list-group-item-action">할인쿠폰</a>
+			<a href="#" class="list-group-item list-group-item-action">무료배송 쿠폰</a>
 			<a href="<c:url value='/mypage/Mileage/Mileage.do'/>" class="list-group-item list-group-item-action">마일리지</a>
 			  
 			<a id="a3" class="list-group-item list-group-item-action active"> 관심상품</a>
 			<a href="#" class="list-group-item list-group-item-action">WISH LIST</a>
 			<a href="#" class="list-group-item list-group-item-action">장바구니</a>
+			<a href="#" class="list-group-item list-group-item-action">오늘 본 도서</a>
 			  
 			<a id="a4" class="list-group-item list-group-item-action active"> 회원정보</a>
-			<a href="<c:url value='/mypage/myinfo/selectPWD.do'/>" class="list-group-item list-group-item-action">회원정보 수정/조회</a>
+			<a href="#" class="list-group-item list-group-item-action">나의 서재</a>
+			<a href="#" class="list-group-item list-group-item-action">나의 회원등급</a>
+			<a href="#" class="list-group-item list-group-item-action">회원정보 수정/조회</a>
 			<a id="k4" href="<c:url value='/mypage/myinfo/userout.do'/>" class="list-group-item list-group-item-action">회원탈퇴</a>
 		</div>
 	  </div>
+	  

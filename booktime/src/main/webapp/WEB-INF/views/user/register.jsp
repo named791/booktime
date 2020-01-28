@@ -59,7 +59,7 @@
                 } else if(data.autoJibunAddress) {
                     var expJibunAddr = data.autoJibunAddress;
                     guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
-                    guideTextBox.style.display = 'none';
+                    guideTextBox.style.display = 'block';
                 } else {
                     guideTextBox.innerHTML = '';
                     guideTextBox.style.display = 'none';
@@ -75,8 +75,6 @@
 	}
 	
 	$(document).ready(function(){
-		$("#userid").focus();
-		
 		$("#error1").hide();
 		$("#error2").hide();
 		$("#errorid").hide();
@@ -85,17 +83,7 @@
 		$("#error5").hide();
 		$("#email3").hide();
 		
-		$("#email2").change(function(){
-			if($("#email2").val()=='etc'){
-				$("#email3").show();
-			}else{
-				$("#email3").hide();
-			}
-		});
-				
 		var y="Y";
-		
-		var addressError=document.getElementById("addressError");
 		
 		$(".submit").click(function(event){
 			if($("#userid").val().length<8){ //아이디가 8자리 이하일때
@@ -110,9 +98,8 @@
 				$("#error3").show();
 				event.preventDefault();
 				$("#name").focus();
-			}else if($("#parseladdress").val().length<1){
-				addressError.innerHTML='지번주소 입력시 [더보기]란을 클릭해 선택해주십시오.';
-				addressError.style.display ='block';
+			}else if($("#email2").val=="etc"){
+				$("#email3").show();
 			}
 		});
 	});
@@ -153,15 +140,14 @@
     <label id="allGender">성별 : </label>
     <div class="insertGender">
 	  	<div>
-			 <input type="radio" value="F" id="female" name="gender" checked="checked">
-			 <label for="female"> 여성</label>
-			 <input type="radio" value="M" id="male" name="gender">
-			 <label for="male"> 남성</label><br>
-			 <span id="view" ></span>
+			 <input type="radio" id="female" name="gender">
+			 <label for="female" value="F"> 여성</label>
+			 <input type="radio" id="male" name="gender">
+			 <label for="male" value="M"> 남성</label>
 		</div>
     </div>
     
-    <div><input type="hidden" name="grade" value="M1"></div>
+    <div><input type="hidden" name="grade" value="일반회원"></div>
     
     <div class="email">
       <label>E-mail : </label>
@@ -172,7 +158,7 @@
         	<option value="etc">직접입력</option>
       </select>
       <input name="email3" type="text" id="email3">
-	  <input name="emailagree" type="checkbox" id="emailagree" value="Y">
+	  <input name="emailagree" type="checkbox" id="emailagree" value=" ">
 	  <label id="agree" for="emailagree"> 이메일 수신에 동의합니다.</label>
 	  <div id="info"></div>
   	</div>
@@ -191,14 +177,13 @@
     <div class="">
       <label for="">지번주소 : </label>
       <input name="parseladdress" type="text" class="" id="parseladdress" required>
-      <span id="addressError" style="color:red;font-size: 0.8em;"></span>
       <span id="guide" style="color:#999;display:none"></span>
     </div>
     
     <div class="">
       <label for="">상세주소 : </label>
       <input name="addressdetail" type="text" class="" id="addressdetail" required>
-      <input type="text" id="extraAddress" style="display: none;">
+      <input type="text" id="extraAddress">
     </div>
     
     <div class="">

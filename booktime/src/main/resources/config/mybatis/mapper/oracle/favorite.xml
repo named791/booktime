@@ -40,11 +40,11 @@
 	
 	<sql id="delCartOverDateSql">
 		delete favorite
-		<![CDATA[ where regdate+#{day} <= sysdate ]]>
+		<![CDATA[ where regdate+#{day} <= sysdate and "group"='CART' ]]>
 	</sql>
 	
 	<delete id="deleteCartOverDate" parameterType="int">
-		<include refid="delCartOverDateSql"></include> and "group"='CART'
+		<include refid="delCartOverDateSql"></include> 
 	</delete>
 	
 	<delete id="deleteCartOverDateByNonUser" parameterType="int">

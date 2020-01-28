@@ -27,15 +27,8 @@ public class BookContoller {
 	private BookCategoryService cateService;
 	
 	@RequestMapping("/bookDetail.do")
-	public String productDetail(@RequestParam(required = false) String ItemId, Model model) {
+	public void productDetail(@RequestParam String ItemId, Model model) {
 		logger.info("상품 디테일 파라미터 isbn13={}",ItemId);
-		
-		if(ItemId==null || ItemId.isEmpty()) {
-			model.addAttribute("msg", "잘못된 URL입니다");
-			model.addAttribute("url", "/index.do");
-			
-			return "common/message";
-		}
 		
 		Map<String, Object> map = null;
 		try {
@@ -55,8 +48,6 @@ public class BookContoller {
 		}
 		
 		model.addAttribute("map", map);
-		
-		return "book/bookDetail";
 	}
 	
 	@RequestMapping("/bookGrade.do")

@@ -52,8 +52,8 @@ ul.book {
     border-radius: 3px;
     background: #df307f;
     margin-bottom: 5px;
-    height: 32px;
-    width: 60px;
+    height: 38px;
+    width: 76px;
     padding-top: 6px;
 }
 .button_search_buyitnow_new {
@@ -73,8 +73,8 @@ ul.book {
     border-radius: 3px;
     background: #e24457;
     margin-bottom: 5px;
-    height: 32px;
-    width: 60px;
+     height: 38px;
+    width: 76px;
     padding-top: 6px;
 }
 .button_search_storage {
@@ -93,8 +93,8 @@ ul.book {
     -moz-border-radius: 3px;
     border-radius: 3px;
     background: #FFF;
- 	height: 32px;
-    width: 60px;
+ 	height: 38px;
+    width: 76px;
     padding-top: 6px;
 }
 .br2010_subt{
@@ -163,9 +163,6 @@ td.bookBestContent {
 a{
 	color:black;
 } 
-.button_search_cart_new{
-	text-decoration:none;
-}
 
 </style>
 
@@ -187,19 +184,6 @@ a{
 				.prop("checked", this.checked);
 		});
 		
-		$("#btnBrowse-Search-Category").click(function(){
-			location.href=
-				"<c:url value='/book/bookList/searchBook.do?cateNo=${param.cateNo}&searchKeyword="+$("#txtBrowse-Search-Category").val()+"'/>";
-		});
-		
-		$(".img_all").click(function(){
-			if($("#checkbox .checkbox").is(":checked") == false){
-				$("#checkbox .checkbox").prop("checked", true);
-			}else if($("#checkbox .checkbox").is(":checked") == true){
-				$("#checkbox .checkbox").prop("checked", false);
-			}
-		});
-		
 	});
 	
 	function pageFunc(curPage){		
@@ -212,13 +196,11 @@ a{
 <!-- 페이징 처리 관련 form -->
 <form action="<c:url value='/reBoard/list.do'/>" 
 	name="frmPage" method="post">
-	<input type="text" name="cateNo" 
-		value="${param.cateNo}">
-	<input type="text" name="searchKeyword" 
-		value="${param.searchKeyword }">
-	<input type="hidden" name="start" >
-	<input type="text" name="startIndex" value="${list[0]['startIndex'] }" >
-	<input type="text" name="totalResults" value="${list[0]['totalResult'] }">
+	<input type="hidden" name="searchCondition" 
+		value="${param.searchCondition}">
+	<input type="hidden" name="searchKeyword" 
+		value="${param.searchKeyword}">
+	<input type="hidden" name="currentPage" >
 </form>
 
 <!-- Page Content -->
@@ -233,7 +215,8 @@ a{
     	<!-- Content Column -->
     	<div class="col-lg-10 mt-3">
 	    	<div class="top_div">
-				<table align="right" cellpadding="0" >
+				<table align="right" cellpadding="0" 
+				action="<c:url value='/book/bookList.do'/>">
 				    <tbody>
 				    	<tr>
 					        <td>
@@ -245,8 +228,7 @@ a{
 					        </td>
         					<td>
         						<input id="txtBrowse-Search-Category" 
-        							type="text" name="searchKeyword"
-        							class="br2010_fbox watermark"
+        							type="text" class="br2010_fbox watermark"
         							placeholder="분야 내 검색"
         							value=${param.searchKeyword }>
         					</td>
@@ -261,7 +243,7 @@ a{
 				
 				<!-- 신간베스트 -->
 				<div class="bookBestSection">
-					<c:import url="/book/bookBestList.do?cateNo=${param.cateNo }"></c:import>	
+					<c:import url="/book/bookBestList.do"></c:import>	
 				</div>
 			<!-- 테이블 -->
 				<div class="ss_line5" style="padding-top: 10px;">
@@ -270,9 +252,8 @@ a{
 							<tr>
 								<td height="19">
 									<div class="search_t_g" style="float: left;">
-										이 분야에 <strong style="color: red;">
-										${list[0]['totalResult'] }</strong>개의 상품이 있습니다.
-									</div> 
+										이 분야에 <strong>814</strong>개의 상품이 있습니다.
+									</div>
 								</td>
 							</tr>
 						</tbody>
@@ -299,14 +280,14 @@ a{
 				</div> -->
 				<div class="divPage">
 					<!-- 이전블럭으로 이동 -->
-					<c:if test="${param.start>1 }">	
-						<a href="#" onclick="pageFunc(${param.start})">
+					<c:if test="${pagingInfo.firstPage>1 }">	
+						<a href="#" onclick="pageFunc(${pagingInfo.firstPage-1})">
 							<img src="<c:url value='/resources/images/first.JPG'/>" alt="이전 블럭으로">
 						</a>
 					</c:if>
 					<!-- 페이지 번호 추가 -->						
 					<!-- [1][2][3][4][5][6][7][8][9][10] -->
-					<c:forEach var="i" begin="${param.start }" 
+					<c:forEach var="i" begin="${pagingInfo.firstPage }" 
 						end="${pagingInfo.lastPage }">		
 						<c:if test="${i==pagingInfo.currentPage }">
 							<span style="color:blue;font-weight: bold">${i}</span>
@@ -331,15 +312,22 @@ a{
 							<tbody>
 								<tr>
 									<td style="padding: 0px 0px 0px 5px;">
-										<img class="img_all" src="<c:url value='/resources/images/button/btn_all.jpg'/>"
-										alt="체크박스 전체 선택"
+										<img class="img_all"src="<c:url value='/resources/images/button/btn_all.jpg'/>"
+										onclick="revcheck(this.form);"
 										style="cursor: pointer;"></td>
 	
 									<td style="padding: 0px 0px 0px 5px;"><input
+										onclick="return SafeBasket_ListOneAddByAjax(null, this, {top: 25, left:-50});"
 										type="image" alt="체크한 도서를 모두 장바구니에 담습니다."
 										src="//image.aladin.co.kr/img/search/btn_basket_2.jpg"
 										border="0" name="Submit.AddBookAll"></td>
 	
+									<td style="padding: 0px 0px 0px 5px;"><input type="image"
+										name="submit.AddSafeBasketAll"
+										onclick="return AddSafeBasketAll();"
+										alt="체크한 상품를 모두 보관함에 담습니다."
+										src="//image.aladin.co.kr/img/search/btn_keep_s.jpg" border="0"></td>
+									
 									<td style="padding: 0px 0px 0px 5px;"><input type="image"
 										name="submit.AddMyListAll" onclick="return AddMyListAll();"
 										alt="체크한 상품을 즐겨찾기에 등록합니다."
@@ -353,6 +341,7 @@ a{
 				</div>
 	
 				<!-- 책종류 테이블 -->
+	
 				<div class="ss_book_box">
 					<c:forEach var="map" items="${list }">
 						<table width="100%" class="ss_book_table">
@@ -364,8 +353,8 @@ a{
 											<tbody>
 												<tr>
 													<td>
-														<div id="checkbox" style="text-align: center;">
-															<input name="chkCart.K692636032" type="checkbox" class="checkbox">
+														<div style="text-align: center;">
+															<input name="chkCart.K692636032" type="checkbox">
 														</div>
 													</td>
 												</tr>
@@ -378,17 +367,16 @@ a{
 												<tr>
 													<td style="">
 														<div style="position: relative;">
-															<a href='<c:url value="/book/bookDetail.do?ItemId=${map['isbn13'] }"/>' 
-															id="book_a">
+															<a href="#" id="book_a">
 															<img src="${map['cover'] }"
 																width="150" border="0" class="i_cover"></a>
 														</div>
 													</td>
 												</tr>
 												<tr>
-													<td class="btn_author_list" style="text-align: left;">
-														<!-- <a href="http://www.aladin.co.kr/shop/wproduct.aspx?ItemId=226667290"
-														target="_blank"> -->
+													<td style="text-align: left;">
+														<a href="http://www.aladin.co.kr/shop/wproduct.aspx?ItemId=226667290"
+														target="_blank">
 														<img src="//image.aladin.co.kr/img/search/icon_new2.gif"
 															border="0"></a>
 													</td>
@@ -397,29 +385,27 @@ a{
 										</table>
 									</td>
 									<td width="*" align="left" valign="top">
-										<table width="83%" border="0" cellspacing="0" cellpadding="0">
+										<table width="100%" border="0" cellspacing="0" cellpadding="0">
 											<tbody>
 												<tr>
 													<td width="*" valign="top">
 														<div class="ss_book_list">
 															<ul class="book">
 																<li><a href=
-																	'<c:url value="/book/bookDetail.do?ItemId=${map['isbn13'] }"/>' 
-																	class="bo3" style="color:#3399FF">
+																	"<c:url value='#'/>" class="bo3" style="color:#3399FF">
 																		<b>${map['title'] }</b>
 																	</a>&nbsp;</li>
 																<li><a href=
-																	"<c:url value='/book/bookList/authorBook.do?cateNo=${param.cateNo}&
-																	author=${fn:substring(map["author"], 0, fn:indexOf(map["author"], "("))}'/>">
-																		${map['author'] }</a> 
+																	"<c:url value='#'/>">
+																		${map['author'] }</a> (지은이) 
 																		| 
-																		<a href="<c:url value='/book/bookList/publBook.do?publisher=${map["publisher"] }'/>">
-																		${map['publisher'] }</a>
+																		<a href="<c:url value='#'/>">${map['publisher'] }</a>
 																		| ${map['pubDate'] }</li>
 																<li><span class="">${map['priceStandard'] }</span>원 → <span
 																		class="ss_p2"><b>
 																		<span style="color:red">
-																		${map['priceSales'] }
+																		<fmt:formatNumber value=
+																		"${map['priceStandard']-(map['priceStandard']/100*10) }"/>
 																		</span>원</b></span>
 																	(<span class="ss_p">10%</span>할인), 마일리지 <span
 																		class="ss_p">
@@ -445,42 +431,15 @@ a{
 														</div>
 													</td>
 													<td width="80" valign="top">
-														
-															<c:if test="${!empty sessionScope.userid }">
-																<div class="button_search_cart_new" style="font-size: 13px;">
-																	<!-- 로그인 되어 있을때 -->
-																	<!-- <input type="button" class="btn col" id="btCart"
-																		style="width: 25%;">장바구니 -->
-																	<a href="https://www.aladin.co.kr/order/worder_chk_order.aspx?CartType=4&amp;ISBN=K692636032" style="color:white"
-																	>장바구니</a>
-																</div>
-															</c:if>
-															<c:if test="${empty map['stockstatus'] }">
-																	<!-- 재고가 있으면 -->
-																<div class="button_search_buyitnow_new" style="font-size: 13px;">
-																	<a href="https://www.aladin.co.kr/order/worder_chk_order.aspx?CartType=4&amp;ISBN=K692636032" style="color:white"
-																	>바로구매</a>
-																</div>
-																<div class="button_search_storage" style="position: relative; font-size: 13px;">
-																		<a href="#" style="color:#3399FF">찜목록 <img alt=""
-																			src="<c:url value='/resources/images/btn_bg5_arrow.png'/>"></a>
-																</div>
-															</c:if>
-															<c:if test="${!empty map['stockstatus'] }">
-																<!-- 재고가 없으면 -->
-																<input type="submit" class="btn col" id="btOrder"
-																	value="지금은 구매할 수 없습니다." style="width: 50%;"
-																	disabled="disabled">
-															</c:if>
-															<%-- <div class="button_search_cart_new">
-																<a href=
-																"<c:url value='/favorite/addFavorite.do'/>" style="color:white"
-																	>장바구니</a>
+														<div class="book_Rfloat_02">
+															<div class="button_search_cart_new">
+																<a href="/shop/wbasket.aspx?AddBook=K692636032" style="color:white"
+																	onclick="return SafeBasket_ListOneAddByAjax('K692636032', document.getElementById('divBasketAddResult_K692636032'), {top: 0, left: -55});">장바구니</a>
 															</div>
 															<div id="divBasketAddResult_K692636032"></div>
 															<div class="button_search_buyitnow_new">
 																<a href="https://www.aladin.co.kr/order/worder_chk_order.aspx?CartType=4&amp;ISBN=K692636032" style="color:white"
-																	>바로구매</a>
+																	onclick="return QuickBuyCheck('K692636032');">바로구매</a>
 															</div>
 															<div class="Search3_Result_SafeBasketArea"
 																isbn="K692636032" style="position: relative;">
@@ -488,7 +447,8 @@ a{
 																	<a href="javascript:void(0);" style="color:#3399FF">즐겨찾기 <img alt=""
 																		src="//image.aladin.co.kr/img/search/btn_bg5_arrow.png"></a>
 																</div>
-															</div> --%>
+															</div>
+														</div>
 													</td>
 												</tr>
 												<tr>
@@ -536,20 +496,26 @@ a{
 							<tbody>
 								<tr>
 									<td style="padding: 0px 0px 0px 5px;">
-										<img class="img_all" src="<c:url value='/resources/images/button/btn_all.jpg'/>"
-										alt="체크박스 전체 선택"
+										<img class="img_all"src="<c:url value='/resources/images/button/btn_all.jpg'/>"
+										onclick="revcheck(this.form);"
 										style="cursor: pointer;"></td>
 	
 									<td style="padding: 0px 0px 0px 5px;"><input
+										onclick="return SafeBasket_ListOneAddByAjax(null, this, {top: 25, left:-50});"
 										type="image" alt="체크한 도서를 모두 장바구니에 담습니다."
-										src="//image.aladin.co.kr/img/search/btn_basket_2.jpg"
-										border="0" name="Submit.AddBookAll"></td>
+										src="<c:url value='/resources/images/button/btn_basket_2.jpg'/>"
+										name="Submit.AddBookAll"></td>
 	
+									<td style="padding: 0px 0px 0px 5px;"><input type="image"
+										name="submit.AddSafeBasketAll"
+										onclick="return AddSafeBasketAll();"
+										alt="체크한 상품를 모두 보관함에 담습니다."
+										src="<c:url value='/resources/images/button/btn_keep_s.jpg'/>" ></td>
+									
 									<td style="padding: 0px 0px 0px 5px;"><input type="image"
 										name="submit.AddMyListAll" onclick="return AddMyListAll();"
 										alt="체크한 상품을 즐겨찾기에 등록합니다."
-										src="//image.aladin.co.kr/img/search/btn_mylist_s.jpg"
-										border="0"></td>
+										src="<c:url value='/resources/images/button/btn_mylist_s.jpg'/>"></td>
 								</tr>
 							</tbody>
 						</table>
