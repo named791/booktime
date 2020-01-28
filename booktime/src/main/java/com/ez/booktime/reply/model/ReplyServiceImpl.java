@@ -13,13 +13,17 @@ public class ReplyServiceImpl implements ReplyService{
 	
 	@Override
 	public int insertReply(ReplyVO replyVo) {
-		// TODO Auto-generated method stub
-		return 0;
+		return replyDao.insertReply(replyVo);
 	}
 
 	@Override
-	public List<ReplyVO> selectReplyList() {
-		return replyDao.selectReplyList();
+	public List<ReplyVO> selectReplyList(int boardNo) {
+		return replyDao.selectReplyList(boardNo);
+	}
+
+	@Override
+	public int drawReply(int replyNo) {
+		return replyDao.drawReply(replyNo);
 	}
 
 }

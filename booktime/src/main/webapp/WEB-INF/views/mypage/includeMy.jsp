@@ -35,7 +35,7 @@
 			<a id="h1" href="#" class="list-group-item list-group-item-action">주문 조회/변경/취소</a>
 			  
 			<a id="a2" class="list-group-item list-group-item-action active"> 나의 포인트</a>
-			<a href="#" class="list-group-item list-group-item-action">마일리지</a>
+			<a href="<c:url value='/mypage/Mileage/Mileage.do'/>" class="list-group-item list-group-item-action">마일리지</a>
 			  
 			<a id="a3" class="list-group-item list-group-item-action active"> 관심상품</a>
 			<a href="#" class="list-group-item list-group-item-action">WISH LIST</a>
