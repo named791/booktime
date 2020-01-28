@@ -4,6 +4,10 @@ import java.util.List;
 
 import com.ez.booktime.common.SearchVO;
 
+import java.util.List;
+
+import com.ez.booktime.common.SearchVO;
+
 public interface MileageService {
 	List<MileageVO> selectMileageList();
 	public int selectTotalRecord(SearchVO searchVo);

@@ -105,7 +105,7 @@
             <a class="nav-link" href="#">주문내역</a>
           </li>
           <li>
-          	 <a class="nav-link" href="#">
+          	 <a class="nav-link" href="<c:url value='/favorite/cart.do'/>">
           	 <img style="width: 18px;" src="<c:url value='/resources/images/icons/cart1.png'/>"
           	 >장바구니</a>
           </li>
