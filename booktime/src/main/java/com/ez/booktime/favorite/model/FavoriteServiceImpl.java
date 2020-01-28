@@ -47,9 +47,8 @@ public class FavoriteServiceImpl implements FavoriteService{
 			int nonUserCartDateLimit = 1;
 			
 			cnt = favoriteDao.deleteCartOverDate(userCartDateLimit);
-			if(cnt>0) {
-				cnt = favoriteDao.deleteCartOverDateByNonUser(nonUserCartDateLimit);
-			}
+			cnt = favoriteDao.deleteCartOverDateByNonUser(nonUserCartDateLimit);
+			
 		}catch (RuntimeException e) {
 			e.printStackTrace();
 			cnt = -1;
@@ -63,8 +62,19 @@ public class FavoriteServiceImpl implements FavoriteService{
 	}
 
 	@Override
+	@Transactional
 	public int updateQty(FavoriteVO vo) {
-		return favoriteDao.updateQty(vo);
+		int count = 0;
+		for(FavoriteVO fVo :vo.getVoList()) {
+			try{
+				int cnt = favoriteDao.updateQty(fVo);
+				if(cnt>0) count++;
+			}catch (RuntimeException e) {
+				e.printStackTrace();
+				count = -1;
+			}
+		}
+		return count;
 	}
 
 	@Override
@@ -100,14 +110,14 @@ public class FavoriteServiceImpl implements FavoriteService{
 		int count = 0;
 		
 		if(noList==null) {
-			FavoriteVO vo = favoriteDao.selectOneFavorite(Integer.parseInt(favoriteNoList));
+			FavoriteVO vo = selectOneFavorite(Integer.parseInt(favoriteNoList));
 			vo.setGroup("CART");
 			
 			int cnt = insertFavorite(vo);
 			if(cnt>0) count++;
 		}else {
 			for(String no : noList) {
-				FavoriteVO vo = favoriteDao.selectOneFavorite(Integer.parseInt(no));
+				FavoriteVO vo = selectOneFavorite(Integer.parseInt(no));
 				vo.setGroup("CART");
 				
 				int cnt = insertFavorite(vo);
@@ -116,5 +126,10 @@ public class FavoriteServiceImpl implements FavoriteService{
 		}
 		
 		return count;
+	}
+
+	@Override
+	public FavoriteVO selectOneFavorite(int favoriteNo) {
+		return favoriteDao.selectOneFavorite(favoriteNo);
 	}
 }

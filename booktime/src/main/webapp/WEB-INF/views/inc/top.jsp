@@ -99,7 +99,7 @@
 	   	  </c:if>
 	   	  
           <li class="nav-item">
-            <a class="nav-link" href="<c:url value='/freeBoard/List.do'/>">게시판</a>
+            <a class="nav-link" href="freeBoard/List.do">게시판</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">주문내역</a>

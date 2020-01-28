@@ -16,6 +16,8 @@ public class FavoriteVO {
 	private Timestamp regdate;
 	
 	private List<FavoriteVO> voList;
+	//name = voList[i].favoriteNo
+	//Controller => @modelAttribute FavoriteVO
 	
 	public int getFavoriteNo() {
 		return favoriteNo;

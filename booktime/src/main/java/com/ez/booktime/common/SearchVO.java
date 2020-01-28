@@ -21,7 +21,7 @@ public class SearchVO {
 	
     
     /**블럭당 보여질 페이지 수,  페이지 사이즈 */
-    private int blockSize;
+    private int blockSize; // properties에서 설정
     
     /** 시작 인덱스 */
     private int firstRecordIndex = 1;

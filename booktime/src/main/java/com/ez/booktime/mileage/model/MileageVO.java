@@ -7,7 +7,7 @@ public class MileageVO {
 	private String userid;
 	private Timestamp savingDate;
 	private int savingPoint;
-	private int payNo;
+	private String payNo;
 	private int usePoint;
 	private Timestamp endDate;
 	
@@ -35,10 +35,10 @@ public class MileageVO {
 	public void setSavingPoint(int savingPoint) {
 		this.savingPoint = savingPoint;
 	}
-	public int getPayNo() {
+	public String getPayNo() {
 		return payNo;
 	}
-	public void setPayNo(int payNo) {
+	public void setPayNo(String payNo) {
 		this.payNo = payNo;
 	}
 	public int getUsePoint() {
@@ -53,12 +53,12 @@ public class MileageVO {
 	public void setEndDate(Timestamp endDate) {
 		this.endDate = endDate;
 	}
-	
 	@Override
 	public String toString() {
 		return "MileageVO [mileageNo=" + mileageNo + ", userid=" + userid + ", savingDate=" + savingDate
 				+ ", savingPoint=" + savingPoint + ", payNo=" + payNo + ", usePoint=" + usePoint + ", endDate="
 				+ endDate + "]";
 	}
-		
+	
+	
 }

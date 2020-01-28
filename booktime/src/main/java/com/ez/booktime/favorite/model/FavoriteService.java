@@ -9,4 +9,5 @@ public interface FavoriteService {
 	int updateQty(FavoriteVO vo);
 	int deleteFavorite(String favoriteNoList, String group);
 	int moveFavorite(String favoriteNoList);
+	FavoriteVO selectOneFavorite(int favoriteNo);
 }

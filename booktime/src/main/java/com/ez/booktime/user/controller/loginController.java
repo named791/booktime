@@ -43,7 +43,10 @@ public class loginController {
 		
 		String msg="", url="/login/login.do";
 		if(result==userService.LOGIN_OK) { //로그인 완료시
-			String name=userService.selectByUserid(userid).getName(); //userid로 name조회
+			UserVO userVo=userService.selectByUserid(userid); //userid로 name조회
+			logger.info("조회 결과, userVo.name={}", userVo.getName());
+			
+			String name=userVo.getName();
 			logger.info("조회 결과, name={}", name);
 			
 			//세션생성(request,response 필요) - 쿠키에 아이디 저장

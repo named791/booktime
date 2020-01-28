@@ -7,12 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.ez.booktime.common.PageNumber;
-import com.ez.booktime.common.PaginationInfo;
-import com.ez.booktime.common.SearchVO;
 import com.ez.booktime.mileage.model.MileageService;
 import com.ez.booktime.mileage.model.MileageVO;
 
@@ -25,6 +21,7 @@ public class MileageController {
 	@Autowired
 	private MileageService mileageService;
 	
+	/*
 	@RequestMapping("/Mileage.do")
 	public void MileageList(Model model) {
 		
@@ -35,4 +32,5 @@ public class MileageController {
 		model.addAttribute("list",list);
 
 	}
+	*/
 }

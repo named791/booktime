@@ -15,17 +15,12 @@ public class ReplyDAOMybatis implements ReplyDAO{
 	
 	@Override
 	public int insertReply(ReplyVO replyVo) {
-		return sqlSession.insert(namespace+"writeReply",replyVo);
+		return 0;
 	}
 
 	@Override
-	public List<ReplyVO> selectReplyList(int boardNo) {
-		return sqlSession.selectList(namespace+"selectReplyByNo",boardNo);
-	}
-
-	@Override
-	public int drawReply(int replyNo) {
-		return sqlSession.update(namespace+"drawReply",replyNo);
+	public List<ReplyVO> selectReplyList() {
+		return sqlSession.selectList(namespace+"selectReplyByNo");
 	}
 
 }

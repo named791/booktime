@@ -23,6 +23,24 @@
 	<select id="selectByUserid" parameterType="string" resultType="userVo">
 		select * from "USER" where userid=#{userid}
 	</select>
+	
+	<update id="deleteUser" parameterType="string">
+		update "USER"
+		set withdrawaldate = sysdate , withdrawalreason=#{withdrawalreason}
+		where userid=#{userid} and withdrawaldate is null
+	</update>
+	
+	<select id="selectPWD" parameterType="string" resultType="string">
+		select pwd from "USER" where userid=#{userid} and withdrawaldate is null
+	</select>
+	
+	<update id="updateMileage" parameterType="mileageVo">
+		update "USER"
+		set mileage = mileage
+		<if test="savingPoint>0">+#{savingPoint}</if>
+		<if test="usePoint>0">-#{usePoint}</if>
+		where userid=#{userid}
+	</update>
 </mapper>
 
 
