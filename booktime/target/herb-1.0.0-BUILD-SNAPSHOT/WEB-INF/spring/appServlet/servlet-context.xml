@@ -61,7 +61,7 @@
 		</interceptor>
 
 		<interceptor>
-			<mapping path="/mypage/*"/>	
+			<mapping path="/mypage/**"/>	
 			<mapping path="/favorite/favorite.do"/>
 			<beans:ref bean="loginIntercepter"/>
 		</interceptor>

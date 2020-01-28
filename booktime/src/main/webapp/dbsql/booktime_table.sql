@@ -1,3 +1,12 @@
+--임시
+ALTER TABLE PAYMENT
+	DROP
+		CONSTRAINT FK_USER_TO_PAYMENT; -- 멤버 -> 주문
+--임시
+ALTER TABLE MILEAGE
+	DROP
+		CONSTRAINT FK_USER_TO_MILEAGE;
+		
 -- 멤버
 drop table "USER" cascade constraints;
 CREATE TABLE "USER" (
@@ -412,7 +421,7 @@ ALTER TABLE bookgrade
 			boardNo -- 게시글번호
 		);
 
-
+/*
 -- 주문
 ALTER TABLE PAYMENT
 	ADD
@@ -423,7 +432,9 @@ ALTER TABLE PAYMENT
 		REFERENCES "USER" ( -- 멤버
 			userid -- 아이디
 		);
+*/
 
+/*
 -- 마일리지
 ALTER TABLE MILEAGE
 	ADD
@@ -434,6 +445,8 @@ ALTER TABLE MILEAGE
 		REFERENCES "USER" ( -- 멤버
 			userid -- 아이디
 		);
+*/
+
 
 -- 마일리지
 ALTER TABLE MILEAGE

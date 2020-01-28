@@ -169,7 +169,7 @@
 
 <br><br><br>
 <div class="container details" >
-	<div class="row">
+	<div class="row" style="min-height:645px;">
 		<div class="col-md-5">
 			<img class="cover" alt="cover"
 				src='${map["cover"]}'>
