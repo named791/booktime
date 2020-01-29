@@ -22,17 +22,17 @@
 #editform #userid{
 	border-top: 2px solid gray;
 }
-#pwdChk{
+.pwdChk{
 	margin-top: 100px;
 }
-#pwdChk #editPWD1{
+.pwdChk #editPWD1{
 	border-top: 2px solid gray;
 }
 form fieldset {
 	border-bottom: 1px solid gray;
 	padding: 20px;
 }
-#pwdChk button,#editform button  {
+.pwdChk button,#editform button  {
 	text-align: center;
 	margin-left: 300px;
 	margin-top: 30px;
@@ -70,17 +70,17 @@ form fieldset {
 	color: rgb(0 153 174);
 	border: none;
 }
-#pwdChk img{
+.pwdChk img{
 	width: 10px;
 	margin-right: 3px;
 	margin-bottom: 5px;
 }
-.p1, #p2{
+.pwdChk #p2{
 	font-size: 1.2em;
 	font-weight: bolder;
 	font-family: 맑은 고딕;
 }
-#pwdChk label{
+.pwdChk label{
 	width: 200px;
 	font-size: 14px;
 	font-weight: bolder; 
@@ -109,10 +109,31 @@ form fieldset {
 #editform #email1{
 	width: 150px;
 }
-#pwdChk #sub{
+.pwdChk #sub{
 	margin-top: 10px;
 }
-#pwdChk #causion strong{
+.pwdChk #causion strong{
 	font-size: 1.2em;
 	color: red;
+}
+#editform .pwdChk{
+	width: 800p
+}
+.frmpwd{
+	margin-left: 280px;
+	width: 800px;
+}
+.frmpwd .pwdChk{
+	width: 800px;
+}
+.edithp, .editaddress #zipcode{
+	margin-left: 204px;
+	margin-top: 10px;
+}
+#address span, #hp span, #email span{
+	color: rgb(0 153 174);
+	margin-right: 30px;
+}
+.editemail{
+	margin-left: 204px;
 }

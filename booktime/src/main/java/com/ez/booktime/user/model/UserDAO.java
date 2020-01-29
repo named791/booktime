@@ -10,4 +10,5 @@ public interface UserDAO {
 	int deleteUser(String userid, String withdrawalreason);
 	String selectPWD(String userid);
 	int updateMileage(MileageVO vo);
+	int updateUser(UserVO userVo);
 }
