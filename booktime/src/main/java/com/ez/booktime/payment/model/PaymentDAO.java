@@ -8,4 +8,5 @@ public interface PaymentDAO {
 	 int insertPaymentDetail(Map<String, Object> map);
 	 PaymentVO selectPaymentByPayNo(PaymentVO vo);
 	 List<PaymentDetailVO> selectPaymentDetail(String payNo);
+	 List<PaymentVO> selectPaymentList(PaymentDateVO vo);
 }

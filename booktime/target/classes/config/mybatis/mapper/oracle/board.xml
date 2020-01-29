@@ -72,4 +72,8 @@
 		where boardNo=#{boardNo}
 	</update>
 
+	<select id="countReview" parameterType="map" resultType="int">
+		select count(*) from board
+		where userid=#{userid} and category=#{isbn}
+	</select>
 </mapper>

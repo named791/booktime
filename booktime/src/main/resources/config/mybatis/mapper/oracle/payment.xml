@@ -33,6 +33,17 @@
 		select * from paymentDetail
 		where payNo=#{payNo}
 	</select>
+	
+	<select id="selectPaymentList" parameterType="paymentDateVO" resultType="paymentVo">
+		select * from payment
+		<if test="userid!=null and userid!=''">
+			where userid=#{userid}
+		</if>
+		<if test="(userid==null or userid=='') and payNo!=null and payNo!=''">
+			where payNo=#{payNo}
+		</if>
+		order by payDate desc
+	</select>
 </mapper>
 
 

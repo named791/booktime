@@ -33,5 +33,10 @@ public class PaymentDAOMybatis implements PaymentDAO{
 	public List<PaymentDetailVO> selectPaymentDetail(String payNo) {
 		return sqlSession.selectList(namespace+"selectPaymentDetail", payNo);
 	}
+
+	@Override
+	public List<PaymentVO> selectPaymentList(PaymentDateVO vo) {
+		return sqlSession.selectList(namespace+"selectPaymentList", vo);
+	}
 	
 }

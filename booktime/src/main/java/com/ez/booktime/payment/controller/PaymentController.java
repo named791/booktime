@@ -1,7 +1,9 @@
 package com.ez.booktime.payment.controller;
 
-import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,18 +16,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ez.booktime.api.AladinAPI;
 import com.ez.booktime.category.model.BookCategoryService;
 import com.ez.booktime.category.model.BookCategoryVO;
 import com.ez.booktime.favorite.model.FavoriteService;
 import com.ez.booktime.favorite.model.FavoriteVO;
+import com.ez.booktime.freeBoard.model.FreeBoardService;
+import com.ez.booktime.payment.model.PaymentDateVO;
 import com.ez.booktime.payment.model.PaymentDetailVO;
 import com.ez.booktime.payment.model.PaymentService;
 import com.ez.booktime.payment.model.PaymentVO;
 import com.ez.booktime.user.model.UserService;
-import com.ez.booktime.user.model.UserVO;
 
 @Controller
 @RequestMapping("/payment")
@@ -47,6 +49,9 @@ public class PaymentController {
 	
 	@Autowired
 	private BookCategoryService cateService;
+	
+	@Autowired
+	private FreeBoardService boardService;
 	
 	@RequestMapping("/paymentSheetSend.do")
 	public String paymentSheetSend(@ModelAttribute FavoriteVO vo
@@ -161,6 +166,8 @@ public class PaymentController {
 			model.addAttribute("url", "/favorite/cart.do");
 			
 			return "common/message";
+		}else if(cnt>0) {
+			
 		}
 		
 		return "redirect:/payment/paymentResult.do?payNo="+vo.getPayNo()+"&nonMember="+vo.getNonMember();
@@ -171,6 +178,9 @@ public class PaymentController {
 			,@ModelAttribute PaymentVO vo
 			, Model model) {
 		String userid = (String)session.getAttribute("userid");
+		if(userid==null || userid.isEmpty()) {
+			userid = "#"+session.getId();
+		}
 		vo.setUserid(userid);
 		logger.info("주문 결과 보여주기, 파라미터 vo={}",vo);
 		
@@ -186,11 +196,20 @@ public class PaymentController {
 		
 		vo = paymentService.selectPayment(vo);
 		
+		if(vo==null) {
+			model.addAttribute("msg", "주문정보가 없습니다.");
+			model.addAttribute("url", "/index.do");
+			
+			return "common/message";
+		}
+		
 		List<PaymentDetailVO> detailList = vo.getDetails();
 		List<Map<String, Object>> infoList = new ArrayList<Map<String,Object>>();
 		for(PaymentDetailVO dVo : detailList) {
 			try {
 				Map<String, Object> map = aladinApi.selectBook(dVo.getIsbn());
+				BookCategoryVO cateVo = cateService.selectCategoryInfoByName((String)map.get("cateName"));
+				map.put("cateCode", cateVo.getCateCode());
 				
 				infoList.add(map);
 			} catch (Exception e) {
@@ -203,5 +222,66 @@ public class PaymentController {
 		model.addAttribute("infoList", infoList);
 		
 		return "payment/paymentResult";
+	}
+	
+	@RequestMapping("/paymentList.do")
+	public String paymentList(HttpSession session
+			,@ModelAttribute PaymentDateVO vo
+			,Model model) {
+		String userid = (String)session.getAttribute("userid");
+		vo.setUserid(userid);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		if(vo.getEndDay()==null || vo.getEndDay().isEmpty()) {
+			vo.setEndDay(sdf.format(new Date()));
+		}
+		
+		logger.info("주문내역 조회, 파라미터 vo={}",vo);
+		
+		if((userid==null || userid.isEmpty()) 
+				&& (vo.getPayNo()==null || vo.getPayNo().isEmpty())) {
+			model.addAttribute("msg", "잘못된 URL입니다.");
+			model.addAttribute("url", "/index.do");
+			return "common/message";
+		}
+		
+		List<PaymentVO> list = paymentService.selectPaymentList(vo);
+		
+		List<Map<String, Object>> detailMapList = new ArrayList<Map<String,Object>>();
+		if(list!=null && !list.isEmpty()) {
+			for(PaymentVO pVo:list) {
+				List<PaymentDetailVO> dList = pVo.getDetails();
+				
+				for(PaymentDetailVO dVo : dList) {
+					try {
+						Map<String, Object> detailMap = aladinApi.selectBook(dVo.getIsbn());
+						
+						if(userid!=null && !userid.isEmpty()
+								&& pVo.getProgress().equals("구매확정")) {
+							Map<String, Object> map = new HashMap<String, Object>();
+							map.put("userid", userid);
+							map.put("isbn", dVo.getIsbn());
+							
+							int cnt = boardService.countReview(map);
+							boolean reviewd = false;
+							if(cnt>0) reviewd = true;
+							
+							detailMap.put("reviewed", reviewd);
+						}	// 리뷰작성했는지 체크
+						
+						detailMapList.add(detailMap);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		logger.info("주문내역 조회결과 list.size={}, detailMapList.size={}",list.size(),detailMapList.size());
+		
+		model.addAttribute("list", list);
+		model.addAttribute("dList", detailMapList);
+		model.addAttribute("dateInfo", vo);
+		
+		return "payment/paymentList";
 	}
 }
