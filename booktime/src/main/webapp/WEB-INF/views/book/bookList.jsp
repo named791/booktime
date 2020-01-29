@@ -324,7 +324,6 @@ a{
         							value=${param.searchKeyword }>
         					</td>
         					<td>
-        						<input type="submit">
         						<img id="btnBrowse-Search-Category" 
         						src="//image.aladin.co.kr/img/browse/2010/bu_search.gif"
         						class="searchBt"

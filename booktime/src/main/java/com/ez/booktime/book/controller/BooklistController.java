@@ -56,19 +56,32 @@ public class BooklistController {
 	@RequestMapping("/bookList/searchBook.do")
 	public String bookList_searchTitle(@RequestParam(required = false) String searchKeyword
 			, @RequestParam(defaultValue = "0") int cateNo
+			, @RequestParam(defaultValue = "1") int start
+			, @RequestParam(defaultValue = "20") int maxResult
 			, Model model) {
 		logger.info("제목으로 리스트 검색, 파라미터 searchKeyword={}, cateNo={}",searchKeyword, cateNo);
 		
 		List<Map<String, Object>> searchBookList = null;
 		try {
-			searchBookList = aladinApi.searchByTitleAndCate(searchKeyword, cateNo, 1, 10);
+			searchBookList = aladinApi.searchByTitleAndCate(searchKeyword, cateNo, start, 20);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		logger.info("제목 검색 결과 list.size={}",searchBookList.size());
 		
+		PaginationInfo pagingInfo=new PaginationInfo();
+		int total = Integer.parseInt(searchBookList.get(0).get("totalResult").toString());
+		
+		pagingInfo.setTotalRecord(total);
+		pagingInfo.setBlockSize(10);
+		pagingInfo.setCurrentPage(start);
+		pagingInfo.setRecordCountPerPage(5);
+		
+		logger.info("pagingInfo set 결과, pagingInfo={}", pagingInfo);
+		
 		model.addAttribute("list", searchBookList);
+		model.addAttribute("pagingInfo", pagingInfo);
 		
 		return "book/bookList";
 	}
