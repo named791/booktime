@@ -9,4 +9,5 @@ public interface PaymentDAO {
 	 PaymentVO selectPaymentByPayNo(PaymentVO vo);
 	 List<PaymentDetailVO> selectPaymentDetail(String payNo);
 	 List<PaymentVO> selectPaymentList(PaymentDateVO vo);
+	 int totalPaymentList(PaymentDateVO vo);
 }

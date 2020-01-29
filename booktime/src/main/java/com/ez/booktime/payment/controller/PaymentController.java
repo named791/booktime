@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.ez.booktime.api.AladinAPI;
 import com.ez.booktime.category.model.BookCategoryService;
 import com.ez.booktime.category.model.BookCategoryVO;
+import com.ez.booktime.common.PaginationInfo;
 import com.ez.booktime.favorite.model.FavoriteService;
 import com.ez.booktime.favorite.model.FavoriteVO;
 import com.ez.booktime.freeBoard.model.FreeBoardService;
@@ -245,8 +246,30 @@ public class PaymentController {
 			return "common/message";
 		}
 		
+		
+		//페이징
+		final int blockSize = 5;
+		final int recordCountPerPage = 3;
+		
+		PaginationInfo pagingInfo = new PaginationInfo();
+		pagingInfo.setBlockSize(blockSize);
+		pagingInfo.setCurrentPage(vo.getCurrentPage());
+		pagingInfo.setRecordCountPerPage(recordCountPerPage);
+		
+		vo.setRecordCountPerPage(recordCountPerPage);
+		vo.setFirstRecordIndex(pagingInfo.getFirstRecordIndex());
+		vo.setLastRecordIndex(pagingInfo.getLastRecordIndex());
+		
+		if(userid!=null && !userid.isEmpty()) {
+			pagingInfo.setTotalRecord(paymentService.totalPaymentList(vo));
+		}
+		
+		logger.info("주문내역 vo세팅후={}, pagingInfo={}",vo, pagingInfo);
+
+		//실제 뿌려줄 결과
 		List<PaymentVO> list = paymentService.selectPaymentList(vo);
 		
+		//디테일정보
 		List<Map<String, Object>> detailMapList = new ArrayList<Map<String,Object>>();
 		if(list!=null && !list.isEmpty()) {
 			for(PaymentVO pVo:list) {
@@ -281,6 +304,7 @@ public class PaymentController {
 		model.addAttribute("list", list);
 		model.addAttribute("dList", detailMapList);
 		model.addAttribute("dateInfo", vo);
+		model.addAttribute("pagingInfo", pagingInfo);
 		
 		return "payment/paymentList";
 	}

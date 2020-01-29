@@ -114,5 +114,10 @@ public class PaymentServiceImpl implements PaymentService{
 		
 		return compList;
 	}
+
+	@Override
+	public int totalPaymentList(PaymentDateVO vo) {
+		return paymentDao.totalPaymentList(vo);
+	}
 	
 }
