@@ -38,6 +38,9 @@ public class AladinAPI {
 		//필수
 		String selectUrl = "http://www.aladin.co.kr/ttb/api/ItemLookUp.aspx";
 		String itemIdType = "ItemIdType=ISBN13&";
+		if(isbn13.length()<13) {
+			itemIdType="ItemIdType=ItemId&";
+		}
 		isbn13 = "ItemId="+isbn13+"&";
 		
 		String apiURL = selectUrl+TTB_KEY

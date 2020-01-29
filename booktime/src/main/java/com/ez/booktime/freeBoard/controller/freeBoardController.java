@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ez.booktime.common.PageNumber;
 import com.ez.booktime.common.PaginationInfo;
@@ -95,7 +96,7 @@ public class freeBoardController {
 	}
 	
 	
-	@RequestMapping("/List.do")
+	@RequestMapping("/List2.do")
 	public void freeBoardList(@ModelAttribute SearchVO searchVo,
 			Model model) {
 		//1
@@ -213,5 +214,15 @@ public class freeBoardController {
 		model.addAttribute("url", url);
 		
 		return "common/message";
+	}
+	
+	@RequestMapping("/List.do")
+	public void AjaxList(Model model) {
+		logger.info("목록");
+		
+		List<FreeBoardVO> list=boardService.selectFreeBoard();
+		logger.info("자유게시판 리스트 크기={}",list.size());
+		
+		model.addAttribute("list",list);
 	}
 }

@@ -4,19 +4,30 @@
 
 <mapper namespace="com.mybatis.mapper.reply">
 	
-	<insert id="writeReply" parameterType="ReplyVo">
+	<insert id="writeReply" parameterType="replyVo">
 		<selectKey keyProperty="replyNo" resultType="int" order="BEFORE">
 			select reply_seq.nextval from dual
 		</selectKey>
 		insert into reply (replyno,boardno,userid,replycontent,groupno,step)
-		values(#{replyNo},#{boardNo},#{userid},#{replyContent},#{groupNo},#{step}+1)
+		<if test="step == '1' ">
+ 		values(#{replyNo},#{boardNo},#{userid},#{replyContent},#{replyNo},#{step})
+ 		</if>
+		<if test="step == '2' ">
+ 		values(#{replyNo},#{boardNo},#{userid},#{replyContent},#{groupNo},#{step})
+ 		</if>
 	</insert>
 	
-	<select id="selectReplyByNo" parameterType="replyVo">
+	<select id="selectReplyByNo" parameterType="int" resultType="replyVo">
 		select * from reply
 		where boardno=#{boardNo}
 		and replydeletedate is null
-		order by replyno
+		order by groupno desc,step
 	</select>
+	
+	<update id="drawReply" parameterType="int">
+		update reply
+		set replydeletedate=sysdate 
+		where replyNo=#{replyNo}
+	</update>
 	
 </mapper>

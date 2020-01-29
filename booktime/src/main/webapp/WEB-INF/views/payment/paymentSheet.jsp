@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@include file="../inc/top.jsp"%>
-<!-- <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script> -->
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 <style type="text/css">
 	.deliveryInfo{
@@ -44,6 +44,23 @@
 <script type="text/javascript">
 	$(function(){
 		setPaymentInfo();
+		
+		$("#btZip").click(function(){	//카카오 우편번호 찾기
+			new daum.Postcode({
+		        oncomplete: function(data) {
+		            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+		            var parselAddress = data.jibunAddress;
+		            if(parselAddress==null || parselAddress.length<1){
+		            	parselAddress = data.autoJibunAddress
+		            }
+		            
+		            $("input[name=zipcode]").val(data.zonecode);
+		            $("input[name=parselAddress]").val(parselAddress);
+		            $("input[name=newAddress]").val(data.roadAddress);
+		            
+		        }
+		    }).open();
+		});
 		
 		$("input[type=radio]").click(function(){
 			if($(this).val()=="1"){
@@ -102,6 +119,10 @@
 				shake($(".instrumentDiv"));
 				return false;
 			}
+			
+			//
+			//payOk=true;
+			
 			if(!payOk){
 				event.preventDefault();
 			}
@@ -129,22 +150,28 @@
 			    
 				if ( rsp.success ) {
 			        msg = '결제가 완료되었습니다.';
-			        msg += '고유ID : ' + rsp.imp_uid;
+			        msg += '고유ID : ' + rsp.imp_uid; //imp_797384778723
 			        msg += '상점 거래ID : ' + rsp.merchant_uid;
 			        msg += '결제 금액 : ' + rsp.paid_amount;
 			        msg += '카드 승인번호 : ' + rsp.apply_num;
 			        
-			        if("${sessionScope.userid}"==null){
-			        	$("input[name=nonMember]").val(getOrderDate())	
+			        var payNo = rsp.imp_uid.substring(rsp.imp_uid.indexOf("_")+1);
+		        	$("input[name=payNo]").val(payNo); 
+		        	
+			        if("${sessionScope.userid}".length<1){
+			        	$("input[name=nonMember]").val(getOrderDate());	//비회원용 조회코드
+			        	alert($("input[name=nonMember]").val());
+			        }else{
+			        	$("input[name=nonMember]").val(0);	//회원일때 DefaultValue
 			        }
 			        payOk = true;
 			        $("form[name=frmPayment]").submit();
 			    } else {
 			        msg = '결제에 실패하였습니다.';
 			        msg += '에러내용 : ' + rsp.error_msg;
+			        alert(msg);
 			        return false;
 			    }
-			    alert(msg);
 			});
 		});
 		
@@ -152,9 +179,9 @@
 		var val = $("input[name=price]").val();
 		$("input[name=usePoint]").change(function(){	//포인트 적용
 			var price = $("input[name=price]");
-			var limit = $("#useFul").val();
+			var limit = $("#useFul").val(); //사용가능한 포인트
 			
-			if($(this).val()>limit){
+			if(parseInt($(this).val())>parseInt(limit)){	//가장 첫째자리만 비교해버려서 에러가 남=> 20 > 1000 = true
 				$(this).val($(this).val()-$(this).val());
 			}
 			
@@ -245,8 +272,8 @@
 	
 	function getOrderDate(){ //현재 주문일 코드 생성
 		var today = new Date();
-		var orderDate = today.getFullYear() + "Y" + (today.getMonth()+1) 
-			+ "M" + today.getDate()+"D"+ today.getSeconds()+today.getMilliseconds();
+		var orderDate = today.getFullYear()+""+(today.getMonth()+1)+"" 
+			+today.getDate()+""+today.getSeconds()+""+today.getMilliseconds();
 		
 		return orderDate;
 	}
@@ -262,7 +289,7 @@
 	
 	<div class="table-responsive">
 		<form name="frmPayment" method="post" class="form-inline"
-					action='<c:url value="/payment/paymentComplete.do"/>'>
+					action='<c:url value="/payment/paymentProcess.do"/>'>
 					
 			<table class="table mb-0" title="즐겨찾기 목록">
 				<thead>
@@ -293,6 +320,10 @@
 						<tr>
 							<th scope="row">
 								<div class="p-2">
+									<input type="hidden" name="details[${i}].isbn" value="${list[i].isbn }">
+									<input type="hidden" name="details[${i}].bookName" value="${list[i].bookName }">
+									<input type="hidden" name="details[${i}].qty" value="${list[i].qty }">
+									<input type="hidden" name="details[${i}].price" value="${list[i].price }">
 									<label for="ck1"  style="display: initial;"><!-- 번호매기기 -->
 										<img
 											src="${infoList[i]['cover'] }"
@@ -309,7 +340,11 @@
 											<a href="<c:url value='/book/bookDetail.do?ItemId=${list[i].isbn }'/>" 
 													class="text-dark d-inline-block align-middle"><b class="bookName">${bookName }</b></a>
 										</h5>
-										<a href="#"><small class="text-muted font-italic d-block">카테고리 : 도서</small></a>
+										<a href="<c:url value="/book/bookList.do?cateNo=${infoList[i]['cateCode']}"/>">
+												<small class="text-muted font-italic d-block">
+													카테고리 : ${infoList[i]['cateName']}
+												</small>
+										</a>
 									</div>
 									
 								</div>
@@ -321,6 +356,9 @@
 							<td class="align-middle text-center">
 								<strong><fmt:formatNumber value="${list[i].price*list[i].qty }" pattern="#,###"/> 원</strong>
 								<c:set var="sum" value="${sum+(list[i].price*list[i].qty) }"/>
+								<c:if test="${!empty sessionScope.userid }">
+									<br><small class="text-danger">${infoList[i]['mileage']*list[i].qty }p 적립예정</small>
+								</c:if>
 							</td>
 						</tr>
 						</c:forEach>
@@ -441,6 +479,7 @@
 							width="35px;"> <span style="vertical-align: middle;">삼성페이</span>
 					</a>
 					<input type="hidden" name="instrument">
+					<input type="hidden" name="payNo">
 				</div>
 				
 				<hr class="mt-3" style="border: 3px solid lightGray;width: 100%;">
@@ -450,6 +489,7 @@
 				</div>
 				
 				<input type="hidden" name="nonMember">
+				<input type="hidden" name="progress" value="결제완료">
 				<input type="hidden" id="useFul" value="${userVo.mileage }">
 			</c:if>
 			

@@ -12,4 +12,6 @@ public interface FreeBoardService {
 	FreeBoardVO selectById(String userid);
 	int updateBoard(FreeBoardVO freeBoardVo);
 	int drawBoard(int boardNo);
+	
+	List<FreeBoardVO> selectFreeBoard();
 }

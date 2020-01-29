@@ -48,4 +48,9 @@ public class FreeBoardServiceImpl implements FreeBoardService{
 		return boardDao.selectTotalRecord(searchVo);
 	}
 
+	@Override
+	public List<FreeBoardVO> selectFreeBoard() {
+		return boardDao.selectFreeBoard();
+	}
+
 }

@@ -51,4 +51,9 @@ public class FreeBoardDAOMybatis implements FreeBoardDAO{
 		return sqlSession.selectOne(namespace+"selectTotalRecord",searchVo);
 	}
 
+	@Override
+	public List<FreeBoardVO> selectFreeBoard() {
+		return sqlSession.selectList(namespace+"selectBoard");
+	}
+
 }

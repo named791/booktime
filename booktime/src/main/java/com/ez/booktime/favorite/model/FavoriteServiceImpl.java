@@ -47,9 +47,8 @@ public class FavoriteServiceImpl implements FavoriteService{
 			int nonUserCartDateLimit = 1;
 			
 			cnt = favoriteDao.deleteCartOverDate(userCartDateLimit);
-			if(cnt>0) {
-				cnt = favoriteDao.deleteCartOverDateByNonUser(nonUserCartDateLimit);
-			}
+			cnt = favoriteDao.deleteCartOverDateByNonUser(nonUserCartDateLimit);
+			
 		}catch (RuntimeException e) {
 			e.printStackTrace();
 			cnt = -1;

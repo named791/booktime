@@ -3,6 +3,8 @@
 <%@include file="../inc/top.jsp"%>
 
 <style type="text/css">
+	*:not(#cover){
+	}
 	#cover{
 		display: none;
 	    background-color: rgba(100, 100, 100, 0.3);
@@ -23,6 +25,11 @@
 	#cover .details{
 		transition-duration: 1s;
 	}
+	table{
+		border-top: 3px solid gray;
+		border-bottom: 3px solid gray;
+	}
+	
 </style>
 
 <script type="text/javascript">
@@ -35,6 +42,11 @@
 				$("input[type=checkbox]").prop("checked",false);
 			}else if(attr=="addcart"){
 				var checked = $("input[type=checkbox]:checked");
+				
+				if(checked.length<1){
+					alert("하나 이상 선택해주세요!");
+					return;
+				}
 				
 				var favoriteNo = "";
 				checked.each(function(idx,item){
@@ -53,9 +65,10 @@
 					dataType:"text",
 					type:"POST",
 					success:function(res){
-						$(".favorites").css("filter", "blur(10px)");
-						$(".addResult").text(res);
+						$("#cover").siblings().css({"filter":"blur(10px)",
+							"transition-duration": "1s"});
 						$("#cover").fadeIn();
+						$(".addResult").text(res);
 					},
 					error:function(xhr, status, error){
 						alert("ERROR.."+status+".."+error);
@@ -66,8 +79,12 @@
 		});
 		
 		$("#hide").click(function(){
-			$(".favorites").css("filter", "blur(0px)");
+			$("#cover").siblings().css({"filter":"blur(0px)","transition-duration": ""});
 			$("#cover").fadeOut(500);
+			$("#cover").siblings().css("filter","blur(0px)");
+			$("#cover").fadeOut(500,function(){
+				$("#cover").siblings().css("transition-duration", "");
+			});
 		});
 		
 		$("#selDel").click(function(){
@@ -107,7 +124,6 @@
 		});
 	}
 </script>
-
 <div id="cover">
 	<div id="FavoriteOk" class="card border-primary" >
 		<div class="card-header bg-primary text-center"><b><span class="addResult"></span>개 항목을 장바구니로 옮겼습니다.</b></div>
@@ -119,35 +135,34 @@
 		</div>
 	</div>
 </div>
+<%@include file="../mypage/includeMy.jsp" %>
 
-
-<div class="container mt-3 favorites">
-
-	<div class="page-header my-4 p-3"
-		style="border: 2px solid lightGray;">
-		<h3><i class="fa fa-heart"></i> 즐겨찾기</h3>
-		<small>바로 구입할 예정은 없지만 기억해놓고 싶은 책들을 담아두세요.</small>
-	</div>
+<div class="container favorites col-lg-9">
 
 	<div class="table-responsive">
 			<table class="table" title="즐겨찾기 목록">
 				<thead>
+					
 					<tr>
-						<th scope="col" class="border-0 bg-light">
-							<div class="p-2 px-3">도서정보</div>
+						<th scope="col" class="border-0 bg-light py-0">
+							<div class="p-2"><i class="fa fa-heart"></i> <b>즐겨찾기</b></div>
 						</th>
-						<th scope="col" class="border-0 bg-light text-center">
-							<div class="py-2">가격</div>
-						</th>
-						<th scope="col" class="border-0 bg-light text-center">
-							<div class="py-2">삭제</div>
-						</th>
+						<c:if test="${!empty list }">
+							<th scope="col" class="border-0 bg-light text-center py-0">
+								<div class="py-2">가격</div>
+							</th>
+							<th scope="col" class="border-0 bg-light text-center py-0">
+								<div class="py-2">삭제</div>
+							</th>
+						</c:if>
 					</tr>
 				</thead>
 				
 				<tbody>
 					<c:if test="${empty list }">
-						<tr><td colspan="4" class="text-center">즐겨찾기에 등록된 상품이 없습니다.</td></tr>
+						<tr><td class="text-center align-middle">
+							<img alt="cart이미지" src="<c:url value='/resources/images/icons/box.png'/>" height="420px;">
+							</td></tr>
 					</c:if>
 					
 					<c:if test="${!empty list }">
@@ -168,12 +183,12 @@
 												<c:set var="bookName" value="${list[i].bookName }"/>
 												
 												<c:if test="${fn:length(bookName)>30 }">
-													<c:set var="bookName" value="${fn:substring(bookName, 0, 30)}<br>${fn:substring(bookName, 30,fn:length(bookName))}"/>
+													<c:set var="bookName" value="${fn:substring(bookName, 0, 30)}..."/>
 												</c:if>
 												<a href="<c:url value='/book/bookDetail.do?ItemId=${list[i].isbn }'/>" 
 													class="text-dark d-inline-block align-middle"><b>${bookName }</b></a>
 											</h5>
-											<a href="categoryId=${infoList[i]['cateCode']}">
+											<a href='<c:url value="/book/bookList.do?cateNo=${infoList[i]['cateCode']}"/>'>
 												<small class="text-muted font-italic d-block">
 													카테고리 : ${infoList[i]['cateName']}
 												</small>
@@ -198,15 +213,19 @@
 					
 				</tbody>
 			</table>
-			<hr>
-			
-			<div class="text-center mb-5">
-					<input type="button" id="selAll" value="전체선택" class="btn btn-info">
-					<input type="button" id="selOff" value="선택 해제" class="btn btn-light" style="border: 1px solid lightGray;">
-					<input type="button" id="selDel" value="선택한 상품 삭제" class="btn btn-light" style="border: 1px solid lightGray;">
-					<input type="button" id="addcart" value="선택한 상품  장바구니에 담기" class="btn btn-info">
-			</div>
+			<c:if test="${!empty list }">
+				<div class="text-center mb-5">
+						<input type="button" id="selAll" value="전체선택" class="btn btn-info">
+						<input type="button" id="selOff" value="선택 해제" class="btn btn-light" style="border: 1px solid lightGray;">
+						<input type="button" id="selDel" value="선택한 상품 삭제" class="btn btn-light" style="border: 1px solid lightGray;">
+						<input type="button" id="addcart" value="선택한 상품  장바구니에 담기" class="btn btn-info">
+				</div>
+			</c:if>
 			
 	</div>
 </div>
+
+</div>
+</div>
+
 <%@include file="../inc/bottom.jsp"%>

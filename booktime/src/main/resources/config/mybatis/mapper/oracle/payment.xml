@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mybatis.mapper.payment">
+	<insert id="insertPayment" parameterType="paymentVo">
+		insert into payment(payNo, userid, email1, email2
+			, nonMember, price, usePoint, instrument
+			, zipcode, parselAddress, newAddress, addressDetail
+			, progress, customerName, message, hp)
+		values(#{payNo}, #{userid}, #{email1}, #{email2}
+			, #{nonMember}, #{price}, #{usePoint}, #{instrument}
+			, #{zipcode}, #{parselAddress}, #{newAddress}, #{addressDetail}
+			, #{progress}, #{customerName}, #{message}, #{hp})
+	</insert>
+	
+	<insert id="insertPaymentDetail" parameterType="map">
+		insert into paymentDetail
+		values(#{payNo}, #{isbn}, #{bookName}, #{qty}, #{price})
+	</insert>
+	
+	<select id="selectPaymentByPayNo" parameterType="paymentVo" resultType="paymentVo">
+		select * from payment
+		<if test="nonMember!=0">
+			where nonMember=#{nonMember}
+		</if>
+		<if test="nonMember==0">
+			where userid=#{userid} and payNo=#{payNo}
+		</if>
+	</select>
+	
+	<select id="selectPaymentDetail" parameterType="String" resultType="paymentDetailVo">
+		select * from paymentDetail
+		where payNo=#{payNo}
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+

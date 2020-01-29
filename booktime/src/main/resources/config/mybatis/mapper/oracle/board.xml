@@ -19,6 +19,12 @@
 		</if>
 	</sql>
 	
+	<select id="selectBoard" resultType="freeBoardVo">
+		select * from board
+		where deletedate is null
+		order by boardNo desc
+	</select>
+	
 	<select id="selectAllBoard" parameterType="searchVo" resultType="freeBoardVo">
 		select *
 		from
@@ -65,5 +71,5 @@
 		set deletedate=sysdate 
 		where boardNo=#{boardNo}
 	</update>
-	
+
 </mapper>

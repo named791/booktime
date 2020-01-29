@@ -41,6 +41,12 @@
 			}
 		});
 	});
+	
+	$(document).ready(function(){
+		if($("#userid").val().length>0){
+			$("input[type=checkbox]").attr("checked", true);
+		}
+	});
 </script>
 </head>
 <body>

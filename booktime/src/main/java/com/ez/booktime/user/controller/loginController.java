@@ -1,5 +1,7 @@
 package com.ez.booktime.user.controller;
 
+import java.util.List;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ez.booktime.favorite.model.FavoriteService;
+import com.ez.booktime.favorite.model.FavoriteVO;
 import com.ez.booktime.user.model.UserService;
 import com.ez.booktime.user.model.UserVO;
 
@@ -25,6 +29,9 @@ public class loginController {
 	@Autowired
 	private UserService userService; 
 	
+	@Autowired
+	private FavoriteService favoriteService;
+
 	@RequestMapping(value="/login/login.do", method = RequestMethod.GET)
 	public void login_get() {
 		logger.info("로그인 화면");
@@ -43,7 +50,10 @@ public class loginController {
 		
 		String msg="", url="/login/login.do";
 		if(result==userService.LOGIN_OK) { //로그인 완료시
-			String name=userService.selectByUserid(userid).getName(); //userid로 name조회
+			UserVO userVo=userService.selectByUserid(userid); //userid로 name조회
+			logger.info("조회 결과, userVo.name={}", userVo.getName());
+			
+			String name=userVo.getName();
 			logger.info("조회 결과, name={}", name);
 			
 			//세션생성(request,response 필요) - 쿠키에 아이디 저장
@@ -64,6 +74,21 @@ public class loginController {
 			}
 			msg+="[ "+userid+" ]님 로그인 되었습니다.";
 			url="/index.do";
+			
+			//비회원였을시 가지고있던 장바구니 목록 옮기기
+			FavoriteVO fVo = new FavoriteVO();
+			fVo.setUserid("#"+session.getId());
+			fVo.setGroup("CART");
+			
+			List<FavoriteVO> list = favoriteService.selectFavorite(fVo);
+			if(list!=null && !list.isEmpty()) {
+				int cnt = 0;
+				for(FavoriteVO insertVo : list) {
+					insertVo.setUserid(userid);
+					cnt = favoriteService.insertFavorite(insertVo);
+				}
+				logger.info("로그인 완료 후 장바구니 옮기기 결과  cnt={}",cnt);
+			}
 		}else if(result==userService.ID_NONE) { //아이디가 없을 떄
 			msg="존재하지 않는 사용자입니다.";
 			url="/login/login.do";
