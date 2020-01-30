@@ -49,6 +49,10 @@
 		newaddress=#{newaddress}, addressdetail=#{addressdetail}
 		where pwd=#{pwd} and userid=#{userid}
 	</update>
+	
+	<update id="updatePwd" parameterType="userVo">
+		update "USER" set pwd=#{pwd} where userid=#{userid}
+	</update>
 </mapper>
 
 

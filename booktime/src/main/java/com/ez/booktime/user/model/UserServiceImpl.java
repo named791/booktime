@@ -1,5 +1,7 @@
 package com.ez.booktime.user.model;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -69,5 +71,10 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public int updateUser(UserVO userVo) {
 		return userDao.updateUser(userVo);
+	}
+	
+	@Override
+	public int updatePwd(UserVO userVo) {
+		return userDao.updatePwd(userVo);
 	}
 }

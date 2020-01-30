@@ -11,4 +11,5 @@ public interface UserDAO {
 	String selectPWD(String userid);
 	int updateMileage(MileageVO vo);
 	int updateUser(UserVO userVo);
+	int updatePwd(UserVO userVo);
 }

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/mypage/userInfo.css">
 <%@include file="../../inc/top.jsp" %>  
 <%@include file="../includeMy.jsp" %>
@@ -157,20 +158,19 @@
 			
 			<fieldset id="gender">
 				<label>성별</label>
-				<input type="text" value="${gender }" required>
+				<input type="text" value="${gender }" readonly="readonly">
 			</fieldset>
 			
 			<fieldset id="hp">
 				<label>전화번호</label>
 				<span>${phone }</span>
-				<input class="editbt" id="btHp" type="button" value="수정" onclick="runbt1()">
+				<input class="editbt" id="btHp" type="button" value="수정">
 				<div class="edithp">
-					<select name="hp1" id="hp1" class="" required>
-				    	<option selected>010</option>
-				        <option>011</option>
-				    </select> - 
-				    <input name="hp2" type="text" class="" id="hp2" required> - 
-				    <input name="hp3" type="text" class="" id="hp3" required>
+				<hr>
+					<c:set var="phone" value="${fn:split(phone,'-') }"/>
+					<input name="hp1" type="text" class="" id="hp1" value="${phone[0] }"> - 
+				    <input name="hp2" type="text" class="" id="hp2" value="${phone[1] }"> - 
+				    <input name="hp3" type="text" class="" id="hp3" value="${phone[2] }">
 				</div>
 			</fieldset>
 			
@@ -179,17 +179,17 @@
 				<span>${newaddress} ${addressDetail}</span>
 				<input class="editbt" id="btaddress" type="button" value="수정">
 				<div class="editaddress">
-					<input name="zipcode" type="text" class="" id="zipcode" required>
+				<hr>
+					<input name="zipcode" type="text" class="" id="zipcode" value="${zipcode }">
 			      	<button type="button" class="btn" onclick="sample4_execDaumPostcode()">우편번호 찾기</button><br>
 			      	
-			      	<input name="newaddress" type="text" class="" id="newaddress" required><br>
+			      	<input name="newaddress" type="text" class="" id="newaddress" value="${newaddress }"><br>
 			      	
-			      	<input name="parseladdress" type="text" class="" id="parseladdress" required
-			      	placeholder="지번주소를 반드시 선택해주세요">
+			      	<input name="parseladdress" type="text" class="" id="parseladdress" value="${parseladdress }">
 			      	<span id="addressError" style="color:red;font-size: 0.8em;"></span>
 			      	<span id="guide" style="color:#999;display:none"></span><br>
 			      	
-			      	<input name="addressdetail" type="text" class="" id="addressdetail" required>
+			      	<input name="addressdetail" type="text" class="" id="addressdetail" value="${addressDetail }">
 			      	<input type="text" id="extraAddress" style="display: none;">
 				</div>
 			</fieldset>
@@ -199,13 +199,9 @@
 				<span>${email1 } @ ${email2 }</span>
 				<input class="editbt" id="btemail" type="button" value="수정">
 				<div class="editemail">
-					<input type="text" name="email1" id="email1" required> @
-					<select name="email2" id="email2" required >
-			        	<option value="">선택하세요</option>
-			        	<option value="naver.com">naver.com</option>
-			        	<option value="etc">직접입력</option>
-	      			</select>
-	      			<input name="email3" type="text" id="email3">
+				<hr>
+					<input type="text" name="email1" id="email1" value="${email1 }"> @
+					<input type="text" name="email2" id="email2" value="${email2 }">
       			</div>
 			</fieldset>
 			<fieldset>
@@ -216,33 +212,6 @@
 		</div>
 	</div>
 </form>
-
-<form class="frmpwd" name="frmpwd" method="post" action="<c:url value=''/>">
-	<div id="editform">
-		<div class="pwdChk">
-			<p id="p2">비밀번호 수정</p>
-			<fieldset id="editPWD1">
-				<label><img src="<c:url value='/resources/images/icons/check.png'/>">기존 비밀번호</label>
-				<input type="password" id="originPwd" required>
-			</fieldset>
-			
-			<fieldset id="editPWD2">
-				<label><img src="<c:url value='/resources/images/icons/check.png'/>">새 비밀번호</label>
-				<input type="password" id="newPwd" required>
-			</fieldset>
-			
-			<fieldset id="editPWD3">
-				<label><img src="<c:url value='/resources/images/icons/check.png'/>">새 비밀번호 확인</label>
-				<input type="password" id="newPwdOk" required>
-			</fieldset>
-			<fieldset id="causion">
-				<p id="sub"><strong>주의하세요!</strong>
-			아이디와 같은 비밀번호나 주민등록번호, 생일, 학번, 전화번호 등 개인정보와 관련된 숫자나 연속된 숫자,
-			통일 반복된 숫자 등 다른 사람이 쉽게 알아 낼 수 있는 비밀번호는 사용하지 않도록 주의하여 주시기 바랍니다.</p>
-			</fieldset>
-			<button type="submit" id="btn2">비밀번호 변경</button>
-		</div>
-	</div>
-</form>
+<%@include file="editPWD.jsp" %>
 
 <%@include file="../../inc/bottom.jsp" %>

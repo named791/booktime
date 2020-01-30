@@ -1,5 +1,7 @@
 package com.ez.booktime.user.controller;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -75,6 +77,8 @@ public class MyPageController {
 		session.setAttribute("phone", vo.getPhone());
 		session.setAttribute("newaddress", vo.getNewaddress());
 		session.setAttribute("addressDetail", vo.getAddressdetail());
+		session.setAttribute("zipcode", vo.getZipcode());
+		session.setAttribute("parseladdress", vo.getParseladdress());
 		
 		model.addAttribute("msg", msg);
 		model.addAttribute("url", url);
@@ -84,79 +88,93 @@ public class MyPageController {
 	
 	//회원정보 수정(이메일, 전화번호, 주소, 비밀번호 )
 		@RequestMapping(value="/mypage/myinfo/editUser.do", method = RequestMethod.POST)
-		public String editUser(Model model) {
+		public String editUser(HttpSession session,
+				@RequestParam String pwd,
+				@RequestParam(required = false) String hp1,
+				@RequestParam(required = false) String hp2,
+				@RequestParam(required = false) String hp3,
+				@RequestParam(required = false) String email1,
+				@RequestParam(required = false) String email2,
+				@RequestParam(required = false) String zipcode,
+				@RequestParam(required = false) String newaddress,
+				@RequestParam(required = false) String parseladdress,
+				@RequestParam(required = false) String addressdetail,
+				Model model) {
 			
-			String msg="넘어가는 것만 확인", url="/mypage/index.do";
+			UserVO vo= new UserVO();
+			
+			String userid=(String) session.getAttribute("userid");
+			
+			logger.info("userid={}", userid);
+			logger.info("파라미터 넘어오나 확인 pwd={}, hp1={}",pwd, hp1);
+			logger.info("파라미터 넘어오나 확인 hp2={}, hp3={}",hp2, hp3);
+			logger.info("파라미터 넘어오나 확인 email1={}, email2={}",email1, email2);
+			logger.info("파라미터 넘어오나 확인 zipcode={}", zipcode);
+			logger.info("파라미터 넘어오나 확인 newaddress={}, parseladdress={}",newaddress, parseladdress);
+			logger.info("파라미터 넘어오나 확인 addressdetail={}", parseladdress);
+			
+			String phone=hp1+"-"+hp2+"-"+hp3;
+			
+			vo.setPhone(phone);
+			vo.setEmail1(email1);
+			vo.setEmail2(email2);
+			
+			vo.setAddressdetail(addressdetail);
+			vo.setNewaddress(newaddress);
+			vo.setParseladdress(parseladdress);
+			vo.setZipcode(zipcode);
+			
+			logger.info("셋팅된 vo={}", vo);
+			
+			String dbpwd=userService.selectPWD(userid); //비밀번호 찾아서 유효성 검사실시
+			
+			String msg="", url="";
+			if(dbpwd.equals(pwd)) {
+				vo.setPwd(dbpwd);
+				vo.setUserid(userid);
+				int cnt=userService.updateUser(vo);
+				logger.info("회원정보 수정 결과 cnt={}", cnt);
+				msg="회원정보 수정 완료!";
+				url="/mypage/myinfo/selectPWD.do";
+			}else {
+				msg="비밀번호가 일치하지 않습니다.";
+				url="/mypage/myinfo/userInfo.do";
+			}
 			
 			model.addAttribute("msg", msg);
 			model.addAttribute("url", url);
 			
 			return "common/message";
-		}
-	
-	/*//회원정보 수정(이메일, 전화번호, 주소, 비밀번호 )
-	@RequestMapping("/mypage/myinfo/editUser.do")
-	public String editUser(
-			HttpSession session,
-			@RequestParam(required = false)String hp1,
-			@RequestParam(required = false)String hp2,
-			@RequestParam(required = false)String hp3,
-			@RequestParam(required = false)String zipcode,
-			@RequestParam(required = false)String newaddress,
-			@RequestParam(required = false)String parseladdress,
-			@RequestParam(required = false)String addressdetail,
-			@RequestParam(required = false)String email1,
-			@RequestParam(required = false)String email2,
-			@RequestParam(required = false)String email3,
-			@RequestParam(required = true) String pwd,
-			Model model) {
+	}
 		
+	@RequestMapping("/mypage/myinfo/editPwd.do")
+	public String editPwd(HttpSession session, @RequestParam String originPwd,
+			@RequestParam String newPwd, Model model,
+			HttpServletResponse response) {
 		String userid=(String) session.getAttribute("userid");
 		
-		logger.info("비밀번호 찾기를 위한 userid={}", userid);
-		logger.info("회원정보 수정하기, 파라미터 hp1={}, hp2={}",hp1, hp2);
-		logger.info("h3={}, zipcode={}", hp3, zipcode);
-		logger.info("newaddress={}, parseladdress={}", newaddress, parseladdress);
-		logger.info("addressdetail={}, email1={}", addressdetail, email1);
-		logger.info("email2={}, email3={}", email2, email3);
-		logger.info("비밀번호 pwd={}", pwd);
+		logger.info("비밀번호 수정 파라미터 originPwd={}, userid={}", originPwd, userid);
+		logger.info("새 비밀번호 파라미터 newPwd={}", newPwd);
+		
+		UserVO vo= new UserVO();
 		
 		String dbpwd=userService.selectPWD(userid);
-		UserVO userVo=new UserVO();
 		
-		String phone="";
-		if(hp2!=null && !hp2.isEmpty() && hp3!=null && !hp3.isEmpty()) {
-			phone=hp1+"-"+hp2+"-"+hp3;
-		}
-		userVo.setPhone(phone);
-		
-		if(email1==null || email1.isEmpty()) {
-			email1="";
-			email2="";
+		String msg="", url="";
+		if(dbpwd.equals(originPwd)) { //현재 비밀번호 맞는지 체크
+			vo.setUserid(userid);
+			vo.setPwd(newPwd);
+			int cnt=userService.updatePwd(vo); //새로운 비번으로 업데이트
+			logger.info("업데이트 후 vo={} 결과 cnt={}", vo, cnt);
+			msg="비밀번호가 변경되었습니다. 다시 로그인해주십시오.";
+			url="/login/login.do";
+			session.invalidate();
+			Cookie ck= new Cookie("ck_userid", userid);
+			ck.setMaxAge(0);
+			ck.setPath("/");
+			response.addCookie(ck);
 		}else {
-			if(email2.equals("etc")) {
-				email2=email3;
-			}
-		}
-		userVo.setEmail1(email1);
-		userVo.setEmail2(email2);
-		
-		userVo.setZipcode(zipcode);
-		userVo.setParseladdress(parseladdress);
-		userVo.setNewaddress(newaddress);
-		userVo.setAddressdetail(addressdetail);
-		userVo.setUserid(userid);
-		
-		logger.info("셋팅후 userVo={}",userVo);
-		
-		String msg="", url="/mypage/myinfo/userInfo.do";
-		if(dbpwd.equals(pwd)) {
-			int cnt=userService.updateUser(userVo);
-			logger.info("회원정보 수정 결과 cnt={}", cnt);
-			msg="회원정보가 수정되었습니다.";
-			url="/mypage/mypage.do";
-		}else{
-			msg="비밀번호가 다릅니다.";
+			msg="비밀번호가 일치하지 않습니다!";
 			url="/mypage/myinfo/userInfo.do";
 		}
 		
@@ -164,5 +182,5 @@ public class MyPageController {
 		model.addAttribute("url", url);
 		
 		return "common/message";
-	}*/
+	}
 }

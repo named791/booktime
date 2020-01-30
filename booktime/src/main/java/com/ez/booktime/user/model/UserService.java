@@ -1,5 +1,7 @@
 package com.ez.booktime.user.model;
 
+import java.util.Map;
+
 import com.ez.booktime.mileage.model.MileageVO;
 
 public interface UserService {
@@ -16,4 +18,5 @@ public interface UserService {
 	String selectPWD(String userid);
 	int updateMileage(MileageVO vo);
 	int updateUser(UserVO userVo);
+	int updatePwd(UserVO userVo);
 }
