@@ -17,8 +17,16 @@
 		position: relative;
 		top: -70px;
 	}
+	.paging a{
+		border: 1px solid #17a2b8;
+	}
 </style>
 <script type="text/javascript">
+	var idx = null;
+	function getIdx(get){
+		idx = get;
+	}
+	
 	$(function(){
 		var today = new Date();
 		$("#endDay").val("${dateInfo.endDay}");
@@ -29,10 +37,12 @@
 				alert("조회시작날짜를 입력해주세요.")
 				$("#startDay").focus();
 				event.preventDefault();
+				return false;
 			}else if(!ckDateFormat($("#endDay").val())){
 				alert("조회마침날짜를 입력해주세요.")
 				$("#endDay").focus();
 				event.preventDefault();
+				return false;
 			}
 		});
 		
@@ -47,12 +57,36 @@
 				$(".table img").css("width", "50px");
 			}
 		});
+		
+		var temp = null;
+		$(".prog a").click(function(){
+			if($(this).text()=='교환/환불 신청'){
+				var frmData = $("form[name=frmProgress"+idx+"]").serialize();
+				
+				if(temp!=null){
+					temp.close();
+				}
+				win = window.open("<c:url value='/payment/refundForm.do?"+frmData+"'/>","refund","top=100,left=300,resizable=no,location=no,width=550,height=600");
+				temp = win;
+				win.focus();
+			}else if($(this).text()=='구매확정'){
+				
+			}
+		});
+		
 	});
 	
 	function ckDateFormat(str){
 		var datePattern = /^(19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/;
 		return datePattern.test(str);
 	}
+	
+	function pageFunc(curPage){
+		$("input[name=currentPage]").val(curPage);
+		$("form[name=frmDate]").submit();
+	}
+	
+	
 </script>
 
 <c:if test="${!empty sessionScope.userid }">
@@ -73,7 +107,7 @@
 			action="<c:url value='/payment/paymentList.do'/>">
 			<!-- 조회기간 include -->
 			<%@include file="../mypage/Mileage/dateTerm.jsp"%>
-	
+			<input type="hidden" name="currentPage" value="1">
 			<input type="submit" value="조회">
 		</form>
 	</c:if>
@@ -164,18 +198,24 @@
 							<c:set var="idx" value="${idx-(fn:length(list[i].details))}"/>
 						</c:if>
 						
-						<br><small class="text-danger">
-							<fmt:formatNumber value="${savingPoint }" pattern="#,###"/>점 적립예정
-						</small>
-						<input type="hidden" name="savingPoint" value="${savingPoint}">
+						<form name="frmProgress${i}" method="post" action="<c:url value="/payment/"/>">
+							<c:if test="${!empty sessionScope.userid }">
+								<br><small class="text-danger">
+									<fmt:formatNumber value="${savingPoint }" pattern="#,###"/>점 적립예정
+								</small>
+								<input type="hidden" name="savingPoint" value="${savingPoint}">
+							</c:if>
+							<input type="hidden" name="payNo" value="${list[i].payNo}">
+						</form>
+						
 					</td>
-					<td class="text-center align-middle">
+					<td class="text-center align-middle prog">
 						${list[i].progress }
 						<br>
 						<c:if test="${list[i].progress=='결제완료' }">
-							<a href="#" class="btn btn-sm btn-info">환불/교환 신청</a>
+							<a href="#" class="btn btn-sm btn-info" onclick="getIdx(${i})">교환/환불 신청</a>
 						</c:if>
-						<c:if test="${list[i].progress=='환불/교환 신청중' }">
+						<c:if test="${list[i].progress=='교환/환불 신청중' }">
 						
 						</c:if>
 						<c:if test="${list[i].progress=='배송중' || list[i].progress=='배송완료'}">
@@ -203,6 +243,36 @@
 			<!-- 반복끝 -->
 		</c:if>
 	</table>
+	
+	<form name="pagingFrm" method="post"
+		action="<c:url value="/payment/paymentList.do"/>">
+		
+	</form>
+	
+	<div class="paging text-center">
+		<c:if test="${pagingInfo.firstPage!=1 }">
+			<a href="#" class="btn" onclick="pageFunc(${pagingInfo.firstPage-1})">
+				<i class="text-info fa fa-angle-left"></i>
+			</a>
+		</c:if>
+		
+		<c:forEach var="i" begin="${pagingInfo.firstPage}" 
+			end="${pagingInfo.lastPage}">
+			<c:if test="${dateInfo.currentPage==i}">
+				<div class="btn btn-info active">${i}</div>
+			</c:if>
+			<c:if test="${dateInfo.currentPage!=i}">
+				<a href="#" class="btn btn-info" onclick="pageFunc(${i})">${i}</a>
+			</c:if>
+			
+		</c:forEach>
+		
+		<c:if test="${pagingInfo.lastPage!=pagingInfo.totalPage }">
+			<a href="#" class="btn" onclick="pageFunc(${pagingInfo.lastPage+1})">
+				<i class="text-info fa fa-angle-right"></i>
+			</a>
+		</c:if>
+	</div>
 </div>
 </div>
 </div>

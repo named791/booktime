@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ez.booktime.api.AladinAPI;
 import com.ez.booktime.category.model.BookCategoryService;
@@ -234,7 +235,10 @@ public class PaymentController {
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		if(vo.getEndDay()==null || vo.getEndDay().isEmpty()) {
-			vo.setEndDay(sdf.format(new Date()));
+			Date today = new Date();
+			vo.setEndDay(sdf.format(today));
+			today.setDate(today.getDate()-7);
+			vo.setStartDay(sdf.format(today));
 		}
 		
 		logger.info("주문내역 조회, 파라미터 vo={}",vo);
@@ -307,5 +311,11 @@ public class PaymentController {
 		model.addAttribute("pagingInfo", pagingInfo);
 		
 		return "payment/paymentList";
+	}
+	
+	@RequestMapping("/refundForm.do")
+	public void refundForm(@ModelAttribute PaymentVO vo
+			,@RequestParam(defaultValue = "0") int savingPoint) {
+		logger.info("교환 환불 form, 파라미터 vo={}, savingPoint={}", vo, savingPoint);
 	}
 }
