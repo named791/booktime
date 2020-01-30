@@ -60,6 +60,7 @@ public class PaginationInfo {
 	public int getTotalPage() {
 		totalPage=(int)Math.ceil((float)totalRecord/recordCountPerPage);
 		//totalPage = ((getTotalRecord()-1)/getRecordCountPerPage()) + 1;
+		System.out.println("총페이지 수:"+totalPage);
 		
 		return totalPage;
 	}

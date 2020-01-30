@@ -41,7 +41,7 @@ public class Category {
 		+start
 		+"&"
 		+"MaxResults="
-		+20
+		+maxResult
 		+"&";
 		
 		//신간 전체 List url 조립
