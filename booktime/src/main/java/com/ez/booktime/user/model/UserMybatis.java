@@ -1,6 +1,5 @@
 package com.ez.booktime.user.model;
 
-import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -51,5 +50,15 @@ public class UserMybatis implements UserDAO{
 	@Override
 	public int updateMileage(MileageVO vo) {
 		return sqlSession.update(namespace+"updateMileage", vo);
+	}
+
+	@Override
+	public int updateUser(UserVO userVo) {
+		return sqlSession.update(namespace+"updateUser",userVo);
+	}
+	
+	@Override
+	public int updatePwd(UserVO userVo) {
+		return sqlSession.update(namespace+"updatePwd", userVo);
 	}
 }

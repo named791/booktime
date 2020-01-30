@@ -1,6 +1,7 @@
 package com.ez.booktime.freeBoard.model;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,6 +52,11 @@ public class FreeBoardServiceImpl implements FreeBoardService{
 	@Override
 	public List<FreeBoardVO> selectFreeBoard() {
 		return boardDao.selectFreeBoard();
+	}
+
+	@Override
+	public int countReview(Map<String, Object> map) {
+		return boardDao.countReview(map);
 	}
 
 }

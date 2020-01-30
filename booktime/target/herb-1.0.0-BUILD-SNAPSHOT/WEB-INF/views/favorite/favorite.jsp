@@ -81,6 +81,10 @@
 		$("#hide").click(function(){
 			$("#cover").siblings().css({"filter":"blur(0px)","transition-duration": ""});
 			$("#cover").fadeOut(500);
+			$("#cover").siblings().css("filter","blur(0px)");
+			$("#cover").fadeOut(500,function(){
+				$("#cover").siblings().css("transition-duration", "");
+			});
 		});
 		
 		$("#selDel").click(function(){
@@ -141,7 +145,7 @@
 					
 					<tr>
 						<th scope="col" class="border-0 bg-light py-0">
-							<div class="p-2 px-3"><i class="fa fa-heart"></i> <b>즐겨찾기</b></div>
+							<div class="p-2"><i class="fa fa-heart"></i> <b>즐겨찾기</b></div>
 						</th>
 						<c:if test="${!empty list }">
 							<th scope="col" class="border-0 bg-light text-center py-0">

@@ -1,6 +1,7 @@
 package com.ez.booktime.freeBoard.model;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ez.booktime.common.SearchVO;
 
@@ -14,4 +15,5 @@ public interface FreeBoardService {
 	int drawBoard(int boardNo);
 	
 	List<FreeBoardVO> selectFreeBoard();
+	int countReview(Map<String, Object> map);
 }

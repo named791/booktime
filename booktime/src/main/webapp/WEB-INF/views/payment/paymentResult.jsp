@@ -2,7 +2,11 @@
     pageEncoding="UTF-8"%>
 <%@include file="../inc/top.jsp"%>
 
-<div class="container">
+<div class="container mt-4">
+	<div class="page-header text-center">
+		<h2>구매해주셔서 감사합니다!</h2>
+		<small class="text-danger">주문번호 : ${vo.payNo}</small><hr class="mb-0">
+	</div>
 	<table class="table mb-0" title="즐겨찾기 목록">
 		<thead>
 			<tr>
@@ -100,6 +104,17 @@
 			</tr>
 		</tbody>
 	</table>
+</div>
+<hr>
+<div class="text-center">
+	<a class="btn btn-lg btn-info" style="color: white;"
+		href="<c:url value='/book/bookList.do?cateNo=${infoList[0]["cateCode"]}'/>">
+		'${infoList[0]['cateName']}'더 보기
+	</a>
+	<a class="btn btn-lg btn-info" style="color: white;"
+		href="<c:url value="/payment/paymentList.do"/>">
+		주문내역으로
+	</a>
 </div>
 
 <%@include file="../inc/bottom.jsp"%>

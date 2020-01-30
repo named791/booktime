@@ -67,6 +67,11 @@
 		delete favorite
 		where "group"=#{group} and favoriteNo=#{favoriteNo}
 	</delete>
+	
+	<delete id="paymentOkDeleteCart" parameterType="map">
+		delete favorite
+		where userid=#{userid} and isbn=#{isbn} and "group"='CART'
+	</delete>
 </mapper>
 
 

@@ -82,6 +82,13 @@
 </style>
 <script type="text/javascript">
 	$(function(){
+		if($("#mode").val()=='review'){
+			var position = $("#review").offset().top;
+			$("*").animate({
+				scrollTop: position
+			},500);
+		}
+		
 		function readURL(input) {
 			if (input.files && input.files[0]) {
 				var reader = new FileReader();
@@ -169,6 +176,8 @@
 
 <br><br><br>
 <div class="container details" >
+	<input type="hidden" id="mode" value="${param.mode}">
+	
 	<div class="row" style="min-height:645px;">
 		<div class="col-md-5">
 			<img class="cover" alt="cover"

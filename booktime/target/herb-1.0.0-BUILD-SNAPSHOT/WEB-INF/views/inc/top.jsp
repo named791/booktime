@@ -99,13 +99,13 @@
 	   	  </c:if>
 	   	  
           <li class="nav-item">
-            <a class="nav-link" href="freeBoard/List.do">게시판</a>
+            <a class="nav-link" href="<c:url value='/freeBoard/List.do'/>">게시판</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">주문내역</a>
           </li>
           <li>
-          	 <a class="nav-link" href="#">
+          	 <a class="nav-link" href="<c:url value='/favorite/cart.do'/>">
           	 <img style="width: 18px;" src="<c:url value='/resources/images/icons/cart1.png'/>"
           	 >장바구니</a>
           </li>

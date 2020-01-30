@@ -1,6 +1,7 @@
 package com.ez.booktime.freeBoard.model;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,11 @@ public class FreeBoardDAOMybatis implements FreeBoardDAO{
 	@Override
 	public List<FreeBoardVO> selectFreeBoard() {
 		return sqlSession.selectList(namespace+"selectBoard");
+	}
+
+	@Override
+	public int countReview(Map<String, Object> map) {
+		return sqlSession.selectOne(namespace+"countReview", map);
 	}
 
 }

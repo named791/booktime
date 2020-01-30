@@ -109,28 +109,3 @@ textarea{
 #tbl label{
 	font-size: 0.8em;
 }
-
-#chkuser{
-	border-top: 2px solid rgb(79, 79, 78);
-	width: 800px;
-}
-#chkuser table{
-	border: 0px;
-}
-#chkuser tr th{
-	background: lightgray;
-	font-size: 0.8em;
-	width: 100px;
-	text-align: center;
-}
-#chkuser tr {
-	border-top: 1px solid gray;
-	border-bottom: 1px solid gray;
-}
-#chkuser tr td:nth-child(2){
-	padding: 20px;
-}
-#error{
-	font-size: 0.8em;
-	color: red;
-}
