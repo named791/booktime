@@ -24,53 +24,36 @@
 		)
 	</insert>
 
-	<select id="selectMileageList" resultType="mileageVo">
-		select * from mileage
-		where
-		(
-    <![CDATA[ADD_MONTHS(SYSDATE, -12)<enddate]]>
-		)
-		order by mileageno
-	</select>
-
-	<select id="selectMileageList2" parameterType="searchVo"
+	<select id="selectMileageList" parameterType="dateSearchVo"
 		resultType="mileageVo">
 		select *
 		from
 		(
-		select rownum as RNUM, A.*
-		from
-		(
-		select mileageno,userid,savingdate,savingpoint,payno,userpoint,enddate
-		from mileage
-		where
-		(
-    <![CDATA[ADD_MONTHS(SYSDATE, -12)<enddate]]>
-		)
-
-		order by mileageno desc
-		)A
+		    select rownum as RNUM, A.*
+		    from
+		    (
+		        select * from mileage
+				where enddate>=#{startDay}
+				<![CDATA[ and enddate <= #{endDay}]]>
+					and userid = #{customerId}
+				order by mileageno desc
+		    )A
 		)
 		where RNUM > #{firstRecordIndex} 
 		<![CDATA[
 		and RNUM<= #{firstRecordIndex} + #{recordCountPerPage}
-		]]>
-
-
-
-		select * from mileage
-		where
-		(
-    <![CDATA[ADD_MONTHS(SYSDATE, -12)<enddate]]>
-		)
-		order by mileageno
+		]]>	
 
 	</select>
 
 
-	<select id="selectTotalRecord" parameterType="searchVo"
+	<select id="selectTotalRecord" parameterType="dateSearchVo"
 		resultType="int">
-		select count(*) from mileage
+		select count(*) from mileage 
+		where savingdate>=#{startDay}
+		<![CDATA[ and savingdate < to_Date(#{endDay})+1]]>
+		<if test="customerId!=null and customerId!=''">
+			and userid = #{customerId}
+		</if>
 	</select>
-
 </mapper>

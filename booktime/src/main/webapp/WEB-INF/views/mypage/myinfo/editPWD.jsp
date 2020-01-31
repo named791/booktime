@@ -7,6 +7,10 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script type="text/javascript">
+	$(document).ready(function(){
+		//$("#editPWD2 span").hide();
+	});
+
 	$(function(){
 		$("#btn2").click(function(){
 			if($("#originPwd").val().length>0 && $("#newPwd").val().length>0 && $("#newPwdOk").val().length>0){
@@ -16,6 +20,16 @@
 					$("#newPwd").focus();
 				}
 			}
+			/*
+			if($("#newPwd").val().length<8){ //비밀번호 8자리 미만일경우 에러 문구 보여주기
+				$("#editPWD2 span").show();
+				event.preventDefault();
+				$("#newPwd").focus();
+			}else{
+				$("#editPWD2 span").hide();
+			}*/ 
+			
+			//비밀번호 길이 테스트 중에는 주석처리하겠습니다.
 		});
 	});
 </script>
@@ -33,6 +47,7 @@
 			<fieldset id="editPWD2">
 				<label><img src="<c:url value='/resources/images/icons/check.png'/>">새 비밀번호</label>
 				<input type="password" id="newPwd" name="newPwd" required>
+				<span>비밀번호는 영문자와 숫자를 포함해야 합니다.</span>
 			</fieldset>
 			
 			<fieldset id="editPWD3">

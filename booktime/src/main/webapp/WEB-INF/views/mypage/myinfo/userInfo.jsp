@@ -168,9 +168,9 @@
 				<div class="edithp">
 				<hr>
 					<c:set var="phone" value="${fn:split(phone,'-') }"/>
-					<input name="hp1" type="text" class="" id="hp1" value="${phone[0] }"> - 
-				    <input name="hp2" type="text" class="" id="hp2" value="${phone[1] }"> - 
-				    <input name="hp3" type="text" class="" id="hp3" value="${phone[2] }">
+					<input name="hp1" type="text" class="" id="hp1" value="${phone[0] }" onfocus="this.value=''"> - 
+				    <input name="hp2" type="text" class="" id="hp2" value="${phone[1] }" onfocus="this.value=''"> - 
+				    <input name="hp3" type="text" class="" id="hp3" value="${phone[2] }" onfocus="this.value=''">
 				</div>
 			</fieldset>
 			
@@ -186,6 +186,7 @@
 			      	<input name="newaddress" type="text" class="" id="newaddress" value="${newaddress }"><br>
 			      	
 			      	<input name="parseladdress" type="text" class="" id="parseladdress" value="${parseladdress }">
+			      	<p style="color: gray; font-size: 0.8em;margin-left: 203px;margin-top: 3px;">도서 산간지방 배송을 위해 지번주소를 받드시 입력해 주시기 바랍니다.</p>
 			      	<span id="addressError" style="color:red;font-size: 0.8em;"></span>
 			      	<span id="guide" style="color:#999;display:none"></span><br>
 			      	
@@ -200,8 +201,8 @@
 				<input class="editbt" id="btemail" type="button" value="수정">
 				<div class="editemail">
 				<hr>
-					<input type="text" name="email1" id="email1" value="${email1 }"> @
-					<input type="text" name="email2" id="email2" value="${email2 }">
+					<input type="text" name="email1" id="email1" value="${email1 }" onfocus="this.value=''"> @
+					<input type="text" name="email2" id="email2" value="${email2 }" onfocus="this.value=''">
       			</div>
 			</fieldset>
 			<fieldset>

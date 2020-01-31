@@ -65,11 +65,11 @@
 	              <hr width="110px">
 	              <a style="text-align: center;" class="dropdown-item" href="#">주문/배송조회</a>
 	              <hr width="110px">
-	              <a style="text-align: center;" class="dropdown-item" href="#">찜목록</a>
+	              <a style="text-align: center;" class="dropdown-item" href="#">WISH LIST</a>
 	              <hr width="110px">
-	              <a style="text-align: center;" class="dropdown-item" href="#">나의 서재</a>
+	              <a style="text-align: center;" class="dropdown-item" href="#">마일리지</a>
 	              <hr width="110px">
-	              <a style="text-align: center;" class="dropdown-item" href="#">쿠폰 내역</a>
+	              <a style="text-align: center;" class="dropdown-item" href="${pageContext.request.contextPath }/mypage/myinfo/selectPWD.do">회원정보</a>
 	            </div>
 	        </li>
         	<li class="nav-item">
@@ -89,11 +89,11 @@
 	          <hr width="110px">
 	          <a style="text-align: center;" class="dropdown-item" href="#">주문/배송조회</a>
 	          <hr width="110px">
-	          <a style="text-align: center;" class="dropdown-item" href="#">찜목록</a>
+	          <a style="text-align: center;" class="dropdown-item" href="#">WISH LIST</a>
 	          <hr width="110px">
-	          <a style="text-align: center;" class="dropdown-item" href="#">나의 서재</a>
+	          <a style="text-align: center;" class="dropdown-item" href="#">마일리지</a>
 	          <hr width="110px">
-	          <a style="text-align: center;" class="dropdown-item" href="#">쿠폰 내역</a>
+	          <a style="text-align: center;" class="dropdown-item" href="${pageContext.request.contextPath }/mypage/myinfo/selectPWD.do">회원정보</a>
 	          </div>
 	   	  </li>
 	   	  </c:if>

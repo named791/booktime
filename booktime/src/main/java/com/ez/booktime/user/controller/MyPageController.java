@@ -52,7 +52,7 @@ public class MyPageController {
 	}
 	
 	@RequestMapping("/mypage/myinfo/userInfo.do")
-	public String UserEdit(HttpSession session, @RequestParam String pwd, Model model) {
+	public String UserEdit(HttpSession session, @RequestParam(required = true) String pwd, Model model) {
 		String userid=(String) session.getAttribute("userid");
 		
 		logger.info("비밀번호 확인 후 회원정보 조회 페이지로 이동, 파라미터 pwd={}, userid={}", pwd, userid);
