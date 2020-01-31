@@ -2,28 +2,50 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.mybatis.mapper.mileage">	
+<mapper namespace="com.mybatis.mapper.mileage">
+
+	<insert id="insertMileage" parameterType="mileageVo">
+		<selectKey keyProperty="mileageNo" resultType="int"
+			order="BEFORE">
+			select mileage_seq.nextval from dual
+		</selectKey>
+
+		insert into mileage(mileageNo, userid, savingPoint
+		, payNo, usePoint
+		<if test="savingPoint!=null and savingPoint!='' and savingPoint>0">
+			, endDate
+		</if>
+		)
+		values(#{mileageNo}, #{userid}, #{savingPoint}
+		, #{payNo}, #{usePoint}
+		<if test="savingPoint!=null and savingPoint!='' and savingPoint>0">
+			, sysdate+(interval '1' year)
+		</if>
+		)
+	</insert>
+
 	<select id="selectMileageList" resultType="mileageVo">
-	select * from mileage
-	where
-	(
-	    <![CDATA[ADD_MONTHS(SYSDATE, -12)<enddate]]>
-	)
-	order by mileageno
+		select * from mileage
+		where
+		(
+    <![CDATA[ADD_MONTHS(SYSDATE, -12)<enddate]]>
+		)
+		order by mileageno
 	</select>
-	
-	<select id="selectMileageList2" parameterType="searchVo" resultType="mileageVo">
+
+	<select id="selectMileageList2" parameterType="searchVo"
+		resultType="mileageVo">
 		select *
 		from
 		(
-		    select rownum as RNUM, A.*
-		    from
-		    (
-		        select mileageno,userid,savingdate,savingpoint,payno,userpoint,enddate
-		         from mileage
+		select rownum as RNUM, A.*
+		from
+		(
+		select mileageno,userid,savingdate,savingpoint,payno,userpoint,enddate
+		from mileage
 		where
 		(
-		    <![CDATA[ADD_MONTHS(SYSDATE, -12)<enddate]]>
+    <![CDATA[ADD_MONTHS(SYSDATE, -12)<enddate]]>
 		)
 
 		order by mileageno desc
@@ -33,49 +55,22 @@
 		<![CDATA[
 		and RNUM<= #{firstRecordIndex} + #{recordCountPerPage}
 		]]>
-		
-		
-		
+
+
+
 		select * from mileage
 		where
 		(
-		    <![CDATA[ADD_MONTHS(SYSDATE, -12)<enddate]]>
+    <![CDATA[ADD_MONTHS(SYSDATE, -12)<enddate]]>
 		)
-				order by mileageno
-	
-	</select>	
-	
-	
-	<select id="selectTotalRecord" parameterType="searchVo" 
+		order by mileageno
+
+	</select>
+
+
+	<select id="selectTotalRecord" parameterType="searchVo"
 		resultType="int">
 		select count(*) from mileage
 	</select>
-	
-	<insert id="insertMileage" parameterType="mileageVo">
-		<selectKey keyProperty="mileageNo" resultType="int" order="BEFORE">
-			select mileage_seq.nextval from dual
-		</selectKey>
-		
-		insert into mileage(mileageNo, userid, savingPoint
-			, payNo, usePoint
-			<if test="savingPoint!=null and savingPoint!='' and savingPoint>0">
-			, endDate
-			</if>)
-		values(#{mileageNo}, #{userid}, #{savingPoint}
-			, #{payNo}, #{usePoint}
-			<if test="savingPoint!=null and savingPoint!='' and savingPoint>0">
-				, sysdate+(interval '1' year)
-			</if>
-			)
-	</insert>
-	
+
 </mapper>
-
-
-
-
-
-
-
-
-

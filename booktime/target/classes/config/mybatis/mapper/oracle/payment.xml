@@ -33,6 +33,49 @@
 		select * from paymentDetail
 		where payNo=#{payNo}
 	</select>
+	
+	<select id="selectPaymentList" parameterType="paymentDateVO" resultType="paymentVo">
+		select *
+		from
+		(
+			select rownum as "RNUM", A.* 
+			from
+			(
+				select * from payment
+				<if test="userid!=null and userid!=''">
+					where userid=#{userid}
+					<if test="startDay!=null and startDay!=''">
+						and payDate >= #{startDay}
+					</if> 
+					<![CDATA[
+						and payDate < to_date(#{endDay})+(interval '1' day)
+					]]>
+				</if>
+				<if test="(userid==null or userid=='') and payNo!=null and payNo!=''">
+					where payNo=#{payNo}
+				</if>
+				
+				order by payDate desc
+			)A
+		)
+		<if test="userid!=null and userid!=''">
+			where "RNUM">=#{firstRecordIndex}+1 
+			<![CDATA[
+			and "RNUM"<#{firstRecordIndex}+1+#{recordCountPerPage}
+			]]>
+		</if>
+	</select>
+		
+	<select id="totalPaymentList" parameterType="paymentDateVO" resultType="int">
+		select count(*) from payment
+		where userid=#{userid}
+		<if test="startDay!=null and startDay!=''">
+			and payDate > #{startDay}
+		</if> 
+		<![CDATA[
+			and payDate < to_date(#{endDay})+(interval '1' day)
+		]]>
+	</select>
 </mapper>
 
 

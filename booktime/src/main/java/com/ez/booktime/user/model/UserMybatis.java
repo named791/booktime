@@ -67,4 +67,14 @@ public class UserMybatis implements UserDAO{
 	public List<UserVO> selectAllUser() {
 		return sqlSession.selectList(namespace+"selectAllUser");
 	}
+	
+	@Override
+	public int updateUser(UserVO userVo) {
+		return sqlSession.update(namespace+"updateUser",userVo);
+	}
+	
+	@Override
+	public int updatePwd(UserVO userVo) {
+		return sqlSession.update(namespace+"updatePwd", userVo);
+	}
 }

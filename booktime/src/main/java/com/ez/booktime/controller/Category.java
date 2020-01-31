@@ -27,12 +27,21 @@ public class Category {
 	private static final Logger logger
 		=LoggerFactory.getLogger(AladinAPI.class);
 	
-	public List<Map<String, Object>> categoryFind(int cateNo) throws Exception {
+	public List<Map<String, Object>> categoryFind(int cateNo,
+			int start, int maxResult) 
+			throws Exception {
 		
 		//카테고리 번호
 		
-		String category = "categoryId="
+		String category 
+		="categoryId="
 		+cateNo
+		+"&"
+		+"start="
+		+start
+		+"&"
+		+"MaxResults="
+		+maxResult
 		+"&";
 		
 		//신간 전체 List url 조립
@@ -87,10 +96,12 @@ public class Category {
 			map.put("priceStandard", jsonObj2.get("priceStandard"));	//정가
 			map.put("priceSales", jsonObj2.get("priceSales"));
 			map.put("cover", jsonObj2.get("cover"));	//표지
-			map.put("totalResult", jsonObj.get("totalResults"));
-			map.put("startIndex", jsonObj.get("startIndex"));
 			map.put("isbn13", jsonObj2.get("isbn13"));	//isbn13(13자리)
 			
+			map.put("totalResult", jsonObj.get("totalResults"));	//API 총 결과 수
+			map.put("startIndex", jsonObj2.get("startIndex"));
+			map.put("start", jsonObj2.get("Start"));	//검색결과 시작페이지
+			map.put("maxResult", jsonObj.get("MaxResults"));	//검색결과 한 페이지당 최대 출력 개수
 			
 			list.add(map);
         }

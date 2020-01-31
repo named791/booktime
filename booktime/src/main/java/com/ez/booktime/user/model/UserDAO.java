@@ -16,4 +16,8 @@ public interface UserDAO {
 	String selectByEmail(UserVO userVo); //이메일로 회원찾기
 	int resetPwd(UserVO userVo); //기존 비밀번호를 임시 비밀번호로 변경
 	List<UserVO> selectAllUser(); //모든 회원정보 조회
+
+	int updateUser(UserVO userVo);
+	int updatePwd(UserVO userVo);
+
 }

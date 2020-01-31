@@ -38,6 +38,9 @@ public class AladinAPI {
 		//필수
 		String selectUrl = "http://www.aladin.co.kr/ttb/api/ItemLookUp.aspx";
 		String itemIdType = "ItemIdType=ISBN13&";
+		if(isbn13.length()<13) {
+			itemIdType="ItemIdType=ItemId&";
+		}
 		isbn13 = "ItemId="+isbn13+"&";
 		
 		String apiURL = selectUrl+TTB_KEY
@@ -49,7 +52,6 @@ public class AladinAPI {
 		
 		return map;
 	}
-	
 	
 	//상품 검색 API
 	//AladinAPI.SEARCH_~ 상수, searchKeyword 검색어
@@ -75,6 +77,24 @@ public class AladinAPI {
 		return list;
 	}
 	
+	/*
+	 * //상품 검색 API - 카테고리별 검색 //AladinAPI.SEARCH_~ 상수, searchKeyword 검색어, //start
+	 * 시작페이지, maxResults 한페이지 출력결과수 public List<Map<String, Object>> searchByCate(
+	 * int cateNo, String searchKeyword, int start, int maxResults) throws Exception
+	 * { //필수 String searchUrl = "http://www.aladdin.co.kr/ttb/api/ItemSearch.aspx";
+	 * String categoryId="CategoryId="+cateNo+"&";
+	 * logger.info("파라미터 start={},maxResults={}",start,maxResults);
+	 * 
+	 * //url 조립 String apiURL = searchUrl+TTB_KEY +LIST_NEW_ALL +categoryId
+	 * +"start=" +start +"&" +"MaxResults=" +20 +"&" +options(); URL url = new
+	 * URL(apiURL); logger.info("카테고리별로 검색하기 URL={}",url);
+	 * 
+	 * JSONObject jsonObj = util.getJson(url,"get",null); List<Map<String, Object>>
+	 * list = parse(jsonObj);
+	 * 
+	 * return list; }
+	 */
+	
 	//상품 검색 API - 제목 검색
 	//AladinAPI.SEARCH_~ 상수, searchKeyword 검색어, 
 		//start 시작페이지, maxResults 한페이지 출력결과수
@@ -93,6 +113,12 @@ public class AladinAPI {
 			String apiURL = searchUrl+TTB_KEY
 					+SEARCH_TITLE+query
 					+categoryId
+					+"start="
+					+start
+					+"&"
+					+"MaxResults="
+					+20
+					+"&"
 					+options();
 			URL url = new URL(apiURL);
 			logger.info("제목으로 검색하기 URL={}",url);
@@ -121,6 +147,12 @@ public class AladinAPI {
 				String apiURL = searchUrl+TTB_KEY
 						+SEARCH_AUTHOR+query
 						+categoryId
+						+"start="
+						+start
+						+"&"
+						+"MaxResults="
+						+20
+						+"&"
 						+options();
 				URL url = new URL(apiURL);
 				logger.info("특정 저자 상품 목록 URL={}",url);
@@ -149,6 +181,12 @@ public class AladinAPI {
 				String apiURL = searchUrl+TTB_KEY
 						+SEARCH_PUBLISHER+query
 						+categoryId
+						+"start="
+						+start
+						+"&"
+						+"MaxResults="
+						+20
+						+"&"
 						+options();
 				URL url = new URL(apiURL);
 				logger.info("특정 저자 상품 목록 URL={}",url);
@@ -189,8 +227,10 @@ public class AladinAPI {
 			String coverURL = (String)jsonObj.get("cover");
 			map.put("cover", coverURL.replace("/cover/", "/cover500/"));	//표지
 			
-			map.put("totalResult", jsonTemp.get("totalResults"));
+			map.put("totalResult", jsonTemp.get("totalResults"));	//API 총 결과 수
 			map.put("startIndex", jsonTemp.get("startIndex"));
+			map.put("start", jsonObj.get("Start"));	//검색결과 시작페이지
+			map.put("maxResult", jsonObj.get("MaxResults"));	//검색결과 한 페이지당 최대 출력 개수 
 			
 			
 			//상품 조회 API의 경우 subInfo 담기

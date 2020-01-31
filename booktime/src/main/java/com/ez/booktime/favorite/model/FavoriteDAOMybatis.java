@@ -1,6 +1,7 @@
 package com.ez.booktime.favorite.model;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,11 @@ public class FavoriteDAOMybatis implements FavoriteDAO{
 	@Override
 	public FavoriteVO selectOneFavorite(int favoriteNo) {
 		return sqlSession.selectOne(namespace+"selectOneFavorite", favoriteNo);
+	}
+
+	@Override
+	public int paymentOkDeleteCart(Map<String, Object> map) {
+		return sqlSession.delete(namespace+"paymentOkDeleteCart", map);
 	}
 
 	

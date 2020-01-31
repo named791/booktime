@@ -1,5 +1,6 @@
 package com.ez.booktime.payment.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import com.ez.booktime.favorite.model.FavoriteDAO;
 import com.ez.booktime.mileage.model.MileageService;
 import com.ez.booktime.mileage.model.MileageVO;
 import com.ez.booktime.user.model.UserService;
@@ -23,6 +25,9 @@ public class PaymentServiceImpl implements PaymentService{
 	
 	@Autowired
 	private UserService UserService;
+	
+	@Autowired
+	private FavoriteDAO favoriteDao;
 	
 	@Override
 	@Transactional
@@ -60,7 +65,11 @@ public class PaymentServiceImpl implements PaymentService{
 							map.put("qty", dVo.getQty());
 							
 							cnt = paymentDao.insertPaymentDetail(map);	//주문 상세정보 테이블
-							if(cnt>0) count++;
+							if(cnt>0) {
+								map.put("userid", vo.getUserid());
+								cnt = favoriteDao.paymentOkDeleteCart(map);	//구입한 책은 장바구니에서 삭제
+								if(cnt>0) count++;
+							}
 						}
 						if(count==list.size()) cnt=1;
 						
@@ -81,12 +90,34 @@ public class PaymentServiceImpl implements PaymentService{
 	public PaymentVO selectPayment(PaymentVO vo) {
 		PaymentVO pVo = paymentDao.selectPaymentByPayNo(vo);
 		
-		List<PaymentDetailVO> list
-			= paymentDao.selectPaymentDetail(vo.getPayNo());
-		
-		pVo.setDetails(list);
-		
+		if(pVo!=null) {
+			List<PaymentDetailVO> list
+				= paymentDao.selectPaymentDetail(vo.getPayNo());
+			
+			pVo.setDetails(list);
+		}
 		return pVo;
+	}
+
+	@Override
+	public List<PaymentVO> selectPaymentList(PaymentDateVO vo) {
+		List<PaymentVO> list = paymentDao.selectPaymentList(vo);
+		
+		List<PaymentVO> compList = new ArrayList<PaymentVO>();
+		if(list!=null && !list.isEmpty()) {
+			for(PaymentVO pVo : list) {
+				pVo.setDetails(paymentDao.selectPaymentDetail(pVo.getPayNo()));
+				
+				compList.add(pVo);
+			}
+		}
+		
+		return compList;
+	}
+
+	@Override
+	public int totalPaymentList(PaymentDateVO vo) {
+		return paymentDao.totalPaymentList(vo);
 	}
 	
 }

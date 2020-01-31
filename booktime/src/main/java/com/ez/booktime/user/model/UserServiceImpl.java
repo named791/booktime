@@ -1,6 +1,7 @@
 package com.ez.booktime.user.model;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -83,4 +84,13 @@ public class UserServiceImpl implements UserService{
 		return userDao.selectAllUser();
 	}
 
+	@Override
+	public int updateUser(UserVO userVo) {
+		return userDao.updateUser(userVo);
+	}
+	
+	@Override
+	public int updatePwd(UserVO userVo) {
+		return userDao.updatePwd(userVo);
+	}
 }

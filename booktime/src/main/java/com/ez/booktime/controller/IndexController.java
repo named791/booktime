@@ -29,11 +29,14 @@ public class IndexController {
 	
 	@RequestMapping("/category.do")
 	public String categoryList(@RequestParam(defaultValue="0")
-	int cateNo, Model model) throws Exception {
+	int cateNo 
+	, @RequestParam(defaultValue = "1") int start
+	, @RequestParam(defaultValue = "20") int maxResult,
+	Model model) throws Exception {
 		logger.info("카테고리 번호={}",cateNo);
 		
 		Category category=new Category();
-		List<Map<String, Object>> list=category.categoryFind(cateNo);
+		List<Map<String, Object>> list=category.categoryFind(cateNo, start, maxResult);
 		logger.info("카테고리 검색 리스트 크기={}",list.size());
 		
 		model.addAttribute("list",list);

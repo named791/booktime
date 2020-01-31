@@ -32,7 +32,8 @@
 	  <div class="col-lg-3 mb-4">
 		<div class="list-group">
 			<a id="a1" class="list-group-item list-group-item-action active"> 주문내역</a>
-			<a id="h1" href="#" class="list-group-item list-group-item-action">주문 조회/변경/취소</a>
+			<a id="h1" href="<c:url value="/payment/paymentList.do"/>" 
+				class="list-group-item list-group-item-action">주문 조회/변경/취소</a>
 			  
 			<a id="a2" class="list-group-item list-group-item-action active"> 나의 포인트</a>
 			<a href="<c:url value='/mypage/Mileage/Mileage.do'/>" class="list-group-item list-group-item-action">마일리지</a>

@@ -56,6 +56,18 @@
 		select * from "USER" order by grade 
 	</select>
 	
+	<update id="updateUser" parameterType="userVo">
+		update "USER"
+		set phone=#{phone}, email1=#{email1}, email2=#{email2}, 
+		zipcode=#{zipcode}, parseladdress=#{parseladdress}, 
+		newaddress=#{newaddress}, addressdetail=#{addressdetail}
+		where pwd=#{pwd} and userid=#{userid}
+	</update>
+	
+	<update id="updatePwd" parameterType="userVo">
+		update "USER" set pwd=#{pwd} where userid=#{userid}
+	</update>
+
 </mapper>
 
 
