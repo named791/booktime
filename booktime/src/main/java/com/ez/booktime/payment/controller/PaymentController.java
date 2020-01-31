@@ -16,15 +16,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ez.booktime.api.AladinAPI;
 import com.ez.booktime.category.model.BookCategoryService;
 import com.ez.booktime.category.model.BookCategoryVO;
+import com.ez.booktime.common.MailSender;
 import com.ez.booktime.common.PaginationInfo;
 import com.ez.booktime.favorite.model.FavoriteService;
 import com.ez.booktime.favorite.model.FavoriteVO;
 import com.ez.booktime.freeBoard.model.FreeBoardService;
+import com.ez.booktime.mileage.model.MileageVO;
 import com.ez.booktime.payment.model.PaymentDateVO;
 import com.ez.booktime.payment.model.PaymentDetailVO;
 import com.ez.booktime.payment.model.PaymentService;
@@ -54,6 +58,9 @@ public class PaymentController {
 	
 	@Autowired
 	private FreeBoardService boardService;
+	
+	//@Autowired
+	//private MailSender mailSender;
 	
 	@RequestMapping("/paymentSheetSend.do")
 	public String paymentSheetSend(@ModelAttribute FavoriteVO vo
@@ -223,6 +230,9 @@ public class PaymentController {
 		model.addAttribute("vo", vo);
 		model.addAttribute("infoList", infoList);
 		
+		//주문완료 현재 페이지에서 안내 이메일 보내기
+		//mailSender.sendMail(subject, content, receiver, sender);
+		
 		return "payment/paymentResult";
 	}
 	
@@ -313,9 +323,45 @@ public class PaymentController {
 		return "payment/paymentList";
 	}
 	
-	@RequestMapping("/refundForm.do")
-	public void refundForm(@ModelAttribute PaymentVO vo
-			,@RequestParam(defaultValue = "0") int savingPoint) {
-		logger.info("교환 환불 form, 파라미터 vo={}, savingPoint={}", vo, savingPoint);
+	@RequestMapping(value = "/refundForm.do", method = RequestMethod.GET)
+	public void refundForm_get(@RequestParam(required = false) String payNo
+			,@RequestParam(defaultValue = "0") int savingPoint
+			,Model model) {
+		logger.info("교환 환불서 작성, 파라미터 payNo={}, savingPoint={}", payNo, savingPoint);
+	}
+	
+	@RequestMapping(value = "/refundForm.do", method = RequestMethod.POST)
+	@ResponseBody
+	public boolean refundForm_post(@ModelAttribute PaymentVO vo) {
+		logger.info("교환 환불 처리, 파라미터 vo={}", vo);
+		boolean bool = false;
+		
+		int cnt = paymentService.updateProgress(vo, null);
+		if(cnt>0) bool = true;
+		
+		return bool;
+	}
+	
+	@RequestMapping("/dealOk.do")
+	@ResponseBody
+	public boolean dealOk(@ModelAttribute PaymentVO vo
+			, @ModelAttribute MileageVO mVo
+			, HttpSession session
+			, Model model) {
+		String userid = (String)session.getAttribute("userid");
+		if(userid!=null && !userid.isEmpty()) {
+			mVo.setUserid(userid);
+		}
+		
+		logger.info("구매확정 처리, 파라미터 vo={}, mVo={}", vo, mVo);
+		
+		boolean res = false;
+		
+		int cnt = paymentService.updateProgress(vo, mVo);
+		if(cnt>0) {
+			res = true;
+		}
+		
+		return res;
 	}
 }

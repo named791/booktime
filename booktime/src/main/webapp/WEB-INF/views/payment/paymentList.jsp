@@ -60,20 +60,45 @@
 		
 		var temp = null;
 		$(".prog a").click(function(){
-			if($(this).text()=='교환/환불 신청'){
+			if($(this).text()=='교환/환불 신청' || $(this).text()=='환불 신청'){
 				var frmData = $("form[name=frmProgress"+idx+"]").serialize();
 				
 				if(temp!=null){
 					temp.close();
 				}
-				win = window.open("<c:url value='/payment/refundForm.do?"+frmData+"'/>","refund","top=100,left=300,resizable=no,location=no,width=550,height=600");
+				win = window.open("<c:url value='/payment/refundForm.do?"+frmData+"'/>","refund","top=100,left=300,resizable=no,location=no,width=550,height=650");
 				temp = win;
 				win.focus();
 			}else if($(this).text()=='구매확정'){
-				
+				if(confirm("상품을 모두 받으셨습니까?\r\n구매 확정 후에는 교환 및 환불이 불가능합니다.")){
+					var frm = $("form[name=frmProgress"+idx+"]");
+					frm.find("input[name=progress]").val("구매확정");
+					
+					$.ajax({
+						url : "<c:url value='/payment/dealOk.do'/>",
+						data : frm.serialize(),
+						type : "POST",
+						dataType : "text",
+						success : function(res){
+							if("${sessionScope.userid}"!=null && "${sessionScope.userid}"!=''){
+								alert("구매가 확정되어 마일리지가 적립되었습니다.");
+							}else{
+								alert("구매가 확정되었습니다. 감사합니다.");
+							}
+							location.reload();
+						},
+						error : function(xhr, status, error){
+							alert("ERROR!.."+status+".."+error);
+						}
+					});//ajax
+					
+				}//if
 			}
 		});
 		
+		$("tr").click(function(){
+			$(this).animate(500, {height:"300px"});
+		});
 	});
 	
 	function ckDateFormat(str){
@@ -170,7 +195,7 @@
 							<div style="min-height: 80px;line-height: 4.8em;" class="align-middle">
 								<a href="<c:url value="/book/bookDetail.do?ItemId=${dVo.isbn }"/>" class="bookImg">
 									<img alt="${dVo.bookName }" src="${dList[idx]['cover']}" width="50px;">
-									${bookName}
+									${idx+1 }.${bookName}
 								</a>
 								<c:set var="idx" value="${idx+1}"/>
 							</div>
@@ -198,14 +223,17 @@
 							<c:set var="idx" value="${idx-(fn:length(list[i].details))}"/>
 						</c:if>
 						
-						<form name="frmProgress${i}" method="post" action="<c:url value="/payment/"/>">
-							<c:if test="${!empty sessionScope.userid }">
+						<form name="frmProgress${i}" method="post" action="<c:url value="/payment/dealOk.do"/>">
+							<c:if test="${!empty sessionScope.userid && savingPoint>0 
+								&& list[i].progress!='환불 신청중' && list[i].progress!='환불 처리됨'
+								&& list[i].progress!='구매확정'}">
 								<br><small class="text-danger">
 									<fmt:formatNumber value="${savingPoint }" pattern="#,###"/>점 적립예정
 								</small>
 								<input type="hidden" name="savingPoint" value="${savingPoint}">
 							</c:if>
 							<input type="hidden" name="payNo" value="${list[i].payNo}">
+							<input type="hidden" name="progress" value="${list[i].progress}">
 						</form>
 						
 					</td>
@@ -213,13 +241,18 @@
 						${list[i].progress }
 						<br>
 						<c:if test="${list[i].progress=='결제완료' }">
-							<a href="#" class="btn btn-sm btn-info" onclick="getIdx(${i})">교환/환불 신청</a>
+							<a href="#" class="btn btn-sm btn-info" onclick="getIdx(${i})">환불 신청</a>
 						</c:if>
-						<c:if test="${list[i].progress=='교환/환불 신청중' }">
+						<c:if test="${list[i].progress=='교환 처리중' || list[i].progress=='환불 처리중'}">
 						
 						</c:if>
+						<c:if test="${list[i].progress=='환불 처리됨'}">
+							<a href="<c:url value="/book/bookDetail.do?ItemId=${list[i].details[0].isbn}"/>"
+								class="btn btn-sm btn-info mb-4">다시 보러 가기</a>
+						</c:if>
 						<c:if test="${list[i].progress=='배송중' || list[i].progress=='배송완료'}">
-							<a href="#" class="btn btn-sm btn-info">구매확정</a>
+							<a href="#" class="btn btn-sm btn-info mb-1" onclick="getIdx(${i})">교환/환불 신청</a>
+							<a href="#" class="btn btn-sm btn-info" onclick="getIdx(${i})">구매확정</a>
 						</c:if>
 						
 						<c:if test="${!empty sessionScope.userid && list[i].progress=='구매확정'}">
@@ -228,10 +261,10 @@
 									class="btn btn-sm btn-info mb-4">
 										<i class="fa fa-arrow-left">
 										<c:if test="${dList[idx]['reviewed'] }">
-											리뷰보러가기
+											${idx+1 }.리뷰보기
 										</c:if>
 										<c:if test="${!dList[idx]['reviewed'] }">
-											리뷰쓰러가기
+											${idx+1 }.리뷰쓰기
 										</c:if>
 										</i></a>
 								<c:set var="idx" value="${idx+1}"/>

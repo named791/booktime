@@ -160,7 +160,6 @@
 		        	
 			        if("${sessionScope.userid}".length<1){
 			        	$("input[name=nonMember]").val(getOrderDate());	//비회원용 조회코드
-			        	alert($("input[name=nonMember]").val());
 			        }else{
 			        	$("input[name=nonMember]").val(0);	//회원일때 DefaultValue
 			        }

@@ -52,7 +52,7 @@
 					]]>
 				</if>
 				<if test="(userid==null or userid=='') and payNo!=null and payNo!=''">
-					where payNo=#{payNo}
+					where nonMember=#{payNo}
 				</if>
 				
 				order by payDate desc
@@ -76,6 +76,15 @@
 			and payDate < to_date(#{endDay})+(interval '1' day)
 		]]>
 	</select>
+	
+	<update id="updateProgress" parameterType="paymentVo">
+		update payment
+		set PROGRESS=#{progress}
+		<if test="message!=null and message!=''">
+			, message = message || #{message}
+		</if>
+		where payNo=#{payNo}
+	</update>
 </mapper>
 
 
