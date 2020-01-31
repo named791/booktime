@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.ez.booktime.common.DateSearchVO;
 import com.ez.booktime.common.SearchVO;
 
 @Repository
@@ -21,13 +22,13 @@ public class MileageDAOMybatis implements MileageDAO{
 	}
 
 	@Override
-	public List<MileageVO> selectMileageList() {
-		return sqlSession.selectList(namespace+"selectMileageList");
+	public List<MileageVO> selectMileageList(DateSearchVO dateSearchVo) {
+		return sqlSession.selectList(namespace+"selectMileageList", dateSearchVo);
 	}
 
 	@Override
-	public int selectTotalRecord(SearchVO searchVo) {
-		return sqlSession.selectOne(namespace+"selectTotalRecord",searchVo);
+	public int selectTotalRecord(DateSearchVO dateSearchVo) {
+		return sqlSession.selectOne(namespace+"selectTotalRecord",dateSearchVo);
 	}
 	
 

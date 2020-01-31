@@ -11,7 +11,7 @@ import com.ez.booktime.controller.IndexController;
 @RequestMapping("/admin")
 public class AdminIndexController {
 	private static final Logger logger
-	=LoggerFactory.getLogger(IndexController.class);
+	=LoggerFactory.getLogger(AdminIndexController.class);
 
 	@RequestMapping("/adminMain.do")
 	public String index() {

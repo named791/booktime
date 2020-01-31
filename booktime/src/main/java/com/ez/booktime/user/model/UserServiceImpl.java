@@ -68,4 +68,19 @@ public class UserServiceImpl implements UserService{
 		return userDao.updateMileage(vo);
 	}
 
+	@Override
+	public String selectByEmail(UserVO userVo) {
+		return userDao.selectByEmail(userVo);
+	}
+
+	@Override
+	public int resetPwd(UserVO userVo) {
+		return userDao.resetPwd(userVo);
+	}
+
+	@Override
+	public List<UserVO> selectAllUser() {
+		return userDao.selectAllUser();
+	}
+
 }

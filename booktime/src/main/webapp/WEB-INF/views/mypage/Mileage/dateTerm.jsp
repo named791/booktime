@@ -70,13 +70,13 @@
 </script>
 	
 	
-	조회기간
+	사용 가능 기간으로 검색
 	<input type="button" id="btMonth1" value="1개월" >
 	<input type="button" id="btMonth3" value="3개월" >
 	<input type="button" id="btMonth6" value="6개월" >
-		
+	
 	<input type="text" name="startDay" id="startDay" value="${dateSearchVO.startDay }"> 
-	~ 
+	~
 	<input type="text" name="endDay" id="endDay" value="${dateSearchVO.endDay }">
 	
 	

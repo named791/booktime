@@ -41,6 +41,21 @@
 		<if test="usePoint>0">-#{usePoint}</if>
 		where userid=#{userid}
 	</update>
+	
+	<select id="selectByEmail" parameterType="userVo" resultType="String">
+		select userid from "USER" where email1=#{email1} and email2=#{email2}
+	</select>
+	
+	<update id="resetPwd" parameterType="userVo">
+		update "USER"
+		set pwd = #{pwd}
+		where userid=#{userid}
+	</update>
+	
+	<select id="selectAllUser" resultType="userVo">
+		select * from "USER" order by grade 
+	</select>
+	
 </mapper>
 
 

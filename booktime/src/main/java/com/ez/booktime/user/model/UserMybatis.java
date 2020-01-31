@@ -52,4 +52,19 @@ public class UserMybatis implements UserDAO{
 	public int updateMileage(MileageVO vo) {
 		return sqlSession.update(namespace+"updateMileage", vo);
 	}
+
+	@Override
+	public String selectByEmail(UserVO userVo) {
+		return sqlSession.selectOne(namespace+"selectByEmail",userVo);
+	}
+
+	@Override
+	public int resetPwd(UserVO userVo) {
+		return sqlSession.update(namespace+"resetPwd", userVo);
+	}
+
+	@Override
+	public List<UserVO> selectAllUser() {
+		return sqlSession.selectList(namespace+"selectAllUser");
+	}
 }

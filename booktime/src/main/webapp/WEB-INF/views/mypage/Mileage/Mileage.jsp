@@ -19,9 +19,8 @@ $(function(){
 });
 
 function pageFunc(curPage){
-	document.frmPage.currentPage.value=curPage;
-	
-	document.frmPage.submit();
+	$("input[name=currentPage]").val(curPage);
+	$("form[name=frmPage]").submit();
 }
 </script>
 
@@ -36,7 +35,6 @@ function pageFunc(curPage){
 <br> ▶ 주문하신 상품이 발송된 다음날, 마일리지가 누적됩니다.
 <br> ▶ 적립금으로 전환할 수 있는 기간은 마일리지 누적일로부터 12개월 이내입니다.
 <br> ▶ 마일리지 포인트는 현금성 결제수단으로 결제하신 금액에 대해서만 적립됩니다.
-<br> ▶ 마일리지에서 전환된 결제액은 마일리지 적립대상에서 제외됩니다.
 <br> ▶ 마일리지가 10원 이상이면 "마일리지로 결제하기"버튼이 표시됩니다.
 <br> ▶ 이 버튼을 누르시면 보유하신 마일리지를 원하시는 금액(또는 전액)만큼 결제액 전환 후 주문 결제시 사용하실 수 있습니다.
 			</p>
@@ -44,16 +42,15 @@ function pageFunc(curPage){
 		</tr>
 	</table>
 	<!-- 페이징 처리 관련 form -->
-	<form action="<c:url value='/mypage/Mileage/List.do'/>" name="frmPage"
+	<form action="<c:url value='/mypage/Mileage/Mileage.do'/>" name="frmPage"
 		method="post">
-		<input type="hidden" name="searchCondition"
-			value="${param.searchCondition}"> <input type="hidden"
-			name="searchKeyword" value="${param.searchKeyword}"> <input
-			type="hidden" name="currentPage">
+		<input type="hidden" name="startDay" value="${dateSearchVO.startDay }">
+	<input type="hidden" name="endDay" value="${dateSearchVO.endDay }">
+	<input type="hidden" name="currentPage">
 	</form>
 	
 	<form name="frm1" method="post"
-		action="<c:url value='/mypage/Mileage/searchList.do'/>">
+		action="<c:url value='/mypage/Mileage/Mileage.do'/>">
 		<!-- 조회기간 include -->
 		<%@include file="dateTerm.jsp"%>
 
@@ -73,7 +70,11 @@ function pageFunc(curPage){
 		</thead>
 		<tbody>
 			<c:if test="${empty list}">
-				<td colspan="5">보유 마일리지가 없습니다.</td>
+				<tr><td class="text-center align-middle" colspan="5">
+				마일리지 조회 결과가 없습니다<br>
+							<img alt="coin" src="<c:url value='/resources/images/icons/coin.png'/>" height="300px;">
+				
+				</td></tr>
 			</c:if>
 
 			<!-- 자유게시판 반복문 시작 -->
