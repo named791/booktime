@@ -36,7 +36,7 @@ public class AladinAPI {
 	//상품 조회 API
 	public Map<String, Object> selectBook(String isbn13) throws Exception{
 		//필수
-		String selectUrl = "http://www.aladin.co.kr/ttb/api/ItemLookUp.aspx";
+		String selectUrl = "https://www.aladin.co.kr/ttb/api/ItemLookUp.aspx";
 		String itemIdType = "ItemIdType=ISBN13&";
 		if(isbn13.length()<13) {
 			itemIdType="ItemIdType=ItemId&";
@@ -59,7 +59,7 @@ public class AladinAPI {
 	public List<Map<String, Object>> searchBy(String searchType, String searchKeyword
 			, int start, int maxResults) throws Exception {
 		//필수
-		String searchUrl = "http://www.aladdin.co.kr/ttb/api/ItemSearch.aspx";
+		String searchUrl = "https://www.aladdin.co.kr/ttb/api/ItemSearch.aspx";
 		
 		String query = "Query="+URLEncoder.encode(searchKeyword, "UTF-8")+"&";	//제목
 		logger.info("알라딘 검색, 파라미터 searchKeyword={}",searchKeyword);
