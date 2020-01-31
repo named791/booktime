@@ -1,19 +1,26 @@
 package com.ez.booktime.book.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ez.booktime.api.AladinAPI;
 import com.ez.booktime.common.PaginationInfo;
 import com.ez.booktime.controller.Category;
+import com.ez.booktime.favorite.model.FavoriteService;
+import com.ez.booktime.favorite.model.FavoriteVO;
 
 @Controller
 @RequestMapping("/book")
@@ -23,6 +30,9 @@ public class BooklistController {
 
 	@Autowired 
 	private AladinAPI aladinApi;
+	
+	@Autowired
+	private FavoriteService favoriteSerivce;
 	
 	@SuppressWarnings("null")
 	@RequestMapping("/bookList.do") 
@@ -87,16 +97,101 @@ public class BooklistController {
 		return "book/bookBestList";
 	}
 	
-	@RequestMapping("/bookInfo.do")
-	public String bookInfo(@RequestParam String isbn13, Model model) throws Exception {
-		logger.info("isbn 정보, 파라미터 isbn13={}", isbn13);
+	@RequestMapping("/addBookCart.do")
+	@ResponseBody
+	public boolean addBookCart(@RequestParam String isbn, HttpSession session, 
+			Model model) throws Exception {
+		logger.info("isbn 정보, 파라미터 isbn={}", isbn);
 		
-		Map<String, Object> map=aladinApi.selectBook(isbn13);
+		//isbn에 따른 책 정보 조회
+		Map<String, Object> map=aladinApi.selectBook(isbn);
 		logger.info("isbn에 따른 책 정보, map={}", map);
 		
-		model.addAttribute("bookInfo", map);
+		//조회돈 책 정보 변수에 세팅
+		String userid = (String)session.getAttribute("userid");
+		String title = (String) map.get("title");
+		String writer = (String) map.get("author");
+		String publisher = (String) map.get("publisher");
+		int price = ((Long) map.get("priceSales")).intValue();
 		
-		return "book.bookList";
+
+		//FavoriteVO에 세팅
+		FavoriteVO vo = new FavoriteVO();
+		vo.setGroup("CART");
+		vo.setIsbn(isbn);
+		vo.setBookName(title);
+		vo.setWriter(writer);
+		vo.setPublisher(publisher);
+		vo.setPrice(price);
+		vo.setQty(1);
+		
+		if(userid==null || userid.isEmpty()) {
+			vo.setUserid("#"+session.getId());	//비회원이면 #sessionI
+		}else {
+			vo.setUserid(userid);
+		}
+		
+		logger.info("장바구니 추가 처리, 파라미터vo={}",vo);
+		
+		int res=favoriteSerivce.insertFavorite(vo);
+		
+		boolean bool=false;
+		if(res>0) {
+			bool=true;
+		}
+		
+		return bool;
+	}
 	
+	@RequestMapping("/addBookFavo.do")
+	@ResponseBody
+	public boolean addBookFavo(@ModelAttribute ArrayList<String> checkArray, 
+			HttpSession session, Model model) throws Exception {
+		logger.info("isbn 정보, 파라미터 checkArray={}", checkArray);
+		
+		String userid = (String)session.getAttribute("userid");
+		FavoriteVO vo = new FavoriteVO();
+		
+		for(String isbn : checkArray) {
+			logger.info("checkArray 값:"+ isbn);
+
+			//isbn에 따른 책 정보 조회
+			Map<String, Object> map=aladinApi.selectBook(isbn);
+			logger.info("isbn에 따른 책 정보, map={}", map);
+
+			//조회돈 책 정보 변수에 세팅
+			
+			String title = (String) map.get("title");
+			String writer = (String) map.get("author");
+			String publisher = (String) map.get("publisher");
+			int price = ((Long) map.get("priceSales")).intValue();
+			
+			
+			//FavoriteVO에 세팅
+			vo.setGroup("FAVORITE");
+			vo.setIsbn(isbn);
+			vo.setBookName(title);
+			vo.setWriter(writer);
+			vo.setPublisher(publisher);
+			vo.setPrice(price);
+			vo.setQty(1);
+		}
+		
+		if(userid==null || userid.isEmpty()) {
+			vo.setUserid("#"+session.getId());	//비회원이면 #sessionI
+		}else {
+			vo.setUserid(userid);
+		}
+		
+		logger.info("장바구니 추가 처리, 파라미터vo={}",vo);
+		
+		int res=favoriteSerivce.insertFavorite(vo);
+		
+		boolean bool=false;
+		if(res>0) {
+			bool=true;
+		}
+		
+		return bool;
 	}
 }
