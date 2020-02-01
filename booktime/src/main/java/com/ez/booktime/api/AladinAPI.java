@@ -102,7 +102,7 @@ public class AladinAPI {
 				String searchKeyword, int cateNo, 
 				int start, int maxResults) throws Exception {
 			//필수
-			String searchUrl = "http://www.aladdin.co.kr/ttb/api/ItemSearch.aspx";
+			String searchUrl = "https://www.aladdin.co.kr/ttb/api/ItemSearch.aspx";
 			
 			String categoryId="CategoryId="+cateNo+"&";
 			String query = "Query="+URLEncoder.encode(searchKeyword,"UTF-8")+"&";	//제목
@@ -136,7 +136,7 @@ public class AladinAPI {
 					String author, int cateNo, 
 					int start, int maxResults) throws Exception {
 				//필수
-				String searchUrl = "http://www.aladdin.co.kr/ttb/api/ItemSearch.aspx";
+				String searchUrl = "https://www.aladdin.co.kr/ttb/api/ItemSearch.aspx";
 				
 				String categoryId="CategoryId="+cateNo+"&";
 				String query = "Query="+URLEncoder.encode(author,"UTF-8")+"&";	//제목
@@ -170,7 +170,7 @@ public class AladinAPI {
 					String publisher, int cateNo, 
 					int start, int maxResults) throws Exception {
 				//필수
-				String searchUrl = "http://www.aladdin.co.kr/ttb/api/ItemSearch.aspx";
+				String searchUrl = "https://www.aladdin.co.kr/ttb/api/ItemSearch.aspx";
 
 				String categoryId="CategoryId="+cateNo+"&";
 				String query = "Query="+URLEncoder.encode(publisher,"UTF-8")+"&";	//제목

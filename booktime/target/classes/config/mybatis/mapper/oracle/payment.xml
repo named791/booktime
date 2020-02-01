@@ -25,7 +25,7 @@
 			where nonMember=#{nonMember}
 		</if>
 		<if test="nonMember==0">
-			where userid=#{userid} and payNo=#{payNo}
+			where payNo=#{payNo}
 		</if>
 	</select>
 	

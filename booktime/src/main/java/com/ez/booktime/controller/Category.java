@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 import com.ez.booktime.api.AladinAPI;
 
 public class Category {
-	private static final String LIST_URL = "http://www.aladin.co.kr/ttb/api/ItemList.aspx";
+	private static final String LIST_URL = "https://www.aladin.co.kr/ttb/api/ItemList.aspx";
 	private static final String TTB_KEY = "?ttbkey=ttbstjgh5051633001&";
 	
 	private static final String LIST_NEW_ALL = "QueryType=ItemNewAll&";
