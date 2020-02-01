@@ -96,9 +96,6 @@
 			}
 		});
 		
-		$("tr").click(function(){
-			$(this).animate(500, {height:"300px"});
-		});
 	});
 	
 	function ckDateFormat(str){
@@ -270,6 +267,7 @@
 								<c:set var="idx" value="${idx+1}"/>
 							</c:forEach>
 						</c:if>
+						<c:set var="idx" value="${idx-(fn:length(list[i].details))}"/>
 					</td>
 				</tr>
 			</c:forEach>
