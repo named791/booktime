@@ -123,11 +123,6 @@ public class loginController {
 	public void searchID(){
 		logger.info("아이디 찾기 화면");
 	}
-	//후에 post로 변경예정
-	@RequestMapping(value="/login/getId.do", method = RequestMethod.GET)
-	public void getId() {
-		logger.info("아이디 찾기 결과 화면");
-	}
 	
 	@RequestMapping(value="/login/searchPWD.do", method = RequestMethod.GET)
 	public void searchPWD(){
@@ -135,12 +130,46 @@ public class loginController {
 	}
 	
 	/*
-	@RequestMapping("/mypage/memberInfo.do")
-	public String memberInfo() {
-		logger.info("회원정보");
+	@RequestMapping("/login/selectID.do")
+	public String selectId(@RequestParam String name, @RequestParam String email, Model model) {
+		logger.info("아이디 찾기, 파라미터 name={}, email={}", name, email);
 		
-		return "mypage/memberInfo";
+		UserVO vo= new UserVO();
+		
+		String result[]=email.split("@");
+		vo.setEmail1(result[0]);
+		vo.setEmail2(result[1]);
+		vo.setName(name);
+		logger.info("셋팅 결과 vo={}", vo);
+		
+		String userid=userService.selectId(vo);
+		vo.setUserid(userid);
+		logger.info("아이디 조회 결과 vo.userid={}", vo.getUserid());
+		
+		model.addAttribute("vo", vo);
+		
+		return "login/searchID";
+	}*/
+	
+	@RequestMapping(value="/login/getId.do", method = RequestMethod.GET)
+	public String getId(@RequestParam String name, @RequestParam String email, Model model) {
+		logger.info("아이디 찾기 결과 화면 파라미터 name={}, email={}", name, email);
+		
+		UserVO vo= new UserVO();
+			
+			String result[]=email.split("@");
+			vo.setEmail1(result[0]);
+			vo.setEmail2(result[1]);
+			vo.setName(name);
+			logger.info("셋팅 결과 vo={}", vo);
+			
+			String userid=userService.selectId(vo);
+			vo.setUserid(userid);
+			logger.info("아이디 조회 결과 vo.userid={}", vo.getUserid());
+			
+			model.addAttribute("vo", vo);
+			
+			return "login/getId";
 	}
-	*/
 
 }
