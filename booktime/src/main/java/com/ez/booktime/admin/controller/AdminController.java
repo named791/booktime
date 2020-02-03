@@ -104,13 +104,14 @@ public class AdminController {
 	
 	@RequestMapping("/adminMember.do")
 	public void adminMember(Model model) {
+		/*
 		logger.info("관리자 회원관리 화면 보여주기");
 		
 		List<UserVO> list=userService.selectAllUser();
 		logger.info("리스트 크기={}",list.size());
 		
 		model.addAttribute("list",list);
-		
+		*/
 	}
 	
 	@RequestMapping("/adminEvent.do")

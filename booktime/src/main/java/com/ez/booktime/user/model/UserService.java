@@ -1,6 +1,6 @@
 package com.ez.booktime.user.model;
 
-import java.util.List;
+import java.util.Map;
 
 import com.ez.booktime.mileage.model.MileageVO;
 
@@ -17,11 +17,7 @@ public interface UserService {
 	int deleteUser(String userid, String withdrawalreason);
 	String selectPWD(String userid);
 	int updateMileage(MileageVO vo);
-	
-	String selectByEmail(UserVO userVo); //이메일로 회원찾기
-	int resetPwd(UserVO userVo); //기존 비밀번호를 임시 비밀번호로 변경
-	List<UserVO> selectAllUser(); //모든 회원정보 조회
-	
 	int updateUser(UserVO userVo);
 	int updatePwd(UserVO userVo);
+	String selectId(UserVO userVo);
 }

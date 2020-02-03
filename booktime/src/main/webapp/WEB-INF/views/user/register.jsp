@@ -6,12 +6,24 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/register.css">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
 <title>회원등록</title>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript">
 	$('.form-check-input').prop('indeterminate', true);
+	
+	$( function() {
+	    $( "#datepicker" ).datepicker({
+	      changeMonth: true,
+	      changeYear: true
+	    });
+	  });
 	
 	function sample4_execDaumPostcode() {
         new daum.Postcode({
@@ -40,7 +52,7 @@
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
                 document.getElementById('zipcode').value = data.zonecode;
                 document.getElementById("newaddress").value = roadAddr;
-                document.getElementById("parseladdress").value = data.jibunAddress;
+                document.getElementById("parseladdress").value = data.autoJibunAddress;
                 
                 // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
                 if(roadAddr !== ''){
@@ -48,7 +60,8 @@
                 } else {
                     document.getElementById("extraAddress").value = '';
                 }
-
+				
+                
                 var guideTextBox = document.getElementById("guide");
                 // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
                 if(data.autoRoadAddress) {
@@ -64,6 +77,7 @@
                     guideTextBox.innerHTML = '';
                     guideTextBox.style.display = 'none';
                 }
+               
             }
         }).open()
 	}
@@ -126,28 +140,28 @@
 <div class="allBox">
     <div class="insertId">
       <label for="">아이디 : </label>
-      <input name="userid" type="text" class="" id="userid" required >
+      <input name="userid" type="text" class="" id="userid" required placeholder="아이디를 입력하세요">
       <input type="button" value="중복확인" onclick="btnId()">
       <label id="error1">*아이디 중복확인을 해주세요</label>
       <label id="errorid">*아이디는 8자리 이상입력해야 합니다.</label>
-      <input type="text" name="chkid" id="chkid">
+      <input type="hidden" name="chkid" id="chkid">
     </div>
     
     <div class="insertPwd">
       <label for="">패스워드 : </label>
-      <input name="pwd" type="password" class="" id="pwd" required size="20">
+      <input name="pwd" type="password" class="" id="pwd" required size="20" placeholder="비밀번호를 입력하세요">
       <label id="error2">*비밀번호는 영대소문자,문자,숫자를 조합한 8~20자 이내로 입력해주세요</label>
     </div>
     
     <div class="insertName">
       <label for="">이름 : </label>
-      <input name="name" type="text" class="" id="name" required >
+      <input name="name" type="text" class="" id="name" required placeholder="이름을 입력해주세요">
       <label id="error3">*이름은 비워둘 수 없습니다.</label>
     </div>
   
     <div class="insertBirth">
       <label for="birth" id="birth">생년월일 : </label>
-      <input name="birth" type="date" id="birth" required>
+      <input name="birth" type="date" id="datepicke" required placeholder="생일을 입력해주세요">
     </div>
     
     <label id="allGender">성별 : </label>

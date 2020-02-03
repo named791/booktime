@@ -35,24 +35,24 @@
 					<span class="login100-form-title p-b-51">
 						비회원
 					</span>
+					
+					<div class="flex-sb-m w-full p-t-3 p-b-24">
+						<div class="contact100-form-checkbox"></div>
+						<div>
+							<a href="<c:url value='/login/login.do'/>" class="txt1">
+								회원 로그인
+							</a>
+						</div>
+						</div>
+						
 					<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
-						<input class="input100" type="text" name="username" placeholder="주문자명">
-						<span class="focus-input100"></span>
-					</div>
-					
-					<div class="wrap-input100 validate-input m-b-16" data-validate = "Password is required">
-						<input class="input100" type="password" name="hp" placeholder="휴대폰 번호(-없이 입력)">
-						<span class="focus-input100"></span>
-					</div>
-					
-					<div class="wrap-input100 validate-input m-b-16" data-validate = "Password is required">
-						<input class="input100" type="password" name="pwd" placeholder="주문비밀번호">
+						<input class="input100" type="text" name="nonmember" placeholder="주문번호를 입력하세요" required>
 						<span class="focus-input100"></span>
 					</div>
 
 					<div class="container-login100-form-btn m-t-17">
 						<button class="login100-form-btn">
-							로그인
+							주문조회하기
 						</button>
 					</div>
 
