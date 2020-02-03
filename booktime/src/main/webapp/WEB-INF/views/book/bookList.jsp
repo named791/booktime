@@ -179,16 +179,19 @@ a{
 
 <script type="text/javascript">
 	$(function(){
+		//
 		$("thead input[type=checkbox]").click(function(){
 			$("tbody input[type=checkbox]")
 				.prop("checked", this.checked);
 		});
 		
+		//제목별 검색
 		$("#btnBrowse-Search-Category").click(function(){
 			location.href=
 				"<c:url value='/book/bookList.do?cateNo=${param.cateNo}&searchKeyword="+$("#txtBrowse-Search-Category").val()+"'/>";
 		});
 		
+		//체크박스 전체 선택
 		$(".img_all").click(function(){
 			if($(".ss_book_table .checkbox").is(":checked") == false){
 				$(".ss_book_table .checkbox").prop("checked", true);
@@ -197,84 +200,156 @@ a{
 			}
 		});
 		
-		/* $("input[type=button]").click(function(){
-			var id = $(this).attr("id");
+		//개별로 장바구니에 넣기
+		$(".button_search_cart_new").click(function(){
+			var isbn = $(this).attr("data-isbn");
+			var frm = $("input[name=isbn_data]").val(isbn);
+			var p_data = {"isbn": isbn};
 			
-			if(id=="bt_Favorite" || id=="bt_Cart"){
-				$(this).parents("tr").nextAll("tr").find(".val").remove();
-				
-				if(id=="bt_Favorite"){
-					$("input[name=group]").val("FAVORITE");
-				}else if(id=="bt_Cart"){
-					var isbn13=$("input[name=isbn13]").val();
-					$("input[name=isbn1]").val("isbn13");
-					alert($("input[name=isbn1]").val("isbn13"));
-				}
-			$.ajax({
-				url:"<c:url value='/book/bookInfo.do'/>",
-				type:"post",
-				data:$("form[name=isbnForm]").serialize(),
-				dataType:"json",
-				success:function(res){
-					if(res>0){
-						$(".container").css("filter", "blur(10px)");
+	        $.ajax({
+	   	    	url:"<c:url value='/book/addBookCart.do'/>",
+	        	type:"post",
+	        	data:p_data,
+	        	success:function(res){
+	        		if(res){
+	        			$("#cover").siblings().css("filter", "blur(10px)");
 						$("#cover").fadeIn();
 						
 						$(".addResult").text("장바구니");
 						$(".btn-goFavorite").attr("href"
 								, "<c:url value='/favorite/cart.do'/>");
-						}
-					}
-				},
-				error:function(xhr, status, error){
+	        		}
+	        	},
+	        	error:function(xhr, status, error){
 					alert("ERROR : "+status+", "+error);
+					alert(xhr.status+"#"+xhr.response);
 				}
-			});	
-		}); */
+	        	
+	        }); 
+	       
+	    });
 		
-		
-		$("input[type=button]").click(function(){
-			var id = $(this).attr("id");
+		//개별로 찜목록에 넣기
+		$(".btFavorite").click(function(){
+			var isbn = $(this).attr("data-isbn");
+			var frm = $("input[name=isbn_data]").val(isbn);
+			var p_data = {"isbn": isbn};
 			
-			if(id=="bt_Favorite" || id=="bt_Cart"){
-				/* $(this).parents("tr").prevAll("tr").find(".val").remove(); */
-				$(this).parents("tr").nextAll("tr").find(".val").remove();
-				
-				if(id=="bt_Favorite"){
-					$("input[name=group]").val("FAVORITE");
-				}else if(id=="bt_Cart"){
-					$("input[name=group]").val("CART");
+	        $.ajax({
+	   	    	url:"<c:url value='/book/addBookFavo.do'/>",
+	        	type:"post",
+	        	data:p_data,
+	        	success:function(res){
+	        		if(res){
+	        			$("#cover").siblings().css("filter", "blur(10px)");
+						$("#cover").fadeIn();
+						
+						$(".addResult").text("즐겨찾기");
+	        		}
+	        	},
+	        	error:function(xhr, status, error){
+					alert("ERROR : "+status+", "+error);
+					alert(xhr.status+"#"+xhr.response);
 				}
-				$.ajax({
-					url:"<c:url value='/favorite/addListOneFavorite.do'/>",
-					type:"post",
-					data:$("form[name=bookList]").serialize(),
-					dataType:"json",
-					success:function(res){
-						if(res>0){
-							$(".details").css("filter", "blur(10px)");
-							$("#cover").fadeIn();
-							
-							var group = $("input[name=group]").val();
-							if(group=="FAVORITE"){
-								$(".addResult").text("즐겨찾기");
-							}else if(group=="CART"){
-								$(".addResult").text("장바구니");
-								$(".btn-goFavorite").attr("href"
-										, "<c:url value='/favorite/cart.do'/>");
-							}
-						}
-					},
-					error:function(xhr, status, error){
-						alert("ERROR : "+status+", "+error);
-					}
-				});		
-				
-			}
+	        	
+	        }); 
+	       
+	    });
+		
+		$("#hide").click(function(){
+			$("#cover").fadeOut();
+			$("#cover").siblings().css("filter", "blur(0px)");
 		});
+		
+		//체크박스 선택 후 한꺼번에 장바구니에 넣기
+		$(".all_Cart").click(function(){
+			var checkArray=new Array();
+			
+			$("input[type=checkbox]:checked").each(function(index, item){
+				checkArray.push($(this).attr("data-isbn"));
+			});
+			
+			/* alert(checkArray); */
+				
+			$.ajax({
+		   	   	url:"<c:url value='/book/addBookAllCart.do'/>",
+		       	type:"post",
+		       	data:{"checkArray": checkArray},
+		       	success:function(res){
+		       		if(res){
+		       			$("#cover").siblings().css("filter", "blur(10px)");
+						$("#cover").fadeIn();
+						
+						$(".addResult").text("장바구니");
+						$(".btn-goFavorite").attr("href"
+								, "<c:url value='/favorite/cart.do'/>");
+		       		}
+		       	},
+		       	error:function(xhr, status, error){
+					alert("ERROR : "+status+", "+error);
+					alert(xhr.status+"#"+xhr.response);
+				}
+		    }); 	
+		});
+		
+		//체크박스 선택 후 한꺼번에 찜목록에 넣기
+		$(".all_Favorite").click(function(){
+			var checkArray=new Array();
+			
+			$("input[type=checkbox]:checked").each(function(index, item){
+				checkArray.push($(this).attr("data-isbn"));
+			});
+			
+			//alert(checkArray);
+				
+			$.ajax({
+		   	   	url:"<c:url value='/book/addBookAllFavo.do'/>",
+		       	type:"post",
+		       	data:{"checkArray": checkArray},
+		       	success:function(res){
+		       		if(res){
+		       			$("#cover").siblings().css("filter", "blur(10px)");
+						$("#cover").fadeIn();
+						
+						$(".addResult").text("즐겨찾기");
+		       		}
+		       	},
+		       	error:function(xhr, status, error){
+					alert("ERROR : "+status+", "+error);
+					alert(xhr.status+"#"+xhr.response);
+				}
+		    }); 	
+		});
+		
+		//개별 상품 바로구매
+		$(".button_search_buyitnow_new").click(function(){
+			var isbn = $(this).attr("data-isbn");
+			var p_data = {"isbn": isbn};
+			
+	        $.ajax({
+	   	    	url:"<c:url value='/book/directPayments.do'/>",
+	        	type:"post",
+	        	data:p_data,
+	        	success:function(res){
+	        		if(res>0){
+	        			console.log("바로 구매 작동 성공");
+	        			
+	        			location.href=
+	        				"<c:url value='/payment/paymentSheet.do'/>"
+	        		}
+	        	},
+	        	error:function(xhr, status, error){
+					alert("ERROR : "+status+", "+error);
+					alert(xhr.status+"#"+xhr.response);
+				}
+	        	
+	        }); 
+	       
+	    });
 		
 	});
 	
+	//페이징 처리 폼 넘기기
 	function pageFunc(curPage){		
 		$("input[name=start]").val(curPage);
 		$("form[name=frmPage]").submit();
@@ -303,17 +378,11 @@ a{
 	<input type="hidden" value="${pagingInfo.lastPage }">
 </form>
 
-<form name="frmData">
-	<input type="text" name="bookName" value="${map['title'] }">
-	<input type="text" name="isbn" value="${map['isbn13'] }">
-	<input type="text" name="writer" value="${map['author'] }">
-	<input type="text" name="publisher" value="${map['publisher'] }">
-	<input type="text" name="price" value="${map['priceSales'] }">
-	<input type="text" name="qty" value="1">
-	<input type="text" name="group" value="CART">
+<form name="frmData_isbn">
+	<input type="hidden" name="isbn_data" value="isbn">
 </form>
 
-s<div id="cover">
+<div id="cover">
 	<div id="FavoriteOk" class="card border-primary" >
 		<div class="card-header bg-primary text-center"><b><span class="addResult"></span>를 추가했습니다</b></div>
 		<div class="card-body text-center">
@@ -442,15 +511,19 @@ s<div id="cover">
 										style="cursor: pointer;"></td>
 	
 									<td style="padding: 0px 0px 0px 5px;"><input id="btCart"
+										class="all_Cart"
 										type="image" alt="체크한 도서를 모두 장바구니에 담습니다."
 										src="//image.aladin.co.kr/img/search/btn_basket_2.jpg"
 										border="0" name="Submit.AddBookAll"></td>
-	
-									<td style="padding: 0px 0px 0px 5px;"><input type="image" 
-										name="submit.AddMyListAll" id="btFavorite"
-										alt="체크한 상품을 즐겨찾기에 등록합니다."
-										src="//image.aladin.co.kr/img/search/btn_mylist_s.jpg"
-										border="0"></td>
+									
+									<c:if test="${!empty sessionScope.userid }">
+										<td style="padding: 0px 0px 0px 5px;"><input type="image"
+											class="all_Favorite" 
+											name="submit.AddMyListAll" id="btFavorite"
+											alt="체크한 상품을 즐겨찾기에 등록합니다."
+											src="//image.aladin.co.kr/img/search/btn_mylist_s.jpg"
+											border="0"></td>
+									</c:if>
 								</tr>
 							</tbody>
 						</table>
@@ -467,7 +540,8 @@ s<div id="cover">
 									<c:set var="map" value="${list[i] }"/>
 									<tr class="tb_row" data-value="${status.count }">
 										<td>
-											<input name="chkCart.K692636032" type="checkbox" class="checkbox">
+											<input name="checkbox" type="checkbox" class="checkbox"
+											data-isbn=${map['isbn13'] }>
 										</td>
 										<td>
 											<a href='<c:url value="/book/bookDetail.do?ItemId=${map['isbn13'] }"/>' id="book_a">
@@ -479,7 +553,7 @@ s<div id="cover">
 												<ul class="book">
 													<li><a href=
 														'<c:url value="/book/bookDetail.do?ItemId=${map['isbn13'] }"/>' 
-															class="bo3" style="color:#3399FF">
+															class="bo3" style="color:#3399FF" data-title="${map['title']}" >
 															<b>${map['title'] }</b>
 														</a>&nbsp;</li>
 													<li id="author"><a href=
@@ -510,48 +584,34 @@ s<div id="cover">
 												<ul class="book">
 													<li>지금 <strong>택배</strong>로 주문하면 <strong>내일</strong>
 														수령
-														<div>
-															최근 1주 88.0% (중구 중림동) <img
-																src="//image.aladin.co.kr/img/shop/2012/bu_driveaway_ch.gif"
-																onclick="FindZipByList('addInputShop_226667290');"
-																style="cursor: pointer; vertical-align: middle; margin: -3px 0 0 0px;"
-																alt="지역변경"><span id="addInputShop_226667290"></span>
-														</div>
 													</li>
 												</ul>
 											</div>
 										</td>
 										<td>
-											<c:if test="${!empty sessionScope.userid }">
-												<input type="button" class="button_search_cart_new btCart" 
-												id="bt_Cart" value="장바구니 담기"
-												style="font-size: 13px; color:#fff;">
-											</c:if>
 											<c:if test="${empty map['stockstatus'] }">
 												<!-- 재고가 있으면 -->
-												<div class="button_search_buyitnow_new" style="font-size: 13px;"
-													id="bt_buy">
-													<a href="https://www.aladin.co.kr/order/worder_chk_order.aspx?CartType=4&amp;ISBN=K692636032" style="color:white"
-													>바로구매</a>
-												</div>
-												<input type="button" id="bt_Favorite"
-													class="button_search_storage" value="찜 등록"
-													style="color:#3399FF">
+												<input type="button" class="button_search_cart_new btCart" 
+													value="장바구니" style="font-size: 13px; color:#fff;"
+													data-isbn=${map['isbn13'] }>
+												
+												<input type="button" class="button_search_buyitnow_new" 
+													value="바로구매" style="font-size: 13px; color:#fff;"
+													data-isbn=${map['isbn13'] }>
+											</c:if>
+											<c:if test="${!empty sessionScope.userid }">
+												<input type="button" class="button_search_storage btFavorite" 
+													value="찜 등록" style="color:#3399FF" 
+													data-isbn=${map['isbn13'] }>
 											</c:if>
 											<c:if test="${!empty map['stockstatus'] }">
 												<!-- 재고가 없으면 -->
-												<input type="submit" class="btn col" id="btOrder"
+												<input type="submit" class="btn col" 
 													value="지금은 구매할 수 없습니다." style="width: 50%;"
 													disabled="disabled">
 											</c:if>
 											
-											<input type="text" class="val" name="voList[${i}].bookName" value="${map['title'] }">
-											<input type="text" class="val" name="voList[${i}].isbn" value="${map['isbn13'] }">
-											<input type="text" class="val" name="voList[${i}].writer" value="${map['author'] }">
-											<input type="text" class="val" name="voList[${i}].publisher" value="${map['publisher'] }">
-											<input type="text" class="val" name="voList[${i}].price" value="${map['priceSales'] }">
-											<input type="text" class="val" name="voList[${i}].qty" value="1">
-											<input type="text" class="val" name="voList[${i}].group" value="CART">
+											<input type="hidden" class="val" name="isbn" value="${map['isbn13'] }">
 										</td>					
 									</tr>
 								</c:forEach>
@@ -597,16 +657,20 @@ s<div id="cover">
 										alt="체크박스 전체 선택"
 										style="cursor: pointer;"></td>
 	
-									<td style="padding: 0px 0px 0px 5px;"><input
+									<td style="padding: 0px 0px 0px 5px;"><input id="btCart"
+										class="all_Cart"
 										type="image" alt="체크한 도서를 모두 장바구니에 담습니다."
 										src="//image.aladin.co.kr/img/search/btn_basket_2.jpg"
 										border="0" name="Submit.AddBookAll"></td>
-	
-									<td style="padding: 0px 0px 0px 5px;"><input type="image"
-										name="submit.AddMyListAll" onclick="return AddMyListAll();"
-										alt="체크한 상품을 즐겨찾기에 등록합니다."
-										src="//image.aladin.co.kr/img/search/btn_mylist_s.jpg"
-										border="0"></td>
+									
+									<c:if test="${!empty sessionScope.userid }">
+										<td style="padding: 0px 0px 0px 5px;"><input type="image"
+											class="all_Favorite" 
+											name="submit.AddMyListAll" id="btFavorite"
+											alt="체크한 상품을 즐겨찾기에 등록합니다."
+											src="//image.aladin.co.kr/img/search/btn_mylist_s.jpg"
+											border="0"></td>
+									</c:if>
 								</tr>
 							</tbody>
 						</table>
