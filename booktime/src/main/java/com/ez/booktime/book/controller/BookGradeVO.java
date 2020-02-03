@@ -5,6 +5,7 @@ public class BookGradeVO {
 	private String userid;
 	private String isbn;
 	private int bookGrade;
+	private int boardNo;
 	
 	public int getBookGradeNo() {
 		return bookGradeNo;
@@ -30,10 +31,17 @@ public class BookGradeVO {
 	public void setBookGrade(int bookGrade) {
 		this.bookGrade = bookGrade;
 	}
+	public int getBoardNo() {
+		return boardNo;
+	}
+	public void setBoardNo(int boardNo) {
+		this.boardNo = boardNo;
+	}
 	
 	@Override
 	public String toString() {
 		return "BookGradeVO [bookGradeNo=" + bookGradeNo + ", userid=" + userid + ", isbn=" + isbn + ", bookGrade="
-				+ bookGrade + "]";
+				+ bookGrade + ", boardNo=" + boardNo + "]";
 	}
+	
 }

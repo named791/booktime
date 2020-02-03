@@ -85,6 +85,14 @@
 		</if>
 		where payNo=#{payNo}
 	</update>
+	
+	<select id="countPaymentByIsbn" parameterType="map" resultType="int">
+		select count(*)
+		from payment p
+		where exists(select payNo from paymentDetail d
+		    where isbn=#{isbn} and p.payNo=d.payNo)
+		and userid=#{userid}
+	</select>
 </mapper>
 
 
