@@ -70,4 +70,14 @@ public class UserServiceImpl implements UserService{
 	public int updateUser(UserVO userVo) {
 		return userDao.updateUser(userVo);
 	}
+	
+	@Override
+	public int updatePwd(UserVO userVo) {
+		return userDao.updatePwd(userVo);
+	}
+	
+	@Override
+	public String selectId(UserVO userVo) {
+		return userDao.selectId(userVo);
+	}
 }

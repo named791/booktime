@@ -52,6 +52,7 @@ public class Utility {
         if(responseCode==200) { // 정상 호출
             br = new BufferedReader(new InputStreamReader(con.getInputStream()));
         } else {  // 에러 발생
+        	logger.info("에러 발생 responseCode={}",responseCode);
             br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
         }
         

@@ -319,7 +319,7 @@
 	</table>
 	
 	<h3>분류</h3>
-	<a href="<c:url value='/book/bookListByCate.do?categoryId=${map["cateCode"]}'/>">
+	<a href="<c:url value='/book/bookList.do?cateNo=${map["cateCode"]}'/>">
 		${map['cateCode'] } - ${map['cateName'] }
 	</a>
 	<hr>
@@ -336,133 +336,7 @@
 		<hr style="clear: both;">
 	</div>
 	
-	<h3 id="review">회원 리뷰(2건)</h3>
-	우수리뷰를 작성해주시는 회원분들께 마일리지 1000원을 드립니다.
-	
-	<c:if test="${false }">	<!-- 구입내역 없으면  -->
-		<div class="card my-4">
-		<h5 class="card-header">구매자 리뷰</h5>
-		<div class="card-body text-center">구매기록이 없으면 작성할 수 없습니다.</div>
-		</div>
-	</c:if>
-	
-	<c:if test="${true}">	<!-- 구입내역 있고, 리뷰를 처음 작성할 때  -->
-		<div class="card my-4">
-			<h5 class="card-header">구매자 리뷰</h5>
-			<div class="card-body">
-				<form name="reviewFrm" action="" method="post" enctype="multipart/form-data">
-					<div class="form-group row">
-						<div class="col">
-							<input type="text" name="title" class="form-control" placeholder="제목을 입력하세요">
-						</div>
-						<div class="col text-center" style="max-width: 225px;">
-							<c:import url="/book/bookGradePicker.do"/>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="container">
-							<div class="row">
-			   					<div id="dummy" class="col text-center">
-				   					<label for="imgInput" style="line-height: 150px;">
-				   						<img id="image_section" alt="미리보기" style="width: 150px;height: 150px;display:none;"/>
-				   						<span>이미지 업로드</span>
-				   					</label>
-			   					</div>
-			   					<div class="col" style="padding-right: 0;">
-									<textarea placeholder="내용을 입력하세요" style="width: 100%;height: 160px;" translate="no" class=" form-control"></textarea>
-								</div>
-							</div>
-						</div>
-						<input type='file' id="imgInput" name="upImage" style="visibility: hidden;"
-							accept="image/*"/>
-					</div>
-					<input type="submit" value="등록" class="btn btn-primary">
-				</form>
-			</div>
-		</div>
-	</c:if>
-	
-	<a href="#" class="btn">최신순</a> | <a href="#" class="btn">오래된순</a><br>
-	<div class="container" >
-		
-		<!-- 반복 시작 -->
-		<div class="row zone" style="margin-bottom: 10px;">
-			<!-- row 1개당 2개씩 -->
-			<div class="media col cmt">
-				<img class="d-flex mr-3 " src="http://placehold.it/150x150" alt="">
-				<div class="media-body">
-					<h5 class="mt-0">리뷰 제목</h5>
-					<small>작성자 : 이름</small><br>
-					Cras sit amet nibh libero, in
-					gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras
-					purus odio, vestibulum in vulputate at, tempus viverra turpis.
-					Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia
-					congue felis in faucibus.
-				</div>
-			</div>
-
-			<div class="media col cmt">
-				<img class="d-flex mr-3 " src="http://placehold.it/150x150" alt="">
-				<div class="media-body">
-					<h5 class="mt-0">리뷰 제목</h5>
-					<small>작성자 : 이름</small><br>
-					Cras sit amet nibh libero, in
-					gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras
-					purus odio, vestibulum in vulputate at, tempus viverra turpis.
-					Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia
-					congue felis in faucibus.
-				</div>
-			</div>
-
-		</div>
-		<div class="row" style="margin-bottom: 10px;">
-			<!-- row 1개당 2개씩 -->
-			<div class="media col cmt">
-				<img class="d-flex mr-3 " src="http://placehold.it/150x150" alt="">
-				<div class="media-body">
-					<h5 class="mt-0">리뷰 제목</h5>
-					<small>작성자 : 이름</small><br>
-					Cras sit amet nibh libero, in
-					gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras
-					purus odio, vestibulum in vulputate at, tempus viverra turpis.
-					Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia
-					congue felis in faucibus.
-				</div>
-			</div>
-
-			<div class="media col cmt">
-				<img class="d-flex mr-3 " src="http://placehold.it/150x150" alt="">
-				<div class="media-body">
-					<h5 class="mt-0">리뷰 제목</h5>
-					<small>작성자 : 이름</small><br>
-					Cras sit amet nibh libero, in
-					gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras
-					purus odio, vestibulum in vulputate at, tempus viverra turpis.
-					Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia
-					congue felis in faucibus.
-				</div>
-			</div>
-
-		</div>
-		<div class="row" style="margin-bottom: 10px;">
-			<!-- row 1개당 2개씩 -->
-			<div class="media col cmt">
-				<img class="d-flex mr-3 " src="http://placehold.it/150x150" alt="">
-				<div class="media-body">
-					<h5 class="mt-0">리뷰 제목</h5>
-					<small>작성자 : 이름</small><br>
-					Cras sit amet nibh libero, in
-					gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras
-					purus odio, vestibulum in vulputate at, tempus viverra turpis.
-					Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia
-					congue felis in faucibus.
-				</div>
-			</div>
-
-
-		</div>
-		<!-- 반복 끝-->
-	</div>
+	<c:import url="/review/review.do"></c:import>
 </div>
 
 <%@include file="../inc/bottom.jsp" %>

@@ -40,6 +40,12 @@
 	.btOn:hover{
 		color: white;
 	}
+	
+	.processing{
+		position: relative;
+    	top: 4em;
+    	display: none;
+	}
 </style>
 <script type="text/javascript">
 	$(function(){
@@ -125,6 +131,8 @@
 			
 			if(!payOk){
 				event.preventDefault();
+			}else{
+				return true;
 			}
 			
 			var orderName = $(".bookName").eq(0).text();
@@ -160,12 +168,17 @@
 		        	
 			        if("${sessionScope.userid}".length<1){
 			        	$("input[name=nonMember]").val(getOrderDate());	//비회원용 조회코드
-			        	alert($("input[name=nonMember]").val());
 			        }else{
 			        	$("input[name=nonMember]").val(0);	//회원일때 DefaultValue
 			        }
 			        payOk = true;
+			        
 			        $("form[name=frmPayment]").submit();
+			        
+			        $("*").animate({scrollTop:0},250);
+					$(".me").fadeOut(500, function(){
+			        	$(".processing").fadeIn(500);
+			        });
 			    } else {
 			        msg = '결제에 실패하였습니다.';
 			        msg += '에러내용 : ' + rsp.error_msg;
@@ -278,8 +291,10 @@
 		return orderDate;
 	}
 </script>
-
-<div class="container">
+<div class="processing container text-center">
+	<img alt="결제 진행중 입니다." src="<c:url value="/resources/images/icons/processing.gif"/>">
+</div>
+<div class="container me">
 	<div class="page-header my-4 p-3"
 		style="border: 2px solid lightGray;">
 		<h3><i class="fa fa-pencil"></i> 주문서 작성</h3>

@@ -62,4 +62,14 @@ public class FreeBoardDAOMybatis implements FreeBoardDAO{
 		return sqlSession.selectOne(namespace+"countReview", map);
 	}
 
+	@Override
+	public int countReviews(FreeBoardVO vo) {
+		return sqlSession.selectOne(namespace+"countReviews", vo);
+	}
+
+	@Override
+	public List<FreeBoardVO> selectReviews(FreeBoardVO vo) {
+		return sqlSession.selectList(namespace+"selectReviews", vo);
+	}
+
 }

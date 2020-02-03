@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -16,14 +18,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ez.booktime.api.AladinAPI;
 import com.ez.booktime.category.model.BookCategoryService;
 import com.ez.booktime.category.model.BookCategoryVO;
+import com.ez.booktime.common.EmailForm;
+import com.ez.booktime.common.EmailSender;
 import com.ez.booktime.common.PaginationInfo;
 import com.ez.booktime.favorite.model.FavoriteService;
 import com.ez.booktime.favorite.model.FavoriteVO;
 import com.ez.booktime.freeBoard.model.FreeBoardService;
+import com.ez.booktime.mileage.model.MileageVO;
 import com.ez.booktime.payment.model.PaymentDateVO;
 import com.ez.booktime.payment.model.PaymentDetailVO;
 import com.ez.booktime.payment.model.PaymentService;
@@ -53,6 +61,12 @@ public class PaymentController {
 	
 	@Autowired
 	private FreeBoardService boardService;
+	
+	@Autowired
+	private EmailSender mailSender;
+	
+	@Autowired
+	private EmailForm eForm;
 	
 	@RequestMapping("/paymentSheetSend.do")
 	public String paymentSheetSend(@ModelAttribute FavoriteVO vo
@@ -167,9 +181,66 @@ public class PaymentController {
 			model.addAttribute("url", "/favorite/cart.do");
 			
 			return "common/message";
-		}else if(cnt>0) {
-			
 		}
+		
+		return "redirect:/payment/sendThanksMail.do?payNo="+vo.getPayNo()+"&nonMember="+vo.getNonMember();
+	}
+	
+	@RequestMapping("/sendThanksMail.do")
+	public String sendPaymentEmail(HttpSession session
+			, HttpServletRequest request
+			,@ModelAttribute PaymentVO vo) {
+		logger.info("주문완료 메일보내기 파라미터, vo={}", vo);
+		
+		vo = paymentService.selectPayment(vo);
+		
+		List<PaymentDetailVO> detailList = vo.getDetails();
+		List<Map<String, Object>> infoList = new ArrayList<Map<String,Object>>();
+		for(PaymentDetailVO dVo : detailList) {
+			try {
+				Map<String, Object> map = aladinApi.selectBook(dVo.getIsbn());
+				BookCategoryVO cateVo = cateService.selectCategoryInfoByName((String)map.get("cateName"));
+				map.put("cateCode", cateVo.getCateCode());
+				
+				infoList.add(map);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		//주문완료 현재 페이지에서 안내 이메일 보내기
+		String name = (String) session.getAttribute("name");
+		if(name==null || name.isEmpty()) {
+			name = vo.getCustomerName();
+		}
+
+		String payNo = vo.getPayNo();
+		if(payNo.trim().equals("0")) {
+			payNo = vo.getNonMember();
+		}
+
+		String contextPath = request.getContextPath();
+		String localAddr = request.getLocalAddr();
+		if(localAddr.startsWith("0:0:")) {
+			localAddr = "localhost";	//테스트용
+		}
+		int port = request.getLocalPort();
+		String params = "?payNo="+payNo+"&nonMember="+vo.getNonMember();
+		String addr = "http://"+localAddr+":"+port+contextPath
+				//+"/index.do";
+				//+"/payment/paymentResult.do"+params;
+				//+"/payment/paymentList.do";
+				;
+
+		String subject = name+"님! '책읽기 좋은 시간'에서 주문해주신 내역입니다.";
+		//String content = addr;
+		String content = eForm.paymentResultForm(vo, infoList, addr);
+		String receiver = vo.getEmail1()+"@"+vo.getEmail2();
+		String sender = "GoodTimeToRead@booktime.do";
+
+		//logger.info("주문 결과 이메일 발송, 현재 addr={}",addr);
+
+		mailSender.sendMail(subject, content, receiver, sender);
 		
 		return "redirect:/payment/paymentResult.do?payNo="+vo.getPayNo()+"&nonMember="+vo.getNonMember();
 	}
@@ -222,6 +293,7 @@ public class PaymentController {
 		model.addAttribute("vo", vo);
 		model.addAttribute("infoList", infoList);
 		
+		
 		return "payment/paymentResult";
 	}
 	
@@ -234,18 +306,18 @@ public class PaymentController {
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		if(vo.getEndDay()==null || vo.getEndDay().isEmpty()) {
-			vo.setEndDay(sdf.format(new Date()));
+			Date today = new Date();
+			vo.setEndDay(sdf.format(today));
+			today.setDate(today.getDate()-7);
+			vo.setStartDay(sdf.format(today));
 		}
 		
 		logger.info("주문내역 조회, 파라미터 vo={}",vo);
 		
 		if((userid==null || userid.isEmpty()) 
 				&& (vo.getPayNo()==null || vo.getPayNo().isEmpty())) {
-			model.addAttribute("msg", "잘못된 URL입니다.");
-			model.addAttribute("url", "/index.do");
-			return "common/message";
+			return "redirect:/login/login.do";
 		}
-		
 		
 		//페이징
 		final int blockSize = 5;
@@ -307,5 +379,47 @@ public class PaymentController {
 		model.addAttribute("pagingInfo", pagingInfo);
 		
 		return "payment/paymentList";
+	}
+	
+	@RequestMapping(value = "/refundForm.do", method = RequestMethod.GET)
+	public void refundForm_get(@RequestParam(required = false) String payNo
+			,@RequestParam(defaultValue = "0") int savingPoint
+			,Model model) {
+		logger.info("교환 환불서 작성, 파라미터 payNo={}, savingPoint={}", payNo, savingPoint);
+	}
+	
+	@RequestMapping(value = "/refundForm.do", method = RequestMethod.POST)
+	@ResponseBody
+	public boolean refundForm_post(@ModelAttribute PaymentVO vo) {
+		logger.info("교환 환불 처리, 파라미터 vo={}", vo);
+		boolean bool = false;
+		
+		int cnt = paymentService.updateProgress(vo, null);
+		if(cnt>0) bool = true;
+		
+		return bool;
+	}
+	
+	@RequestMapping("/dealOk.do")
+	@ResponseBody
+	public boolean dealOk(@ModelAttribute PaymentVO vo
+			, @ModelAttribute MileageVO mVo
+			, HttpSession session
+			, Model model) {
+		String userid = (String)session.getAttribute("userid");
+		if(userid!=null && !userid.isEmpty()) {
+			mVo.setUserid(userid);
+		}
+		
+		logger.info("구매확정 처리, 파라미터 vo={}, mVo={}", vo, mVo);
+		
+		boolean res = false;
+		
+		int cnt = paymentService.updateProgress(vo, mVo);
+		if(cnt>0) {
+			res = true;
+		}
+		
+		return res;
 	}
 }

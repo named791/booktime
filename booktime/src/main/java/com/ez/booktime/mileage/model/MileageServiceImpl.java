@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ez.booktime.common.DateSearchVO;
 import com.ez.booktime.common.SearchVO;
 
 @Service
@@ -18,13 +19,13 @@ public class MileageServiceImpl implements MileageService{
 	}
 
 	@Override
-	public List<MileageVO> selectMileageList() {
-		return mileageDao.selectMileageList();
+	public List<MileageVO> selectMileageList(DateSearchVO dateSearchVo) {
+		return mileageDao.selectMileageList(dateSearchVo);
 	}
 
 	@Override
-	public int selectTotalRecord(SearchVO searchVo) {
-		return mileageDao.selectTotalRecord(searchVo);
+	public int selectTotalRecord(DateSearchVO dateSearchVo) {
+		return mileageDao.selectTotalRecord(dateSearchVo);
 	}
 		
 }

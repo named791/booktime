@@ -29,14 +29,15 @@
           <br>다시 만들 수 있는지, 메일을 발송하여 
           <br>안내해 드리겠습니다.</p>
         </div>
-        <form>
+        <form name=emailForm" method="post"
+					action="<c:url value='/admin/adminPassword.do'/>">
           <div class="form-group">
             <div class="form-label-group">
-              <input type="email" id="inputEmail" class="form-control" placeholder="Enter email address" required="required" autofocus="autofocus">
-              <label for="inputEmail">메일 주소 입력</label>
+              <input type="email" id="inputEmail" name="inputEmail" class="form-control" placeholder="가입시 입력한 이메일을 입력해주세요" required="required" autofocus="autofocus">
+              <label for="inputEmail">가입시 입력한 이메일을 입력해주세요</label>
             </div>
           </div>
-          <a class="btn btn-primary btn-block" href="<c:url value='/admin/adminLogin.do' />">비밀번호 초기화</a>
+          <button type="submit" class="btn btn-primary btn-block">비밀번호 초기화</button>
         </form>
         <div class="text-center">
           <a class="d-block small mt-3" href="<c:url value='/admin/adminJoin.do' />">새 관리자 등록</a>

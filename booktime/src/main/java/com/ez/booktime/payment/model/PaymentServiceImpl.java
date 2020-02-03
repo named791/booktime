@@ -119,5 +119,47 @@ public class PaymentServiceImpl implements PaymentService{
 	public int totalPaymentList(PaymentDateVO vo) {
 		return paymentDao.totalPaymentList(vo);
 	}
+
+	@Override
+	@Transactional
+	public int updateProgress(PaymentVO vo, MileageVO mVo) {
+		int cnt = 0;
+		
+		try {
+			cnt = paymentDao.updateProgress(vo);
+			//(Payment테이블) payNo로 progress,message 업데이트
+			
+			if(cnt>0) {
+				String progress = vo.getProgress();
+				
+				if(mVo!=null && mVo.getUserid()!=null && !mVo.getUserid().isEmpty()) { //로그인시
+					if(progress.equals("환불 처리됨") || progress.equals("구매확정")) {
+						if(mVo.getUsePoint()>0 || mVo.getSavingPoint()>0) {
+							cnt = UserService.updateMileage(mVo);
+							//(User테이블)userid로 savingPoint는 증가시키고, usePoint는 감소시킴
+						}
+						
+						if(cnt>0) {
+							cnt = mileageService.insertMileage(mVo);
+							//(mileage테이블) savingPoint와 usePoint변동을 기록함
+							// userid와 payNo를 필요로함
+						}
+					}
+				}
+				
+			}
+		}catch (RuntimeException e) {
+			cnt = -1;
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			e.printStackTrace();
+		}
+		
+		return cnt;
+	}
+
+	@Override
+	public int countPaymentByIsbn(Map<String, Object> map) {
+		return paymentDao.countPaymentByIsbn(map);
+	}
 	
 }

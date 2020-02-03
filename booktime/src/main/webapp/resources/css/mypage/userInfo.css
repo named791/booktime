@@ -95,13 +95,6 @@ form fieldset {
 	margin-left: 204px;
 	margin-top: 10px;
 }
-#editform #h1{
-	width: 100px;
-	height: 28px;
-}
-#editform #h2,#h3{
-	width: 150px;
-}
 #editform #email2{
 	width: 150px;
 	height: 28px;
@@ -136,4 +129,7 @@ form fieldset {
 }
 .editemail{
 	margin-left: 204px;
+}
+#editform .edithp #hp1,#hp2,#hp3{
+	width: 100px;
 }

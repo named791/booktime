@@ -19,6 +19,7 @@
 		alert("<%=msg%>");
 		location.href="<%=url%>";
 	</script>
+	
 </body>
 </html>
 

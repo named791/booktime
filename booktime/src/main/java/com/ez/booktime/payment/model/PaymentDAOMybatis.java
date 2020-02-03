@@ -43,5 +43,15 @@ public class PaymentDAOMybatis implements PaymentDAO{
 	public int totalPaymentList(PaymentDateVO vo) {
 		return sqlSession.selectOne(namespace+"totalPaymentList", vo);
 	}
+
+	@Override
+	public int updateProgress(PaymentVO vo) {
+		return sqlSession.update(namespace+"updateProgress",vo);
+	}
+
+	@Override
+	public int countPaymentByIsbn(Map<String, Object> map) {
+		return sqlSession.selectOne(namespace+"countPaymentByIsbn", map);
+	}
 	
 }
