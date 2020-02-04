@@ -138,6 +138,7 @@ img.image_circle {
 .divPage {
     margin-bottom: 10px;
     text-align: center;
+    margin-top: 10px;
 }
 .search_t_g{
 	margin-top: 10px;
@@ -175,6 +176,59 @@ a{
 	z-index: 10;
 }
 
+img.img_bt_previous {
+    width: 25px;
+    height: 25px;
+    margin-bottom: 2px;
+}
+
+img.img_bt_next {
+    width: 25px;
+    height: 25px;
+    margin-bottom: 2px;
+}
+
+td.td_line {
+    padding-bottom: 30px;
+}
+
+input[type="checkbox"] {
+    box-sizing: border-box;
+    margin-bottom: 202px;
+}
+
+.ss_book_list {
+    /* margin-bottom: 65px; */
+    margin-left: -31px;
+    margin-top: -98px;
+    
+}
+
+li.li_deli {
+    margin-top: 14px;
+}
+
+input.button_search_cart_new.btCart {
+    float: left;
+    margin-right: -60px;
+}
+
+input.button_search_buyitnow_new {
+    float: left;
+    margin-top: 34px;
+    margin-right: 0px;
+}
+
+input.button_search_storage.btFavorite {
+    /* margin-top: 68px; */
+    margin-right: 0px;
+    margin-bottom: 95px;
+}
+
+td.td_bt {
+    float: left;
+    position: absolute;
+}
 </style>
 
 <script type="text/javascript">
@@ -453,30 +507,13 @@ a{
 						</tbody>
 					</table>
 				</div>
-				<!-- 조건 조회 => api에서 지원하지 않아 조회 불가 -->
-				<!-- <div class="divList">
-					<hr class="top_hr">
-					<table class="box2">
-						<thead>
-							<tr>
-								<th class="col_th"><a href="#">상품명순</a></th>
-								<th class="col_th">판매량순</th>
-								<th class="col_th">평점순</th>
-								<th class="col_th">리뷰순</th>
-								<th class="col_th">출간일순</th>
-								<th class="col_th">등록일순</th>
-								<th class="col_th">저가격순</th>
-								<th class="col_th">고가격순</th>
-							</tr>
-						</thead>
-					</table>
-					<hr class="bottom_hr">
-				</div> -->
 				<div class="divPage">
 					<!-- 이전블럭으로 이동 -->
 					<c:if test="${pagingInfo.firstPage>1 }">	
 						<a href="#" onclick="pageFunc(${pagingInfo.firstPage-1})">
-							<img src="<c:url value='/resources/images/first.JPG'/>" alt="이전 블럭으로">
+							<img class="img_bt_previous"
+							src="<c:url value='/resources/images/button/bt_previous.jpg'/>" 
+							alt="이전 블럭으로">
 						</a>
 					</c:if>
 					<!-- 페이지 번호 추가 -->						
@@ -496,7 +533,9 @@ a{
 					<!-- 다음블럭으로 이동 -->
 					<c:if test="${pagingInfo.lastPage<pagingInfo.totalPage }">
 						<a href="#" onclick="pageFunc(${pagingInfo.lastPage+1})">	
-							<img src="<c:url value='/resources/images/last.JPG'/>" alt="다음 블럭으로">
+							<img class="img_bt_next" 
+							src="<c:url value='/resources/images/button/bt_next.jpg'/>" 
+							alt="다음 블럭으로">
 						</a>
 					</c:if>	
 				</div>
@@ -539,16 +578,16 @@ a{
 								<c:forEach var="i" begin="0" end="${fn:length(list)-1}" varStatus="status">
 									<c:set var="map" value="${list[i] }"/>
 									<tr class="tb_row" data-value="${status.count }">
-										<td>
+										<td class="td_line">
 											<input name="checkbox" type="checkbox" class="checkbox"
 											data-isbn=${map['isbn13'] }>
 										</td>
-										<td>
+										<td class="td_line">
 											<a href='<c:url value="/book/bookDetail.do?ItemId=${map['isbn13'] }"/>' id="book_a">
 													<img src="${map['cover'] }" width="150" border="0" class="i_cover">
 											</a>
 										</td>
-										<td>
+										<td class="td_line">
 											<div class="ss_book_list">
 												<ul class="book">
 													<li><a href=
@@ -567,10 +606,13 @@ a{
 															publisher=${map["publisher"] }'/>">
 															${map['publisher'] }</a>
 															| ${map['pubDate'] }</li>
-													<li><span class="">${map['priceStandard'] }</span>원 → <span
+													<li><span class="">
+														<fmt:formatNumber value="${map['priceStandard'] }" 
+															pattern="#,###"/></span>원 → <span
 															class="ss_p2"><b>
 															<span style="color:red; font-size:17px">
-															${map['priceSales'] }
+																<fmt:formatNumber value="${map['priceSales'] }" 
+																pattern="#,###"/>
 															</span>원</b></span>
 															(<span class="ss_p">10%</span>할인), 마일리지 <span
 																class="ss_p">
@@ -578,17 +620,14 @@ a{
 															</span>원 
 															(<span class="ss_p" style="color:red">5</span>
 															% 적립)</li>
-												</ul>
-											</div>
-											<div class="ss_book_list">
-												<ul class="book">
-													<li>지금 <strong>택배</strong>로 주문하면 <strong>내일</strong>
+													<li class="li_deli">
+														지금 <strong>택배</strong>로 주문하면 <strong>내일</strong>
 														수령
-													</li>
+													</li>		
 												</ul>
 											</div>
 										</td>
-										<td>
+										<td class="td_line td_bt">
 											<c:if test="${empty map['stockstatus'] }">
 												<!-- 재고가 있으면 -->
 												<input type="button" class="button_search_cart_new btCart" 
@@ -623,7 +662,8 @@ a{
 					<!-- 이전블럭으로 이동 -->
 					<c:if test="${pagingInfo.firstPage>1 }">	
 						<a href="#" onclick="pageFunc(${pagingInfo.firstPage-1})">
-							<img src="<c:url value='/resources/images/first.JPG'/>" alt="이전 블럭으로">
+							<img class="img_bt_previous"
+							src="<c:url value='/resources/images/button/bt_previous.jpg'/>" alt="이전 블럭으로">
 						</a>
 					</c:if>
 					<!-- 페이지 번호 추가 -->						
@@ -643,7 +683,8 @@ a{
 					<!-- 다음블럭으로 이동 -->
 					<c:if test="${pagingInfo.lastPage<pagingInfo.totalPage }">
 						<a href="#" onclick="pageFunc(${pagingInfo.lastPage+1})">	
-							<img src="<c:url value='/resources/images/last.JPG'/>" alt="다음 블럭으로">
+							<img class="img_bt_next" 
+							src="<c:url value='/resources/images/button/bt_next.jpg'/>" alt="다음 블럭으로">
 						</a>
 					</c:if>	
 				</div>

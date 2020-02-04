@@ -14,8 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.google.gson.JsonObject;
-
 @Component
 public class AladinAPI {
 	private static final String TTB_KEY = "?ttbkey=ttbstjgh5051633001&";
@@ -36,7 +34,7 @@ public class AladinAPI {
 	//상품 조회 API
 	public Map<String, Object> selectBook(String isbn13) throws Exception{
 		//필수
-		String selectUrl = "https://www.aladin.co.kr/ttb/api/ItemLookUp.aspx";
+		String selectUrl = "http://www.aladin.co.kr/ttb/api/ItemLookUp.aspx";
 		String itemIdType = "ItemIdType=ISBN13&";
 		if(isbn13.length()<13) {
 			itemIdType="ItemIdType=ItemId&";
@@ -59,7 +57,7 @@ public class AladinAPI {
 	public List<Map<String, Object>> searchBy(String searchType, String searchKeyword
 			, int start, int maxResults) throws Exception {
 		//필수
-		String searchUrl = "https://www.aladdin.co.kr/ttb/api/ItemSearch.aspx";
+		String searchUrl = "http://www.aladdin.co.kr/ttb/api/ItemSearch.aspx";
 		
 		String query = "Query="+URLEncoder.encode(searchKeyword, "UTF-8")+"&";	//제목
 		logger.info("알라딘 검색, 파라미터 searchKeyword={}",searchKeyword);
@@ -102,7 +100,7 @@ public class AladinAPI {
 				String searchKeyword, int cateNo, 
 				int start, int maxResults) throws Exception {
 			//필수
-			String searchUrl = "https://www.aladdin.co.kr/ttb/api/ItemSearch.aspx";
+			String searchUrl = "http://www.aladdin.co.kr/ttb/api/ItemSearch.aspx";
 			
 			String categoryId="CategoryId="+cateNo+"&";
 			String query = "Query="+URLEncoder.encode(searchKeyword,"UTF-8")+"&";	//제목
@@ -136,7 +134,7 @@ public class AladinAPI {
 					String author, int cateNo, 
 					int start, int maxResults) throws Exception {
 				//필수
-				String searchUrl = "https://www.aladdin.co.kr/ttb/api/ItemSearch.aspx";
+				String searchUrl = "http://www.aladdin.co.kr/ttb/api/ItemSearch.aspx";
 				
 				String categoryId="CategoryId="+cateNo+"&";
 				String query = "Query="+URLEncoder.encode(author,"UTF-8")+"&";	//제목
@@ -170,7 +168,7 @@ public class AladinAPI {
 					String publisher, int cateNo, 
 					int start, int maxResults) throws Exception {
 				//필수
-				String searchUrl = "https://www.aladdin.co.kr/ttb/api/ItemSearch.aspx";
+				String searchUrl = "http://www.aladdin.co.kr/ttb/api/ItemSearch.aspx";
 
 				String categoryId="CategoryId="+cateNo+"&";
 				String query = "Query="+URLEncoder.encode(publisher,"UTF-8")+"&";	//제목
