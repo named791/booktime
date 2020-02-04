@@ -8,14 +8,33 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <style type="text/css">
+	.cmt{
+		width: 45%;
+		border: 3px solid lightGray;
+		border-radius: 5px;
+		margin: 0 5px;
+		padding: 10px;
+		height: 200px;
+		overflow: auto;
+	}
 	.dateInfo{
-		position: absolute;
+		/* position: absolute;
 	    bottom: 10px;
-	    right: 10px;
-	    font-size: 0.7em;
+	    right: 10px; */
+	    float: right;
 	    color: lightGray;
 	}
 </style>
+<script type="text/javascript">
+	$(function(){
+		
+	});
+	
+	function pageFunc(idx){
+		$("input[name=currentPage]").val(idx);
+		
+	}
+</script>
 
 <h3 id="review">회원 리뷰(${pagingInfo.totalRecord }건)</h3>
 	상품을 구매하신 후 리뷰를 작성해주세요!
@@ -67,14 +86,26 @@
 		</div>
 	</c:if>
 	<c:if test="${!empty list }">
-		<div>
-			<a href="#" class="btn">최신순</a> | <a href="#" class="btn">오래된순</a><br>
+		<div class="ml-2 my-2">
+			<c:if test='${empty param.searchCondition || param.searchCondition=="newer" }'>
+				<span class="btn btn-primary btn-sm active">최신순</span>
+			</c:if>
+			<c:if test='${!empty param.searchCondition && param.searchCondition!="newer" }'>
+				<a href="<c:url value='/book/bookDetail.do?ItemId=${param.ItemId}&mode=paging&searchCondition=newer'/>" class="btn btn-primary btn-sm">최신순</a>
+			</c:if>
+			| 
+			<c:if test='${param.searchCondition=="older" }'>
+				<span class="btn btn-primary btn-sm active">오래된순</span>
+			</c:if>
+			<c:if test='${empty param.searchCondition || param.searchCondition!="older" }'>
+				<a href="<c:url value='/book/bookDetail.do?ItemId=${param.ItemId}&mode=paging&searchCondition=older'/>" class="btn btn-primary btn-sm">오래된순</a><br>
+			</c:if>
 		</div>
 	</c:if>
 	<div class="container" >
 		<c:if test="${empty list }">
-			<div class="media cmt" style="width: 100%;">
-				<div class="media-body text-center">
+			<div class="media cmt" style="width: 100%;line-height: 10em;">
+				<div class="media-body text-center align-middle">
 					등록된 리뷰가 아직 없습니다.
 				</div>
 			</div>
@@ -92,6 +123,7 @@
 					<c:if test="${!empty list[i+1]}">
 						<c:set var="idx" value="${i+1}"/>
 					</c:if>
+					
 					<c:forEach var="v" begin="${i}" end="${idx}">
 						<div class="media col cmt">
 							<c:if test="${empty list[v].filename }">
@@ -102,14 +134,19 @@
 							</c:if>
 							<div class="media-body" style="height: 95%;">
 								<h5 class="mt-0">${list[v].title}</h5>
+								<div style="position: absolute;top: 165px;left: 10px;">
+									<c:import url="/book/bookGrade.do?userid=${list[v].userid}"></c:import>
+								</div>
 								<small>작성자 : ${list[v].name}</small><br>
 								<%pageContext.setAttribute("enter", "\r\n");%>
 								<c:set var="content" value="${fn:replace(list[v].content, enter, '<br>')}"/>
-								<div style="margin-bottom: 10px;">${content }</div>
-								<small class="dateInfo text-right">
-									<fmt:formatDate value="${list[v].regdate }" pattern="yyyy년 MM월 dd일"/>
-									<fmt:formatDate value="${list[v].regdate }" pattern="a hh시 mm분"/>
-								</small>
+								<div style="margin-bottom: 10px;min-height: 90px;">${content }</div>
+								<div class="dateInfo text-right">
+									<small>
+										<fmt:formatDate value="${list[v].regdate }" pattern="yyyy년 MM월 dd일"/>
+										<fmt:formatDate value="${list[v].regdate }" pattern="a hh시 mm분"/>
+									</small>
+								</div>
 							</div>
 						</div>
 					</c:forEach>
@@ -117,5 +154,34 @@
 				</div>
 			</c:forEach>
 		<!-- 반복 끝-->
+			
+		<!-- 페이징 -->
+		<div class="paging text-center">
+		<c:if test="${pagingInfo.firstPage!=1 }">
+			<a href='<c:url value="/book/bookDetail.do?currentPage=${pagingInfo.firstPage-1}&ItemId=${param.ItemId}&mode=paging&searchCondition=${param.searchCondition }"/>' 
+				class="btn" >
+				<i class="text-info fa fa-angle-left"></i>
+			</a>
+		</c:if>
+		
+		<c:forEach var="i" begin="${pagingInfo.firstPage}" 
+			end="${pagingInfo.lastPage}">
+			<c:if test="${pagingInfo.currentPage==i}">
+				<div class="btn btn-info active">${i}</div>
+			</c:if>
+			<c:if test="${pagingInfo.currentPage!=i}">
+ 				<a href="<c:url value='/book/bookDetail.do?currentPage=${i}&ItemId=${param.ItemId}&mode=paging&searchCondition=${param.searchCondition }'/>" class="btn btn-info">${i}</a>
+			</c:if>
+			
+		</c:forEach>
+		
+		<c:if test="${pagingInfo.lastPage!=pagingInfo.totalPage }">
+			<a href='<c:url value="/book/bookDetail.do?currentPage=${pagingInfo.lastPage+1}&ItemId=${param.ItemId}&mode=paging&searchCondition=${param.searchCondition }"/>'
+				class="btn">
+				<i class="text-info fa fa-angle-right"></i>
+			</a>
+		</c:if>
+	</div>
+		
 		</c:if>
 	</div>

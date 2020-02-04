@@ -15,5 +15,10 @@ public class BookGradeDAOMybatis implements BookGradeDAO{
 	public int insertBookGrade(BookGradeVO vo) {
 		return sqlSession.insert(namespace+"insertBookGrade", vo);
 	}
+
+	@Override
+	public float gradeByIsbn(BookGradeVO vo) {
+		return sqlSession.selectOne(namespace+"gradeByIsbn", vo);
+	}
 	
 }

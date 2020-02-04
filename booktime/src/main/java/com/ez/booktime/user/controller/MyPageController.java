@@ -1,5 +1,11 @@
 package com.ez.booktime.user.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -9,14 +15,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ez.booktime.api.AladinAPI;
+import com.ez.booktime.payment.model.PaymentDateVO;
+import com.ez.booktime.payment.model.PaymentDetailVO;
+import com.ez.booktime.payment.model.PaymentService;
+import com.ez.booktime.payment.model.PaymentVO;
 import com.ez.booktime.user.model.UserService;
 import com.ez.booktime.user.model.UserVO;
-import com.google.api.services.calendar.Calendar.Acl.List;
 
 @Controller
 public class MyPageController {
@@ -26,9 +35,58 @@ public class MyPageController {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private PaymentService PaymentService;
+	
+	@Autowired
+	private AladinAPI aladinApi;
+	
 	@RequestMapping(value="/mypage/mypage.do", method = RequestMethod.GET)
-	public void mypage() {
-		logger.info("회원정보 화면 보여주기");
+	public void mypage(HttpSession session
+			, Model model) {
+		String userid=(String)session.getAttribute("userid");
+		logger.info("회원정보 화면 보여주기, 파라미터 userid={}",userid);
+		
+		//유저정보 - 마일리지
+		UserVO vo = userService.selectByUserid(userid);
+		
+		//마지막 주문 내역 5건만 조회하기
+		PaymentDateVO pVo = new PaymentDateVO();
+	
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date today = new Date();
+		pVo.setEndDay(sdf.format(today));
+		pVo.setStartDay(today.getYear()+"-01-01");	//올해 1월 1일부터
+		pVo.setFirstRecordIndex(0);
+		pVo.setRecordCountPerPage(5);
+		pVo.setUserid(userid);
+
+		logger.info("마지막 주문내역 조회 파라미터 pVo={}",pVo);
+		List<PaymentVO> list = PaymentService.selectPaymentList(pVo);
+		
+		//디테일정보
+		List<Map<String, Object>> detailMapList = new ArrayList<Map<String,Object>>();
+		if(list!=null && !list.isEmpty()) {
+			for(PaymentVO tempVo:list) {
+				List<PaymentDetailVO> dList = tempVo.getDetails();
+				
+				for(PaymentDetailVO dVo : dList) {
+						try {
+							Map<String, Object> detailMap = aladinApi.selectBook(dVo.getIsbn());
+							
+							detailMapList.add(detailMap);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+				}
+			}
+		}
+		logger.info("마이페이지 메인, userVo={}, paymentList.size={}",vo, list.size());
+		logger.info("detailMapList.size={}",detailMapList.size());
+		
+		model.addAttribute("vo", vo);
+		model.addAttribute("list", list);
+		model.addAttribute("dList", detailMapList);
 	}
 
 	@RequestMapping(value="/mypage/memberInfo.do", method = RequestMethod.GET)

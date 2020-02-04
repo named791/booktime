@@ -26,12 +26,20 @@
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/main.css">
 <!--===============================================================================================-->
 </head>
+<script type="text/javascript">
+	$(function(){
+		$("button.login100-form-btn").click(function(){
+			var nonMember = $("input[name=nonmember]").val();
+			
+			location.href = "<c:url value='/payment/paymentList.do?payNo="+nonMember+"'/>";
+		});
+	});
+</script>
 <body>
 	
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100 p-t-50 p-b-90">
-				<form class="login100-form validate-form flex-sb flex-w">
 					<span class="login100-form-title p-b-51">
 						비회원
 					</span>
@@ -56,7 +64,6 @@
 						</button>
 					</div>
 
-				</form>
 			</div>
 		</div>
 	</div>

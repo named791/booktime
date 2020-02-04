@@ -21,7 +21,7 @@
   <div class="container">
 
     <!-- my page로 이동-->
-    <div id="load">
+    <div id="load" style="display: inline-block;">
     <label id="main" class="mt-4 mb-3">${sessionScope.userid }</label>
     <span id="bt">'s BOOK TIME</span>
 	</div>

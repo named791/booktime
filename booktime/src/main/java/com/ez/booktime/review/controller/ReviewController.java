@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ez.booktime.book.controller.BookGradeService;
 import com.ez.booktime.book.controller.BookGradeVO;
 import com.ez.booktime.common.FileUploadUtil;
 import com.ez.booktime.common.PaginationInfo;
@@ -41,9 +42,12 @@ public class ReviewController {
 	@Autowired
 	private PaymentService paymentService;
 	
+	
 	@RequestMapping(value = "/review.do", method = RequestMethod.GET)
 	public void review_get(@RequestParam("ItemId") String isbn
-			, @RequestParam(defaultValue = "1") int currentPage
+//			, @RequestParam(defaultValue = "1") int currentPage
+//			, @RequestParam String searchCondition
+			, @ModelAttribute FreeBoardVO bVo
 			, HttpSession session
 			, Model model) {
 		String userid = (String)session.getAttribute("userid");
@@ -52,7 +56,7 @@ public class ReviewController {
 		map.put("isbn", isbn);
 		map.put("userid", userid);
 		
-		logger.info("리뷰 불러오기, 파라미터 map={}, currentPage={}", map, currentPage);
+		logger.info("리뷰 불러오기, 파라미터 map={}, bVo={}", map,bVo);
 		
 		int pCnt = 0;
 		int rCnt = 0;
@@ -62,7 +66,7 @@ public class ReviewController {
 		}
 		
 		//페이징과 리뷰리스트
-		FreeBoardVO bVo = new FreeBoardVO();
+//		FreeBoardVO bVo = new FreeBoardVO();
 		bVo.setUserid(userid);
 		bVo.setCategory(isbn);
 		
@@ -71,7 +75,7 @@ public class ReviewController {
 		
 		PaginationInfo pagingInfo = new PaginationInfo();
 		pagingInfo.setBlockSize(blockSize);
-		pagingInfo.setCurrentPage(currentPage);
+		pagingInfo.setCurrentPage(bVo.getCurrentPage());
 		pagingInfo.setRecordCountPerPage(recordCountPerPage);
 		
 		bVo.setFirstRecordIndex(pagingInfo.getFirstRecordIndex());
@@ -93,6 +97,7 @@ public class ReviewController {
 		model.addAttribute("myReviewCount", rCnt);
 		model.addAttribute("list", list);
 		model.addAttribute("pagingInfo", pagingInfo);
+		
 	}
 	
 	@RequestMapping(value = "/review.do", method = RequestMethod.POST)

@@ -178,7 +178,14 @@
 			<c:forEach var="i" begin="0" end="${fn:length(list)-1}">
 				<tr>
 					<td class="text-center align-middle">
-						<b>${list[i].payNo }</b><br>
+						<b>
+						<c:if test="${list[i].nonMember=='0'}">
+							${list[i].payNo }
+						</c:if>
+						<c:if test="${list[i].nonMember!='0'}">
+							${list[i].nonMember }
+						</c:if>
+						</b><br>
 						<small><fmt:formatDate value="${list[i].payDate}" 
 							pattern="yyyy년 MM월 dd일"/></small>
 					</td>
@@ -245,7 +252,7 @@
 						<c:if test="${list[i].progress=='결제완료' }">
 							<a href="#" class="btn btn-sm btn-danger" onclick="getIdx(${i})">환불 신청</a>
 						</c:if>
-						<c:if test="${list[i].progress=='교환 처리중' || list[i].progress=='환불 처리중'}">
+						<c:if test="${list[i].progress=='교환 신청중' || list[i].progress=='환불 신청중'}">
 						
 						</c:if>
 						<c:if test="${list[i].progress=='환불 처리됨'}">
@@ -253,7 +260,7 @@
 								class="btn btn-sm btn-info mb-4">다시 보러 가기</a>
 						</c:if>
 						<c:if test="${list[i].progress=='배송중' || list[i].progress=='배송완료'}">
-							<a href="#" class="btn btn-sm btn-danger mb-1" onclick="getIdx(${i})">교환/환불 신청</a>
+							<a href="#" class="btn btn-sm btn-danger mb-1" onclick="getIdx(${i})">교환/환불 신청</a><br>
 							<a href="#" class="btn btn-sm btn-info" onclick="getIdx(${i})">구매확정</a>
 						</c:if>
 						

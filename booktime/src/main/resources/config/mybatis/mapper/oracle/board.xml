@@ -89,7 +89,12 @@
 		        select *
 		        from board
 		        where category = #{category}
-		        order by boardNo desc
+		        <if test="searchCondition==null or searchCondition=='' or searchCondition=='newer'">
+		        	order by boardNo desc
+		        </if>
+		        <if test="searchCondition=='older'">
+		        	order by boardNo 
+		        </if>
 		    )A
 		)
 		where "RNUM">#{firstRecordIndex} 
