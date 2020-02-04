@@ -27,8 +27,8 @@
 </script>
 <div class="bk-grade">
 	<c:forEach var="i" begin="1" end="5">
-		<img class="selStar" alt="star${i}" src='<c:url value="/resources/images/icons/starEmpty.png"/>'>
+		<img class="selStar" alt="star${i}" src='<c:url value="/resources/images/icons/starFull.png"/>'>
 	</c:forEach>
-	<b id="selGrade">3.0</b>
-	<input type="hidden" name="bookGrade" id="bookGrade">
+	<b id="selGrade">5.0</b>
+	<input type="hidden" name="bookGrade" id="bookGrade" value="5">
 </div>

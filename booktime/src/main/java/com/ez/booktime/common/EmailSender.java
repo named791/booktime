@@ -32,7 +32,7 @@ public class EmailSender {
 			mimeMsg.setFrom(new InternetAddress(sender));
 		
 			StringBuilder jspContent = new StringBuilder();
-			if(content.startsWith("http://")) {	//jsp응답 결과 소스를 받아오기
+			if(content.startsWith("http://")) {	//jsp응답 결과 소스를 받아오기(실패)
 				
 					URL url = new URL(content);
 					
@@ -50,9 +50,8 @@ public class EmailSender {
 		            buff.close();
 		            
 		            Document doc = new Document(content);
-		            System.out.println("%%%"+doc.html(jspContent));
 		            
-				mimeMsg.setContent(doc.html(jspContent),"text/html");
+				mimeMsg.setContent(doc.html(jspContent),"text/html;charset=UTF-8");
 			}else {
 				mimeMsg.setContent(content,"text/html;charset=UTF-8");
 			}//if

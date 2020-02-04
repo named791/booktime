@@ -134,8 +134,10 @@ public class PaymentServiceImpl implements PaymentService{
 				
 				if(mVo!=null && mVo.getUserid()!=null && !mVo.getUserid().isEmpty()) { //로그인시
 					if(progress.equals("환불 처리됨") || progress.equals("구매확정")) {
-						cnt = UserService.updateMileage(mVo);
-						//(User테이블)userid로 savingPoint는 증가시키고, usePoint는 감소시킴
+						if(mVo.getUsePoint()>0 || mVo.getSavingPoint()>0) {
+							cnt = UserService.updateMileage(mVo);
+							//(User테이블)userid로 savingPoint는 증가시키고, usePoint는 감소시킴
+						}
 						
 						if(cnt>0) {
 							cnt = mileageService.insertMileage(mVo);
@@ -153,6 +155,11 @@ public class PaymentServiceImpl implements PaymentService{
 		}
 		
 		return cnt;
+	}
+
+	@Override
+	public int countPaymentByIsbn(Map<String, Object> map) {
+		return paymentDao.countPaymentByIsbn(map);
 	}
 	
 }
