@@ -8,8 +8,10 @@
 		<selectKey keyProperty="boardNo" resultType="int" order="BEFORE">
 			select board_seq.nextval from dual
 		</selectKey>
-		insert into board(boardno,userid,category,title,content,name)
-		values (#{boardNo},#{userid},#{category},#{title},#{content},#{name})
+		insert into board(boardno,userid,category,title,content,name
+			<if test="filesize>0">,fileName,originalFilename,fileSize</if>)
+		values (#{boardNo},#{userid},#{category},#{title},#{content},#{name}
+			<if test="filesize>0">,#{filename},#{originalFilename},#{filesize}</if>)
 	</insert>
 	
 	<sql id="searchWhere">
@@ -36,8 +38,8 @@
 		        title,content,regdate,
 		        deletedate,name from board
 		        <include refid="searchWhere"></include>
-		order by boardNo desc
-		)A
+				order by boardNo desc
+			)A
 		)
 		where RNUM > #{firstRecordIndex} 
 		<![CDATA[
@@ -75,5 +77,33 @@
 	<select id="countReview" parameterType="map" resultType="int">
 		select count(*) from board
 		where userid=#{userid} and category=#{isbn}
+	</select>
+	
+	<select id="selectReviews" parameterType="freeBoardVo" resultType="freeBoardVo">
+		select *
+		from
+		(
+		    select rownum as "RNUM", A.*
+		    from
+		    (
+		        select *
+		        from board
+		        where category = #{category}
+		        <if test="searchCondition==null or searchCondition=='' or searchCondition=='newer'">
+		        	order by boardNo desc
+		        </if>
+		        <if test="searchCondition=='older'">
+		        	order by boardNo 
+		        </if>
+		    )A
+		)
+		where "RNUM">#{firstRecordIndex} 
+		<![CDATA[and "RNUM"<=#{firstRecordIndex} + #{recordCountPerPage}]]>
+	</select>
+	
+	<select id="countReviews" parameterType="freeBoardVo" resultType="int">
+		select count(*)
+        from board
+        where category = #{category}
 	</select>
 </mapper>

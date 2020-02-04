@@ -21,10 +21,10 @@
 	
 	<select id="selectPaymentByPayNo" parameterType="paymentVo" resultType="paymentVo">
 		select * from payment
-		<if test="nonMember!=0">
+		<if test=" nonMember!=null and nonMember!=0">
 			where nonMember=#{nonMember}
 		</if>
-		<if test="nonMember==0">
+		<if test="nonMember==null or nonMember==0">
 			where payNo=#{payNo}
 		</if>
 	</select>

@@ -28,23 +28,27 @@ src="${pageContext.request.contextPath }/resources/vendor/jquery/jquery.js"></sc
 	#clause{
 		margin-top: 30px;
 		width: 1000px;
-	}
-	#chkBox{
-		position: absolute;
-		margin-left: 1330px;
-		font-size: 0.8em;
-		margin-top: 10px;
-	}
-	#btn{
-		position: absolute;
-		margin-left: 880px;
-		margin-top: 30px;
+		height: 500px;
 	}
 	#sub,#res{
 		width: 80px;
 		border: none;
 		background-color: lightgray;
 		height: 30px;
+	}
+	#frmAgree{
+	margin-left: 300px;
+	width: 800px;
+	height: 300px;
+	}
+	#frmAgree label{
+		font-size: 0.8em;
+	}
+	#frmAgree input[type=checkbox]{
+		margin-left: 650px;
+	}
+	#btn{
+		margin-right: 100px;
 	}
 </style>
 <body>

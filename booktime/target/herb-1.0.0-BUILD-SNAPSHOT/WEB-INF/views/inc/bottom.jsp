@@ -26,7 +26,7 @@
 				<br><br>
 			<div class="text-center">
 				<button class="btn btn-primary btn-lg align-middle" type="button" 
-				onclick="location.href='faq.do'">자주 묻는 질문</button>
+				onclick="location.href='${pageContext.request.contextPath}/faq.do'">자주 묻는 질문</button>
 			</div>
 		</div>
 		<!-- /.container -->

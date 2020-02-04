@@ -6,6 +6,14 @@
 
 <%@ include file="inc/top.jsp" %>
 
+<script type="text/javascript">
+	$(function(){
+		$(".detailLink").click(function(){
+			var payNo = $(this).next("input[name=payNo]").val();
+		});
+	});
+</script>
+
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
@@ -29,11 +37,9 @@
 					<tr>
 						<th>구분</th>
 						<th>아이디</th>
-						<th>주문 번호</th>
-						<th>지번 주소</th>
-						<th>도로명 주소</th>
-						<th>결제일</th>
-						<th>취소일</th>
+						<th>주문 번호<br><small>(비회원 주문번호)</small></th>
+						<th>도로명 주소<br>(지번)</th>
+						<th>결제일<hr>취소일</th>
 						<th>주문 가격</th>
 						<th>주문상세</th>
 						<th>진행사항</th>
@@ -43,11 +49,9 @@
 					<tr>
 						<th>구분</th>
 						<th>아이디</th>
-						<th>주문 번호</th>
-						<th>지번 주소</th>
-						<th>도로명 주소</th>
-						<th>결제일</th>
-						<th>취소일</th>
+						<th>주문 번호<br><small>(비회원 주문번호)</small></th>
+						<th>도로명 주소<br>(지번)</th>
+						<th>결제일<hr>취소일</th>
 						<th>주문 가격</th>
 						<th>주문상세</th>
 						<th>진행사항</th>
@@ -69,20 +73,23 @@
 								</c:if>
 							</td>
 							<td>
-								${vo.payNo }
-								<c:if test="${vo.nonMember!='0'}">
-								<br>(비회원용 : ${vo.nonMember })
-								</c:if>
+								<a href="#" class="detailLink">
+									${vo.payNo }
+									<c:if test="${vo.nonMember!='0'}">
+										<br><small>(${vo.nonMember })</small>
+									</c:if>
+								</a>
+								<input type="hidden" value="${vo.payNo}" name="payNo">
 							</td>
-							<td>${vo.parselAddress}<br>${vo.addressDetail }</td>
-							<td>${vo.newAddress }<br>${vo.addressDetail }</td>
+							<td>${vo.newAddress }<br><small>(${vo.parselAddress})</small><br>${vo.addressDetail }</td>
 							<td>
-								<fmt:formatDate value="${vo.payDate }" pattern="yyyy년 MM월 dd일"/>
-								<fmt:formatDate value="${vo.payDate }" pattern="a hh시 mm분 ss초"/>
-							</td>
-							<td>
-								<fmt:formatDate value="${vo.cancleDate }" pattern="yyyy년 MM월 dd일"/>
-								<fmt:formatDate value="${vo.cancleDate }" pattern="a hh시 mm분 ss초"/>
+								<fmt:formatDate value="${vo.payDate }" pattern="yyyy년 MM월 dd일"/><br>
+								<small><fmt:formatDate value="${vo.payDate }" pattern="a hh시 mm분 ss초"/></small>
+								<div class="text-danger">
+									<hr>
+									<fmt:formatDate value="${vo.cancleDate }" pattern="yyyy년 MM월 dd일"/><br>
+									<small><fmt:formatDate value="${vo.cancleDate }" pattern="a hh시 mm분 ss초"/></small>
+								</div>
 							</td>
 							<td><fmt:formatNumber value="${vo.price }" pattern="#,###"/>원</td>
 							<td><a class="btn btn-info" href="#" role="button">주문상세</a>
