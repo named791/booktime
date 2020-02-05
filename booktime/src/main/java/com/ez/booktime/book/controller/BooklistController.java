@@ -69,11 +69,11 @@ public class BooklistController {
 		}
 		
 		if(list.size()<1) {
-	         model.addAttribute("msg","검색결과가 없습니다.");
-	         model.addAttribute("url","/book/bookList.do?cateNo="+cateNo);
-	         
-	         return "common/message";
-	    }
+			model.addAttribute("msg","검색결과가 없습니다.");
+			model.addAttribute("url","/book/bookList.do?cateNo="+cateNo);
+			
+			return "common/message";
+		}
 		
 		int total = Integer.parseInt(list.get(0).get("totalResult").toString());
 		

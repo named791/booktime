@@ -24,6 +24,8 @@
 
     <alias name="spring.RegularCommonsMultipartResolver" alias="multipartResolver" />
 
+	<util:properties id="fileUpProperties" 
+		location="classpath:/config/props/fileUpload.properties"/>
 
 	<bean id="mailSender" 
 		class ="org.springframework.mail.javamail.JavaMailSenderImpl" >    

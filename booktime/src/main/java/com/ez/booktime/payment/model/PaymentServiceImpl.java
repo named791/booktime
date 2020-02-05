@@ -31,7 +31,7 @@ public class PaymentServiceImpl implements PaymentService{
 	
 	@Override
 	@Transactional
-	public int insertPayment(PaymentVO vo) {
+	public int insertPayment(PaymentVO vo, String reason) {
 		int cnt = 0;
 		
 		try {
@@ -42,12 +42,13 @@ public class PaymentServiceImpl implements PaymentService{
 				mVo.setPayNo(vo.getPayNo());
 				mVo.setUsePoint(vo.getUsePoint());	//사용 포인트
 				mVo.setUserid(vo.getUserid());
+				mVo.setReason(reason);
 				
-				if(vo.getNonMember().equals("0")) {
+				if(vo.getNonMember().equals("0") && vo.getUsePoint()>0) {
 					cnt = mileageService.insertMileage(mVo);	//마일리지 테이블(히스토리)
 				}
 				if(cnt>0) {
-					if(vo.getNonMember().equals("0")) {
+					if(vo.getNonMember().equals("0") && vo.getUsePoint()>0) {
 						cnt = UserService.updateMileage(mVo);	//유저 마일리지
 					}
 					
@@ -135,15 +136,21 @@ public class PaymentServiceImpl implements PaymentService{
 				if(mVo!=null && mVo.getUserid()!=null && !mVo.getUserid().isEmpty()) { //로그인시
 					if(progress.equals("환불 처리됨") || progress.equals("구매확정")) {
 						if(mVo.getUsePoint()>0 || mVo.getSavingPoint()>0) {
+							if(progress.equals("환불 처리됨")) {
+								mVo.setSavingPoint(mVo.getSavingPoint()+mVo.getUsePoint());
+								mVo.setUsePoint(0);
+							}
+							
 							cnt = UserService.updateMileage(mVo);
 							//(User테이블)userid로 savingPoint는 증가시키고, usePoint는 감소시킴
+
+							if(cnt>0) {
+								cnt = mileageService.insertMileage(mVo);
+								//(mileage테이블) savingPoint와 usePoint변동을 기록함
+								// userid와 payNo를 필요로함
+							}
 						}
 						
-						if(cnt>0) {
-							cnt = mileageService.insertMileage(mVo);
-							//(mileage테이블) savingPoint와 usePoint변동을 기록함
-							// userid와 payNo를 필요로함
-						}
 					}
 				}
 				

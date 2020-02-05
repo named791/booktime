@@ -14,8 +14,7 @@
 		border-bottom: 2px solid lightGray;
 	}
 </style>
-<div class="container">
-	<table title="주문내역" class="table">
+	<table title="주문내역" class="table mb-0">
 			
 		<colgroup>
 			<c:if test="${empty vo }">
@@ -108,7 +107,7 @@
 						&& vo.progress!='환불 신청중' && vo.progress!='환불 처리됨'
 						&& vo.progress!='구매확정'}">
 						<br><small class="text-danger">
-							<fmt:formatNumber value="${savingPoint }" pattern="#,###"/>점 적립예정
+							<span class="savePoint"><fmt:formatNumber value="${savingPoint }" pattern="#,###"/></span>점 적립예정
 						</small>
 					</c:if>
 					
@@ -119,4 +118,3 @@
 			</tr>
 		</c:if>
 	</table>
-</div>

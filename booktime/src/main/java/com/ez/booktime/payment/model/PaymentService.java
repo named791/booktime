@@ -6,7 +6,7 @@ import java.util.Map;
 import com.ez.booktime.mileage.model.MileageVO;
 
 public interface PaymentService {
-	int insertPayment(PaymentVO vo);
+	int insertPayment(PaymentVO vo, String reason);
 	PaymentVO selectPayment(PaymentVO vo);
 	List<PaymentVO> selectPaymentList(PaymentDateVO vo);
 	int totalPaymentList(PaymentDateVO vo);

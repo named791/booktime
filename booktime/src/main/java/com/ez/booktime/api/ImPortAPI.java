@@ -24,23 +24,26 @@ public class ImPortAPI {
 	
 	public ImPortAPI() {
 		try {
-			this.access_token = getAccess_Tokken();
+			URL url = new URL(SEARCH_URL);
+			
+			Map<String, String> keyMap = new HashMap<String, String>();
+			keyMap.put("imp_key", IMP_KEY);
+			keyMap.put("imp_secret", IMP_SECRET);
+			
+			Utility ut = new Utility();
+			
+			JSONObject obj = (JSONObject)ut.getJson(url, "post", keyMap).get("response");
+			
+			this.access_token = (String) obj.get("access_token");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
-	public String getAccess_Tokken() throws Exception {
-		URL url = new URL(SEARCH_URL);
-		
-		Map<String, String> keyMap = new HashMap<String, String>();
-		keyMap.put("imp_key", IMP_KEY);
-		keyMap.put("imp_secret", IMP_SECRET);
-		
-		JSONObject obj = (JSONObject)util.getJson(url, "post", keyMap).get("response");
-		return (String) obj.get("access_token");
-	}
 	
+	public String getAccess_token() {
+		return access_token;
+	}
+
 	public boolean cancel_Payment(String payNo) throws Exception {
 		boolean res = false;
 		
