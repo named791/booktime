@@ -176,8 +176,12 @@ public class PaymentController {
 		vo.setUserid(userid);
 		
 		logger.info("주문처리 파라미터 vo={}",vo);
+		String reason = "";
+		if(vo.getUsePoint()>0) {
+			reason = "포인트 사용";
+		}
 		
-		int cnt = paymentService.insertPayment(vo);
+		int cnt = paymentService.insertPayment(vo, reason);
 		if(cnt<0) {
 			model.addAttribute("msg", "주문이 비정상적으로 처리되었습니다.");
 			model.addAttribute("url", "/favorite/cart.do");
@@ -413,6 +417,7 @@ public class PaymentController {
 			mVo.setUserid(userid);
 		}
 		
+		mVo.setReason("구매확정");
 		logger.info("구매확정 처리, 파라미터 vo={}, mVo={}", vo, mVo);
 		
 		boolean res = false;

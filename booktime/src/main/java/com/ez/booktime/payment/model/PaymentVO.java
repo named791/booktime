@@ -25,6 +25,8 @@ public class PaymentVO {
 	
 	private List<PaymentDetailVO> details;
 	
+	private List<PaymentVO> voList;
+	
 	public String getPayNo() {
 		return payNo;
 	}
@@ -140,6 +142,15 @@ public class PaymentVO {
 	public void setAddressDetail(String addressDetail) {
 		this.addressDetail = addressDetail;
 	}
+	
+	
+	public List<PaymentVO> getVoList() {
+		return voList;
+	}
+	public void setVoList(List<PaymentVO> voList) {
+		this.voList = voList;
+	}
+	
 	@Override
 	public String toString() {
 		return "PaymentVO [payNo=" + payNo + ", userid=" + userid + ", email1=" + email1 + ", email2=" + email2
@@ -147,7 +158,7 @@ public class PaymentVO {
 				+ ", cancleDate=" + cancleDate + ", instrument=" + instrument + ", zipcode=" + zipcode
 				+ ", parselAddress=" + parselAddress + ", newAddress=" + newAddress + ", addressDetail=" + addressDetail
 				+ ", progress=" + progress + ", customerName=" + customerName + ", message=" + message + ", hp=" + hp
-				+ ", details=" + details + "]";
+				+ ", details=" + details + ", voList=" + voList + "]";
 	}
 	
 }

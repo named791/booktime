@@ -45,6 +45,7 @@ public class AladinAPI {
 				+isbn13+itemIdType+options();
 		
 		URL url = new URL(apiURL);
+		logger.info("URL={}",url);
 		JSONObject obj = util.getJson(url, "get", null);
 		Map<String, Object> map=  parse(obj).get(0);
 		

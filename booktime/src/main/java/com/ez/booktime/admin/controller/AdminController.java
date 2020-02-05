@@ -1,7 +1,10 @@
 package com.ez.booktime.admin.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,13 +19,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ez.booktime.api.AladinAPI;
 import com.ez.booktime.common.PageNumber;
 import com.ez.booktime.common.PaginationInfo;
 import com.ez.booktime.common.SearchVO;
 import com.ez.booktime.controller.IndexController;
 import com.ez.booktime.favorite.model.FavoriteVO;
+import com.ez.booktime.mileage.model.MileageVO;
 import com.ez.booktime.payment.model.PaymentDateVO;
+import com.ez.booktime.payment.model.PaymentDetailVO;
 import com.ez.booktime.payment.model.PaymentService;
 import com.ez.booktime.payment.model.PaymentVO;
 import com.ez.booktime.user.model.UserService;
@@ -39,6 +46,9 @@ public class AdminController {
 	
 	@Autowired
 	private PaymentService paymentService;
+	
+	@Autowired
+	private AladinAPI aladinApi;
 	
 	@RequestMapping(value="/adminLogin.do", method=RequestMethod.GET)
 	public void adminLogin_get() {
@@ -114,14 +124,13 @@ public class AdminController {
 	
 	@RequestMapping("/adminMember.do")
 	public void adminMember(Model model) {
-		/*
 		logger.info("관리자 회원관리 화면 보여주기");
 		
 		List<UserVO> list=userService.selectAllUser();
 		logger.info("리스트 크기={}",list.size());
 		
 		model.addAttribute("list",list);
-		*/
+		
 	}
 	
 	@RequestMapping("/adminEvent.do")
@@ -144,21 +153,55 @@ public class AdminController {
 			,Model model) {
 		logger.info("관리자 주문관리 화면 보여주기, 파라미터 vo={}",vo);
 		
-		/*
-		PaginationInfo pagingInfo = new PaginationInfo();
-		pagingInfo.setBlockSize(PageNumber.BLOCK_SIZE);
-		pagingInfo.setCurrentPage(vo.getCurrentPage());
-		pagingInfo.setRecordCountPerPage(vo.getRecordCountPerPage());
-		
-		vo.setFirstRecordIndex(pagingInfo.getFirstRecordIndex());
-		*/
-		
 		//주문 리스트
 		List<PaymentVO> list = paymentService.selectPaymentList(vo);
 		
-		//pagingInfo.setTotalRecord(paymentService.totalPaymentList(vo));
+		/*
+		//디테일 알라딘 정보
+		List<Map<String, Object>> dList = new ArrayList<Map<String,Object>>();
+		if(list!=null && !list.isEmpty()) {
+			for(PaymentVO pVo : list) {
+				List<PaymentDetailVO> details = pVo.getDetails();
+				
+				for(PaymentDetailVO dVo : details) {	// 주문하나당 여러개있는 디테일정보
+					try {
+						Map<String, Object> map = aladinApi.selectBook(dVo.getIsbn());
+						
+						dList.add(map);	//그 디테일의 aldin 정보들
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		*/
 		
 		model.addAttribute("list", list);
-		//model.addAttribute("pagingInfo", pagingInfo);
+		//model.addAttribute("dList", dList);
+	}
+	
+	@RequestMapping("/adminCartEdit.do")
+	@ResponseBody
+	public int adminCart(@ModelAttribute PaymentVO pVo
+			, @ModelAttribute MileageVO mVo) {
+		List<PaymentVO> voList = pVo.getVoList();
+		List<MileageVO> mList = mVo.getmList();
+		
+		logger.info("관리자, 주문상태 변경 처리, 파라미터 voList={}, mList={}",voList,mList);
+		int cnt = 0;
+		
+		//진행상태 업데이트
+		if(voList!=null && mList!=null && !voList.isEmpty() && !mList.isEmpty()) {
+			for(int i=0;i<voList.size();i++) {
+				PaymentVO vo = voList.get(i);
+				MileageVO voM = mList.get(i);
+				
+				if(vo.getPayNo()!=null && !vo.getPayNo().isEmpty()) {
+					//cnt += paymentService.updateProgress(vo, voM);
+				}
+			}
+		}
+		
+		return cnt;
 	}
 }
