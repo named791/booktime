@@ -16,7 +16,7 @@ public class ResetPwdMail {
 	
 	public String mailSending(String inputEmail) throws MessagingException {
 		String tomail  = inputEmail;     // 받는 사람 이메일
-		String setfrom = "bsg0909@gmail.com";         
+		String setfrom = "nohyelin960410@gmail.com";         
 		
 		String title ="임시 비밀번호 입니다";// 제목
 	    

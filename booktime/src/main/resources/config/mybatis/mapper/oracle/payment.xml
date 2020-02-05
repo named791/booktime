@@ -21,10 +21,10 @@
 	
 	<select id="selectPaymentByPayNo" parameterType="paymentVo" resultType="paymentVo">
 		select * from payment
-		<if test="nonMember!=0">
+		<if test=" nonMember!=null and nonMember!=0">
 			where nonMember=#{nonMember}
 		</if>
-		<if test="nonMember==0">
+		<if test="nonMember==null or nonMember==0">
 			where payNo=#{payNo}
 		</if>
 	</select>
@@ -59,22 +59,24 @@
 			)A
 		)
 		<if test="userid!=null and userid!=''">
-			where "RNUM">=#{firstRecordIndex}+1 
+			where "RNUM">#{firstRecordIndex} 
 			<![CDATA[
-			and "RNUM"<#{firstRecordIndex}+1+#{recordCountPerPage}
+			and "RNUM"<=#{firstRecordIndex}+#{recordCountPerPage}
 			]]>
 		</if>
 	</select>
 		
 	<select id="totalPaymentList" parameterType="paymentDateVO" resultType="int">
 		select count(*) from payment
-		where userid=#{userid}
-		<if test="startDay!=null and startDay!=''">
-			and payDate > #{startDay}
-		</if> 
-		<![CDATA[
-			and payDate < to_date(#{endDay})+(interval '1' day)
-		]]>
+		<if test="userid!=null and userid!=''">
+			where userid=#{userid}
+			<if test="startDay!=null and startDay!=''">
+				and payDate > #{startDay}
+			</if> 
+			<![CDATA[
+				and payDate < to_date(#{endDay})+(interval '1' day)
+			]]>
+		</if>
 	</select>
 	
 	<update id="updateProgress" parameterType="paymentVo">
@@ -91,8 +93,10 @@
 		from payment p
 		where exists(select payNo from paymentDetail d
 		    where isbn=#{isbn} and p.payNo=d.payNo)
-		and userid=#{userid}
+		and userid=#{userid} and progress='구매확정'
 	</select>
+	
+	
 </mapper>
 
 

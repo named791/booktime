@@ -2,6 +2,8 @@ package com.ez.booktime.user.controller;
 
 import java.util.List;
 
+import javax.mail.Authenticator;
+import javax.mail.MessagingException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,12 +12,14 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ez.booktime.common.ResetPwdMail;
 import com.ez.booktime.favorite.model.FavoriteService;
 import com.ez.booktime.favorite.model.FavoriteVO;
 import com.ez.booktime.user.model.UserService;
@@ -25,9 +29,14 @@ import com.ez.booktime.user.model.UserVO;
 public class loginController {
 	private static final Logger logger 
 		= LoggerFactory.getLogger(loginController.class);
+
+	private static final Authenticator Authenticator = null;
 	
 	@Autowired
 	private UserService userService; 
+	
+	@Autowired
+	private ResetPwdMail resetMail;
 	
 	@Autowired
 	private FavoriteService favoriteService;
@@ -170,6 +179,61 @@ public class loginController {
 			model.addAttribute("vo", vo);
 			
 			return "login/getId";
+	}
+	
+	//인증번호 페이지 보여주기
+	@RequestMapping(value="/login/yesNumber.do", method = RequestMethod.GET)
+	public void yesNumber() {
+		logger.info("인증번호 페이지 보여주기");
+	}
+	
+	//비밀번호 찾기를 위해 회원정보 조회 후 있으면 인증번호를 받는 곳으로 이동
+	@RequestMapping("/login/yesNumber.do")
+	public String searchNumber(@RequestParam String userid, @RequestParam String name,
+			@RequestParam String email, Model model, HttpServletRequest request, HttpServletResponse response) {
+		logger.info("비밀번호 찾기를 위한 회원정보 조회, 파라미터 userid={}, name={}", userid, name);
+		logger.info("email={}", email);
+		
+		UserVO vo= new UserVO();
+		vo.setUserid(userid);
+		vo.setName(name);
+		String result[]=email.split("@");
+		vo.setEmail1(result[0]);
+		vo.setEmail2(result[1]);
+		
+		logger.info("셋팅후 vo={}", vo);
+		
+		int cnt=userService.searchMember(vo);
+		logger.info("회원정보 조회 결과 cnt={}", cnt);
+		
+		String msg="", url="";
+		if(cnt>0) {
+			String inputEmail="nohyelin960410@gmail.com";
+			logger.info("보내는 사람의 주소 inputEmail={}", inputEmail);
+			
+			try {
+				String newPass=resetMail.mailSending(inputEmail);
+				logger.info("메일 발송 성공");
+				
+				HttpSession session=request.getSession();
+				session.setAttribute("newpass", newPass); //임시비밀번호 저장해두기
+				
+			} catch (MessagingException e) {
+				e.printStackTrace();
+			}
+			
+			msg="요청하신 임시 비밀번호를 입력하신 이메일로 보내드렸습니다.";
+			url="/login/yesNumber.do";
+			
+		}else {
+			msg="잘못된 회원정보 입니다!";
+			url="/login/searchPWD.do";
+		}
+		
+		model.addAttribute("msg", msg);
+		model.addAttribute("url", url);
+		
+		return "common/message";
 	}
 
 }

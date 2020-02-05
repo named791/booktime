@@ -18,8 +18,6 @@ public class IndexController {
 	private static final Logger logger
 		=LoggerFactory.getLogger(IndexController.class);
 	
-	
-	
 	@RequestMapping("/index.do")
 	public String index() {
 		logger.info("index 화면 보여주기");

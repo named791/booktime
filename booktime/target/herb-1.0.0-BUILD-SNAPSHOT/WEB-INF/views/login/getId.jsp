@@ -1,5 +1,8 @@
+<%@page import="com.ez.booktime.user.model.UserService"%>
+<%@page import="com.ez.booktime.user.model.UserDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <!-- post방식으로 이메일, 아이디, 가입일을 가져옴 -->
 <html>
@@ -52,30 +55,26 @@
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100 p-t-50 p-b-90">
-				<form class="login100-form validate-form flex-sb flex-w">
+				<form class="login100-form validate-form flex-sb flex-w" >
 					<span class="login100-form-title p-b-51">
 						아이디 찾기
 					</span>
 					<!-- if문 사용 -->
-					<p id="p1">입력하신 E-mail 주소로 가입된 계정이 있습니다.</p>
-					<div class="wrap-login100 p-t-50 p-b-90">
-						<span>E-mail 주소</span>
-						<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
-							<label class="email">nohyelin96@naver.com</label>
+					<c:if test="${empty vo.userid}">
+						<p id="p1">입력하신 E-mail 주소로 가입된 계정이 없습니다!</p>
+					</c:if>
+					<c:if test="${!empty vo.userid}">
+						<p id="p1">입력하신 E-mail 주소로 가입된 계정이 있습니다.</p>
+						<div class="wrap-login100 p-t-50 p-b-90">
+							<span>아이디</span>
+							<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
+								<label class="userid">${vo.userid }</label>
+							</div>
+							<div class="div1">
+							<button type="button" class="btn btn-info" onclick="btOk()">확인</button>
+							</div>
 						</div>
-						<span>아이디</span>
-						<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
-							<label class="userid">nohyelin96</label>
-						</div>
-						<span>가입일</span>
-						<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
-							<label class="regdate">2015년 05월 25일</label>
-						</div>
-						<div class="div1">
-						<button type="button" class="btn btn-info" onclick="btOk()">확인</button>
-						</div>
-					</div>
-					
+					</c:if>
 				</form>
 			</div>
 		</div>

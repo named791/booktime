@@ -25,13 +25,6 @@
 		font-weight: bold;
 		color: white;
 	}
-	.cmt{
-		width: 45%;
-		border: 3px solid lightGray;
-		border-radius: 5px;
-		margin: 0 5px;
-		padding: 10px;
-	}
 	#info div.pull-left{
 		width: 200px;
 	}
@@ -84,9 +77,13 @@
 	$(function(){
 		if($("#mode").val()=='review'){
 			var position = $("#review").offset().top;
-			$("*").animate({
+			$("*").not(".cmt").animate({
 				scrollTop: position
 			},500);
+		}else if($("#mode").val()=='paging'){
+			var position = $("#review").offset().top;
+			
+			$("*").not(".cmt").scrollTop(position);
 		}
 		
 		function readURL(input) {
@@ -203,7 +200,8 @@
 							<c:set value="${fn:trim(fn:substring(author[i], 0, fn:indexOf(author[i], '('))) }"
 								var="authorKeyword"/>
 							<a href="<c:url
-								value="&QueryType=Author&searchKeyword=${authorKeyword }"/>">
+								value="/book/bookList.do?cateNo=${map['cateCode']}&author=${authorKeyword }"/>">
+								<!-- value="&QueryType=Author&searchKeyword=${authorKeyword }"/>"> -->
 								${author[i]}
 							</a>
 								
@@ -214,7 +212,8 @@
 						<c:set value="${fn:trim(fn:substring(map['publisher'], 0, fn:indexOf(map['publisher'], '('))) }"
 							var="publisherKeyword"/>
 						<a href="<c:url
-								value="&QueryType=Publisher&searchKeyword=${publisherKeyword }"/>">
+								value="/book/bookList.do?cateNo=${map['cateCode'] }&publisher=${publisherKeyword }"/>">
+								<!-- value="&QueryType=Publisher&searchKeyword=${publisherKeyword }"/>"> -->
 							${map['publisher'] }
 						</a>
 						<br>
@@ -222,7 +221,7 @@
 						${pubDate[0]}년 ${pubDate[1]}월 ${pubDate[2]}일
 					</p>
 					
-					<c:import url="/book/bookGrade.do"></c:import>
+					<c:import url="/book/bookGradeAvg.do?isbn=${map['isbn13']}&total=${reviewCnt}"></c:import>
 					<hr style="margin-bottom: 0;">
 				</div>
 				
@@ -247,7 +246,8 @@
 							<fmt:formatNumber value="${map['priceSales'] }" 
 								pattern="#,###"/>원
 							<small>
-								(${(map['priceStandard']-map['priceSales'])/map['priceStandard']*100 }% 할인)
+							<fmt:parseNumber var="discount" value="${(map['priceStandard']-map['priceSales'])/map['priceStandard']*100 }" integerOnly="true"/>
+								(${discount }% 할인)
 							</small>
 						</div><br>
 						
@@ -324,6 +324,7 @@
 	</a>
 	<hr>
 	
+	<!-- 
 	<h3>이벤트</h3>
 	<div>
 		<img alt="이벤트 이미지" class="pull-left"
@@ -334,9 +335,9 @@
 			2020년 01월 01일 ~ 2020년 01월 31일
 		</div>
 		<hr style="clear: both;">
-	</div>
+	</div> -->
 	
-	<c:import url="/review/review.do"></c:import>
+	<c:import url="/review/review.do?isbn=${map['isbn13']}"></c:import>
 </div>
 
 <%@include file="../inc/bottom.jsp" %>

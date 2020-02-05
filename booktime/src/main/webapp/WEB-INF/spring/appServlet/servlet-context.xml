@@ -37,8 +37,8 @@
 	     <beans:property name="order" value="0" />
 	</beans:bean>
 	
-   <beans:bean id="mailSender" 
-		class = "org.springframework.mail.javamail.JavaMailSenderImpl">
+	<!-- 메일보내기 -->
+   <beans:bean id="mailSender" class = "org.springframework.mail.javamail.JavaMailSenderImpl">
       <beans:property name="host" value="smtp.gmail.com" />
       <beans:property name="port" value="587" />
       <beans:property name="username" value="yjwyhg@gmail.com" />

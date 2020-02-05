@@ -13,4 +13,13 @@
 		values(#{bookGradeNo}, #{userid}, #{isbn}, #{bookGrade}, #{boardNo})
 	</insert>
 	
+	<select id="gradeByIsbn" parameterType="bookGradeVo" resultType="float">
+		select
+		<if test="userid==null or userid==''">nvl(round(avg(BOOKGRADE),1),5)</if>
+		<if test="userid!=null and userid!=''">BOOKGRADE</if>
+		from bookGrade
+		where isbn=#{isbn}
+		<if test="userid!=null and userid!=''">and userid=#{userid}</if>
+	</select>
+	
 </mapper>
