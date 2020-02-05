@@ -1,5 +1,7 @@
 package com.ez.booktime.user.model;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,6 +66,21 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public int updateMileage(MileageVO vo) {
 		return userDao.updateMileage(vo);
+	}
+	
+	@Override
+	public String selectByEmail(UserVO userVo) {
+		return userDao.selectByEmail(userVo);
+	}
+
+	@Override
+	public int resetPwd(UserVO userVo) {
+		return userDao.resetPwd(userVo);
+	}
+
+	@Override
+	public List<UserVO> selectAllUser() {
+		return userDao.selectAllUser();
 	}
 
 	@Override

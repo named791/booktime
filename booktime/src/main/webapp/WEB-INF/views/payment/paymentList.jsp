@@ -173,11 +173,19 @@
 		
 		<c:if test="${!empty list }">
 			<c:set var="idx" value="0"/>
+			<c:set var="idxD" value="0"/>
 			<!-- 반복시작 -->
 			<c:forEach var="i" begin="0" end="${fn:length(list)-1}">
 				<tr>
 					<td class="text-center align-middle">
-						<b>${list[i].payNo }</b><br>
+						<b>
+						<c:if test="${list[i].nonMember=='0'}">
+							${list[i].payNo }
+						</c:if>
+						<c:if test="${list[i].nonMember!='0'}">
+							${list[i].nonMember }
+						</c:if>
+						</b><br>
 						<small><fmt:formatDate value="${list[i].payDate}" 
 							pattern="yyyy년 MM월 dd일"/></small>
 					</td>
@@ -191,14 +199,16 @@
 							
 							<div style="min-height: 80px;line-height: 4.8em;" class="align-middle">
 								<a href="<c:url value="/book/bookDetail.do?ItemId=${dVo.isbn }"/>" class="bookImg">
-									<img alt="${dVo.bookName }" src="${dList[idx]['cover']}" width="50px;">
+									<img alt="${dVo.bookName }" src="${dList[idxD]['cover']}" width="50px;">
 									${idx+1 }.${bookName}
 								</a>
 								<c:set var="idx" value="${idx+1}"/>
+								<c:set var="idxD" value="${idxD+1}"/>
 							</div>
 						</c:forEach>
 						
 						<c:set var="idx" value="${idx-(fn:length(list[i].details))}"/>
+						<c:set var="idxD" value="${idxD-(fn:length(list[i].details))}"/>
 					</td>
 					<td class="text-center">
 						<c:forEach var="dVo" items="${list[i].details}">
@@ -211,13 +221,15 @@
 						
 						<c:set var="savingPoint" value="0"/>
 						<c:forEach var="dVo" items="${list[i].details}">
-							<c:set var="savingPoint" value="${savingPoint+(dList[idx]['mileage']*dVo.qty) }"/>
+							<c:set var="savingPoint" value="${savingPoint+(dList[idxD]['mileage']*dVo.qty) }"/>
 													
 							<c:set var="idx" value="${idx+1}"/>
+							<c:set var="idxD" value="${idxD+1}"/>
 						</c:forEach>
 						
 						<c:if test="${!empty sessionScope.userid && list[i].progress=='구매확정'}">
 							<c:set var="idx" value="${idx-(fn:length(list[i].details))}"/>
+							<c:set var="idxD" value="${idxD-(fn:length(list[i].details))}"/>
 						</c:if>
 						
 						<form name="frmProgress${i}" method="post" action="<c:url value="/payment/dealOk.do"/>">
@@ -238,9 +250,9 @@
 						${list[i].progress }
 						<br>
 						<c:if test="${list[i].progress=='결제완료' }">
-							<a href="#" class="btn btn-sm btn-info" onclick="getIdx(${i})">환불 신청</a>
+							<a href="#" class="btn btn-sm btn-danger" onclick="getIdx(${i})">환불 신청</a>
 						</c:if>
-						<c:if test="${list[i].progress=='교환 처리중' || list[i].progress=='환불 처리중'}">
+						<c:if test="${list[i].progress=='교환 신청중' || list[i].progress=='환불 신청중'}">
 						
 						</c:if>
 						<c:if test="${list[i].progress=='환불 처리됨'}">
@@ -248,23 +260,29 @@
 								class="btn btn-sm btn-info mb-4">다시 보러 가기</a>
 						</c:if>
 						<c:if test="${list[i].progress=='배송중' || list[i].progress=='배송완료'}">
-							<a href="#" class="btn btn-sm btn-info mb-1" onclick="getIdx(${i})">교환/환불 신청</a>
+							<a href="#" class="btn btn-sm btn-danger mb-1" onclick="getIdx(${i})">교환/환불 신청</a><br>
 							<a href="#" class="btn btn-sm btn-info" onclick="getIdx(${i})">구매확정</a>
 						</c:if>
 						
 						<c:if test="${!empty sessionScope.userid && list[i].progress=='구매확정'}">
 							<c:forEach var="dVo" items="${list[i].details }">
-								<a href="<c:url value="/book/bookDetail.do?ItemId=${dVo.isbn}&mode=review"/>" 
+								<c:if test="${dList[idxD]['reviewed'] }">
+									<a href="<c:url value="/book/bookDetail.do?ItemId=${dVo.isbn}&mode=review"/>" 
+									class="btn btn-sm btn-warning mb-4">
+										<i class="fa fa-arrow-left">
+										${idx+1 }.리뷰보기
+										</i></a>
+								</c:if>
+								<c:if test="${!dList[idxD]['reviewed'] }">
+									<a href="<c:url value="/book/bookDetail.do?ItemId=${dVo.isbn}&mode=review"/>" 
 									class="btn btn-sm btn-info mb-4">
 										<i class="fa fa-arrow-left">
-										<c:if test="${dList[idx]['reviewed'] }">
-											${idx+1 }.리뷰보기
-										</c:if>
-										<c:if test="${!dList[idx]['reviewed'] }">
-											${idx+1 }.리뷰쓰기
-										</c:if>
+										${idx+1 }.리뷰쓰기
 										</i></a>
+								</c:if>
+								
 								<c:set var="idx" value="${idx+1}"/>
+								<c:set var="idxD" value="${idxD+1}"/>
 							</c:forEach>
 						</c:if>
 						<c:set var="idx" value="${idx-(fn:length(list[i].details))}"/>

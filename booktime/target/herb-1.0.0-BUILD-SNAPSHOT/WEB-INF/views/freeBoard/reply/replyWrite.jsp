@@ -131,7 +131,7 @@
 					
 					var no=p.find(".groupNo").val();
 					
-					openComment(no);
+					openComment(no, p);
 				});
 								
 				$(".selectNo").click(function(){

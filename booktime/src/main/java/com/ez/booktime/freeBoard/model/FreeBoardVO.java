@@ -2,7 +2,9 @@ package com.ez.booktime.freeBoard.model;
 
 import java.sql.Timestamp;
 
-public class FreeBoardVO {
+import com.ez.booktime.common.SearchVO;
+
+public class FreeBoardVO extends SearchVO{
 	private int boardNo; //게시글번호
 	private String userid; //아이디
 	private String category; //카테고리
@@ -11,7 +13,7 @@ public class FreeBoardVO {
 	private Timestamp regdate; //작성일
 	private String filename; //파일이름
 	private String originalFilename; //원래 파일 이름
-	private int filesize; //파일크기
+	private long filesize; //파일크기
 	private Timestamp deleteDate; //삭제일
 	private String name; //작성자 이름
 	private String qType; //문의 유형
@@ -64,10 +66,10 @@ public class FreeBoardVO {
 	public void setOriginalFilename(String originalFilename) {
 		this.originalFilename = originalFilename;
 	}
-	public int getFilesize() {
+	public long getFilesize() {
 		return filesize;
 	}
-	public void setFilesize(int filesize) {
+	public void setFilesize(long filesize) {
 		this.filesize = filesize;
 	}
 	public Timestamp getDeleteDate() {
@@ -91,10 +93,10 @@ public class FreeBoardVO {
 	
 	@Override
 	public String toString() {
-		return "BoardVO [boardNo=" + boardNo + ", userid=" + userid + ", category=" + category + ", title=" + title
+		return "FreeBoardVO [boardNo=" + boardNo + ", userid=" + userid + ", category=" + category + ", title=" + title
 				+ ", content=" + content + ", regdate=" + regdate + ", filename=" + filename + ", originalFilename="
 				+ originalFilename + ", filesize=" + filesize + ", deleteDate=" + deleteDate + ", name=" + name
-				+ ", qType=" + qType + "]";
+				+ ", qType=" + qType + ", toString()=" + super.toString() + "]";
 	}
 	
 	

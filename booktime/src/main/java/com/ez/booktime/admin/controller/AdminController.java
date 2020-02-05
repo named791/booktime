@@ -12,12 +12,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ez.booktime.common.PageNumber;
+import com.ez.booktime.common.PaginationInfo;
+import com.ez.booktime.common.SearchVO;
 import com.ez.booktime.controller.IndexController;
 import com.ez.booktime.favorite.model.FavoriteVO;
+import com.ez.booktime.payment.model.PaymentDateVO;
+import com.ez.booktime.payment.model.PaymentService;
+import com.ez.booktime.payment.model.PaymentVO;
 import com.ez.booktime.user.model.UserService;
 import com.ez.booktime.user.model.UserVO;
 
@@ -29,6 +36,9 @@ public class AdminController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private PaymentService paymentService;
 	
 	@RequestMapping(value="/adminLogin.do", method=RequestMethod.GET)
 	public void adminLogin_get() {
@@ -130,7 +140,25 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/adminCart.do")
-	public void adminCart() {
-		logger.info("관리자 주문관리 화면 보여주기");
+	public void adminCart(@ModelAttribute PaymentDateVO vo
+			,Model model) {
+		logger.info("관리자 주문관리 화면 보여주기, 파라미터 vo={}",vo);
+		
+		/*
+		PaginationInfo pagingInfo = new PaginationInfo();
+		pagingInfo.setBlockSize(PageNumber.BLOCK_SIZE);
+		pagingInfo.setCurrentPage(vo.getCurrentPage());
+		pagingInfo.setRecordCountPerPage(vo.getRecordCountPerPage());
+		
+		vo.setFirstRecordIndex(pagingInfo.getFirstRecordIndex());
+		*/
+		
+		//주문 리스트
+		List<PaymentVO> list = paymentService.selectPaymentList(vo);
+		
+		//pagingInfo.setTotalRecord(paymentService.totalPaymentList(vo));
+		
+		model.addAttribute("list", list);
+		//model.addAttribute("pagingInfo", pagingInfo);
 	}
 }

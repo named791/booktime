@@ -38,6 +38,8 @@ import com.ez.booktime.payment.model.PaymentService;
 import com.ez.booktime.payment.model.PaymentVO;
 import com.ez.booktime.user.model.UserService;
 
+import oracle.net.aso.d;
+
 @Controller
 @RequestMapping("/payment")
 public class PaymentController {
@@ -421,5 +423,34 @@ public class PaymentController {
 		}
 		
 		return res;
+	}
+	
+	@RequestMapping("/paymentWindow.do")
+	public void paymentWindow(@ModelAttribute PaymentVO vo
+			, Model model) {
+		logger.info("주문 1개 조회, 파라미터 vo={}",vo);
+		
+		vo = paymentService.selectPayment(vo);
+		
+		List<PaymentDetailVO> list = vo.getDetails();
+		
+		List<Map<String, Object>> dList = new ArrayList<Map<String,Object>>();
+		if(list!=null && !list.isEmpty()) {
+			for(PaymentDetailVO dVo : list) {
+				Map<String, Object> map = null;
+				try {
+					map = aladinApi.selectBook(dVo.getIsbn());
+					
+					dList.add(map);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		logger.info("주문 조회 결과 vo={}, dList={}",vo, dList);
+		
+		model.addAttribute("vo", vo);
+		model.addAttribute("dList", dList);
 	}
 }
