@@ -1,7 +1,5 @@
 package com.ez.booktime.user.model;
 
-import java.util.Map;
-
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -65,5 +63,10 @@ public class UserMybatis implements UserDAO{
 	@Override
 	public String selectId(UserVO userVo) {
 		return sqlSession.selectOne(namespace+"selectId", userVo);
+	}
+	
+	@Override
+	public int searchMember(UserVO userVo) {
+		return sqlSession.selectOne(namespace+"searchMember", userVo);
 	}
 }

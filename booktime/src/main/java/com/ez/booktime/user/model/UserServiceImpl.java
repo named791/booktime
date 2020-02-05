@@ -80,4 +80,9 @@ public class UserServiceImpl implements UserService{
 	public String selectId(UserVO userVo) {
 		return userDao.selectId(userVo);
 	}
+	
+	@Override
+	public int searchMember(UserVO userVo) {
+		return userDao.searchMember(userVo);
+	}
 }
