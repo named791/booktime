@@ -68,6 +68,13 @@ public class BooklistController {
 			logger.info("카테고리 검색 리스트 크기={}",list.size());
 		}
 		
+		if(list.size()<1) {
+	         model.addAttribute("msg","검색결과가 없습니다.");
+	         model.addAttribute("url","/book/bookList.do?cateNo="+cateNo);
+	         
+	         return "common/message";
+	    }
+		
 		int total = Integer.parseInt(list.get(0).get("totalResult").toString());
 		
 		pagingInfo.setTotalRecord(total);

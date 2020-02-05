@@ -3,6 +3,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@	taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+<style type="text/css">
+	.list-group {
+	    display: -ms-flexbox;
+	    display: flex;
+	    -ms-flex-direction: column;
+	    flex-direction: column;
+	    padding-left: 0;
+	    margin-bottom: 0;
+	}
+</style>
 <div class="top_best">
 	<!-- 신간베스트 for -->
 	<c:forEach var="map" items="${specialList }" end="3">

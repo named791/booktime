@@ -111,9 +111,10 @@ public class Category {
 	public String options() {
 		String cover = "Cover=big&";	//표지 크기
 		String output = "Output=JS&";	//json
-		String version = "Version=20131101";
+		String version = "Version=20131101&";
+		String optResult = "OptResult=packing";
 		
-		return cover+output+version;
+		return cover+output+version+optResult;
 	}
 	
 	public List<Map<String, Object>> categorySpecial(int cateNo) throws Exception {

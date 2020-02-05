@@ -101,8 +101,10 @@ ul.book {
 	font-size: 17px;
     padding-right: 525px;
 }
-.ss_line4{
-	margin-bottom: 10px;
+.ss_line4 {
+    margin-bottom: 15px;
+    padding-right: 13px;
+    margin-top: 15px;
 }
 .ss_book_table{
 	margin-bottom: 20px;
@@ -226,8 +228,43 @@ input.button_search_storage.btFavorite {
 }
 
 td.td_bt {
+    width: 10px;
+    padding-right: 130px;
+}
+
+td.td_line.td_info {
+    width: 398px;
     float: left;
-    position: absolute;
+    /* padding-left: 81px; */
+    padding-top: 98px;
+}
+
+input.button_search_storage.btFavorite {
+    font-size: 13px;
+    padding-bottom: 25px;
+    width: 61px;
+}
+
+input.button_search_cart_new.btCart {
+    padding-bottom: 24px;
+}
+
+input.button_search_buyitnow_new {
+    padding-bottom: 24px;
+}
+
+table.ss_book_table {
+    margin-left: 50px;
+}
+
+td.td_cover {
+    width: 180px;
+}
+
+div#FavoriteOk {
+    width: 352px;
+    margin-left: 587px;
+    margin-top: 230px;
 }
 </style>
 
@@ -582,12 +619,12 @@ td.td_bt {
 											<input name="checkbox" type="checkbox" class="checkbox"
 											data-isbn=${map['isbn13'] }>
 										</td>
-										<td class="td_line">
+										<td class="td_line td_cover">
 											<a href='<c:url value="/book/bookDetail.do?ItemId=${map['isbn13'] }"/>' id="book_a">
 													<img src="${map['cover'] }" width="150" border="0" class="i_cover">
 											</a>
 										</td>
-										<td class="td_line">
+										<td class="td_line td_info">
 											<div class="ss_book_list">
 												<ul class="book">
 													<li><a href=
