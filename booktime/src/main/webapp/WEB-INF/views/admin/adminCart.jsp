@@ -20,19 +20,54 @@
 		display: none;
 		width: 80%;
 	}
-	
+	.loaded{
+		color: brown;
+	}
 	
 </style>
 <script type="text/javascript">
 	$(function(){
 		$(".card-body").fadeIn();
 		
-		$(".detailLink").click(function(){
+		
+		$("#dataTable tbody").on("mousedown", "a.detailLink", function(){
 			var payNo = $(this).parent().next("input[name=payNo]").val();
+			var obj = $(this);
+			
+			$.load(payNo, obj);
+			$(this).next(".details").show();
 		});
+		
+		$("#dataTable tbody").on("mouseup", "a.detailLink", function(){
+			$(this).next(".details").hide();
+		});
+		
+		$.load = function(payNo, obj){
+			if(!obj.is(".loaded")){
+				$.ajax({
+	//				url:"<c:url value='/payment/paymentWindow.do?payNo="+payNo+"'/>",
+	//				url:"<c:url value='/payment/paymentWindow.do'/>",
+	//				data:{"payNo":payNo},
+					url:"<c:url value='/user/provision.do'/>",
+					dataType: "html",
+					type:"POST",
+					success: function(res){
+						$(".details").append(res);
+						obj.addClass("loaded");
+					},
+					error: function(xhr, status, error){
+						alert("ERROR!.."+xhr.status+" "+error);
+					}
+				});
+			}
+		}
 		
 		$("#dataTable tbody").on("change", "tr select", function(){
 			var tr = $(this).parents("tr");
+			
+			var obj = tr.find(".detailLink");
+			var payNo = obj.parent().next("input[name=payNo]").val();
+			$.load(payNo, obj);
 			
 			tr.find("input[type=checkbox]").prop("checked",true);
 			tr.css("background-color","#fffbc5");
@@ -44,12 +79,6 @@
 			}
 		});
 		
-		$("#dataTable tbody").on("mousedown", "a.detailLink", function(){
-			$(this).next(".details").show();
-		});
-		$("#dataTable tbody").on("mouseup", "a.detailLink", function(){
-			$(this).next(".details").hide();
-		});
 		
 		$(".changer").click(function(){
 			var cnt = $("input[type=checkbox]:checked").length;
@@ -67,6 +96,9 @@
 					success: function(res){
 						if(parseInt(res)>0){
 							
+							//성공시
+							$("tr").css("background-color", "")
+								.find("input[type=checkbox]").prop("checked", false);
 						}
 					},
 					error:function(xhr, status, error){
@@ -75,9 +107,7 @@
 					
 				});
 				
-				//성공시
-				$("tr").css("background-color", "")
-					.find("input[type=checkbox]").prop("checked", false);
+				
 			}
 		});
 	});
@@ -142,14 +172,14 @@
 								</td>
 								<td class="align-middle">
 									<div>
-										<a class="detailLink btn">
+										<a href='#a' class="detailLink">
 											${vo.payNo }
 											<c:if test="${vo.nonMember!='0'}">
 												<br><small>(${vo.nonMember })</small>
 											</c:if>
 										</a>
 										<div class="details">
-											<c:import url="/payment/paymentWindow.do?payNo=${vo.payNo }"/>
+											<%-- <c:import url="/payment/paymentWindow.do?payNo=${vo.payNo }"/> --%>
 										</div>
 									</div>
 									<input type="checkbox" value="${vo.payNo}" hidden="true"
