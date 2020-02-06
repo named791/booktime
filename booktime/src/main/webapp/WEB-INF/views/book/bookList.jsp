@@ -313,7 +313,7 @@ a{
 	<input type="text" name="group" value="CART">
 </form>
 
-s<div id="cover">
+<div id="cover">
 	<div id="FavoriteOk" class="card border-primary" >
 		<div class="card-header bg-primary text-center"><b><span class="addResult"></span>를 추가했습니다</b></div>
 		<div class="card-body text-center">

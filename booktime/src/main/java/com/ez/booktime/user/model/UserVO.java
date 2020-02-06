@@ -18,34 +18,11 @@ public class UserVO {
 	private String addressdetail;
 	private String phone;
 	private int mileage;
-	private Timestamp withrawaldate; //탈퇴일
-	private Timestamp withdrawalreason; //탈퇴사유
+	private Timestamp withdrawaldate; //탈퇴일
+	private String withdrawalreason; //탈퇴사유
 	
 	public UserVO() {
 		super();
-	}
-
-	public UserVO(String userid, String pwd, String name, String birth, String gender, String grade, String email1,
-			String email2, char emailagree, String zipcode, String parseladdress, String newaddress,
-			String addressdetail, String phone, int mileage, Timestamp withrawaldate, Timestamp withdrawalreason) {
-		super();
-		this.userid = userid;
-		this.pwd = pwd;
-		this.name = name;
-		this.birth = birth;
-		this.gender = gender;
-		this.grade = grade;
-		this.email1 = email1;
-		this.email2 = email2;
-		this.emailagree = emailagree;
-		this.zipcode = zipcode;
-		this.parseladdress = parseladdress;
-		this.newaddress = newaddress;
-		this.addressdetail = addressdetail;
-		this.phone = phone;
-		this.mileage = mileage;
-		this.withrawaldate = withrawaldate;
-		this.withdrawalreason = withdrawalreason;
 	}
 
 	public String getUserid() {
@@ -168,19 +145,19 @@ public class UserVO {
 		this.mileage = mileage;
 	}
 
-	public Timestamp getWithrawaldate() {
-		return withrawaldate;
+	public Timestamp getWithdrawaldate() {
+		return withdrawaldate;
 	}
 
-	public void setWithrawaldate(Timestamp withrawaldate) {
-		this.withrawaldate = withrawaldate;
+	public void setWithdrawaldate(Timestamp withdrawaldate) {
+		this.withdrawaldate = withdrawaldate;
 	}
 
-	public Timestamp getWithdrawalreason() {
+	public String getWithdrawalreason() {
 		return withdrawalreason;
 	}
 
-	public void setWithdrawalreason(Timestamp withdrawalreason) {
+	public void setWithdrawalreason(String withdrawalreason) {
 		this.withdrawalreason = withdrawalreason;
 	}
 
@@ -190,6 +167,7 @@ public class UserVO {
 				+ gender + ", grade=" + grade + ", email1=" + email1 + ", email2=" + email2 + ", emailagree="
 				+ emailagree + ", zipcode=" + zipcode + ", parseladdress=" + parseladdress + ", newaddress="
 				+ newaddress + ", addressdetail=" + addressdetail + ", phone=" + phone + ", mileage=" + mileage
-				+ ", withrawaldate=" + withrawaldate + ", withrawalreason=" + withdrawalreason + "]";
+				+ ", withdrawaldate=" + withdrawaldate + ", withdrawalreason=" + withdrawalreason + "]";
 	}
+
 }

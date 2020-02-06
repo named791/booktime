@@ -42,6 +42,20 @@
 		where userid=#{userid}
 	</update>
 	
+	<select id="selectByEmail" parameterType="userVo" resultType="String">
+		select userid from "USER" where email1=#{email1} and email2=#{email2}
+	</select>
+	
+	<update id="resetPwd" parameterType="userVo">
+		update "USER"
+		set pwd = #{pwd}
+		where userid=#{userid}
+	</update>
+	
+	<select id="selectAllUser" resultType="userVo">
+		select * from "USER" order by grade 
+	</select>
+	
 	<update id="updateUser" parameterType="userVo">
 		update "USER"
 		set phone=#{phone}, email1=#{email1}, email2=#{email2}, 
@@ -53,6 +67,15 @@
 	<update id="updatePwd" parameterType="userVo">
 		update "USER" set pwd=#{pwd} where userid=#{userid}
 	</update>
+	
+	<update id="updateUser2" parameterType="userVo">
+		update "USER"
+		set phone=#{phone}, email1=#{email1}, email2=#{email2}, 
+		zipcode=#{zipcode}, parseladdress=#{parseladdress}, 
+		newaddress=#{newaddress}, addressdetail=#{addressdetail}
+		where userid=#{userid}
+	</update>
+	
 </mapper>
 
 

@@ -59,4 +59,9 @@ public class FreeBoardServiceImpl implements FreeBoardService{
 		return boardDao.countReview(map);
 	}
 
+	@Override
+	public List<FreeBoardVO> selectBoardByCate(String category) {
+		return boardDao.selectBoardByCate(category);
+	}
+
 }

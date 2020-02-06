@@ -16,4 +16,5 @@ public interface FreeBoardDAO {
 	
 	List<FreeBoardVO> selectFreeBoard();
 	int countReview(Map<String, Object> map);
+	List<FreeBoardVO> selectBoardByCate(String category);
 }

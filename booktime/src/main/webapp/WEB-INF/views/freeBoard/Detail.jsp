@@ -37,6 +37,7 @@
 						onclick="next()"
 						role="button">삭제하기</a>			
 		</c:if>
+        
         <%@include file="reply/replyWrite.jsp" %><!-- 댓글 작성란 -->
 
       </div>

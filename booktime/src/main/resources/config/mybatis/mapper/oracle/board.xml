@@ -21,7 +21,6 @@
 	
 	<select id="selectBoard" resultType="freeBoardVo">
 		select * from board
-		where deletedate is null
 		order by boardNo desc
 	</select>
 	
@@ -76,4 +75,12 @@
 		select count(*) from board
 		where userid=#{userid} and category=#{isbn}
 	</select>
+	
+	<select id="selectBoardByCate" resultType="freeBoardVo">
+		select * from board
+		where deletedate is null
+		and category=#{category}
+		order by boardNo desc
+	</select>
+
 </mapper>

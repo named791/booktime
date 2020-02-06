@@ -1,5 +1,6 @@
 package com.ez.booktime.user.model;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,21 @@ public class UserServiceImpl implements UserService{
 	public int updateMileage(MileageVO vo) {
 		return userDao.updateMileage(vo);
 	}
+	
+	@Override
+	public String selectByEmail(UserVO userVo) {
+		return userDao.selectByEmail(userVo);
+	}
+
+	@Override
+	public int resetPwd(UserVO userVo) {
+		return userDao.resetPwd(userVo);
+	}
+
+	@Override
+	public List<UserVO> selectAllUser() {
+		return userDao.selectAllUser();
+	}
 
 	@Override
 	public int updateUser(UserVO userVo) {
@@ -76,5 +92,10 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public int updatePwd(UserVO userVo) {
 		return userDao.updatePwd(userVo);
+	}
+
+	@Override
+	public int updateUser2(UserVO userVo) {
+		return userDao.updateUser2(userVo);
 	}
 }

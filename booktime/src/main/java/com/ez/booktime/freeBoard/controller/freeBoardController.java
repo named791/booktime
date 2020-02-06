@@ -22,6 +22,7 @@ import com.ez.booktime.common.PaginationInfo;
 import com.ez.booktime.common.SearchVO;
 import com.ez.booktime.freeBoard.model.FreeBoardService;
 import com.ez.booktime.freeBoard.model.FreeBoardVO;
+import com.ez.booktime.reply.model.ReplyVO;
 
 @Controller
 @RequestMapping("/freeBoard")
@@ -219,10 +220,41 @@ public class freeBoardController {
 	@RequestMapping("/List.do")
 	public void AjaxList(Model model) {
 		logger.info("목록");
+	}
+	
+	@RequestMapping("/Tab1.do")
+	public void boardList1(Model model) {
 		
-		List<FreeBoardVO> list=boardService.selectFreeBoard();
-		logger.info("자유게시판 리스트 크기={}",list.size());
+		String category="공지";
+		logger.info("카테고리 선택",category);
 		
+		List<FreeBoardVO> list=boardService.selectBoardByCate(category);
+		logger.info("list 크기={}",list.size());
+
+		model.addAttribute("list",list);
+	}
+	
+	@RequestMapping("/Tab2.do")
+	public void boardList2(Model model) {
+		
+		String category="이벤트";
+		logger.info("카테고리 선택",category);
+		
+		List<FreeBoardVO> list=boardService.selectBoardByCate(category);
+		logger.info("list 크기={}",list.size());
+
+		model.addAttribute("list",list);
+	}
+	
+	@RequestMapping("/Tab3.do")
+	public void boardList3(Model model) {
+		
+		String category="자유";
+		logger.info("카테고리 선택",category);
+		
+		List<FreeBoardVO> list=boardService.selectBoardByCate(category);
+		logger.info("list 크기={}",list.size());
+
 		model.addAttribute("list",list);
 	}
 }

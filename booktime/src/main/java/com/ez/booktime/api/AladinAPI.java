@@ -1,5 +1,8 @@
 package com.ez.booktime.api;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -9,6 +12,7 @@ import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -273,4 +277,51 @@ public class AladinAPI {
 		
 		return cover+output+version+optResult;
 	}
+	
+	//상품 검색 API - 제목 검색
+		//AladinAPI.SEARCH_~ 상수, searchKeyword 검색어, 
+			//start 시작페이지, maxResults 한페이지 출력결과수
+			public List<Map<String, Object>> searchByTitle( 
+					String searchKeyword,
+					int start, int maxResults) throws Exception {
+				//필수
+				String searchUrl = "http://www.aladdin.co.kr/ttb/api/ItemSearch.aspx";
+				
+				String query = "Query="+URLEncoder.encode(searchKeyword,"UTF-8")+"&";	//제목
+				logger.info("알라딘 검색, 파라미터 searchKeyword={}",searchKeyword);
+				logger.info("파라미터 start={},maxResults={}",start,maxResults);
+				
+				//url 조립
+				String apiURL = searchUrl+TTB_KEY
+						+SEARCH_TITLE+query
+						+"start="
+						+start
+						+"&"
+						+"MaxResults="
+						+10
+						+"&"
+						+options();
+				URL url = new URL(apiURL);
+				logger.info("제목으로 검색하기 URL={}",url);
+				
+				HttpURLConnection con = (HttpURLConnection) url.openConnection();
+				con.setRequestMethod("GET");
+				
+				int responseCode = con.getResponseCode();
+		        BufferedReader br;
+		        if(responseCode==200) { // 정상 호출
+		            br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+		        } else {  // 에러 발생
+		        	logger.info("에러 발생 responseCode={}",responseCode);
+		            br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+		        }
+		        
+		        JSONParser jsonParser = new JSONParser();
+				JSONObject jsonObj = (JSONObject) jsonParser.parse(br);
+		        br.close();
+		       
+				List<Map<String, Object>> list = parse(jsonObj);
+				
+				return list;
+			}
 }
