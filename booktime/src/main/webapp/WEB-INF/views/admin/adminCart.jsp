@@ -20,6 +20,15 @@
 		display: none;
 		width: 80%;
 	}
+	.refund{
+		border: 2px solid lightGray;
+		text-align: center;
+		vertical-align: middle;
+		position: absolute;
+		width: 13%;
+		background-color: white;
+		display: none;
+	}
 	.loaded{
 		color: brown;
 	}
@@ -31,9 +40,9 @@
 		
 		
 		$("#dataTable tbody").on("mousedown", "a.detailLink", function(){
-			var payNo = $(this).parent().next("input[name=payNo]").val();
+			var payNo = $(this).parent().next("input.payNo").val();
 			var obj = $(this);
-			
+
 			$.load(payNo, obj);
 			$(this).next(".details").show();
 		});
@@ -41,18 +50,17 @@
 		$("#dataTable tbody").on("mouseup", "a.detailLink", function(){
 			$(this).next(".details").hide();
 		});
-		
 		$.load = function(payNo, obj){
 			if(!obj.is(".loaded")){
 				$.ajax({
-	//				url:"<c:url value='/payment/paymentWindow.do?payNo="+payNo+"'/>",
-	//				url:"<c:url value='/payment/paymentWindow.do'/>",
-	//				data:{"payNo":payNo},
-					url:"<c:url value='/user/provision.do'/>",
+//					url:"<c:url value='/payment/paymentWindow.do?payNo="+payNo+"'/>",
+					url:"<c:url value='/payment/paymentWindow.do'/>",
+					data:{"payNo":payNo},
+//					url:"<c:url value='/user/provision.do'/>",
 					dataType: "html",
 					type:"POST",
 					success: function(res){
-						$(".details").append(res);
+						obj.next(".details").html(res);
 						obj.addClass("loaded");
 					},
 					error: function(xhr, status, error){
@@ -66,7 +74,7 @@
 			var tr = $(this).parents("tr");
 			
 			var obj = tr.find(".detailLink");
-			var payNo = obj.parent().next("input[name=payNo]").val();
+			var payNo = obj.parent().next("input.payNo").val();
 			$.load(payNo, obj);
 			
 			tr.find("input[type=checkbox]").prop("checked",true);
@@ -87,18 +95,24 @@
 				
 				var frmData = $("form[name=frm]").serialize();
 				
-				alert(frmData);
 				$.ajax({
 					data: frmData,
 					url : "<c:url value='/admin/adminCartEdit.do'/>",
 					type:"POST",
 					dataType: "text",
 					success: function(res){
+						alert(res+"건 저장하였습니다.");
+						
 						if(parseInt(res)>0){
-							
 							//성공시
 							$("tr").css("background-color", "")
 								.find("input[type=checkbox]").prop("checked", false);
+							$("select").each(function(){
+								if($(this).val()=='구매확정' || $(this).val()=='환불 처리됨'){
+									$(this).prop("disabled", true);
+									$(this).next(".viewD").hide();
+								}
+							});
 						}
 					},
 					error:function(xhr, status, error){
@@ -106,9 +120,11 @@
 					}
 					
 				});
-				
-				
 			}
+		});
+		
+		$("#dataTable tbody").on("click", "tr a.viewD", function(){
+			$(this).next(".refund").toggle();
 		});
 	});
 	
@@ -136,14 +152,14 @@
 					cellspacing="0">
 					<thead>
 						<tr>
-							<th>번호</th>
-							<th>아이디</th>
-							<th>주문 번호<br><small>(비회원 주문번호)</small></th>
-							<th>도로명 주소<br><small>(지번)</small></th>
-							<th>결제일</th>
-							<th>취소일</th>
-							<th>주문 가격(원)</th>
-							<th>진행사항</th>
+							<th class="align-middle">번호</th>
+							<th class="align-middle">아이디</th>
+							<th class="align-middle">주문 번호<br><small>(비회원 주문번호)</small></th>
+							<th class="align-middle">도로명 주소<br><small>(지번)</small></th>
+							<th class="align-middle">결제일</th>
+							<th class="align-middle">취소일</th>
+							<th class="align-middle">주문 가격(원)</th>
+							<th class="align-middle">진행사항</th>
 						</tr>
 					</thead>
 					<tfoot>
@@ -178,10 +194,9 @@
 												<br><small>(${vo.nonMember })</small>
 											</c:if>
 										</a>
-										<div class="details">
-											<%-- <c:import url="/payment/paymentWindow.do?payNo=${vo.payNo }"/> --%>
-										</div>
+										<div class="details"></div>
 									</div>
+									<input type="hidden" class="payNo" value="${vo.payNo}">
 									<input type="checkbox" value="${vo.payNo}" hidden="true"
 										name="voList[${i.index}].payNo" >
 								</td>
@@ -203,12 +218,11 @@
 										
 										<input type="hidden" name="mList[${i.index}].payNo" value="${vo.payNo }">
 										<input type="hidden" name="mList[${i.index}].usePoint" value="${vo.usePoint }">
-										<input type="hidden" name="mList[${i.index}].reason" value="환불 반환">
 									</c:if>
 								</td>
 								<td class="align-middle">
 										<select class="form-control" name="voList[${i.index}].progress" 
-											<c:if test="${vo.progress=='구매확정' }"> disabled="disabled"</c:if>>
+											<c:if test="${vo.progress=='구매확정' || vo.progress=='환불 처리됨' }"> disabled="disabled"</c:if>>
 												<option <c:if test="${vo.progress=='결제대기' }">selected="selected"</c:if>
 													value="결제대기">결제대기</option>
 												<option <c:if test="${vo.progress=='결제완료' }">selected="selected"</c:if>
@@ -226,7 +240,14 @@
 												<option <c:if test="${vo.progress=='구매확정' }">selected="selected"</c:if>
 													value="구매확정" >구매확정</option>
 										</select>
+										<c:if test="${vo.progress=='환불 신청중' || vo.progress=='교환 신청중' }">
+											<a href="#d" class="viewD">상세</a>
+											<div class="refund">
+												${fn:replace(fn:substringAfter(vo.message,'/'),'/','') }
+											</div>
+										</c:if>
 									<input type="hidden" class="savingPoint" name="mList[${i.index}].savingPoint" value="0">
+									<input type="hidden" name="mList[${i.index}].userid" value="${vo.userid}">
 								</td>
 							</tr>
 						</c:forEach>

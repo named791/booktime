@@ -85,6 +85,9 @@
 		<if test="message!=null and message!=''">
 			, message = message || #{message}
 		</if>
+		<if test="progress=='환불 처리됨'">
+			, cancleDate = sysdate
+		</if>
 		where payNo=#{payNo}
 	</update>
 	

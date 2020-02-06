@@ -36,6 +36,11 @@ public class Utility {
 				String key = iter.next();
 				String val = keyMap.get(key);
 				
+				if(key.equals("Authorization")) {
+					con.setRequestProperty(key, val);
+					
+					continue;
+				}
 				param += (key +"="+val+"&");
 			}//while
 			param = param.substring(0, param.lastIndexOf("&"));

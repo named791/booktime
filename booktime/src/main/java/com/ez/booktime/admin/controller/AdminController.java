@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ez.booktime.api.AladinAPI;
+import com.ez.booktime.api.ImPortAPI;
 import com.ez.booktime.common.PageNumber;
 import com.ez.booktime.common.PaginationInfo;
 import com.ez.booktime.common.SearchVO;
@@ -48,7 +49,7 @@ public class AdminController {
 	private PaymentService paymentService;
 	
 	@Autowired
-	private AladinAPI aladinApi;
+	private ImPortAPI imPortApi;
 	
 	@RequestMapping(value="/adminLogin.do", method=RequestMethod.GET)
 	public void adminLogin_get() {
@@ -156,28 +157,8 @@ public class AdminController {
 		//주문 리스트
 		List<PaymentVO> list = paymentService.selectPaymentList(vo);
 		
-		/*
-		//디테일 알라딘 정보
-		List<Map<String, Object>> dList = new ArrayList<Map<String,Object>>();
-		if(list!=null && !list.isEmpty()) {
-			for(PaymentVO pVo : list) {
-				List<PaymentDetailVO> details = pVo.getDetails();
-				
-				for(PaymentDetailVO dVo : details) {	// 주문하나당 여러개있는 디테일정보
-					try {
-						Map<String, Object> map = aladinApi.selectBook(dVo.getIsbn());
-						
-						dList.add(map);	//그 디테일의 aldin 정보들
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		}
-		*/
 		
 		model.addAttribute("list", list);
-		//model.addAttribute("dList", dList);
 	}
 	
 	@RequestMapping("/adminCartEdit.do")
@@ -197,7 +178,21 @@ public class AdminController {
 				MileageVO voM = mList.get(i);
 				
 				if(vo.getPayNo()!=null && !vo.getPayNo().isEmpty()) {
-					//cnt += paymentService.updateProgress(vo, voM);
+					
+					if(vo.getProgress().equals("환불 처리됨")) {
+						boolean bool = false;
+						try {
+							bool = imPortApi.cancel_Payment(vo.getPayNo());
+							
+							if(!bool) {
+								continue;
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+					
+					cnt += paymentService.updateProgress(vo, voM);
 				}
 			}
 		}

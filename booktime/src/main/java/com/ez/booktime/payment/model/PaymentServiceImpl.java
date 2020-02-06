@@ -1,5 +1,6 @@
 package com.ez.booktime.payment.model;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +15,7 @@ import com.ez.booktime.favorite.model.FavoriteDAO;
 import com.ez.booktime.mileage.model.MileageService;
 import com.ez.booktime.mileage.model.MileageVO;
 import com.ez.booktime.user.model.UserService;
+import com.google.api.client.util.Data;
 
 @Service
 public class PaymentServiceImpl implements PaymentService{
@@ -139,6 +141,9 @@ public class PaymentServiceImpl implements PaymentService{
 							if(progress.equals("환불 처리됨")) {
 								mVo.setSavingPoint(mVo.getSavingPoint()+mVo.getUsePoint());
 								mVo.setUsePoint(0);
+								mVo.setReason("환불 반환");
+							}else if(progress.equals("구매확정")) {
+								mVo.setReason("구매확정");
 							}
 							
 							cnt = UserService.updateMileage(mVo);
