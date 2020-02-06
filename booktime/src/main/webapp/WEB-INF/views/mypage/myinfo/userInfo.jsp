@@ -212,6 +212,8 @@
 			<button type="submit" id="btn1">나의정보 수정</button>
 		</div>
 	</div>
+</div>
+</div>
 </form>
 <%@include file="editPWD.jsp" %>
 
