@@ -1,6 +1,7 @@
 package com.ez.booktime.user.model;
 
 import java.util.List;
+
 import com.ez.booktime.mileage.model.MileageVO;
 
 public interface UserService {
@@ -13,7 +14,7 @@ public interface UserService {
 	boolean chkUserid(String userid);
 	int userGetPwd(String userid, String pwd);
 	UserVO selectByUserid(String userid);
-	int deleteUser(String userid, String withdrawalreason);
+	int deleteUser(UserVO userVo);
 	String selectPWD(String userid);
 	int updateMileage(MileageVO vo);
 	

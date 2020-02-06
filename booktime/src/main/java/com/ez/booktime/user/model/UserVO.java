@@ -19,7 +19,7 @@ public class UserVO {
 	private String phone;
 	private int mileage;
 	private Timestamp withrawaldate; //탈퇴일
-	private Timestamp withdrawalreason; //탈퇴사유
+	private String withdrawalreason; //탈퇴사유
 	
 	public UserVO() {
 		super();
@@ -27,7 +27,7 @@ public class UserVO {
 
 	public UserVO(String userid, String pwd, String name, String birth, String gender, String grade, String email1,
 			String email2, char emailagree, String zipcode, String parseladdress, String newaddress,
-			String addressdetail, String phone, int mileage, Timestamp withrawaldate, Timestamp withdrawalreason) {
+			String addressdetail, String phone, int mileage, Timestamp withrawaldate, String withdrawalreason) {
 		super();
 		this.userid = userid;
 		this.pwd = pwd;
@@ -176,11 +176,11 @@ public class UserVO {
 		this.withrawaldate = withrawaldate;
 	}
 
-	public Timestamp getWithdrawalreason() {
+	public String getWithdrawalreason() {
 		return withdrawalreason;
 	}
 
-	public void setWithdrawalreason(Timestamp withdrawalreason) {
+	public void setWithdrawalreason(String withdrawalreason) {
 		this.withdrawalreason = withdrawalreason;
 	}
 

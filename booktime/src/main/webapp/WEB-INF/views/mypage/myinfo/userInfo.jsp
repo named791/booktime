@@ -36,8 +36,8 @@
 
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
                 document.getElementById('zipcode').value = data.zonecode;
-                document.getElementById("newaddress").value = roadAddr;
-                document.getElementById("parseladdress").value = data.autoJibunAddress;
+                document.getElementById("newaddress").value =data.roadAddress;
+                document.getElementById("parseladdress").value =data.jibunAddress;
                 
                 // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
                 if(roadAddr !== ''){

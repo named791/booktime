@@ -51,8 +51,8 @@
 
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
                 document.getElementById('zipcode').value = data.zonecode;
-                document.getElementById("newaddress").value = roadAddr;
-                document.getElementById("parseladdress").value = data.autoJibunAddress;
+                document.getElementById("newaddress").value =data.roadAddress;
+                document.getElementById("parseladdress").value =data.jibunAddress;
                 
                 // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
                 if(roadAddr !== ''){
@@ -124,9 +124,6 @@
 				$("#error3").show();
 				event.preventDefault();
 				$("#name").focus();
-			}else if($("#parseladdress").val().length<1){
-				addressError.innerHTML='지번주소 입력시 [더보기]란을 클릭해 선택해주십시오.';
-				addressError.style.display ='block';
 			}
 		});
 	});
@@ -183,6 +180,9 @@
       <select name="email2" id="email2" required>
         	<option value="">선택하세요</option>
         	<option value="naver.com">naver.com</option>
+        	<option value="daum.net">daum.net</option>
+        	<option value="gmail.com">gmail.com</option>
+        	<option value="nate.com">nate.com</option>
         	<option value="etc">직접입력</option>
       </select>
       <input name="email3" type="text" id="email3">

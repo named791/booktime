@@ -38,8 +38,8 @@ public class UserMybatis implements UserDAO{
 	}
 	
 	@Override
-	public int deleteUser(String userid, String withdrawalreason) {
-		return sqlSession.update(namespace+"deleteUser",userid);
+	public int deleteUser(UserVO userVo) {
+		return sqlSession.update(namespace+"deleteUser",userVo);
 	}
 	
 	@Override
