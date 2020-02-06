@@ -1,7 +1,10 @@
 package com.ez.booktime.user.model;
 
 import java.util.List;
+<<<<<<< HEAD
 import java.util.Map;
+=======
+>>>>>>> branch 'master' of https://github.com/named791/booktime
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,8 +42,8 @@ public class UserMybatis implements UserDAO{
 	}
 	
 	@Override
-	public int deleteUser(String userid, String withdrawalreason) {
-		return sqlSession.update(namespace+"deleteUser",userid);
+	public int deleteUser(UserVO userVo) {
+		return sqlSession.update(namespace+"deleteUser",userVo);
 	}
 	
 	@Override
@@ -81,5 +84,15 @@ public class UserMybatis implements UserDAO{
 	@Override
 	public int updateUser2(UserVO userVo) {
 		return sqlSession.update(namespace+"updateUser2",userVo);
+	}
+	
+	@Override
+	public String selectId(UserVO userVo) {
+		return sqlSession.selectOne(namespace+"selectId", userVo);
+	}
+	
+	@Override
+	public int searchMember(UserVO userVo) {
+		return sqlSession.selectOne(namespace+"searchMember", userVo);
 	}
 }

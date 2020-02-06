@@ -3,6 +3,7 @@ package com.ez.booktime.freeBoard.model;
 import java.util.List;
 import java.util.Map;
 
+import com.ez.booktime.book.controller.BookGradeVO;
 import com.ez.booktime.common.SearchVO;
 
 public interface FreeBoardService {
@@ -16,5 +17,11 @@ public interface FreeBoardService {
 	
 	List<FreeBoardVO> selectFreeBoard();
 	int countReview(Map<String, Object> map);
+
 	List<FreeBoardVO> selectBoardByCate(String category);
+
+	int writeReview(FreeBoardVO bVo, BookGradeVO gVo);
+	List<FreeBoardVO> selectReviews(FreeBoardVO vo);
+	int countReviews(FreeBoardVO vo);
+	
 }

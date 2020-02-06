@@ -109,3 +109,19 @@ textarea{
 #tbl label{
 	font-size: 0.8em;
 }
+.tbl2 tr{
+	border-top: 1px solid gray;
+	border-bottom: 1px solid gray;
+}
+.tbl2 th{
+	background: lightgray;
+	text-align: center;
+}
+.tbl2 td{
+	padding-left: 30px;
+}
+.tbl2 #error{
+	color: red;
+	font-size: 0.8em;
+	margin-left: 5px;
+}

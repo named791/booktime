@@ -15,6 +15,8 @@ public interface FreeBoardDAO {
 	int drawBoard(int boardNo);
 	
 	List<FreeBoardVO> selectFreeBoard();
-	int countReview(Map<String, Object> map);
-	List<FreeBoardVO> selectBoardByCate(String category);
+
+	int countReview(Map<String, Object> map);	//자신이 작성한 리뷰
+	List<FreeBoardVO> selectReviews(FreeBoardVO vo);
+	int countReviews(FreeBoardVO vo); // 디테일 페이지에서 해당 책의 리뷰 토탈
 }

@@ -63,11 +63,11 @@
 	              
 	              <a style="text-align: center;" class="dropdown-item" href="${pageContext.request.contextPath}/mypage/mypage.do">마이페이지</a>
 	              <hr width="110px">
-	              <a style="text-align: center;" class="dropdown-item" href="#">주문/배송조회</a>
-	              <hr width="110px">
-	              <a style="text-align: center;" class="dropdown-item" href="#">WISH LIST</a>
-	              <hr width="110px">
-	              <a style="text-align: center;" class="dropdown-item" href="#">마일리지</a>
+	              <a style="text-align: center;" class="dropdown-item" href="<c:url value="/payment/paymentList.do"/>">주문/배송조회</a>
+		          <hr width="110px">
+		          <a style="text-align: center;" class="dropdown-item" href="<c:url value="/favorite/favorite.do"/>">WISH LIST</a>
+		          <hr width="110px">
+		          <a style="text-align: center;" class="dropdown-item" href="<c:url value="/mypage/Mileage/Mileage.do"/>">마일리지</a>
 	              <hr width="110px">
 	              <a style="text-align: center;" class="dropdown-item" href="${pageContext.request.contextPath }/mypage/myinfo/selectPWD.do">회원정보</a>
 	            </div>
@@ -87,11 +87,11 @@
 	          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMypage">
 	          <a style="text-align: center;" class="dropdown-item" href="${pageContext.request.contextPath}/mypage/mypage.do">마이페이지</a>
 	          <hr width="110px">
-	          <a style="text-align: center;" class="dropdown-item" href="#">주문/배송조회</a>
+	          <a style="text-align: center;" class="dropdown-item" href="<c:url value="/payment/paymentList.do"/>">주문/배송조회</a>
 	          <hr width="110px">
-	          <a style="text-align: center;" class="dropdown-item" href="#">WISH LIST</a>
+	          <a style="text-align: center;" class="dropdown-item" href="<c:url value="/favorite/favorite.do"/>">WISH LIST</a>
 	          <hr width="110px">
-	          <a style="text-align: center;" class="dropdown-item" href="#">마일리지</a>
+	          <a style="text-align: center;" class="dropdown-item" href="<c:url value="/mypage/Mileage/Mileage.do"/>">마일리지</a>
 	          <hr width="110px">
 	          <a style="text-align: center;" class="dropdown-item" href="${pageContext.request.contextPath }/mypage/myinfo/selectPWD.do">회원정보</a>
 	          </div>
@@ -102,7 +102,7 @@
             <a class="nav-link" href="<c:url value='/freeBoard/List.do'/>">게시판</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">주문내역</a>
+            <a class="nav-link" href="<c:url value="/payment/paymentList.do"/>">주문내역</a>
           </li>
           <li>
           	 <a class="nav-link" href="<c:url value='/favorite/cart.do'/>">

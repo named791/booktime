@@ -25,13 +25,6 @@
 		font-weight: bold;
 		color: white;
 	}
-	.cmt{
-		width: 45%;
-		border: 3px solid lightGray;
-		border-radius: 5px;
-		margin: 0 5px;
-		padding: 10px;
-	}
 	#info div.pull-left{
 		width: 200px;
 	}
@@ -84,9 +77,13 @@
 	$(function(){
 		if($("#mode").val()=='review'){
 			var position = $("#review").offset().top;
-			$("*").animate({
+			$("*").not(".cmt").animate({
 				scrollTop: position
 			},500);
+		}else if($("#mode").val()=='paging'){
+			var position = $("#review").offset().top;
+			
+			$("*").not(".cmt").scrollTop(position);
 		}
 		
 		function readURL(input) {
@@ -203,7 +200,8 @@
 							<c:set value="${fn:trim(fn:substring(author[i], 0, fn:indexOf(author[i], '('))) }"
 								var="authorKeyword"/>
 							<a href="<c:url
-								value="&QueryType=Author&searchKeyword=${authorKeyword }"/>">
+								value="/book/bookList.do?cateNo=${map['cateCode']}&author=${authorKeyword }"/>">
+								<!-- value="&QueryType=Author&searchKeyword=${authorKeyword }"/>"> -->
 								${author[i]}
 							</a>
 								
@@ -214,7 +212,8 @@
 						<c:set value="${fn:trim(fn:substring(map['publisher'], 0, fn:indexOf(map['publisher'], '('))) }"
 							var="publisherKeyword"/>
 						<a href="<c:url
-								value="&QueryType=Publisher&searchKeyword=${publisherKeyword }"/>">
+								value="/book/bookList.do?cateNo=${map['cateCode'] }&publisher=${publisherKeyword }"/>">
+								<!-- value="&QueryType=Publisher&searchKeyword=${publisherKeyword }"/>"> -->
 							${map['publisher'] }
 						</a>
 						<br>
@@ -222,7 +221,7 @@
 						${pubDate[0]}년 ${pubDate[1]}월 ${pubDate[2]}일
 					</p>
 					
-					<c:import url="/book/bookGrade.do"></c:import>
+					<c:import url="/book/bookGradeAvg.do?isbn=${map['isbn13']}&total=${reviewCnt}"></c:import>
 					<hr style="margin-bottom: 0;">
 				</div>
 				
@@ -247,7 +246,8 @@
 							<fmt:formatNumber value="${map['priceSales'] }" 
 								pattern="#,###"/>원
 							<small>
-								(${(map['priceStandard']-map['priceSales'])/map['priceStandard']*100 }% 할인)
+							<fmt:parseNumber var="discount" value="${(map['priceStandard']-map['priceSales'])/map['priceStandard']*100 }" integerOnly="true"/>
+								(${discount }% 할인)
 							</small>
 						</div><br>
 						
@@ -319,11 +319,12 @@
 	</table>
 	
 	<h3>분류</h3>
-	<a href="<c:url value='/book/bookListByCate.do?categoryId=${map["cateCode"]}'/>">
+	<a href="<c:url value='/book/bookList.do?cateNo=${map["cateCode"]}'/>">
 		${map['cateCode'] } - ${map['cateName'] }
 	</a>
 	<hr>
 	
+	<!-- 
 	<h3>이벤트</h3>
 	<div>
 		<img alt="이벤트 이미지" class="pull-left"
@@ -334,135 +335,9 @@
 			2020년 01월 01일 ~ 2020년 01월 31일
 		</div>
 		<hr style="clear: both;">
-	</div>
+	</div> -->
 	
-	<h3 id="review">회원 리뷰(2건)</h3>
-	우수리뷰를 작성해주시는 회원분들께 마일리지 1000원을 드립니다.
-	
-	<c:if test="${false }">	<!-- 구입내역 없으면  -->
-		<div class="card my-4">
-		<h5 class="card-header">구매자 리뷰</h5>
-		<div class="card-body text-center">구매기록이 없으면 작성할 수 없습니다.</div>
-		</div>
-	</c:if>
-	
-	<c:if test="${true}">	<!-- 구입내역 있고, 리뷰를 처음 작성할 때  -->
-		<div class="card my-4">
-			<h5 class="card-header">구매자 리뷰</h5>
-			<div class="card-body">
-				<form name="reviewFrm" action="" method="post" enctype="multipart/form-data">
-					<div class="form-group row">
-						<div class="col">
-							<input type="text" name="title" class="form-control" placeholder="제목을 입력하세요">
-						</div>
-						<div class="col text-center" style="max-width: 225px;">
-							<c:import url="/book/bookGradePicker.do"/>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="container">
-							<div class="row">
-			   					<div id="dummy" class="col text-center">
-				   					<label for="imgInput" style="line-height: 150px;">
-				   						<img id="image_section" alt="미리보기" style="width: 150px;height: 150px;display:none;"/>
-				   						<span>이미지 업로드</span>
-				   					</label>
-			   					</div>
-			   					<div class="col" style="padding-right: 0;">
-									<textarea placeholder="내용을 입력하세요" style="width: 100%;height: 160px;" translate="no" class=" form-control"></textarea>
-								</div>
-							</div>
-						</div>
-						<input type='file' id="imgInput" name="upImage" style="visibility: hidden;"
-							accept="image/*"/>
-					</div>
-					<input type="submit" value="등록" class="btn btn-primary">
-				</form>
-			</div>
-		</div>
-	</c:if>
-	
-	<a href="#" class="btn">최신순</a> | <a href="#" class="btn">오래된순</a><br>
-	<div class="container" >
-		
-		<!-- 반복 시작 -->
-		<div class="row zone" style="margin-bottom: 10px;">
-			<!-- row 1개당 2개씩 -->
-			<div class="media col cmt">
-				<img class="d-flex mr-3 " src="http://placehold.it/150x150" alt="">
-				<div class="media-body">
-					<h5 class="mt-0">리뷰 제목</h5>
-					<small>작성자 : 이름</small><br>
-					Cras sit amet nibh libero, in
-					gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras
-					purus odio, vestibulum in vulputate at, tempus viverra turpis.
-					Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia
-					congue felis in faucibus.
-				</div>
-			</div>
-
-			<div class="media col cmt">
-				<img class="d-flex mr-3 " src="http://placehold.it/150x150" alt="">
-				<div class="media-body">
-					<h5 class="mt-0">리뷰 제목</h5>
-					<small>작성자 : 이름</small><br>
-					Cras sit amet nibh libero, in
-					gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras
-					purus odio, vestibulum in vulputate at, tempus viverra turpis.
-					Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia
-					congue felis in faucibus.
-				</div>
-			</div>
-
-		</div>
-		<div class="row" style="margin-bottom: 10px;">
-			<!-- row 1개당 2개씩 -->
-			<div class="media col cmt">
-				<img class="d-flex mr-3 " src="http://placehold.it/150x150" alt="">
-				<div class="media-body">
-					<h5 class="mt-0">리뷰 제목</h5>
-					<small>작성자 : 이름</small><br>
-					Cras sit amet nibh libero, in
-					gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras
-					purus odio, vestibulum in vulputate at, tempus viverra turpis.
-					Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia
-					congue felis in faucibus.
-				</div>
-			</div>
-
-			<div class="media col cmt">
-				<img class="d-flex mr-3 " src="http://placehold.it/150x150" alt="">
-				<div class="media-body">
-					<h5 class="mt-0">리뷰 제목</h5>
-					<small>작성자 : 이름</small><br>
-					Cras sit amet nibh libero, in
-					gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras
-					purus odio, vestibulum in vulputate at, tempus viverra turpis.
-					Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia
-					congue felis in faucibus.
-				</div>
-			</div>
-
-		</div>
-		<div class="row" style="margin-bottom: 10px;">
-			<!-- row 1개당 2개씩 -->
-			<div class="media col cmt">
-				<img class="d-flex mr-3 " src="http://placehold.it/150x150" alt="">
-				<div class="media-body">
-					<h5 class="mt-0">리뷰 제목</h5>
-					<small>작성자 : 이름</small><br>
-					Cras sit amet nibh libero, in
-					gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras
-					purus odio, vestibulum in vulputate at, tempus viverra turpis.
-					Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia
-					congue felis in faucibus.
-				</div>
-			</div>
-
-
-		</div>
-		<!-- 반복 끝-->
-	</div>
+	<c:import url="/review/review.do?isbn=${map['isbn13']}"></c:import>
 </div>
 
 <%@include file="../inc/bottom.jsp" %>

@@ -23,7 +23,7 @@ public class IndexController {
 	
 	@Autowired
 	private RecommendService recommendService;
-	
+
 	@RequestMapping("/index.do")
 	public String index(Model model) {
 		logger.info("index 화면 보여주기");

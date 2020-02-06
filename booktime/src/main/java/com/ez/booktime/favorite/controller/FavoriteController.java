@@ -144,30 +144,27 @@ public class FavoriteController {
 		return count;
 	}
 	
-	@RequestMapping("/addListOneFavorite.do")
-	@ResponseBody
-	public int addOneFavorite(@ModelAttribute FavoriteVO vo
-			, HttpSession session) {
-		
-		String userid = (String)session.getAttribute("userid");
-		if(userid==null || userid.isEmpty()) {
-			vo.setUserid("#"+session.getId());	//비회원이면 #sessionI
-		}else {
-			vo.setUserid(userid);
-		}
-		
-		List<FavoriteVO> bookInfo = vo.getVoList();
-		
-		vo.setGroup(bookInfo.get(2).getGroup());
-		vo.setIsbn(bookInfo.get(3).getIsbn());
-		vo.setBookName(bookInfo.get(4).getBookName());
-		vo.setWriter(bookInfo.get(5).getWriter());
-		vo.setPublisher(bookInfo.get(6).getPublisher());
-		vo.setPrice(bookInfo.get(7).getPrice());
-		vo.setQty(bookInfo.get(8).getQty());
-		
-		logger.info("장바구니 추가 처리, 파라미터vo={}",vo);
-		
-		return favoriteSerivce.insertFavorite(vo);
-	} 
+	/*
+	 * @RequestMapping("/addListOneFavorite.do")
+	 * 
+	 * @ResponseBody public int addOneFavorite(@ModelAttribute FavoriteVO vo ,
+	 * HttpSession session) {
+	 * 
+	 * String userid = (String)session.getAttribute("userid"); if(userid==null ||
+	 * userid.isEmpty()) { vo.setUserid("#"+session.getId()); //비회원이면 #sessionI
+	 * }else { vo.setUserid(userid); }
+	 * 
+	 * List<FavoriteVO> bookInfo = vo.getVoList();
+	 * 
+	 * vo.setGroup(bookInfo.get(2).getGroup());
+	 * vo.setIsbn(bookInfo.get(3).getIsbn());
+	 * vo.setBookName(bookInfo.get(4).getBookName());
+	 * vo.setWriter(bookInfo.get(5).getWriter());
+	 * vo.setPublisher(bookInfo.get(6).getPublisher());
+	 * vo.setPrice(bookInfo.get(7).getPrice()); vo.setQty(bookInfo.get(8).getQty());
+	 * 
+	 * logger.info("장바구니 추가 처리, 파라미터vo={}",vo);
+	 * 
+	 * return favoriteSerivce.insertFavorite(vo); }
+	 */
 }

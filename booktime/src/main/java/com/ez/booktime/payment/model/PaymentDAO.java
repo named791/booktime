@@ -11,4 +11,5 @@ public interface PaymentDAO {
 	 List<PaymentVO> selectPaymentList(PaymentDateVO vo);
 	 int totalPaymentList(PaymentDateVO vo);
 	 int updateProgress(PaymentVO vo);
+	 int countPaymentByIsbn(Map<String, Object> map);
 }

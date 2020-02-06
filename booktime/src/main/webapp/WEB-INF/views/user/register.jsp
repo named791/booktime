@@ -6,12 +6,24 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/register.css">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
 <title>회원등록</title>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript">
 	$('.form-check-input').prop('indeterminate', true);
+	
+	$( function() {
+	    $( "#datepicker" ).datepicker({
+	      changeMonth: true,
+	      changeYear: true
+	    });
+	  });
 	
 	function sample4_execDaumPostcode() {
         new daum.Postcode({
@@ -39,8 +51,8 @@
 
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
                 document.getElementById('zipcode').value = data.zonecode;
-                document.getElementById("newaddress").value = roadAddr;
-                document.getElementById("parseladdress").value = data.jibunAddress;
+                document.getElementById("newaddress").value =data.roadAddress;
+                document.getElementById("parseladdress").value =data.jibunAddress;
                 
                 // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
                 if(roadAddr !== ''){
@@ -48,7 +60,8 @@
                 } else {
                     document.getElementById("extraAddress").value = '';
                 }
-
+				
+                
                 var guideTextBox = document.getElementById("guide");
                 // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
                 if(data.autoRoadAddress) {
@@ -64,6 +77,7 @@
                     guideTextBox.innerHTML = '';
                     guideTextBox.style.display = 'none';
                 }
+               
             }
         }).open()
 	}
@@ -75,6 +89,7 @@
 	}
 	
 	$(document).ready(function(){
+		
 		$("#userid").focus();
 		
 		$("#error1").hide();
@@ -110,9 +125,14 @@
 				$("#error3").show();
 				event.preventDefault();
 				$("#name").focus();
-			}else if($("#parseladdress").val().length<1){
-				addressError.innerHTML='지번주소 입력시 [더보기]란을 클릭해 선택해주십시오.';
-				addressError.style.display ='block';
+			}else if($("#hp2").val().length>4){
+				alert("휴대폰 번호를 다시 입력해 주세요");	
+				event.preventDefault();
+				$("#hp2").focus();
+			}else if($("#hp3").val().length>4){
+				alert("휴대폰 번호를 다시 입력해주세요");
+				event.preventDefault();
+				$("#hp3").focus();
 			}
 		});
 	});
@@ -126,28 +146,28 @@
 <div class="allBox">
     <div class="insertId">
       <label for="">아이디 : </label>
-      <input name="userid" type="text" class="" id="userid" required >
+      <input name="userid" type="text" class="" id="userid" required placeholder="예) hong123">
       <input type="button" value="중복확인" onclick="btnId()">
       <label id="error1">*아이디 중복확인을 해주세요</label>
       <label id="errorid">*아이디는 8자리 이상입력해야 합니다.</label>
-      <input type="text" name="chkid" id="chkid">
+      <input type="hidden" name="chkid" id="chkid">
     </div>
     
     <div class="insertPwd">
       <label for="">패스워드 : </label>
-      <input name="pwd" type="password" class="" id="pwd" required size="20">
+      <input name="pwd" type="password" class="" id="pwd" required size="20" placeholder="영문자(대/소)+숫자+특수문자">
       <label id="error2">*비밀번호는 영대소문자,문자,숫자를 조합한 8~20자 이내로 입력해주세요</label>
     </div>
     
     <div class="insertName">
       <label for="">이름 : </label>
-      <input name="name" type="text" class="" id="name" required >
+      <input name="name" type="text" class="" id="name" required placeholder="예) 홍길동">
       <label id="error3">*이름은 비워둘 수 없습니다.</label>
     </div>
   
     <div class="insertBirth">
       <label for="birth" id="birth">생년월일 : </label>
-      <input name="birth" type="date" id="birth" required>
+      <input name="birth" type="date" id="datepicke" required placeholder="생일을 입력해주세요">
     </div>
     
     <label id="allGender">성별 : </label>
@@ -165,13 +185,16 @@
     
     <div class="email">
       <label>E-mail : </label>
-      <input name="email1" type="text" id="email1" required> @
+      <input name="email1" type="text" id="email1" required placeholder="예) hong123"> @
       <select name="email2" id="email2" required>
         	<option value="">선택하세요</option>
         	<option value="naver.com">naver.com</option>
+        	<option value="daum.net">daum.net</option>
+        	<option value="gmail.com">gmail.com</option>
+        	<option value="nate.com">nate.com</option>
         	<option value="etc">직접입력</option>
       </select>
-      <input name="email3" type="text" id="email3">
+      <input name="email3" type="text" id="email3" placeholder="gmail.com">
 	  <input name="emailagree" type="checkbox" id="emailagree" value="Y">
 	  <label id="agree" for="emailagree"> 이메일 수신에 동의합니다.</label>
 	  <div id="info"></div>
@@ -179,25 +202,25 @@
   	  	
     <div class="">
       <label for="">우편번호 : </label>
-      <input name="zipcode" type="text" class="" id="zipcode" required>
+      <input name="zipcode" type="text" class="" id="zipcode" required placeholder="예) 12345">
       <button type="button" class="" onclick="sample4_execDaumPostcode()">우편번호 찾기</button>
     </div>
     
     <div class="">
       <label for="">도로명주소 : </label>
-      <input name="newaddress" type="text" class="" id="newaddress" required>
+      <input name="newaddress" type="text" class="" id="newaddress" required placeholder="예) 한누리대로 411, 국립중앙박물관, 상암동 1595">
     </div>
     
     <div class="">
       <label for="">지번주소 : </label>
-      <input name="parseladdress" type="text" class="" id="parseladdress" required>
+      <input name="parseladdress" type="text" class="" id="parseladdress" required placeholder="예) 서울특별시 서초구 반포동 산60-1 국립중앙도서관">
       <span id="addressError" style="color:red;font-size: 0.8em;"></span>
       <span id="guide" style="color:#999;display:none"></span>
     </div>
     
     <div class="">
       <label for="">상세주소 : </label>
-      <input name="addressdetail" type="text" class="" id="addressdetail" required>
+      <input name="addressdetail" type="text" class="" id="addressdetail" required placeholder="예) 자이아파트 103동">
       <input type="text" id="extraAddress" style="display: none;">
     </div>
     
@@ -207,8 +230,8 @@
 	    	<option selected>010</option>
 	        <option>...</option>
 	    </select> - 
-	    <input name="hp2" type="text" class="" id="h2" required> - 
-	    <input name="hp3" type="text" class="" id="h3" required>
+	    <input name="hp2" type="text" class="" id="hp2" required> - 
+	    <input name="hp3" type="text" class="" id="hp3" required>
     </div>
   <input class="submit" type="submit" value="회원가입">
 </div> 

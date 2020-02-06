@@ -66,5 +66,14 @@ public class FreeBoardDAOMybatis implements FreeBoardDAO{
 	public List<FreeBoardVO> selectBoardByCate(String category) {
 		return sqlSession.selectList(namespace+"selectBoardByCate",category);
 	}
+	
+	public int countReviews(FreeBoardVO vo) {
+		return sqlSession.selectOne(namespace+"countReviews", vo);
+	}
+
+	@Override
+	public List<FreeBoardVO> selectReviews(FreeBoardVO vo) {
+		return sqlSession.selectList(namespace+"selectReviews", vo);
+	}
 
 }

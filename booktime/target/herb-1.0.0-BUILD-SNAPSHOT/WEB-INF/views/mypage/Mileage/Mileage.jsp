@@ -19,9 +19,8 @@ $(function(){
 });
 
 function pageFunc(curPage){
-	document.frmPage.currentPage.value=curPage;
-	
-	document.frmPage.submit();
+	$("input[name=currentPage]").val(curPage);
+	$("form[name=frmPage]").submit();
 }
 </script>
 
@@ -42,16 +41,15 @@ function pageFunc(curPage){
 		</tr>
 	</table>
 	<!-- 페이징 처리 관련 form -->
-	<form action="<c:url value='/mypage/Mileage/List.do'/>" name="frmPage"
+	<form action="<c:url value='/mypage/Mileage/Mileage.do'/>" name="frmPage"
 		method="post">
-		<input type="hidden" name="searchCondition"
-			value="${param.searchCondition}"> <input type="hidden"
-			name="searchKeyword" value="${param.searchKeyword}"> <input
-			type="hidden" name="currentPage">
+		<input type="hidden" name="startDay" value="${dateSearchVO.startDay }">
+	<input type="hidden" name="endDay" value="${dateSearchVO.endDay }">
+	<input type="hidden" name="currentPage">
 	</form>
 	
 	<form name="frm1" method="post"
-		action="<c:url value='/mypage/Mileage/searchList.do'/>">
+		action="<c:url value='/mypage/Mileage/Mileage.do'/>">
 		<!-- 조회기간 include -->
 		<%@include file="dateTerm.jsp"%>
 
@@ -71,7 +69,11 @@ function pageFunc(curPage){
 		</thead>
 		<tbody>
 			<c:if test="${empty list}">
-				<td colspan="5">보유 마일리지가 없습니다.</td>
+				<tr><td class="text-center align-middle" colspan="5">
+				마일리지 조회 결과가 없습니다<br>
+							<img alt="coin" src="<c:url value='/resources/images/icons/coin.png'/>" height="300px;">
+				
+				</td></tr>
 			</c:if>
 
 			<!-- 자유게시판 반복문 시작 -->

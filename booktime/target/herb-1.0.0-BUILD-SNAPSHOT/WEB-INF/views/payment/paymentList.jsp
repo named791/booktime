@@ -17,8 +17,16 @@
 		position: relative;
 		top: -70px;
 	}
+	.paging a{
+		border: 1px solid #17a2b8;
+	}
 </style>
 <script type="text/javascript">
+	var idx = null;
+	function getIdx(get){
+		idx = get;
+	}
+	
 	$(function(){
 		var today = new Date();
 		$("#endDay").val("${dateInfo.endDay}");
@@ -29,10 +37,12 @@
 				alert("조회시작날짜를 입력해주세요.")
 				$("#startDay").focus();
 				event.preventDefault();
+				return false;
 			}else if(!ckDateFormat($("#endDay").val())){
 				alert("조회마침날짜를 입력해주세요.")
 				$("#endDay").focus();
 				event.preventDefault();
+				return false;
 			}
 		});
 		
@@ -47,12 +57,58 @@
 				$(".table img").css("width", "50px");
 			}
 		});
+		
+		var temp = null;
+		$(".prog a").click(function(){
+			if($(this).text()=='교환/환불 신청' || $(this).text()=='환불 신청'){
+				var frmData = $("form[name=frmProgress"+idx+"]").serialize();
+				
+				if(temp!=null){
+					temp.close();
+				}
+				win = window.open("<c:url value='/payment/refundForm.do?"+frmData+"'/>","refund","top=100,left=300,resizable=no,location=no,width=550,height=650");
+				temp = win;
+				win.focus();
+			}else if($(this).text()=='구매확정'){
+				if(confirm("상품을 모두 받으셨습니까?\r\n구매 확정 후에는 교환 및 환불이 불가능합니다.")){
+					var frm = $("form[name=frmProgress"+idx+"]");
+					frm.find("input[name=progress]").val("구매확정");
+					
+					$.ajax({
+						url : "<c:url value='/payment/dealOk.do'/>",
+						data : frm.serialize(),
+						type : "POST",
+						dataType : "text",
+						success : function(res){
+							if("${sessionScope.userid}"!=null && "${sessionScope.userid}"!=''){
+								alert("구매가 확정되어 마일리지가 적립되었습니다.");
+							}else{
+								alert("구매가 확정되었습니다. 감사합니다.");
+							}
+							location.reload();
+						},
+						error : function(xhr, status, error){
+							alert("ERROR!.."+status+".."+error);
+						}
+					});//ajax
+					
+				}//if
+			}
+		});
+		
 	});
 	
 	function ckDateFormat(str){
 		var datePattern = /^(19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/;
 		return datePattern.test(str);
 	}
+	
+	function pageFunc(curPage){
+		$("input[name=currentPage]").val(curPage);
+		$("form[name=frmDate]").submit();
+	}
+	
+	
 </script>
 
 <c:if test="${!empty sessionScope.userid }">
@@ -73,7 +129,7 @@
 			action="<c:url value='/payment/paymentList.do'/>">
 			<!-- 조회기간 include -->
 			<%@include file="../mypage/Mileage/dateTerm.jsp"%>
-	
+			<input type="hidden" name="currentPage" value="1">
 			<input type="submit" value="조회">
 		</form>
 	</c:if>
@@ -117,11 +173,19 @@
 		
 		<c:if test="${!empty list }">
 			<c:set var="idx" value="0"/>
+			<c:set var="idxD" value="0"/>
 			<!-- 반복시작 -->
 			<c:forEach var="i" begin="0" end="${fn:length(list)-1}">
 				<tr>
 					<td class="text-center align-middle">
-						<b>${list[i].payNo }</b><br>
+						<b>
+						<c:if test="${list[i].nonMember=='0'}">
+							${list[i].payNo }
+						</c:if>
+						<c:if test="${list[i].nonMember!='0'}">
+							${list[i].nonMember }
+						</c:if>
+						</b><br>
 						<small><fmt:formatDate value="${list[i].payDate}" 
 							pattern="yyyy년 MM월 dd일"/></small>
 					</td>
@@ -135,14 +199,16 @@
 							
 							<div style="min-height: 80px;line-height: 4.8em;" class="align-middle">
 								<a href="<c:url value="/book/bookDetail.do?ItemId=${dVo.isbn }"/>" class="bookImg">
-									<img alt="${dVo.bookName }" src="${dList[idx]['cover']}" width="50px;">
-									${bookName}
+									<img alt="${dVo.bookName }" src="${dList[idxD]['cover']}" width="50px;">
+									${idx+1 }.${bookName}
 								</a>
 								<c:set var="idx" value="${idx+1}"/>
+								<c:set var="idxD" value="${idxD+1}"/>
 							</div>
 						</c:forEach>
 						
 						<c:set var="idx" value="${idx-(fn:length(list[i].details))}"/>
+						<c:set var="idxD" value="${idxD-(fn:length(list[i].details))}"/>
 					</td>
 					<td class="text-center">
 						<c:forEach var="dVo" items="${list[i].details}">
@@ -155,54 +221,107 @@
 						
 						<c:set var="savingPoint" value="0"/>
 						<c:forEach var="dVo" items="${list[i].details}">
-							<c:set var="savingPoint" value="${savingPoint+(dList[idx]['mileage']*dVo.qty) }"/>
+							<c:set var="savingPoint" value="${savingPoint+(dList[idxD]['mileage']*dVo.qty) }"/>
 													
 							<c:set var="idx" value="${idx+1}"/>
+							<c:set var="idxD" value="${idxD+1}"/>
 						</c:forEach>
 						
 						<c:if test="${!empty sessionScope.userid && list[i].progress=='구매확정'}">
 							<c:set var="idx" value="${idx-(fn:length(list[i].details))}"/>
+							<c:set var="idxD" value="${idxD-(fn:length(list[i].details))}"/>
 						</c:if>
 						
-						<br><small class="text-danger">
-							<fmt:formatNumber value="${savingPoint }" pattern="#,###"/>점 적립예정
-						</small>
-						<input type="hidden" name="savingPoint" value="${savingPoint}">
+						<form name="frmProgress${i}" method="post" action="<c:url value="/payment/dealOk.do"/>">
+							<c:if test="${!empty sessionScope.userid && savingPoint>0 
+								&& list[i].progress!='환불 신청중' && list[i].progress!='환불 처리됨'
+								&& list[i].progress!='구매확정'}">
+								<br><small class="text-danger">
+									<fmt:formatNumber value="${savingPoint }" pattern="#,###"/>점 적립예정
+								</small>
+								<input type="hidden" name="savingPoint" value="${savingPoint}">
+							</c:if>
+							<input type="hidden" name="payNo" value="${list[i].payNo}">
+							<input type="hidden" name="progress" value="${list[i].progress}">
+						</form>
+						
 					</td>
-					<td class="text-center align-middle">
+					<td class="text-center align-middle prog">
 						${list[i].progress }
 						<br>
 						<c:if test="${list[i].progress=='결제완료' }">
-							<a href="#" class="btn btn-sm btn-info">환불/교환 신청</a>
+							<a href="#" class="btn btn-sm btn-danger" onclick="getIdx(${i})">환불 신청</a>
 						</c:if>
-						<c:if test="${list[i].progress=='환불/교환 신청중' }">
+						<c:if test="${list[i].progress=='교환 신청중' || list[i].progress=='환불 신청중'}">
 						
 						</c:if>
+						<c:if test="${list[i].progress=='환불 처리됨'}">
+							<a href="<c:url value="/book/bookDetail.do?ItemId=${list[i].details[0].isbn}"/>"
+								class="btn btn-sm btn-info mb-4">다시 보러 가기</a>
+						</c:if>
 						<c:if test="${list[i].progress=='배송중' || list[i].progress=='배송완료'}">
-							<a href="#" class="btn btn-sm btn-info">구매확정</a>
+							<a href="#" class="btn btn-sm btn-danger mb-1" onclick="getIdx(${i})">교환/환불 신청</a><br>
+							<a href="#" class="btn btn-sm btn-info" onclick="getIdx(${i})">구매확정</a>
 						</c:if>
 						
 						<c:if test="${!empty sessionScope.userid && list[i].progress=='구매확정'}">
 							<c:forEach var="dVo" items="${list[i].details }">
-								<a href="<c:url value="/book/bookDetail.do?ItemId=${dVo.isbn}&mode=review"/>" 
+								<c:if test="${dList[idxD]['reviewed'] }">
+									<a href="<c:url value="/book/bookDetail.do?ItemId=${dVo.isbn}&mode=review"/>" 
+									class="btn btn-sm btn-warning mb-4">
+										<i class="fa fa-arrow-left">
+										${idx+1 }.리뷰보기
+										</i></a>
+								</c:if>
+								<c:if test="${!dList[idxD]['reviewed'] }">
+									<a href="<c:url value="/book/bookDetail.do?ItemId=${dVo.isbn}&mode=review"/>" 
 									class="btn btn-sm btn-info mb-4">
 										<i class="fa fa-arrow-left">
-										<c:if test="${dList[idx]['reviewed'] }">
-											리뷰보러가기
-										</c:if>
-										<c:if test="${!dList[idx]['reviewed'] }">
-											리뷰쓰러가기
-										</c:if>
+										${idx+1 }.리뷰쓰기
 										</i></a>
+								</c:if>
+								
 								<c:set var="idx" value="${idx+1}"/>
+								<c:set var="idxD" value="${idxD+1}"/>
 							</c:forEach>
 						</c:if>
+						<c:set var="idx" value="${idx-(fn:length(list[i].details))}"/>
 					</td>
 				</tr>
 			</c:forEach>
 			<!-- 반복끝 -->
 		</c:if>
 	</table>
+	
+	<form name="pagingFrm" method="post"
+		action="<c:url value="/payment/paymentList.do"/>">
+		
+	</form>
+	
+	<div class="paging text-center">
+		<c:if test="${pagingInfo.firstPage!=1 }">
+			<a href="#" class="btn" onclick="pageFunc(${pagingInfo.firstPage-1})">
+				<i class="text-info fa fa-angle-left"></i>
+			</a>
+		</c:if>
+		
+		<c:forEach var="i" begin="${pagingInfo.firstPage}" 
+			end="${pagingInfo.lastPage}">
+			<c:if test="${dateInfo.currentPage==i}">
+				<div class="btn btn-info active">${i}</div>
+			</c:if>
+			<c:if test="${dateInfo.currentPage!=i}">
+				<a href="#" class="btn btn-info" onclick="pageFunc(${i})">${i}</a>
+			</c:if>
+			
+		</c:forEach>
+		
+		<c:if test="${pagingInfo.lastPage!=pagingInfo.totalPage }">
+			<a href="#" class="btn" onclick="pageFunc(${pagingInfo.lastPage+1})">
+				<i class="text-info fa fa-angle-right"></i>
+			</a>
+		</c:if>
+	</div>
 </div>
 </div>
 </div>

@@ -1,7 +1,10 @@
 package com.ez.booktime.admin.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,12 +15,26 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ez.booktime.api.AladinAPI;
+import com.ez.booktime.api.ImPortAPI;
+import com.ez.booktime.common.EmailForm;
+import com.ez.booktime.common.EmailSender;
+import com.ez.booktime.common.PageNumber;
+import com.ez.booktime.common.PaginationInfo;
+import com.ez.booktime.common.SearchVO;
 import com.ez.booktime.controller.IndexController;
 import com.ez.booktime.favorite.model.FavoriteVO;
+import com.ez.booktime.mileage.model.MileageVO;
+import com.ez.booktime.payment.model.PaymentDateVO;
+import com.ez.booktime.payment.model.PaymentDetailVO;
+import com.ez.booktime.payment.model.PaymentService;
+import com.ez.booktime.payment.model.PaymentVO;
 import com.ez.booktime.user.model.UserService;
 import com.ez.booktime.user.model.UserVO;
 
@@ -29,6 +46,18 @@ public class AdminController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private PaymentService paymentService;
+	
+	@Autowired
+	private ImPortAPI imPortApi;
+	
+	@Autowired
+	private EmailSender mailSender;
+	
+	@Autowired
+	private EmailForm form;
 	
 	@RequestMapping(value="/adminLogin.do", method=RequestMethod.GET)
 	public void adminLogin_get() {
@@ -119,7 +148,65 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/adminCart.do")
-	public void adminCart() {
-		logger.info("관리자 주문관리 화면 보여주기");
+	public void adminCart(@ModelAttribute PaymentDateVO vo
+			,Model model) {
+		logger.info("관리자 주문관리 화면 보여주기, 파라미터 vo={}",vo);
+		
+		//주문 리스트
+		List<PaymentVO> list = paymentService.selectPaymentList(vo);
+		
+		
+		model.addAttribute("list", list);
+	}
+	
+	@RequestMapping("/adminCartEdit.do")
+	@ResponseBody
+	public int adminCart(@ModelAttribute PaymentVO pVo
+			, @ModelAttribute MileageVO mVo) {
+		List<PaymentVO> voList = pVo.getVoList();
+		List<MileageVO> mList = mVo.getmList();
+		
+		logger.info("관리자, 주문상태 변경 처리, 파라미터 voList={}, mList={}",voList,mList);
+		int cnt = 0;
+		
+		//진행상태 업데이트
+		if(voList!=null && mList!=null && !voList.isEmpty() && !mList.isEmpty()) {
+			for(int i=0;i<voList.size();i++) {
+				PaymentVO vo = voList.get(i);
+				MileageVO voM = mList.get(i);
+				
+				if(vo.getPayNo()!=null && !vo.getPayNo().isEmpty()) {
+					
+					if(vo.getProgress().equals("환불 처리됨")) {
+						boolean bool = false;
+						try {
+							String payNo = vo.getPayNo();
+							if(payNo.length()<12) {	//payNo가 12자리여야하는데 DB에 들어가면서 앞의 0이 사라짐, 12자리만큼 채워넣기
+								String str = "";
+								for(int p=0;p<12-payNo.length();p++) {
+									str += "0";
+								}
+								
+								payNo = str+payNo;
+							}
+							
+							bool = imPortApi.cancel_Payment(payNo);
+							
+							if(!bool) {
+								continue;
+							}else {
+								
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+					
+					cnt += paymentService.updateProgress(vo, voM);
+				}
+			}
+		}
+		
+		return cnt;
 	}
 }

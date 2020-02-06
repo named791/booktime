@@ -1,13 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@include file="../inc/top.jsp"%>
-
+<script type="text/javascript">
+	$(function(){
+		if($("#payNo").text()=="0"){
+			alert("잘못된 접근 입니다.");
+			history.back();
+		}
+	});
+</script>
 <div class="container mt-4">
 	<div class="page-header text-center">
 		<h2>구매해주셔서 감사합니다!</h2>
-		<small class="text-danger">주문번호 : ${vo.payNo}</small><hr class="mb-0">
+		<small class="text-danger">주문번호 : 
+		<span id="payNo"><c:if test="${!empty sessionScope.userid }">${vo.payNo}</c:if><c:if test="${empty sessionScope.userid }">${vo.nonMember }</c:if></span>
+		</small><hr class="mb-0">
 	</div>
-	<table class="table mb-0" title="즐겨찾기 목록">
+	<table class="table mb-0" title="주문 결과">
 		<thead>
 			<tr>
 				<th scope="col" class="border-0 bg-light">

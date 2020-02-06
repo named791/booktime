@@ -1,7 +1,10 @@
 package com.ez.booktime.user.model;
 
 import java.util.List;
+<<<<<<< HEAD
 import java.util.Map;
+=======
+>>>>>>> branch 'master' of https://github.com/named791/booktime
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,8 +58,8 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	@Override
-	public int deleteUser(String userid, String withdrawalreason) {
-		return userDao.deleteUser(userid, withdrawalreason);
+	public int deleteUser(UserVO userVo) {
+		return userDao.deleteUser(userVo);
 	}
 	
 	@Override
@@ -97,5 +100,15 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public int updateUser2(UserVO userVo) {
 		return userDao.updateUser2(userVo);
+	}	
+	
+	@Override
+	public String selectId(UserVO userVo) {
+		return userDao.selectId(userVo);
+	}
+	
+	@Override
+	public int searchMember(UserVO userVo) {
+		return userDao.searchMember(userVo);
 	}
 }

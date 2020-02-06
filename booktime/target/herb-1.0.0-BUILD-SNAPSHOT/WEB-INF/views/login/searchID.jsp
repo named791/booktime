@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@include file="../inc/top.jsp" %> 
+<%@include file="../inc/top.jsp" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,13 +26,30 @@
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/util.css">
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/main.css">
 <!--===============================================================================================-->
+<style type="text/css">
+	p{
+		margin-bottom: 20px;
+	}
+</style>
 </head>
 <script type="text/javascript" src="<c:url value='/resources/vendor/jquery/jquery.min.js'/>"></script>
 <script type="text/javascript">
 	$(function(){
+		var name=frm1.name.value;
+		var email=frm1.email.value;
+		
 		$("#btnId").click(function(){
-			//alert("작성하신 메일 주소가 존재하진 않습니다.");
-			window.open("<c:url value='/login/getId.do'/>","","width=500,height=500");
+			if($("#name").val().length<1){
+				alert("이름을 입력해주세요.");
+				event.preventDefault();
+				$("#name").focus();
+			}else if($("#email").val().length<1){
+				alert("이메일을 입력해주세요");
+				event.preventDefault();
+				$("#email").focus();
+			}else{
+				window.open("<c:url value='/login/getId.do?name="+name+"&email="+email+"'/>","","width=500,height=500");
+			}
 		});
 	});
 </script>
@@ -40,22 +58,22 @@
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100 p-t-50 p-b-90">
-				<form class="login100-form validate-form flex-sb flex-w">
+				<form class="login100-form validate-form flex-sb flex-w" name="frm1">
 					<span class="login100-form-title p-b-51">
 						아이디 찾기
 					</span>
-					<p style="font-size: 0.8em; color: red;">
+					<p style="font-size: 0.8em; color: green;">
 					- 이름과 E-mail 주소를 입력 후 "가입 여부 확인하기" 버튼을 클릭해주시면 가입 여부를 알려드립니다.</p>
 					<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
-						<input class="input100" type="text" name="name" placeholder="이름을 입력하세요">
+						<input id="name" class="input100" type="text" name="name" placeholder="이름을 입력하세요" required>
 						<span class="focus-input100"></span>
 					</div>
 					<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
-						<input class="input100" type="text" name="email" placeholder="E-mail 주소">
+						<input id="email" class="input100" type="text" name="email" placeholder="E-mail 주소" required>
 						<span class="focus-input100"></span>
 					</div>
-					<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
-						<button class="login100-form-btn" id="btnId">
+					<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required" required>
+						<button type="submit" class="login100-form-btn" id="btnId">
 							가입 여부 확인
 						</button>
 					</div>

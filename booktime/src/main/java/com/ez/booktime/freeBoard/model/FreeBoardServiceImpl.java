@@ -5,7 +5,12 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import com.ez.booktime.book.controller.BookGradeDAO;
+import com.ez.booktime.book.controller.BookGradeService;
+import com.ez.booktime.book.controller.BookGradeVO;
 import com.ez.booktime.common.SearchVO;
 
 @Service
@@ -13,6 +18,9 @@ public class FreeBoardServiceImpl implements FreeBoardService{
 
 	@Autowired
 	private FreeBoardDAO boardDao;
+	
+	@Autowired
+	private BookGradeDAO gradeDao;
 	
 	@Override
 	public int insertBoard(FreeBoardVO boardVo) {
@@ -62,6 +70,36 @@ public class FreeBoardServiceImpl implements FreeBoardService{
 	@Override
 	public List<FreeBoardVO> selectBoardByCate(String category) {
 		return boardDao.selectBoardByCate(category);
+	}
+	
+	@Transactional
+	public int writeReview(FreeBoardVO bVo, BookGradeVO gVo) {
+		int cnt = 0;
+		
+		try{
+			cnt = boardDao.insertBoard(bVo);
+			if(cnt>0) {
+				gVo.setBoardNo(bVo.getBoardNo());
+				
+				cnt = gradeDao.insertBookGrade(gVo);
+			}
+		}catch (RuntimeException e) {
+			e.printStackTrace();
+			cnt = -1;
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+		}
+		
+		return cnt;
+	}
+
+	@Override
+	public int countReviews(FreeBoardVO vo) {
+		return boardDao.countReviews(vo);
+	}
+
+	@Override
+	public List<FreeBoardVO> selectReviews(FreeBoardVO vo) {
+		return boardDao.selectReviews(vo);
 	}
 
 }

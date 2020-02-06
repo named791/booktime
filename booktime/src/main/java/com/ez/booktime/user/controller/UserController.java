@@ -118,7 +118,10 @@ public class UserController {
 		int result=userService.userGetPwd(userid, pwd); //비밀번호 체크
 		logger.info("비밀번호 체크 result={}", result);
 		if(result==UserService.LOGIN_OK) { //로그인 되어있으면
-			int cnt=userService.deleteUser(userid, withdrawalreason);
+			UserVO vo= new UserVO();
+			vo.setUserid(userid);
+			vo.setWithdrawalreason(withdrawalreason);
+			int cnt=userService.deleteUser(vo);
 			
 			if(cnt>0) {
 				msg="회원탈퇴가 완료되었습니다.";

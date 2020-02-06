@@ -1,6 +1,7 @@
 package com.ez.booktime.mileage.model;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class MileageVO {
 	private int mileageNo;
@@ -10,6 +11,9 @@ public class MileageVO {
 	private String payNo;
 	private int usePoint;
 	private Timestamp endDate;
+	private String reason;
+	
+	private List<MileageVO> mList;
 	
 	public int getMileageNo() {
 		return mileageNo;
@@ -53,12 +57,26 @@ public class MileageVO {
 	public void setEndDate(Timestamp endDate) {
 		this.endDate = endDate;
 	}
+	
+	public String getReason() {
+		return reason;
+	}
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+	
+	public List<MileageVO> getmList() {
+		return mList;
+	}
+	public void setmList(List<MileageVO> mList) {
+		this.mList = mList;
+	}
+	
 	@Override
 	public String toString() {
 		return "MileageVO [mileageNo=" + mileageNo + ", userid=" + userid + ", savingDate=" + savingDate
 				+ ", savingPoint=" + savingPoint + ", payNo=" + payNo + ", usePoint=" + usePoint + ", endDate="
-				+ endDate + "]";
+				+ endDate + ", reason=" + reason + ", mList=" + mList + "]";
 	}
-	
 	
 }

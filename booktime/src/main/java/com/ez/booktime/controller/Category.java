@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 import com.ez.booktime.api.AladinAPI;
 
 public class Category {
-	private static final String LIST_URL = "http://www.aladin.co.kr/ttb/api/ItemList.aspx";
+	private static final String LIST_URL = "https://www.aladin.co.kr/ttb/api/ItemList.aspx";
 	private static final String TTB_KEY = "?ttbkey=ttbstjgh5051633001&";
 	
 	private static final String LIST_NEW_ALL = "QueryType=ItemNewAll&";
@@ -112,9 +112,10 @@ public class Category {
 	public String options() {
 		String cover = "Cover=big&";	//표지 크기
 		String output = "Output=JS&";	//json
-		String version = "Version=20131101";
+		String version = "Version=20131101&";
+		String optResult = "OptResult=packing";
 		
-		return cover+output+version;
+		return cover+output+version+optResult;
 	}
 	
 	public List<Map<String, Object>> categorySpecial(int cateNo) throws Exception {

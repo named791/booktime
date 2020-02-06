@@ -12,7 +12,7 @@
 	</insert>
 
 	<select id="chkUserid" parameterType="string" resultType="int">
-		select count(*) from "USER" where userid=#{userid}
+		select count(*) from "USER" where userid=#{userid} and withdrawaldate is null
 	</select>
 	
 	<select id="userGetPwd" parameterType="string" resultType="string">
@@ -21,7 +21,7 @@
 	</select>
 	
 	<select id="selectByUserid" parameterType="string" resultType="userVo">
-		select * from "USER" where userid=#{userid}
+		select * from "USER" where userid=#{userid} and withdrawaldate is null
 	</select>
 	
 	<update id="deleteUser" parameterType="string">
@@ -51,7 +51,7 @@
 		set pwd = #{pwd}
 		where userid=#{userid}
 	</update>
-	
+
 	<select id="selectAllUser" resultType="userVo">
 		select * from "USER" order by grade 
 	</select>
@@ -75,6 +75,13 @@
 		newaddress=#{newaddress}, addressdetail=#{addressdetail}
 		where userid=#{userid}
 	</update>
+
+	<select id="searchMember" parameterType="userVo" resultType="int">
+		select count(*) from "USER" 
+		where userid=#{userid} and name=#{name} and email1=#{email1} 
+		and email2=#{email2} and withdrawaldate is null
+	</select>
+
 	
 </mapper>
 
