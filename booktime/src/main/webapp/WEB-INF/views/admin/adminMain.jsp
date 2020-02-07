@@ -1,84 +1,88 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="inc/top.jsp" %>
-
-        <!-- Breadcrumbs-->
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item">
-            <a href="#">관리 홈</a>
-          </li>
-          <li class="breadcrumb-item active">메인</li>
-        </ol>
-
-        <!-- Icon Cards-->
-        <div class="row">
-          <div class="col-xl-3 col-sm-6 mb-3">
-            <div class="card text-white bg-primary o-hidden h-100">
-              <div class="card-body">
-                <div class="card-body-icon">
-                  <i class="fas fa-fw fa-comments"></i>
-                </div>
-                <div class="mr-5">26개의 새 메일이 왔습니다!</div>
-              </div>
-              <a class="card-footer text-white clearfix small z-1" href="#">
-                <span class="float-left">더보기</span>
-                <span class="float-right">
-                  <i class="fas fa-angle-right"></i>
-                </span>
-              </a>
-            </div>
-          </div>
-          <div class="col-xl-3 col-sm-6 mb-3">
-            <div class="card text-white bg-warning o-hidden h-100">
-              <div class="card-body">
-                <div class="card-body-icon">
-                  <i class="fas fa-fw fa-list"></i>
-                </div>
-                <div class="mr-5">2개의 이벤트가 진행 중입니다!</div>
-              </div>
-              <a class="card-footer text-white clearfix small z-1" href="#">
-                <span class="float-left">더보기</span>
-                <span class="float-right">
-                  <i class="fas fa-angle-right"></i>
-                </span>
-              </a>
-            </div>
-          </div>
-          <div class="col-xl-3 col-sm-6 mb-3">
-            <div class="card text-white bg-success o-hidden h-100">
-              <div class="card-body">
-                <div class="card-body-icon">
-                  <i class="fas fa-fw fa-shopping-cart"></i>
-                </div>
-                <div class="mr-5">123개의 새 주문이 있습니다!</div>
-              </div>
-              <a class="card-footer text-white clearfix small z-1" href="#">
-                <span class="float-left">더보기</span>
-                <span class="float-right">
-                  <i class="fas fa-angle-right"></i>
-                </span>
-              </a>
-            </div>
-          </div>
-          <div class="col-xl-3 col-sm-6 mb-3">
-            <div class="card text-white bg-danger o-hidden h-100">
-              <div class="card-body">
-                <div class="card-body-icon">
-                  <i class="fas fa-fw fa-life-ring"></i>
-                </div>
-                <div class="mr-5">13개의 새 글이 있습니다!</div>
-              </div>
-              <a class="card-footer text-white clearfix small z-1" href="#">
-                <span class="float-left">더보기</span>
-                <span class="float-right">
-                  <i class="fas fa-angle-right"></i>
-                </span>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Area Chart Example-->
+	<%@ include file="inc/top.jsp" %>
+	
+	<!-- Breadcrumbs-->
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="#">관리 홈</a></li>
+		<li class="breadcrumb-item active">메인</li>
+	</ol>
+	${map }
+	<!-- Icon Cards-->
+	<div class="row">
+		<div class="col-xl-3 col-sm-6 mb-3">
+			<div class="card text-white bg-primary o-hidden h-100">
+				<div class="card-body">
+					<div class="card-body-icon">
+						<i class="fas fa-fw fa-comments"></i>
+					</div>
+					<div class="mr-5">${map['recommending'] }개의 추천도서가<br>등록되어있습니다.</div>
+				</div>
+				<a class="card-footer text-white clearfix small z-1" 
+					href="<c:url value='/admin/adminRe.do'/>"> <span
+					class="float-left">더보기</span> <span class="float-right"> <i
+						class="fas fa-angle-right"></i>
+				</span>
+				</a>
+			</div>
+		</div>
+		
+		<div class="col-xl-3 col-sm-6 mb-3">
+			<div class="card text-white bg-warning o-hidden h-100">
+				<div class="card-body">
+					<div class="card-body-icon">
+						<i class="fas fa-fw fa-list"></i>
+					</div>
+					<div class="mr-5">
+					${map['newBoard'] }개의 새 글이 있습니다!<br>
+					${map['events'] }개의 이벤트가 진행 중입니다!</div>
+				</div>
+				<a class="card-footer text-white clearfix small z-1" 
+					href="<c:url value='/admin/adminBoard.do'/>"> <span
+					class="float-left">더보기</span> <span class="float-right"> <i
+						class="fas fa-angle-right"></i>
+				</span>
+				</a>
+			</div>
+		</div>
+		
+		<div class="col-xl-3 col-sm-6 mb-3">
+			<div class="card text-white bg-success o-hidden h-100">
+				<div class="card-body">
+					<div class="card-body-icon">
+						<i class="fas fa-fw fa-shopping-cart"></i>
+					</div>
+					<div class="mr-5">${map['newPay'] }건의 새 주문이 있습니다!<br>
+						${map['refund'] }건의 교환/환불 요청이 있습니다!</div>
+				</div>
+				<a class="card-footer text-white clearfix small z-1"
+					href="<c:url value='/admin/adminCart.do'/>"> <span
+					class="float-left">더보기</span> <span class="float-right"> <i
+						class="fas fa-angle-right"></i>
+				</span>
+				</a>
+			</div>
+		</div>
+		
+		<div class="col-xl-3 col-sm-6 mb-3">
+			<div class="card text-white bg-danger o-hidden h-100">
+				<div class="card-body">
+					<div class="card-body-icon">
+						<i class="fas fa-fw fa-user-slash"></i>
+					</div>
+					<div class="mr-5">금일 ${map['newOutUser']}명이 탈퇴했습니다.</div>
+				</div>
+				<a class="card-footer text-white clearfix small z-1" 
+					href="<c:url value='/admin/adminMember.do'/>"> <span
+					class="float-left">더보기</span> <span class="float-right"> <i
+						class="fas fa-angle-right"></i>
+				</span>
+				</a>
+			</div>
+		</div>
+	</div>
+	
+<!-- Area Chart Example-->
         <div class="card mb-3">
           <div class="card-header">
             <i class="fas fa-chart-area"></i>
@@ -87,81 +91,79 @@
             <canvas id="myChart" width="200px" height="100px"></canvas>
 
 <script>
+	var ctx = document.getElementById("myChart");
 
-var ctx = document.getElementById("myChart");
+	var myChart = new Chart(ctx, {
 
-var myChart = new Chart(ctx, {
+		type : 'bar',
 
-    type: 'bar',
+		data : {
 
-    data: {
+			labels : [ "매출액", "Blue", "Yellow", "Green", "Purple", "Orange" ],
 
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+			datasets : [ {
 
-        datasets: [{
+				label : "매출액",
 
-            label: '그래프 테스트',
+				data : [ ${map['earning']}, 19, 3, 5, 2, 3 ],
 
-            data: [12, 19, 3, 5, 2, 3],
+				backgroundColor : [
 
-            backgroundColor: [
+				'rgba(255, 99, 132, 0.2)',
 
-                'rgba(255, 99, 132, 0.2)',
+				'rgba(54, 162, 235, 0.2)',
 
-                'rgba(54, 162, 235, 0.2)',
+				'rgba(255, 206, 86, 0.2)',
 
-                'rgba(255, 206, 86, 0.2)',
+				'rgba(75, 192, 192, 0.2)',
 
-                'rgba(75, 192, 192, 0.2)',
+				'rgba(153, 102, 255, 0.2)',
 
-                'rgba(153, 102, 255, 0.2)',
+				'rgba(255, 159, 64, 0.2)'
 
-                'rgba(255, 159, 64, 0.2)'
+				],
 
-            ],
+				borderColor : [
 
-            borderColor: [
+				'rgba(255,99,132,1)',
 
-                'rgba(255,99,132,1)',
+				'rgba(54, 162, 235, 1)',
 
-                'rgba(54, 162, 235, 1)',
+				'rgba(255, 206, 86, 1)',
 
-                'rgba(255, 206, 86, 1)',
+				'rgba(75, 192, 192, 1)',
 
-                'rgba(75, 192, 192, 1)',
+				'rgba(153, 102, 255, 1)',
 
-                'rgba(153, 102, 255, 1)',
+				'rgba(255, 159, 64, 1)'
 
-                'rgba(255, 159, 64, 1)'
+				],
 
-            ],
+				borderWidth : 1
 
-            borderWidth: 1
+			} ]
 
-        }]
+		},
 
-    },
+		options : {
 
-    options: {
+			scales : {
 
-        scales: {
+				yAxes : [ {
 
-            yAxes: [{
+					ticks : {
 
-                ticks: {
+						beginAtZero : true
 
-                    beginAtZero:true
+					}
 
-                }
+				} ]
 
-            }]
+			}
 
-        }
+		}
 
-    }
-
-});
-
+	});
 </script>
           </div>
           <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>

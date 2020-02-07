@@ -28,6 +28,7 @@ import com.ez.booktime.common.EmailSender;
 import com.ez.booktime.common.PageNumber;
 import com.ez.booktime.common.PaginationInfo;
 import com.ez.booktime.common.SearchVO;
+import com.ez.booktime.common.model.CommonService;
 import com.ez.booktime.controller.IndexController;
 import com.ez.booktime.favorite.model.FavoriteVO;
 import com.ez.booktime.mileage.model.MileageVO;

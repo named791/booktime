@@ -66,6 +66,12 @@
 			<beans:ref bean="loginIntercepter"/>
 		</interceptor>
 		
+		<interceptor>
+			<mapping path="/mypage/mypage.do"/>
+			<mapping path="/mypage/Mileage/Mileage.do"/>
+			<mapping path="/payment/paymentSheet.do"/>
+			<beans:ref bean="mileageIntercepter"/>
+		</interceptor>
 
 	</interceptors>
 	

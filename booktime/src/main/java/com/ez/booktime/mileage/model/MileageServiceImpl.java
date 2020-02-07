@@ -27,5 +27,10 @@ public class MileageServiceImpl implements MileageService{
 	public int selectTotalRecord(DateSearchVO dateSearchVo) {
 		return mileageDao.selectTotalRecord(dateSearchVo);
 	}
+
+	@Override
+	public int chkMileageLimit() {
+		return mileageDao.chkMileageLimit();
+	}
 		
 }

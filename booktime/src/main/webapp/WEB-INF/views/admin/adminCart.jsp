@@ -101,6 +101,13 @@
 			}
 			
 			if(confirm("현재 페이지의 "+cnt+"개의 데이터만 수정됩니다.")){
+				$("select").each(function(){
+					if($(this).val()=='구매확정'){
+						var tr = $(this).parents("tr");
+						
+						tr.find(".usePoint").val(0);
+					}
+				});
 				
 				var frmData = $("form[name=frm]").serialize();
 				
@@ -111,6 +118,14 @@
 					dataType: "text",
 					success: function(res){
 						alert(res+"건 저장하였습니다.");
+						
+						$("select").each(function(){
+							if($(this).val()=='구매확정'){
+								var tr = $(this).parents("tr");
+								
+								tr.find(".savingPoint").val(0);
+							}
+						});
 						
 						if(parseInt(res)>0){
 							//성공시
@@ -268,7 +283,7 @@
 										<small class="text-danger">(<fmt:formatNumber value="${vo.usePoint}" pattern="#,###"/>P 사용)</small>
 										
 										<input type="hidden" name="mList[${i.index}].payNo" value="${vo.payNo }">
-										<input type="hidden" name="mList[${i.index}].usePoint" value="${vo.usePoint }">
+										<input type="hidden" class="usePoint" name="mList[${i.index}].usePoint" value="${vo.usePoint }">
 									</c:if>
 								</td>
 								<td class="align-middle">

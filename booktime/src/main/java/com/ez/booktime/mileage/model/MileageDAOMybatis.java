@@ -32,7 +32,8 @@ public class MileageDAOMybatis implements MileageDAO{
 	}
 
 	@Override
-	public void chkMileageLimit() {
+	public int chkMileageLimit() {
+		return sqlSession.update(namespace+"chkMileageLimit");
 	}
 	
 

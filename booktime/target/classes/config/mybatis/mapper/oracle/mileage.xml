@@ -57,7 +57,7 @@
 		</if>
 	</select>
 	
-	<select id="chkMileageLimit" statementType="CALLABLE">
+	<update id="chkMileageLimit" statementType="CALLABLE">
 		{CALL
 			declare
 	
@@ -75,7 +75,7 @@
 			            (
 			                select userid as "sel", sum(savingPoint) "limited"
 			                from mileage
-			                where not(reason like('set%')) and
+			                where not(reason like('set%')) and reason != '기간만료' and
 <![CDATA[	                to_char(endDate, 'yyyy-mm-dd')<=sysdate]]>
 			                group by userid
 			            )b on("USER".userid = b."sel")
@@ -91,7 +91,7 @@
 			        (
 			            select userid, sum(savingPoint) "limited"
 			            from mileage
-			            where not(reason like('set%')) and
+			            where not(reason like('set%')) and reason != '기간만료' and
 <![CDATA[			    to_char(endDate, 'yyyy-mm-dd')<=sysdate]]>
 			            group by userid
 			        )m;
@@ -103,6 +103,56 @@
 			    end if;
 			end
 		}
-	</select>
+	</update>
+	<update id="chkMileageLimit1" statementType="CALLABLE">
+		{CALL
+			declare
+
+			cnt number;
+			
+			begin
+			    select count(*) into cnt
+			    from mileage
+			    where not(reason like('set%')) and reason!='기간만료' and
+<![CDATA[	    to_char(endDate, 'yyyy-mm-dd')<=to_date('2021-02-07 10:05:02', 'yyyy-mm-dd hh24:mi:ss');]]>
+			    
+			    if cnt>0 then
+			        merge into "USER"   
+			            using
+			            (
+			                select userid as "sel", sum(savingPoint) "limited"
+			                from mileage
+			                where not(reason like('set%')) and reason != '기간만료' and
+<![CDATA[	                to_char(endDate, 'yyyy-mm-dd')<=to_date('2021-02-07 10:56:02', 'yyyy-mm-dd hh24:mi:ss')]]>
+			                group by userid
+			            )b on("USER".userid = b."sel")
+			        when matched then
+			            update set mileage = mileage - b."limited";
+			    
+			        insert into mileage(mileageNo, savingPoint
+			            , userid, usePoint, endDate,reason)
+			        select mileage_seq.nextval, null
+			            ,m.userid, m."limited", to_date('2021-02-07 10:56:02', 'yyyy-mm-dd hh24:mi:ss')
+			            , '기간만료'
+			        from
+			        (
+			            select userid, sum(savingPoint) "limited"
+			            from mileage
+			            where not(reason like('set%')) and reason != '기간만료' and
+<![CDATA[	            to_char(endDate, 'yyyy-mm-dd')<=to_date('2021-02-07 10:56:02', 'yyyy-mm-dd hh24:mi:ss')]]>
+			            group by userid
+			        )m;
+			        
+			        update mileage
+			        set reason = 'set' || reason
+			        where (reason='환불 반환' or reason='구매확정')
+<![CDATA[	        and to_char(endDate, 'yyyy-mm-dd')<=to_date('2021-02-07 10:05:02', 'yyyy-mm-dd hh24:mi:ss');]]>
+			    
+			    	
+			    end if;
+			
+			end
+		}
+	</update>
 	
 </mapper>
