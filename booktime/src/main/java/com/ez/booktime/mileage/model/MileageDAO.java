@@ -8,4 +8,5 @@ public interface MileageDAO {
 	List<MileageVO> selectMileageList(DateSearchVO dateSearchVo);
 	public int selectTotalRecord(DateSearchVO dateSearchVo);
 	int insertMileage(MileageVO vo);
+	void chkMileageLimit();
 }

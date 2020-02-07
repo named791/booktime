@@ -69,12 +69,16 @@
 			}
 		}
 		
-		$("#dataTable4 tbody").on("change", "tr select", function(){
+		$("#dataTable4 tbody").on("click", "tr select", function(){
 			var tr = $(this).parents("tr");
-			
 			var obj = tr.find(".detailLink");
 			var payNo = obj.parent().next("input.payNo").val();
+			
 			$.load(payNo, obj);
+		});
+		
+		$("#dataTable4 tbody").on("change", "tr select", function(){
+			var tr = $(this).parents("tr");
 			
 			tr.find("input[type=checkbox]").prop("checked",true);
 			tr.css("background-color","#fffbc5");
@@ -83,6 +87,8 @@
 				var point = tr.find(".details .savePoint").text();
 				
 				tr.find(".savingPoint").val(Number(point.replace(",","") ) );
+			}else{
+				tr.find(".savingPoint").val(0);
 			}
 		});
 		

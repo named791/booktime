@@ -56,4 +56,53 @@
 			and userid = #{customerId}
 		</if>
 	</select>
+	
+	<select id="chkMileageLimit" statementType="CALLABLE">
+		{CALL
+			declare
+	
+			cnt number;
+			
+			begin
+			    select count(*) into cnt
+			    from mileage
+			    where not(reason like('set%')) and reason!='기간만료' and
+<![CDATA[		to_char(endDate, 'yyyy-mm-dd')<=sysdate;]]>
+			    
+			    if cnt>0 then
+			        merge into "USER"   
+			            using
+			            (
+			                select userid as "sel", sum(savingPoint) "limited"
+			                from mileage
+			                where not(reason like('set%')) and
+<![CDATA[	                to_char(endDate, 'yyyy-mm-dd')<=sysdate]]>
+			                group by userid
+			            )b on("USER".userid = b."sel")
+			        when matched then
+			            update set mileage = mileage - b."limited";
+			    
+			        insert into mileage(mileageNo, savingPoint
+			            , userid, usePoint, endDate,reason)
+			        select mileage_seq.nextval, null
+			            ,m.userid, m."limited", sysdate
+			            , '기간만료'
+			        from
+			        (
+			            select userid, sum(savingPoint) "limited"
+			            from mileage
+			            where not(reason like('set%')) and
+<![CDATA[			    to_char(endDate, 'yyyy-mm-dd')<=sysdate]]>
+			            group by userid
+			        )m;
+			        
+			        update mileage
+			        set reason = 'set' || reason
+			        where (reason='환불 반환' or reason='구매확정')
+<![CDATA[	        and to_char(endDate, 'yyyy-mm-dd')<=sysdate;]]>
+			    end if;
+			end
+		}
+	</select>
+	
 </mapper>

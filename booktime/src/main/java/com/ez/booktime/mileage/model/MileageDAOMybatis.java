@@ -30,6 +30,10 @@ public class MileageDAOMybatis implements MileageDAO{
 	public int selectTotalRecord(DateSearchVO dateSearchVo) {
 		return sqlSession.selectOne(namespace+"selectTotalRecord",dateSearchVo);
 	}
+
+	@Override
+	public void chkMileageLimit() {
+	}
 	
 
 }
