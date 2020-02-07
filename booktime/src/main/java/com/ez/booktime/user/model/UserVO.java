@@ -145,14 +145,6 @@ public class UserVO {
 		this.mileage = mileage;
 	}
 
-	public Timestamp getWithrawaldate() {
-		return withrawaldate;
-	}
-
-	public void setWithrawaldate(Timestamp withrawaldate) {
-		this.withrawaldate = withrawaldate;
-	}
-
 	public String getWithdrawalreason() {
 		return withdrawalreason;
 	}
@@ -170,5 +162,5 @@ public class UserVO {
 				+ ", withrawaldate=" + withrawaldate + ", withdrawalreason=" + withdrawalreason + "]";
 	}
 
-	
+
 }

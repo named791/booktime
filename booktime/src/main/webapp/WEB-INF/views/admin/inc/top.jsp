@@ -108,22 +108,19 @@ to {
 
     <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
       <i class="fas fa-bars"></i>
-    </button>
-
-    <!-- Navbar Search -->
-    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-      <div class="input-group">
-        <input type="text" class="form-control" placeholder="글찾기" aria-label="Search" aria-describedby="basic-addon2">
-        <div class="input-group-append">
-          <button class="btn btn-primary" type="button">
-            검색
-          </button>
-        </div>
-      </div>
-    </form>
+    </button>       
 
     <!-- Navbar -->
-    <ul class="navbar-nav ml-auto ml-md-0">
+    <div class="row" style="width:1100px">
+    <ul class="navbar-nav" style="width:1100px">
+    <div class="col offset-md-8">
+    <c:if test="${!empty sessionScope.userid }">
+	        <li>
+	              	<p><b style="color:white">${sessionScope.userid }님</b></p>
+	         </li>
+	      </c:if>
+    </div>
+
       <li class="nav-item dropdown no-arrow mx-1">
         <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           알림
@@ -136,7 +133,7 @@ to {
           <a class="dropdown-item" href="#">새 글</a>
         </div>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" style="width:90px">
         <a class="nav-link" href="#">
           메일 쓰기
         </a>
@@ -155,6 +152,7 @@ to {
         </div>
       </li>
     </ul>
+    </div>
 
   </nav>
 
@@ -167,11 +165,13 @@ to {
           <span>회원 관리</span>
         </a>
       </li>
+      <!-- 
       <li class="nav-item">
         <a class="nav-link" href="${pageContext.request.contextPath}/admin/adminEvent.do">
           <span>이벤트 관리</span>
         </a>
       </li>
+       -->
       <li class="nav-item">
       <a class="nav-link" href="${pageContext.request.contextPath}/admin/adminRe.do">
           <span>노출관리</span></a>

@@ -69,6 +69,22 @@
 			}
 		}
 		
+<<<<<<< HEAD
+		$("#dataTable4 tbody").on("change", "tr select", function(){
+			var tr = $(this).parents("tr");
+			
+			var obj = tr.find(".detailLink");
+			var payNo = obj.parent().next("input.payNo").val();
+			$.load(payNo, obj);
+			
+			tr.find("input[type=checkbox]").prop("checked",true);
+			tr.css("background-color","#fffbc5");
+			
+			if($(this).val()=='구매확정'){
+				var point = tr.find(".details .savePoint").text();
+				
+				tr.find(".savingPoint").val(Number(point.replace(",","") ) );
+=======
 		$("#dataTable4 tbody").on("click", "tr select", function(){
 			var tr = $(this).parents("tr");
 			var obj = tr.find(".detailLink");
@@ -89,6 +105,7 @@
 				tr.find(".savingPoint").val(Number(point.replace(",","") ) );
 			}else{
 				tr.find(".savingPoint").val(0);
+>>>>>>> branch 'master' of https://github.com/named791/booktime
 			}
 		});
 		
@@ -192,8 +209,13 @@
         <div class="card mb-3">
           <div class="card-header">
             <i class="fas fa-table"></i>
+<<<<<<< HEAD
+            주문 목록</div>
+          
+=======
             	주문 목록
           </div>
+>>>>>>> branch 'master' of https://github.com/named791/booktime
           
           <div class="card-body" style="display: none;">
             <div class="table-hover">
@@ -308,7 +330,11 @@
             <a class="btn btn-info changer"
 					href="#"
 					role="button">진행사항 변경 저장</a>
+<<<<<<< HEAD
+        	<a class="btn btn-info"
+=======
         <a class="btn btn-info"
+>>>>>>> branch 'master' of https://github.com/named791/booktime
 					href="<c:url value='/admin/adminPaymentExport.do'/>"
 					role="button">엑셀 파일로 받기</a>
         </div>

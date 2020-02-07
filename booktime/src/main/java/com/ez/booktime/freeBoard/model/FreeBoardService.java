@@ -17,6 +17,8 @@ public interface FreeBoardService {
 	
 	List<FreeBoardVO> selectFreeBoard();
 	int countReview(Map<String, Object> map);
+
+	List<FreeBoardVO> selectBoardByCate(String category);
 	int writeReview(FreeBoardVO bVo, BookGradeVO gVo);
 	List<FreeBoardVO> selectReviews(FreeBoardVO vo);
 	int countReviews(FreeBoardVO vo);

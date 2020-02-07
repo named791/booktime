@@ -46,7 +46,7 @@
 						<td colspan="8">회원 조회결과가 없습니다.</td>
 					</c:if>
 
-					<!-- 자유게시판 반복문 시작 -->
+					<!-- 반복문 시작 -->
 					<c:if test="${!empty list}">
 						<c:forEach var="vo" items="${list }">
 							<tr>
@@ -57,19 +57,25 @@
 								<td>${vo.zipcode }</td>
 								<td>${vo.birth }</td>
 					<th>
-                    <a class="btn btn-info"
+					<input type="hidden" id="userid" value="${vo.userid }">
+                    <a class="btn btn-info edit"
 					href="#"
 					role="button">수정</a>
 					</th>
                     <th>
-                    <a class="btn btn-danger"
+                    <c:if test="${empty vo.withdrawaldate}">
+                    <a class="btn btn-danger withdrow"
 					href="#"
 					role="button">탈퇴</a>
+					</c:if>
+					<c:if test="${!empty vo.withdrawaldate}">
+                    탈퇴된 회원
+					</c:if>
 					</th>		
 							</tr>
 						</c:forEach>
 					</c:if>
-					<!-- 자유게시판 반복문 끝 -->
+					<!-- 반복문 끝 -->
 				</tbody>
                   </tbody>
               </table>
@@ -85,5 +91,22 @@
 
       </div>
       <!-- /.container-fluid -->
+<script type="text/javascript">
+      $(".withdrow").click(function(){
+				/*탈퇴 여부 검사 추가*/
+				var id=$("#userid").val();
+				win = window.open("<c:url value='/admin/withdrowForm.do?userid="+id+"'/>","refund","top=100,left=300,resizable=no,location=no,width=550,height=650");
+
+				win.focus();
+	});
+      
+      $(".edit").click(function(){
+			/*탈퇴 여부 검사 추가*/
+			var id=$("#userid").val();
+			win = window.open("<c:url value='/admin/memberEditForm.do?userid="+id+"'/>","refund","top=100,left=300,resizable=no,location=no,width=550,height=650");
+
+			win.focus();
+});
+</script>
 
      <%@ include file="inc/bottom.jsp" %>

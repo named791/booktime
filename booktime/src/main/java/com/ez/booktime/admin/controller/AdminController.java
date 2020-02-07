@@ -147,16 +147,6 @@ public class AdminController {
 		logger.info("관리자 이벤트관리 화면 보여주기");
 	}
 	
-	@RequestMapping("/adminRe.do")
-	public void adminRe() {
-		logger.info("관리자 노출관리 화면 보여주기");
-	}
-	
-	@RequestMapping("/adminBoard.do")
-	public void adminBoard() {
-		logger.info("관리자 게시글관리 화면 보여주기");
-	}
-	
 	@RequestMapping("/adminCart.do")
 	public void adminCart(@ModelAttribute PaymentDateVO vo
 			,Model model) {

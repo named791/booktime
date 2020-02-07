@@ -86,4 +86,108 @@ public class AdminMemberController {
 		}
 		return bool;		
 	}
+	
+	@RequestMapping(value="/memberEditForm.do", method=RequestMethod.GET)
+	public void memberEditForm_get(@RequestParam String userid,
+			Model model) {
+		logger.info("회원 수정");
+		
+		UserVO userVo=new UserVO();
+		userVo=userService.selectByUserid(userid);
+		
+		logger.info("회원정보 조회 결과, userVo={}", userVo);
+		
+		model.addAttribute("userVo", userVo);
+		
+	}
+	
+	@RequestMapping(value="/memberEditForm.do", method=RequestMethod.POST)
+	public String memberEditForm_post(
+			@RequestParam(required = false) String userid,
+			@RequestParam(required = false) String pwd,
+			@RequestParam(required = false) String phone,
+			@RequestParam(required = false) String email1,
+			@RequestParam(required = false) String email2,
+			@RequestParam(required = false) String zipcode,
+			@RequestParam(required = false) String newaddress,
+			@RequestParam(required = false) String parseladdress,
+			@RequestParam(required = false) String addressdetail,
+			Model model) {
+		
+		UserVO userVo= new UserVO();
+		
+		logger.info("userid={}",userid);
+		logger.info("pwd={}",pwd);
+		logger.info("phone={}",phone);
+		logger.info("email1={}, email2={}",email1, email2);
+		logger.info("zipcode={}", zipcode);
+		logger.info("newaddress={}, parseladdress={}",newaddress, parseladdress);
+		logger.info("addressdetail={}", parseladdress);
+		
+		userVo.setUserid(userid);
+		userVo.setPwd(pwd);
+		userVo.setPhone(phone);
+		userVo.setEmail1(email1);
+		userVo.setEmail2(email2);
+		
+		userVo.setAddressdetail(addressdetail);
+		userVo.setNewaddress(newaddress);
+		userVo.setParseladdress(parseladdress);
+		userVo.setZipcode(zipcode);
+		
+		logger.info("userVo={}", userVo);
+		
+		String msg="", url="";
+
+			int cnt=userService.updateUser(userVo);
+			logger.info("회원정보 수정 결과 cnt={}", cnt);
+		if(cnt>0) {	
+			msg="회원정보 수정 완료!";
+			url="/admin/memberEditForm.do?userid="+userid;
+		}else {
+			msg="회원정보 수정 실패!";
+			url="/admin/memberEditForm.do?userid="+userid;
+		}
+		
+		model.addAttribute("msg", msg);
+		model.addAttribute("url", url);
+		
+		return "common/message";
+		
+	}
+	
+	@RequestMapping(value="/withdrowForm.do",method=RequestMethod.GET)
+	public void withdrowForm_get() {
+		logger.info("회원 탈퇴");
+	}
+	
+	@RequestMapping(value="/withdrowForm.do",method=RequestMethod.POST)
+	public String withdrowForm_post(@RequestParam String reason,
+			@RequestParam String userid,
+			Model model) {
+		//회원탈퇴 처리하기
+
+				logger.info("userid={}", userid);
+				logger.info("reason={}", reason);
+				
+				String withdrawalreason=reason;
+				
+				
+				UserVO userVo=new UserVO();
+				userVo.setUserid(userid);
+				userVo.setWithdrawalreason(withdrawalreason);
+				
+				String msg="", url="/admin/withdrowForm.do";
+				int cnt=userService.deleteUser(userVo);
+				if(cnt>0) {
+					msg="회원을 탈퇴 시켰습니다.";
+				}else {
+					msg="회원탈퇴가 실패했습니다";
+				}
+				
+				model.addAttribute("msg", msg);
+				model.addAttribute("url", url);
+				
+				return "common/message";
+	}
 }

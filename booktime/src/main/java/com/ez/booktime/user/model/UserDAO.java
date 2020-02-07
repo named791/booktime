@@ -12,11 +12,13 @@ public interface UserDAO {
 	int deleteUser(UserVO userVo);
 	String selectPWD(String userid);
 	
+	int updateMileage(MileageVO vo);
+	
 	String selectByEmail(UserVO userVo); //이메일로 회원찾기
 	int resetPwd(UserVO userVo); //기존 비밀번호를 임시 비밀번호로 변경
 	List<UserVO> selectAllUser(); //모든 회원정보 조회
+	int updateUser2(UserVO userVo);
 	
-	int updateMileage(MileageVO vo);
 	int updateUser(UserVO userVo);
 	int updatePwd(UserVO userVo);
 	String selectId(UserVO userVo);

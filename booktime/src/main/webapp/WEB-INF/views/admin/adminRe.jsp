@@ -1,6 +1,66 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="inc/top.jsp"%>
+
+<script>
+	var j_ctxPath = "/booktime";
+
+	$(function() {
+		$("#btAdd").click(function() {
+			window.open(j_ctxPath+ "/admin/adminRecomand.do",
+						"recomand",
+						"width=700,height=800,left=0,top=0,location=yes,resizable=yes");
+						});
+
+		$("#checkbox0").click(function() {
+			//만약 전체 선택 체크박스가 체크된상태일경우
+			if ($("#checkbox0").prop("checked")) {
+				//해당화면에 전체 checkbox들을 체크해준다
+				$("input[type=checkbox]").prop("checked", true);
+				// 전체선택 체크박스가 해제된 경우
+			} else {
+				//해당화면에 모든 checkbox들의 체크를해제시킨다.
+				$("input[type=checkbox]").prop("checked", false);
+			}
+		});
+		
+		$("#bt_delete").click(function(){
+			var checked = $("input[type=checkbox]:checked");
+
+			var recombookNo = "";
+			checked.each(function(idx,item){
+				recombookNo = recombookNo + $(this).val();
+				
+				if(idx!=checked.length-1){
+					recombookNo = recombookNo+"&";
+				}
+			});
+			
+			deleteRecommend(recombookNo);
+	
+		});
+
+	});
+
+	function deleteRecommend(recombookNo) {
+		$.ajax({
+			url: "<c:url value='/admin/deleteRecommend.do'/>",
+			data : {
+				recombookNoList :  recombookNo,
+			},
+			dataType:"text",
+			type:"POST",
+			success:function(res){
+				alert("추천도서를 삭제하였습니다.");
+				location.reload();
+			},
+			error:function(xhr, status, error){
+				alert("ERROR.."+status+".."+error);
+			}
+		});
+	}
+</script>
+
 <style>
 body {
 	margin: 0;
@@ -14,9 +74,11 @@ body {
 i {
 	font-style: italic
 }
-img{
-	margin-right:50px;
+
+img {
+	margin-right: 50px;
 }
+
 .container {
 	margin-top: 100px
 }
@@ -133,10 +195,9 @@ img{
 	margin-left: auto
 }
 
-.btn:not (:disabled ):not (.disabled ) {
-	cursor: pointer
+.btn:not(:disabled):not(.disabled){
+	cursor:pointer
 }
-
 .btn {
 	position: relative;
 	transition: color 0.15s, background-color 0.15s, border-color 0.15s,
@@ -177,6 +238,7 @@ img{
 	background-color: #fff
 }
 </style>
+
 <!-- Breadcrumbs-->
 <ol class="breadcrumb">
 	<li class="breadcrumb-item"><a href="#">관리 홈</a></li>
@@ -192,257 +254,81 @@ img{
 		<div class="table-responsive">
 			<ul class=" list-group list-group-flush">
 				<li class="list-group-item">
-					<div class="custom-checkbox custom-control">
-						<input class="custom-control-input" id="checkbox0" type="checkbox"><label
-							class="custom-control-label" for="checkbox0">&nbsp;</label>
-					</div>
-				</li>
-				<li class="list-group-item">
 					<div class="widget-content p-0">
 						<div class="widget-content-wrapper">
 							<div class="widget-content-left mr-2">
 								<div class="custom-checkbox custom-control">
-									<input class="custom-control-input" id="checkbox1"
-										type="checkbox"><label class="custom-control-label"
-										for="checkbox1">&nbsp;</label>
+									<input class="form-check-input" id="checkbox0"
+										type="checkbox" value="0"><label class="form-check-label"
+										for="checkbox0">&nbsp;</label>
 								</div>
 							</div>
-							<div class="widget-content-left flex2">
-								<div class="widget-content">
-									<img align="left"
-										src="https://image.aladin.co.kr/product/22210/44/coversum/k392636511_1.jpg">
-									<div class="widget-heading">해빗</div>
-									<div class="widget-subheading">웬디 우드</div>
-									<br>
-									<p>방황하여도, 자신과 기쁘며, 봄바람을 천하를 것이다. <br>모래뿐일 희망의 곳으로 가치를 보이는 인간은 얼음과 같이, 스며들어 보라.</p>
-								</div>
-								
-							</div>
+							<div class="widget-content-left flex4"></div>
 							<div class="widget-content-right">
-								<button class="border-0 btn-transition btn btn-outline-success">
-									상세보기</button>
-								<button class="border-0 btn-transition btn btn-outline-danger">
-									삭제</button>
+								<button class="btn btn-outline-danger"
+								id="bt_delete">
+									선택삭제</button>
 							</div>
+
 						</div>
 					</div>
 				</li>
-				<li class="list-group-item">
-					<div class="widget-content p-0">
-						<div class="widget-content-wrapper">
-							<div class="widget-content-left mr-2">
-								<div class="custom-checkbox custom-control">
-									<input class="custom-control-input" id="checkbox2"
-										type="checkbox"><label class="custom-control-label"
-										for="checkbox2">&nbsp;</label>
+				<!-- 반복문 시작 -->
+				<c:if test="${empty list }">
+					<li>추천도서가 없습니다.</li>
+				</c:if>
+
+				<c:if test="${!empty list }">
+				<c:set var="i" value="1"/>
+					<c:forEach var="vo" items="${list }">
+					
+						<li class="list-group-item">
+							<div class="widget-content p-0">
+								<div class="widget-content-wrapper">
+									<div class="widget-content-left mr-2">
+										<div class="custom-checkbox custom-control">
+											<input class="form-check-input" id="checkbox${i} "
+												type="checkbox" value="${vo.recombookNo }"><label class="form-check-label"
+												for="checkbox${i}">&nbsp;</label>
+										</div>
+									</div>
+									<div class="widget-content-left" style="width:1000px">
+										<div class="widget-content">
+											<img align="left" style="width:100px"
+												src="${vo.cover }">
+											<div class="widget-heading">${vo.bookName }</div>
+											<div class="widget-subheading">${vo.writer }</div>
+											<br>
+											<p>
+												ISBN 13 : ${vo.isbn }<br>
+												가격 : ${vo.price }<br>
+												출판사 : ${vo.publisher }<br>
+												추천인 : ${vo.managerId }<br>
+												
+											</p>
+										</div>
+
+									</div>
+									<div class="widget-content-right">
+										<button
+											class="border-0 btn-transition btn btn-outline-success"
+											id="bt_detail">
+											상세보기</button>
+									</div>
 								</div>
 							</div>
-							<div class="widget-content-left flex2">
-								<div class="widget-content">
-									<img align="left"
-										src="https://image.aladin.co.kr/product/22210/44/coversum/k392636511_1.jpg">
-									<div class="widget-heading">해빗</div>
-									<div class="widget-subheading">웬디 우드</div>
-									<br>
-									<p>방황하여도, 자신과 기쁘며, 봄바람을 천하를 것이다. <br>모래뿐일 희망의 곳으로 가치를 보이는 인간은 얼음과 같이, 스며들어 보라.</p>
-								</div>
-								
-							</div>
-							<div class="widget-content-right">
-								<button class="border-0 btn-transition btn btn-outline-success">
-									상세보기</button>
-								<button class="border-0 btn-transition btn btn-outline-danger">
-									삭제</button>
-							</div>
-						</div>
-					</div>
-				</li>
-				<li class="list-group-item">
-					<div class="widget-content p-0">
-						<div class="widget-content-wrapper">
-							<div class="widget-content-left mr-2">
-								<div class="custom-checkbox custom-control">
-									<input class="custom-control-input" id="checkbox3"
-										type="checkbox"><label class="custom-control-label"
-										for="checkbox3">&nbsp;</label>
-								</div>
-							</div>
-							<div class="widget-content-left flex2">
-								<div class="widget-content">
-									<img align="left"
-										src="https://image.aladin.co.kr/product/22210/44/coversum/k392636511_1.jpg">
-									<div class="widget-heading">해빗</div>
-									<div class="widget-subheading">웬디 우드</div>
-									<br>
-									<p>방황하여도, 자신과 기쁘며, 봄바람을 천하를 것이다. <br>모래뿐일 희망의 곳으로 가치를 보이는 인간은 얼음과 같이, 스며들어 보라.</p>
-								</div>
-								
-							</div>
-							<div class="widget-content-right">
-								<button class="border-0 btn-transition btn btn-outline-success">
-									상세보기</button>
-								<button class="border-0 btn-transition btn btn-outline-danger">
-									삭제</button>
-							</div>
-						</div>
-					</div>
-				</li>
-				<li class="list-group-item">
-					<div class="widget-content p-0">
-						<div class="widget-content-wrapper">
-							<div class="widget-content-left mr-2">
-								<div class="custom-checkbox custom-control">
-									<input class="custom-control-input" id="checkbox4"
-										type="checkbox"><label class="custom-control-label"
-										for="checkbox4">&nbsp;</label>
-								</div>
-							</div>
-							<div class="widget-content-left flex2">
-								<div class="widget-content">
-									<img align="left"
-										src="https://image.aladin.co.kr/product/22210/44/coversum/k392636511_1.jpg">
-									<div class="widget-heading">해빗</div>
-									<div class="widget-subheading">웬디 우드</div>
-									<br>
-									<p>방황하여도, 자신과 기쁘며, 봄바람을 천하를 것이다. <br>모래뿐일 희망의 곳으로 가치를 보이는 인간은 얼음과 같이, 스며들어 보라.</p>
-								</div>
-								
-							</div>
-							<div class="widget-content-right">
-								<button class="border-0 btn-transition btn btn-outline-success">
-									상세보기</button>
-								<button class="border-0 btn-transition btn btn-outline-danger">
-									삭제</button>
-							</div>
-						</div>
-					</div>
-				</li>
-				<li class="list-group-item">
-					<div class="widget-content p-0">
-						<div class="widget-content-wrapper">
-							<div class="widget-content-left mr-2">
-								<div class="custom-checkbox custom-control">
-									<input class="custom-control-input" id="checkbox5"
-										type="checkbox"><label class="custom-control-label"
-										for="checkbox5">&nbsp;</label>
-								</div>
-							</div>
-							<div class="widget-content-left flex2">
-								<div class="widget-content">
-									<img align="left"
-										src="https://image.aladin.co.kr/product/22210/44/coversum/k392636511_1.jpg">
-									<div class="widget-heading">해빗</div>
-									<div class="widget-subheading">웬디 우드</div>
-									<br>
-									<p>방황하여도, 자신과 기쁘며, 봄바람을 천하를 것이다. <br>모래뿐일 희망의 곳으로 가치를 보이는 인간은 얼음과 같이, 스며들어 보라.</p>
-								</div>
-								
-							</div>
-							<div class="widget-content-right">
-								<button class="border-0 btn-transition btn btn-outline-success">
-									상세보기</button>
-								<button class="border-0 btn-transition btn btn-outline-danger">
-									삭제</button>
-							</div>
-						</div>
-					</div>
-				</li>
-				<li class="list-group-item">
-					<div class="widget-content p-0">
-						<div class="widget-content-wrapper">
-							<div class="widget-content-left mr-2">
-								<div class="custom-checkbox custom-control">
-									<input class="custom-control-input" id="checkbox6"
-										type="checkbox"><label class="custom-control-label"
-										for="checkbox6">&nbsp;</label>
-								</div>
-							</div>
-							<div class="widget-content-left flex2">
-								<div class="widget-content">
-									<img align="left"
-										src="https://image.aladin.co.kr/product/22210/44/coversum/k392636511_1.jpg">
-									<div class="widget-heading">해빗</div>
-									<div class="widget-subheading">웬디 우드</div>
-									<br>
-									<p>방황하여도, 자신과 기쁘며, 봄바람을 천하를 것이다. <br>모래뿐일 희망의 곳으로 가치를 보이는 인간은 얼음과 같이, 스며들어 보라.</p>
-								</div>
-								
-							</div>
-							<div class="widget-content-right">
-								<button class="border-0 btn-transition btn btn-outline-success">
-									상세보기</button>
-								<button class="border-0 btn-transition btn btn-outline-danger">
-									삭제</button>
-							</div>
-						</div>
-					</div>
-				</li>
-				<li class="list-group-item">
-					<div class="widget-content p-0">
-						<div class="widget-content-wrapper">
-							<div class="widget-content-left mr-2">
-								<div class="custom-checkbox custom-control">
-									<input class="custom-control-input" id="checkbox7"
-										type="checkbox"><label class="custom-control-label"
-										for="checkbox7">&nbsp;</label>
-								</div>
-							</div>
-							<div class="widget-content-left flex2">
-								<div class="widget-content">
-									<img align="left"
-										src="https://image.aladin.co.kr/product/22210/44/coversum/k392636511_1.jpg">
-									<div class="widget-heading">해빗</div>
-									<div class="widget-subheading">웬디 우드</div>
-									<br>
-									<p>방황하여도, 자신과 기쁘며, 봄바람을 천하를 것이다. <br>모래뿐일 희망의 곳으로 가치를 보이는 인간은 얼음과 같이, 스며들어 보라.</p>
-								</div>
-								
-							</div>
-							<div class="widget-content-right">
-								<button class="border-0 btn-transition btn btn-outline-success">
-									상세보기</button>
-								<button class="border-0 btn-transition btn btn-outline-danger">
-									삭제</button>
-							</div>
-						</div>
-					</div>
-				</li>
-				<li class="list-group-item">
-					<div class="widget-content p-0">
-						<div class="widget-content-wrapper">
-							<div class="widget-content-left mr-2">
-								<div class="custom-checkbox custom-control">
-									<input class="custom-control-input" id="checkbox8"
-										type="checkbox"><label class="custom-control-label"
-										for="checkbox8">&nbsp;</label>
-								</div>
-							</div>
-							<div class="widget-content-left flex2">
-								<div class="widget-content">
-									<img align="left"
-										src="https://image.aladin.co.kr/product/22210/44/coversum/k392636511_1.jpg">
-									<div class="widget-heading">해빗</div>
-									<div class="widget-subheading">웬디 우드</div>
-									<br>
-									<p>방황하여도, 자신과 기쁘며, 봄바람을 천하를 것이다. <br>모래뿐일 희망의 곳으로 가치를 보이는 인간은 얼음과 같이, 스며들어 보라.</p>
-								</div>
-								
-							</div>
-							<div class="widget-content-right">
-								<button class="border-0 btn-transition btn btn-outline-success">
-									상세보기</button>
-								<button class="border-0 btn-transition btn btn-outline-danger">
-									삭제</button>
-							</div>
-						</div>
-					</div>
-				</li>
+						</li>
+						<c:set var="i" value="${i+1}"/>
+					</c:forEach>
+				</c:if>
+				<!-- 반복문 끝 -->
 			</ul>
 		</div>
 	</div>
 	<div class="d-block text-right card-footer">
-		<button class="mr-2 btn btn-link btn-sm">메인보기</button>
-		<button class="btn btn-primary">추천도서 추가하기</button>
+		<a href="${pageContext.request.contextPath}/index.do">메인보기</a>
+		<button class="btn btn-primary" id="btAdd" title="새창열림">추천도서
+			추가하기</button>
 	</div>
 </div>
 <%@ include file="inc/bottom.jsp"%>

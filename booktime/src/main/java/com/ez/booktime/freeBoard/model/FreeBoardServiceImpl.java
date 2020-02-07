@@ -68,6 +68,11 @@ public class FreeBoardServiceImpl implements FreeBoardService{
 	}
 
 	@Override
+	public List<FreeBoardVO> selectBoardByCate(String category) {
+		return boardDao.selectBoardByCate(category);
+	}
+	
+	@Override
 	@Transactional
 	public int writeReview(FreeBoardVO bVo, BookGradeVO gVo) {
 		int cnt = 0;

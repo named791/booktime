@@ -76,6 +76,11 @@ public class UserMybatis implements UserDAO{
 	public int updatePwd(UserVO userVo) {
 		return sqlSession.update(namespace+"updatePwd", userVo);
 	}
+
+	@Override
+	public int updateUser2(UserVO userVo) {
+		return sqlSession.update(namespace+"updateUser2",userVo);
+	}
 	
 	@Override
 	public String selectId(UserVO userVo) {

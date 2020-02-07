@@ -67,9 +67,10 @@
             <a class="btn btn-info"
 					href="#"
 					role="button">새 이벤트 작성하기</a>
+					<!-- 
         <a class="btn btn-info"
 					href="#"
-					role="button">마일리지 지급하기</a>
+					role="button">마일리지 지급하기</a>-->
         </div>
           </div>
           <div class="card-footer small text-muted">마지막 업데이트 11:59 PM</div>

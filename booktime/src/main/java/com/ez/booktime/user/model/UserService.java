@@ -2,6 +2,7 @@ package com.ez.booktime.user.model;
 
 import java.util.List;
 
+//github.com/named791/booktime
 import com.ez.booktime.mileage.model.MileageVO;
 
 public interface UserService {
@@ -21,6 +22,8 @@ public interface UserService {
 	String selectByEmail(UserVO userVo); //이메일로 회원찾기
 	int resetPwd(UserVO userVo); //기존 비밀번호를 임시 비밀번호로 변경
 	List<UserVO> selectAllUser(); //모든 회원정보 조회
+
+	int updateUser2(UserVO userVo);
 	
 	int updateUser(UserVO userVo);
 	int updatePwd(UserVO userVo);

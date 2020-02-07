@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
+<c:if test="${!empty sessionScope.userid }">    
 <!-- Comments Form -->
         <div class="card my-4">
-          <h5 class="card-header">댓글쓰기 (회원만 이용 가능합니다) : </h5>
+          <h5 class="card-header">댓글쓰기 : </h5>
           <div class="card-body">
             <form name="replyWrite" method="post">
               <div class="form-group">
@@ -14,7 +15,7 @@
             </form>
           </div>
         </div>
-
+</c:if>
 <!-- Single Comment -->
 <div id="result">
 
@@ -72,11 +73,11 @@
 					
 					//대댓글 레이아웃 처리
 					if(item.step=='2'){
-						str+='└ Re : ';
 						str+='<div class="media mb-4">';
 						str+='<div class="media-body">';
 						str+='<div class=row>';
-						str+='<div class="col text-left">';
+						str+='<div class="ml-5 col text-left">';
+						str+='└ Re : ';
 						str+='<input type="hidden" name="replyNo" class="replyNo" value='+item.replyNo +' />';
 						str+='<input type="hidden" name="groupNo" class="groupNo" value='+item.groupNo +' />'
 						str+='<input type="hidden" name="step" value='+item.step +' />';
