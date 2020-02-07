@@ -62,23 +62,24 @@
 		<div class="container-login100">
 			<div class="wrap-login100 p-t-50 p-b-90">
 				<form name="frm" class="login100-form validate-form flex-sb flex-w" method="post" 
-					action="<c:url value='/login/updatePwdForm.do'/>">
+					action="<c:url value='/login/updatePwd.do'/>">
 					<span class="login100-form-title p-b-51">
-						임시 비밀번호 입력하기
+						비밀번호 변경하기
 					</span>
 					<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
-						<input class="input100" type="text" name="pwd" placeholder="임시비밀번호" id="pwd">
+						<input class="input100" type="text" name="pwd" placeholder="새로운 비밀번호를 입력해주세요" id="pwd">
 						<span class="focus-input100"></span>
 					</div>
 					<p id="chkNum" style="display: none;">*비밀번호가 틀립니다.</p>
 					
 					<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
-						<input type="text" value="${newpass }" id="newpass" name="newpass">
+						<input class="input100" type="text" id="pwdOk" name="pwdOk" placeholder="비밀번호를 한번 더 입력해 주세요">
+						<span class="focus-input100"></span>
 					</div>
 					
 					<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
 						<button class="login100-form-btn" id="btnPWD">
-							다음단계<img src="<c:url value='/resources/images/icons/NicePng_white-arrow-png-transparent_7587037.png'/>"
+							변경하기<img src="<c:url value='/resources/images/icons/NicePng_white-arrow-png-transparent_7587037.png'/>"
 								style="width: 8px">
 						</button>
 					</div>

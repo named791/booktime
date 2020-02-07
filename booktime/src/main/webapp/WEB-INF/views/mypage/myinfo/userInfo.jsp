@@ -116,6 +116,14 @@
 				alert("비밀번호를 입력해주세요");
 				event.preventDefault();
 				$("#pwd").focus();
+			}else if($("#hp2").val().length>4){
+				alert("입력하신 휴대폰 번호를 다시 확인해 주세요");
+				event.preventDefault();
+				$("#hp2").focus();
+			}else if($("#hp3").val().length>4){
+				alert("입력하신 휴대폰 번호를 다시 확인해 주세요");
+				event.preventDefault();
+				$("#hp3").focus();
 			}
 		});
 		

@@ -208,7 +208,7 @@ public class loginController {
 		
 		String msg="", url="";
 		if(cnt>0) {
-			String inputEmail="nohyelin960410@gmail.com";
+			String inputEmail=email;
 			logger.info("보내는 사람의 주소 inputEmail={}", inputEmail);
 			
 			try {
@@ -235,5 +235,14 @@ public class loginController {
 		
 		return "common/message";
 	}
-
-}
+	
+	//비밀번호 변경 페이지
+	@RequestMapping("/login/updatePwdForm.do")
+	public void updatePwdForm() {
+		logger.info("비밀번호 변경 폼 보여주기");
+	}
+	
+	//비밀번호 변경 처리
+	
+	
+}//loginController

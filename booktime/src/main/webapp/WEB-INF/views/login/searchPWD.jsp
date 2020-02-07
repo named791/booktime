@@ -62,14 +62,15 @@
 					<p id="chkId">*아이디가 틀립니다.</p>
 					
 					<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
-						<input class="input100" type="text" name="name" placeholder="이름">
+						<input class="input100" type="text" name="email" placeholder="E-mail 주소">
 						<span class="focus-input100"></span>
 					</div>
 					
 					<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
-						<input class="input100" type="text" name="email" placeholder="E-mail 주소">
+						<input class="input100" type="text" name="name" placeholder="이름">
 						<span class="focus-input100"></span>
 					</div>
+					
 					<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
 						<button class="login100-form-btn" id="btnPWD">
 							다음단계<img src="<c:url value='/resources/images/icons/NicePng_white-arrow-png-transparent_7587037.png'/>"
