@@ -24,7 +24,7 @@
 		select * from "USER" where userid=#{userid} and withdrawaldate is null
 	</select>
 	
-	<update id="deleteUser" parameterType="string">
+	<update id="deleteUser" parameterType="userVo">
 		update "USER"
 		set withdrawaldate = sysdate , withdrawalreason=#{withdrawalreason}
 		where userid=#{userid} and withdrawaldate is null
