@@ -18,7 +18,7 @@ public class UserVO {
 	private String addressdetail;
 	private String phone;
 	private int mileage;
-	private Timestamp withrawaldate; //탈퇴일
+	private Timestamp withdrawaldate; //탈퇴일
 	private String withdrawalreason; //탈퇴사유
 	
 	public UserVO() {
@@ -145,6 +145,15 @@ public class UserVO {
 		this.mileage = mileage;
 	}
 
+
+	public Timestamp getWithdrawaldate() {
+		return withdrawaldate;
+	}
+
+	public void setWithdrawaldate(Timestamp withdrawaldate) {
+		this.withdrawaldate = withdrawaldate;
+	}
+
 	public String getWithdrawalreason() {
 		return withdrawalreason;
 	}
@@ -159,8 +168,7 @@ public class UserVO {
 				+ gender + ", grade=" + grade + ", email1=" + email1 + ", email2=" + email2 + ", emailagree="
 				+ emailagree + ", zipcode=" + zipcode + ", parseladdress=" + parseladdress + ", newaddress="
 				+ newaddress + ", addressdetail=" + addressdetail + ", phone=" + phone + ", mileage=" + mileage
-				+ ", withrawaldate=" + withrawaldate + ", withdrawalreason=" + withdrawalreason + "]";
+				+ ", withdrawaldate=" + withdrawaldate + ", withdrawalreason=" + withdrawalreason + "]";
 	}
-
 
 }
