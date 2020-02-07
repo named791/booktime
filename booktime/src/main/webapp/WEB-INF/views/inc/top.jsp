@@ -65,7 +65,7 @@
 	              <hr width="110px">
 	              <a style="text-align: center;" class="dropdown-item" href="<c:url value="/payment/paymentList.do"/>">주문/배송조회</a>
 		          <hr width="110px">
-		          <a style="text-align: center;" class="dropdown-item" href="<c:url value="/favorite/favorite.do"/>">WISH LIST</a>
+		          <a style="text-align: center;" class="dropdown-item" href="<c:url value="/favorite/favorite.do"/>">찜목록</a>
 		          <hr width="110px">
 		          <a style="text-align: center;" class="dropdown-item" href="<c:url value="/mypage/Mileage/Mileage.do"/>">마일리지</a>
 	              <hr width="110px">
@@ -89,7 +89,7 @@
 	          <hr width="110px">
 	          <a style="text-align: center;" class="dropdown-item" href="<c:url value="/payment/paymentList.do"/>">주문/배송조회</a>
 	          <hr width="110px">
-	          <a style="text-align: center;" class="dropdown-item" href="<c:url value="/favorite/favorite.do"/>">WISH LIST</a>
+	          <a style="text-align: center;" class="dropdown-item" href="<c:url value="/favorite/favorite.do"/>">찜목록</a>
 	          <hr width="110px">
 	          <a style="text-align: center;" class="dropdown-item" href="<c:url value="/mypage/Mileage/Mileage.do"/>">마일리지</a>
 	          <hr width="110px">
