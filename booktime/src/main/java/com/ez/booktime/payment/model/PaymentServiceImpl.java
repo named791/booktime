@@ -137,6 +137,7 @@ public class PaymentServiceImpl implements PaymentService{
 				
 				if(mVo!=null && mVo.getUserid()!=null && !mVo.getUserid().isEmpty()) { //로그인시
 					if(progress.equals("환불 처리됨") || progress.equals("구매확정")) {
+						mVo.setPayNo(vo.getPayNo());
 						if(mVo.getUsePoint()>0 || mVo.getSavingPoint()>0) {
 							if(progress.equals("환불 처리됨")) {
 								mVo.setSavingPoint(mVo.getSavingPoint()+mVo.getUsePoint());

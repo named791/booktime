@@ -39,7 +39,7 @@
 		$(".card-body").fadeIn();
 		
 		
-		$("#dataTable tbody").on("mousedown", "a.detailLink", function(){
+		$("#dataTable4 tbody").on("mousedown", "a.detailLink", function(){
 			var payNo = $(this).parent().next("input.payNo").val();
 			var obj = $(this);
 
@@ -47,13 +47,12 @@
 			$(this).next(".details").show();
 		});
 		
-		$("#dataTable tbody").on("mouseup", "a.detailLink", function(){
+		$("#dataTable4 tbody").on("mouseup", "a.detailLink", function(){
 			$(this).next(".details").hide();
 		});
 		$.load = function(payNo, obj){
 			if(!obj.is(".loaded")){
 				$.ajax({
-//					url:"<c:url value='/payment/paymentWindow.do?payNo="+payNo+"'/>",
 					url:"<c:url value='/payment/paymentWindow.do'/>",
 					data:{"payNo":payNo},
 //					url:"<c:url value='/user/provision.do'/>",
@@ -70,12 +69,16 @@
 			}
 		}
 		
-		$("#dataTable tbody").on("change", "tr select", function(){
+		$("#dataTable4 tbody").on("click", "tr select", function(){
 			var tr = $(this).parents("tr");
-			
 			var obj = tr.find(".detailLink");
 			var payNo = obj.parent().next("input.payNo").val();
+			
 			$.load(payNo, obj);
+		});
+		
+		$("#dataTable4 tbody").on("change", "tr select", function(){
+			var tr = $(this).parents("tr");
 			
 			tr.find("input[type=checkbox]").prop("checked",true);
 			tr.css("background-color","#fffbc5");
@@ -84,12 +87,18 @@
 				var point = tr.find(".details .savePoint").text();
 				
 				tr.find(".savingPoint").val(Number(point.replace(",","") ) );
+			}else{
+				tr.find(".savingPoint").val(0);
 			}
 		});
 		
 		
 		$(".changer").click(function(){
 			var cnt = $("input[type=checkbox]:checked").length;
+			if(cnt<1){
+				alert("수정된 데이터가 없습니다.");
+				return;
+			}
 			
 			if(confirm("현재 페이지의 "+cnt+"개의 데이터만 수정됩니다.")){
 				
@@ -109,10 +118,51 @@
 								.find("input[type=checkbox]").prop("checked", false);
 							$("select").each(function(){
 								if($(this).val()=='구매확정' || $(this).val()=='환불 처리됨'){
+									
+									if($(this).val()=='환불 처리됨' && !$(this).prop("disabled")){
+										var payNo = $(this).parent("td").prevAll().find(".payNo").val();
+										var email = $(this).parent("td").prevAll().find(".email").val();
+										
+										$.ajax({
+											url:"<c:url value='/payment/paymentWindow.do'/>",
+											data:{
+												"payNo":payNo,
+												"mode":"mail"
+											},
+//											url:"<c:url value='/user/provision.do'/>",
+											dataType: "html",
+											type:"POST",
+											success: function(res){
+												$.ajax({
+													url:"<c:url value='/payment/cancleMail.do'/>",
+													data : {
+														"html":res,
+														"email":email
+													},
+													type:"POST",
+													success:function(res){
+														
+													},
+													error : function(){
+														alert("ERROR!.."+xhr.status+" "+error);
+													}
+												});
+											},
+											error: function(xhr, status, error){
+												alert("ERROR!.."+xhr.status+" "+error);
+											}
+										}); 
+									}//if
+									
 									$(this).prop("disabled", true);
+								}//if
+								
+								if($(this).val!='교환 신청중' && $(this).val!='환불 신청중'){
 									$(this).next(".viewD").hide();
 								}
 							});
+							
+							$(".detailLink").removeClass("loaded");
 						}
 					},
 					error:function(xhr, status, error){
@@ -123,7 +173,7 @@
 			}
 		});
 		
-		$("#dataTable tbody").on("click", "tr a.viewD", function(){
+		$("#dataTable4 tbody").on("click", "tr a.viewD", function(){
 			$(this).next(".refund").toggle();
 		});
 	});
@@ -148,7 +198,7 @@
           <div class="card-body" style="display: none;">
             <div class="table-hover">
             <form name="frm">
-				<table class="table table-bordered" id="dataTable" width="100%"
+				<table class="table table-bordered" id="dataTable4" width="100%"
 					cellspacing="0">
 					<thead>
 						<tr>
@@ -199,6 +249,7 @@
 									<input type="hidden" class="payNo" value="${vo.payNo}">
 									<input type="checkbox" value="${vo.payNo}" hidden="true"
 										name="voList[${i.index}].payNo" >
+									<input type="hidden" class="email" value="${vo.email1 }@${vo.email2}">
 								</td>
 								<td class="align-middle">${vo.newAddress }<br><small>(${vo.parselAddress})</small><br>${vo.addressDetail }</td>
 								<td class="align-middle">
@@ -223,8 +274,6 @@
 								<td class="align-middle">
 										<select class="form-control" name="voList[${i.index}].progress" 
 											<c:if test="${vo.progress=='구매확정' || vo.progress=='환불 처리됨' }"> disabled="disabled"</c:if>>
-												<option <c:if test="${vo.progress=='결제대기' }">selected="selected"</c:if>
-													value="결제대기">결제대기</option>
 												<option <c:if test="${vo.progress=='결제완료' }">selected="selected"</c:if>
 													value="결제완료">결제완료</option>
 												<option <c:if test="${vo.progress=='배송중' }">selected="selected"</c:if>
@@ -260,11 +309,11 @@
 					href="#"
 					role="button">진행사항 변경 저장</a>
         <a class="btn btn-info"
-					href="#"
+					href="<c:url value='/admin/adminPaymentExport.do'/>"
 					role="button">엑셀 파일로 받기</a>
         </div>
           </div>
-          <div class="card-footer small text-muted">마지막 업데이트 11:59 PM</div>
+          <div class="card-footer small text-muted">주문 목록</div>
         </div>
 
       </div>

@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ez.booktime.api.AladinAPI;
 import com.ez.booktime.api.ImPortAPI;
+import com.ez.booktime.common.EmailForm;
+import com.ez.booktime.common.EmailSender;
 import com.ez.booktime.common.PageNumber;
 import com.ez.booktime.common.PaginationInfo;
 import com.ez.booktime.common.SearchVO;
@@ -50,6 +52,12 @@ public class AdminController {
 	
 	@Autowired
 	private ImPortAPI imPortApi;
+	
+	@Autowired
+	private EmailSender mailSender;
+	
+	@Autowired
+	private EmailForm form;
 	
 	@RequestMapping(value="/adminLogin.do", method=RequestMethod.GET)
 	public void adminLogin_get() {
@@ -182,10 +190,22 @@ public class AdminController {
 					if(vo.getProgress().equals("환불 처리됨")) {
 						boolean bool = false;
 						try {
-							bool = imPortApi.cancel_Payment(vo.getPayNo());
+							String payNo = vo.getPayNo();
+							if(payNo.length()<12) {	//payNo가 12자리여야하는데 DB에 들어가면서 앞의 0이 사라짐, 12자리만큼 채워넣기
+								String str = "";
+								for(int p=0;p<12-payNo.length();p++) {
+									str += "0";
+								}
+								
+								payNo = str+payNo;
+							}
+							
+							bool = imPortApi.cancel_Payment(payNo);
 							
 							if(!bool) {
 								continue;
+							}else {
+								
 							}
 						} catch (Exception e) {
 							e.printStackTrace();

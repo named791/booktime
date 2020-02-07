@@ -458,4 +458,13 @@ public class PaymentController {
 		model.addAttribute("vo", vo);
 		model.addAttribute("dList", dList);
 	}
+	
+	@RequestMapping("/cancleMail.do")
+	public void cancleMail(@RequestParam String html
+			,@RequestParam String email) {
+		String subject = "책읽시에서 환불내역 안내드립니다.";
+		String sender = "goodTimeToRead@booktime.do";
+		
+		mailSender.sendMail(subject, html, email, sender);
+	}
 }

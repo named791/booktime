@@ -14,6 +14,7 @@
 		border-bottom: 2px solid lightGray;
 	}
 </style>
+	<input type="hidden" id="mode" value="${param.mode}">
 	<table title="주문내역" class="table mb-0">
 			
 		<colgroup>
@@ -69,10 +70,17 @@
 						</c:if>
 						
 						<div style="min-height: 80px;line-height: 4.8em;" class="align-middle">
+							<c:if test="${param.mode!='mail' }">
 							<a href="<c:url value="/book/bookDetail.do?ItemId=${dVo.isbn }"/>" class="bookImg">
 								<img alt="${dVo.bookName }" src="${dList[idxD]['cover']}" width="50px;">
 								${idx+1 }.${bookName}
 							</a>
+							</c:if>
+							<c:if test="${param.mode=='mail' }">
+								<img alt="${dVo.bookName }" src="${dList[idxD]['cover']}" width="50px;">
+								${idx+1 }.${bookName}
+							</c:if>
+							
 							<c:set var="idx" value="${idx+1}"/>
 							<c:set var="idxD" value="${idxD+1}"/>
 						</div>
