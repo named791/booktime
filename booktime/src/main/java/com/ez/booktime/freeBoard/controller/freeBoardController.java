@@ -226,7 +226,7 @@ public class freeBoardController {
 	public void boardList1(Model model) {
 		
 		String category="공지";
-		logger.info("카테고리 선택",category);
+		logger.info("카테고리 선택 {}",category);
 		
 		List<FreeBoardVO> list=boardService.selectBoardByCate(category);
 		logger.info("list 크기={}",list.size());
@@ -238,7 +238,7 @@ public class freeBoardController {
 	public void boardList2(Model model) {
 		
 		String category="이벤트";
-		logger.info("카테고리 선택",category);
+		logger.info("카테고리 선택 {}",category);
 		
 		List<FreeBoardVO> list=boardService.selectBoardByCate(category);
 		logger.info("list 크기={}",list.size());
@@ -250,7 +250,7 @@ public class freeBoardController {
 	public void boardList3(Model model) {
 		
 		String category="자유";
-		logger.info("카테고리 선택",category);
+		logger.info("카테고리 선택 {}",category);
 		
 		List<FreeBoardVO> list=boardService.selectBoardByCate(category);
 		logger.info("list 크기={}",list.size());

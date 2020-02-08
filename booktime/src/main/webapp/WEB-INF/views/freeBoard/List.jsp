@@ -17,7 +17,7 @@
 		
 		<div class="tab-content">
 		<div class="tab-pane fade show active" id="qwe">
-			<c:import url="/freeBoard/Tab1.do"></c:import>	
+			<c:import url="/freeBoard/Tab1.do"></c:import>
 		</div>
 		<div class="tab-pane fade" id="asd">
 			<c:import url="/freeBoard/Tab2.do"></c:import>	

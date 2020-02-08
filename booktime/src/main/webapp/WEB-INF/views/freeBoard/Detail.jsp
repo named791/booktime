@@ -29,7 +29,7 @@
 		${boardVo.content }</p>
         <hr>
         <!-- 본인 체크하고 본인에게만 수정/삭제 보여주기 -->
-        <c:if test="${boardVo.userid == chkid}">
+        <c:if test="${boardVo.category=='자유' && boardVo.userid == chkid}">
 			<a class="btn btn-info"
 						href="${pageContext.request.contextPath}/freeBoard/Edit.do?boardNo=${boardVo.boardNo }"
 						role="button">수정하기</a>

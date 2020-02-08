@@ -32,7 +32,12 @@
 		 getCommentList(); 
 		 
 		 $("#bt_reply").click(function(){
-		
+			if(!$("#replyContent").val()){
+				alert("댓글을 입력해주세요!");
+				$("#replyContent").focus();
+				return;
+			}
+			 
 			$.ajax({
 			url : "<c:url value='/freeBoard/reply/replyWrite.do'/> ",
 			type : "post",
@@ -128,7 +133,7 @@
 				$("#result").html(str+"<br>");
 				
 				$(".selectGroup").click(function(){
-					var p=$(this).parent().parent().parent().parent();				
+					var p=$(this).parents(".row").next("#rewrite");				
 					
 					var no=p.find(".groupNo").val();
 					
@@ -150,7 +155,7 @@
 		 });
 	}
 //대댓글 창 열기
- function openComment(no){
+ function openComment(no, p){
  	var res="";
  	
  	res+='<div class="card-body">'
@@ -165,10 +170,17 @@
            +    '<button type="button" class="btn btn-primary" id="bt_reply2">작성완료</button>'
            +  '</form>'
          +'</div>';
- 	$("#rewrite").html(res+"<br>");
+ 	p.html(res+"<br>");
  	
 	
 	$("#bt_reply2").click(function(){
+		var cmt = $(this).prev().find("#replyContent2");
+		if(!cmt.val()){
+			alert("답댓글을 입력해주세요");
+			cmt.focus();
+			return;
+		}
+		
 		writeReComment();
 	});
  }

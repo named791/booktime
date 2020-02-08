@@ -72,6 +72,13 @@
 			<mapping path="/payment/paymentSheet.do"/>
 			<beans:ref bean="mileageIntercepter"/>
 		</interceptor>
+		
+		<interceptor>
+			<mapping path="/admin/**"/>
+			<exclude-mapping path="/admin/adminLogin.do"/>
+			<exclude-mapping path="/admin/adminPassword.do"/>
+			<beans:ref bean="adminInterceptor"/>
+		</interceptor>
 
 	</interceptors>
 	

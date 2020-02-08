@@ -241,7 +241,7 @@ img {
 
 <!-- Breadcrumbs-->
 <ol class="breadcrumb">
-	<li class="breadcrumb-item"><a href="#">관리 홈</a></li>
+	<li class="breadcrumb-item"><a href="<c:url value='/admin/adminMain.do'/>">관리 홈</a></li>
 	<li class="breadcrumb-item active">노출관리</li>
 </ol>
 

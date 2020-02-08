@@ -37,7 +37,7 @@
 		<div class="form-group">
 			<!-- Name field -->
 			<label class="control-label " for="name">작성자</label> <input
-				class="form-control" id="name" name="name" type="text" value="${boardVo.name }"/>
+				class="form-control" id="name" name="name" type="text" value="관리자"/>
 		</div>
 
 		<div class="form-group">

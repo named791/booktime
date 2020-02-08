@@ -1,10 +1,7 @@
 package com.ez.booktime.admin.controller;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,19 +18,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ez.booktime.api.AladinAPI;
 import com.ez.booktime.api.ImPortAPI;
 import com.ez.booktime.common.EmailForm;
 import com.ez.booktime.common.EmailSender;
-import com.ez.booktime.common.PageNumber;
-import com.ez.booktime.common.PaginationInfo;
-import com.ez.booktime.common.SearchVO;
-import com.ez.booktime.common.model.CommonService;
-import com.ez.booktime.controller.IndexController;
-import com.ez.booktime.favorite.model.FavoriteVO;
 import com.ez.booktime.mileage.model.MileageVO;
 import com.ez.booktime.payment.model.PaymentDateVO;
-import com.ez.booktime.payment.model.PaymentDetailVO;
 import com.ez.booktime.payment.model.PaymentService;
 import com.ez.booktime.payment.model.PaymentVO;
 import com.ez.booktime.user.model.UserService;
@@ -83,12 +72,12 @@ public class AdminController {
 		if(result==userService.LOGIN_OK) {
 			
 			HttpSession session=request.getSession();
-			session.setAttribute("userid", userid);
+			session.setAttribute("useridA", userid);
 
-			Cookie ck= new Cookie("ck_userid", userid);
+			Cookie ck= new Cookie("ck_useridA", userid);
 			ck.setPath("/");
 			if(idSave!=null) { //id저장
-				ck.setMaxAge(1000*24*60*60);
+				ck.setMaxAge(1000*24*60*60); 
 				response.addCookie(ck);
 			}else { 
 				ck.setMaxAge(0); 
@@ -122,7 +111,7 @@ public class AdminController {
 	@RequestMapping("/adminLogout.do")
 	public String logout(HttpSession session) {
 		logger.info("로그아웃 처리 성공");
-		session.invalidate();
+		session.removeAttribute("useridA");
 		
 		return "redirect:/admin/adminLogin.do";
 	}
@@ -194,6 +183,8 @@ public class AdminController {
 							bool = imPortApi.cancel_Payment(payNo);
 							
 							if(!bool) {
+								cnt += 40000;	//아임포트 테스트모드에서 하루지난 거래내역은 취소가 안됨
+								paymentService.updateProgress(vo, voM);
 								continue;
 							}else {
 								

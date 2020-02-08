@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 		<div class="tab-content">
 
 			<table class="table table-striped" id="dataTable2" width="100%" cellspacing="0">
@@ -16,7 +17,6 @@
 					<c:if test="${empty list}">
 						<td colspan="4">게시판에 작성된 글이 없습니다.</td>
 					</c:if>
-
 					<!-- 자유게시판 반복문 시작 -->
 					<c:if test="${!empty list}">
 						<c:forEach var="vo" items="${list }">

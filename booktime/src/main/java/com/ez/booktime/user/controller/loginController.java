@@ -118,7 +118,8 @@ public class loginController {
 	@RequestMapping("/login/logout.do")
 	public String logout(HttpSession session) {
 		logger.info("로그아웃 처리 성공");
-		session.invalidate();
+		session.removeAttribute("userid");
+		session.removeAttribute("name");
 		
 		return "redirect:/index.do";
 	}

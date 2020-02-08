@@ -27,7 +27,20 @@
 			    from mileage
 			    where reason!='기간만료')
 			from dual) "earning"
+		,(select sum(price) from payment
+    			where progress='구매확정') "payOk"
+    	,(select sum(usePoint) 
+			    from mileage where reason='기간만료') "noUseP"
+		,(select sum(usePoint)
+			    from mileage
+			    where reason!='기간만료') "usedP"	    		
 		,(select count(*) from recommendBook) "recommending"
+		,(select count(*) from "USER"
+				where gender='M' and grade!='A') "Male"
+		,(select count(*) from "USER"
+				where gender='F' and grade!='A') "Female"	
+		,(select count(*) from payment
+				where userid like('#%')) "nonMember"					
 		from dual
 	</select>
 </mapper>
