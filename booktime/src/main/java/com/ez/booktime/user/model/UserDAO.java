@@ -1,6 +1,7 @@
 package com.ez.booktime.user.model;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ez.booktime.mileage.model.MileageVO;
 
@@ -23,4 +24,6 @@ public interface UserDAO {
 	int updatePwd(UserVO userVo);
 	String selectId(UserVO userVo);
 	int searchMember(UserVO userVo);
+	
+	List<Map<String, Object>>selectEmails();
 }

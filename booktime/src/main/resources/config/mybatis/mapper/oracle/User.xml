@@ -82,6 +82,10 @@
 		and email2=#{email2} and withdrawaldate is null
 	</select>
 
+	<select id="selectEmails" resultType="map">
+		select distinct email1||'@'||email2 as "email" from "USER"
+		where grade!='A' and emailAgree='Y'
+	</select>
 </mapper>
 
 

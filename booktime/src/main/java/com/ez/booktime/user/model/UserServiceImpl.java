@@ -1,6 +1,7 @@
 package com.ez.booktime.user.model;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -106,5 +107,10 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public int searchMember(UserVO userVo) {
 		return userDao.searchMember(userVo);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectEmails() {
+		return userDao.selectEmails();
 	}
 }

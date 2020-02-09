@@ -20,6 +20,8 @@ import com.ez.booktime.common.PageNumber;
 import com.ez.booktime.common.PaginationInfo;
 import com.ez.booktime.mileage.model.MileageService;
 import com.ez.booktime.mileage.model.MileageVO;
+import com.ez.booktime.user.model.UserService;
+import com.ez.booktime.user.model.UserVO;
 
 @Controller
 @RequestMapping("/mypage/Mileage")
@@ -29,6 +31,9 @@ public class MileageController {
 	
 	@Autowired
 	private MileageService mileageService;
+	
+	@Autowired
+	private UserService userService;
 	
 	@RequestMapping("/Mileage.do")
 	public void MileageList(@ModelAttribute DateSearchVO dateSearchVo,
@@ -40,6 +45,9 @@ public class MileageController {
 
 		logger.info("주문내역, 파라미터 dateSearchVo={}", dateSearchVo);
 		
+		//유저 마일리지 조회
+		UserVO vo = userService.selectByUserid(userid);
+		
 		//기본 오늘날짜에서 1년전 내역만 조회
 		String startDay=dateSearchVo.getStartDay();
 		if(startDay==null || startDay.isEmpty()) {
@@ -47,17 +55,15 @@ public class MileageController {
 		
 		Calendar yearLater = Calendar.getInstance();
 		yearLater.setTime(today);
-		yearLater.add(Calendar.YEAR, 1);
+		yearLater.add(Calendar.DATE, -7);
         
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String str=sdf.format(today);
 		String str2=sdf.format(yearLater.getTime());
-					
-		dateSearchVo.setStartDay(str);
-		dateSearchVo.setEndDay(str2);			
-		}
 		
-		logger.info("값 세팅 후 파라미터 dateSearchVo={}", dateSearchVo);
+		dateSearchVo.setStartDay(str2);
+		dateSearchVo.setEndDay(str);			
+		}
 		
 		//[1]
 		PaginationInfo pagingInfo=new PaginationInfo();
@@ -69,8 +75,10 @@ public class MileageController {
 		dateSearchVo.setFirstRecordIndex(pagingInfo.getFirstRecordIndex());
 		dateSearchVo.setRecordCountPerPage(PageNumber.RECORD_COUNT);
 		
+		logger.info("값 세팅 후 파라미터 dateSearchVo={}", dateSearchVo);
+		
 		List<MileageVO> list=mileageService.selectMileageList(dateSearchVo);
-		logger.info("자유게시판 리스트 크기={}",list.size());
+		logger.info("마일리지 조회 리스트 크기={}",list.size());
 		
 		//[3]
 		int totalRecord=mileageService.selectTotalRecord(dateSearchVo);
@@ -80,6 +88,7 @@ public class MileageController {
 				
 		model.addAttribute("list",list);
 		model.addAttribute("pagingInfo", pagingInfo);
+		model.addAttribute("vo", vo);
 
 	}
 }

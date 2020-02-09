@@ -76,6 +76,10 @@ public class UserController {
 		userVo.setEmail1(email1);
 		userVo.setEmail2(email2);
 		
+		char agree = userVo.getEmailagree();
+		if(agree!='Y') agree = 'N';
+		userVo.setEmailagree(agree);
+		
 		logger.info("파라미터 저장후 userVo={}", userVo);
 		
 		int cnt=userService.insertUser(userVo);

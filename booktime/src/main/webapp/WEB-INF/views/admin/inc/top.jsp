@@ -34,6 +34,15 @@
 	src="<c:url value='http://www.google-analytics.com/analytics.js' />"></script>
 <script src="./Bar Chart_files/Chart.min.js.다운로드"></script>
 <script src="<c:url value='/resources/js/utils.js' />"></script>
+<script src="<c:url value='/resources/vendor/jquery/jquery.min.js'/>"></script>
+<script type="text/javascript">
+	$(function(){
+		$(".mailing").click(function(){
+			window.open("<c:url value='/admin/mailing.do'/>", "mailing", "width=500px,height=650px,top=50px,left=100px,location=no,resizable=no");
+			
+		});
+	});
+</script>
 <style>
 canvas {
 	-moz-user-select: none;
@@ -135,7 +144,7 @@ to {
 							${sessionScope.useridA }님 </b></li>
 				</c:if>
 				
-				<li class="nav-item" style="width: 90px"><a class="nav-link"
+				<li class="nav-item" style="width: 90px"><a class="nav-link mailing"
 					href="#"> 메일 쓰기 </a></li>
 					
 				<li class="nav-item dropdown no-arrow">

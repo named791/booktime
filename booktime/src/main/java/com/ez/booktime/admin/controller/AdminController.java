@@ -1,6 +1,8 @@
 package com.ez.booktime.admin.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -200,5 +202,20 @@ public class AdminController {
 		}
 		
 		return cnt;
+	}
+	
+	@RequestMapping("/mailing.do")
+	public void mailing(Model model) {
+		logger.info("관리자 메일링 팝업 띄우기");
+		List<Map<String, Object>> list = userService.selectEmails();
+		logger.info("관리자 메일링, 메일 list.size={}", list.size());
+		
+		List<String> arr = new ArrayList<String>();
+		for(Map<String, Object> map : list) {
+			arr.add((String) map.get("email"));
+		}
+		
+		model.addAttribute("list", list);
+		model.addAttribute("arr", arr);
 	}
 }
