@@ -100,14 +100,15 @@ public class UserServiceImpl implements UserService{
 	}	
 	
 	@Override
-	public String selectId(UserVO userVo) {
-		return userDao.selectId(userVo);
-	}
-	
-	@Override
 	public int searchMember(UserVO userVo) {
 		return userDao.searchMember(userVo);
 	}
+	
+	@Override
+	public String selectUserid(UserVO userVo) {
+		return userDao.selectUserid(userVo);
+	}
+
 
 	@Override
 	public List<Map<String, Object>> selectEmails() {

@@ -22,8 +22,8 @@ public interface UserDAO {
 	
 	int updateUser(UserVO userVo);
 	int updatePwd(UserVO userVo);
-	String selectId(UserVO userVo);
 	int searchMember(UserVO userVo);
 	
+	String selectUserid(UserVO userVo);
 	List<Map<String, Object>>selectEmails();
 }

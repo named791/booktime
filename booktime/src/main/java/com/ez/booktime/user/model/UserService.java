@@ -26,10 +26,10 @@ public interface UserService {
 
 	int updateUser2(UserVO userVo);
 	
-	int updateUser(UserVO userVo);
-	int updatePwd(UserVO userVo);
-	String selectId(UserVO userVo);
+	int updateUser(UserVO userVo); //회원정보 수정
+	int updatePwd(UserVO userVo); //비밀번호 변경
 	int searchMember(UserVO userVo);
 	
+	String selectUserid(UserVO userVo); //아이디 찾기
 	List<Map<String, Object>>selectEmails();
 }

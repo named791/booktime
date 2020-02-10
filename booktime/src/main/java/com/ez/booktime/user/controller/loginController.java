@@ -1,7 +1,6 @@
 package com.ez.booktime.user.controller;
 
 import java.util.List;
-
 import javax.mail.Authenticator;
 import javax.mail.MessagingException;
 import javax.servlet.http.Cookie;
@@ -12,7 +11,6 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -139,47 +137,23 @@ public class loginController {
 		logger.info("비밀번호 찾기 화면");
 	}
 	
-	/*
-	@RequestMapping("/login/selectID.do")
-	public String selectId(@RequestParam String name, @RequestParam String email, Model model) {
-		logger.info("아이디 찾기, 파라미터 name={}, email={}", name, email);
+	@RequestMapping(value="/login/getId.do",method = RequestMethod.POST)
+	public String getId(@RequestParam String name, @RequestParam String email, Model model) {
+		logger.info("아이디 찾기 결과, 파라미터 name={}, email={}", name, email);
 		
 		UserVO vo= new UserVO();
-		
 		String result[]=email.split("@");
 		vo.setEmail1(result[0]);
 		vo.setEmail2(result[1]);
 		vo.setName(name);
-		logger.info("셋팅 결과 vo={}", vo);
+		logger.info("셋팅된 vo={}", vo);
 		
-		String userid=userService.selectId(vo);
-		vo.setUserid(userid);
-		logger.info("아이디 조회 결과 vo.userid={}", vo.getUserid());
+		String userid=userService.selectUserid(vo);
+		logger.info("결과 userid={}", userid);
 		
-		model.addAttribute("vo", vo);
+		model.addAttribute("userid", userid);
 		
-		return "login/searchID";
-	}*/
-	
-	@RequestMapping(value="/login/getId.do", method = RequestMethod.GET)
-	public String getId(@RequestParam String name, @RequestParam String email, Model model) {
-		logger.info("아이디 찾기 결과 화면 파라미터 name={}, email={}", name, email);
-		
-		UserVO vo= new UserVO();
-			
-			String result[]=email.split("@");
-			vo.setEmail1(result[0]);
-			vo.setEmail2(result[1]);
-			vo.setName(name);
-			logger.info("셋팅 결과 vo={}", vo);
-			
-			String userid=userService.selectId(vo);
-			vo.setUserid(userid);
-			logger.info("아이디 조회 결과 vo.userid={}", vo.getUserid());
-			
-			model.addAttribute("vo", vo);
-			
-			return "login/getId";
+		return "/login/getId";
 	}
 	
 	//인증번호 페이지 보여주기
@@ -207,8 +181,12 @@ public class loginController {
 		int cnt=userService.searchMember(vo);
 		logger.info("회원정보 조회 결과 cnt={}", cnt);
 		
+		HttpSession session=request.getSession();		
+		
 		String msg="", url="";
 		if(cnt>0) {
+			session.setAttribute("userid", userid);
+			
 			String inputEmail=email;
 			logger.info("보내는 사람의 주소 inputEmail={}", inputEmail);
 			
@@ -216,7 +194,6 @@ public class loginController {
 				String newPass=resetMail.mailSending(inputEmail);
 				logger.info("메일 발송 성공");
 				
-				HttpSession session=request.getSession();
 				session.setAttribute("newpass", newPass); //임시비밀번호 저장해두기
 				
 			} catch (MessagingException e) {
@@ -238,12 +215,37 @@ public class loginController {
 	}
 	
 	//비밀번호 변경 페이지
-	@RequestMapping("/login/updatePwdForm.do")
+	@RequestMapping(value="/login/updatePwdForm.do", method = RequestMethod.POST)
 	public void updatePwdForm() {
 		logger.info("비밀번호 변경 폼 보여주기");
 	}
 	
 	//비밀번호 변경 처리
-	
+	@RequestMapping(value="/login/updatePwd.do", method = RequestMethod.POST)
+	public String updatePwd(@RequestParam String pwd, HttpSession session, Model model) {
+		String userid=(String) session.getAttribute("userid");
+		logger.info("비밀번호 변경 처리, 파라미터 pwd={}, userid={}", pwd, userid);
+		
+		UserVO vo= new UserVO();
+		vo.setUserid(userid);
+		vo.setPwd(pwd);
+		
+		int cnt=userService.updatePwd(vo);
+		String msg="", url="";
+		if(cnt>0) {
+			msg="비밀번호가 변경되었습니다. 다시 로그인 해주십시오.";
+			url="/login/login.do";
+		}else {
+			msg="비밀번호 변경에 실패했습니다.";
+			url="/login/updateForm.do";
+		}
+		
+		model.addAttribute("msg", msg);
+		model.addAttribute("url", url);
+		
+		return "common/message";
+		
+		
+	}
 	
 }//loginController

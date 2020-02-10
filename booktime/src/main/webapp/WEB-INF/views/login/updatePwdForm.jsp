@@ -33,19 +33,19 @@
 	$(function(){
 		$("#btnPWD").click(function(){
 			var pwd=$("#pwd").val();
-			var newpass=$("#newpass").val();
+			var pwdOk=$("#pwdOk").val();
 			
-			if(newpass==pwd){
-				alert("비밀번호가 확인되었습니다.");
-			}else{
-				alert("비밀번호 오류");
+			if($("#pwd").val().length<8){
+				alert("비밀번호는 영문 대소문자, 숫자, 특수문자를 포함한 8자리 이상이어야 합니다.");
 				event.preventDefault();
 				$("#pwd").focus();
-			}
-			
-			//alert("작성하신 메일 주소가 존재하진 않습니다.");
-			//window.open("<c:url value='/login/resetPWD.do'/>","","width=500,height=500");
-			$("#chkNum").val().css("display","inline");
+			}else if(pwd!=pwdOk){
+				alert("비밀번호가 다릅니다. 다시 확인해 주세요.");
+				event.preventDefault();
+				$("#pwdOk").focus();
+			}else{
+				return true;
+			}			
 		});
 	});
 </script>
@@ -66,14 +66,15 @@
 					<span class="login100-form-title p-b-51">
 						비밀번호 변경하기
 					</span>
-					<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
-						<input class="input100" type="text" name="pwd" placeholder="새로운 비밀번호를 입력해주세요" id="pwd">
-						<span class="focus-input100"></span>
-					</div>
-					<p id="chkNum" style="display: none;">*비밀번호가 틀립니다.</p>
+					<input type="hidden" name="userid" value="${userid }">
 					
 					<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
-						<input class="input100" type="text" id="pwdOk" name="pwdOk" placeholder="비밀번호를 한번 더 입력해 주세요">
+						<input class="input100" type="password" name="pwd" placeholder="새로운 비밀번호를 입력해주세요" id="pwd">
+						<span class="focus-input100"></span>
+					</div>
+					
+					<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
+						<input class="input100" type="password" id="pwdOk" name="pwdOk" placeholder="비밀번호를 한번 더 입력해 주세요">
 						<span class="focus-input100"></span>
 					</div>
 					
