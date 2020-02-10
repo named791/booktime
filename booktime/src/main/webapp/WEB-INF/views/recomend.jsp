@@ -93,7 +93,7 @@ img,
 <div class="bg">
 	          <a href='<c:url value="/book/bookDetail.do?ItemId=${list.isbn}"/>'>
 	          <img class="card-img-top" src="${list.cover}" alt="bookcover"></a>
-	<!-- 오버레이 애니메이션 -->
+	<!-- 오버레이 애니메이션 링크 추가하기 -->
 	<div class="overlay">
 		<br><br>
       <h4>${list.managerId}의 추천</h4>
