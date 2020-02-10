@@ -91,7 +91,7 @@ public class BooklistController {
 	@RequestMapping("/bookBestList.do")
 	public String bestBook(@RequestParam(defaultValue="0") int cateNo, 
 			Model model) throws Exception {
-		logger.info("카테고리 번호={}, isbn13={}", cateNo);
+		logger.info("카테고리 번호={}, CateNo={}", cateNo);
 		
 		Category category=new Category();
 		List<Map<String, Object>> specialList=category.categorySpecial(cateNo);
@@ -100,6 +100,20 @@ public class BooklistController {
 		model.addAttribute("specialList", specialList);
 		
 		return "book/bookBestList";
+	}
+	
+	@RequestMapping("/bookRecommandList.do")
+	public String recommandBook(@RequestParam(defaultValue="0") int cateNo, 
+			Model model) throws Exception {
+		logger.info("카테고리 번호={}, cateNo={}", cateNo);
+		
+		Category category=new Category();
+		List<Map<String, Object>> recommandList=category.categoryRecommand(cateNo);
+		logger.info("카테고리 베스트 검색 리스트, specialList.size={}",recommandList.size());
+		
+		model.addAttribute("recommandList", recommandList);
+		
+		return "book/bookRecommandList";
 	}
 	
 	@RequestMapping("/addBookCart.do")

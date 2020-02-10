@@ -23,6 +23,7 @@ public class Category {
 	
 	private static final String LIST_NEW_ALL = "QueryType=ItemNewAll&";
 	private static final String LIST_NEW_SPECIAL = "QueryType=ItemNewSpecial&";
+	private static final String LIST_RECOMMAND = "QueryType=ItemEditorChoice&";
 	private static final String BESTSELLER = "QueryType=Bestseller&";
 	
 	private static final Logger logger
@@ -187,6 +188,77 @@ public class Category {
 			specialList.add(map);
         }
 		return specialList;
+	}
+	
+	public List<Map<String, Object>> categoryRecommand(int cateNo) throws Exception {
+		
+		//카테고리 번호
+		
+		String category = "CategoryId="
+		+cateNo
+		+"&";
+		
+		//신간 분야별 Special List url 조립
+		String apiSpecialURL = LIST_URL+TTB_KEY
+				+LIST_RECOMMAND
+				+category
+				+optionsCover();
+		URL urlSpecial = new URL(apiSpecialURL);
+		
+		System.out.println(urlSpecial);
+		
+		HttpURLConnection con = (HttpURLConnection)urlSpecial.openConnection();
+        con.setRequestMethod("GET");
+        int responseCode = con.getResponseCode();
+        BufferedReader br;
+        if(responseCode==200) { // 정상 호출
+            br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        } else {  // 에러 발생
+            br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+        }
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+        while ((inputLine = br.readLine()) != null) {
+            response.append(inputLine);
+        }
+        br.close();
+        con.disconnect();
+        
+        String cateResult=response.toString();
+        System.out.println(cateResult);
+        
+        JSONParser jp = new JSONParser();
+        JSONObject jsonObj = (JSONObject) jp.parse(cateResult);
+        
+		// String totalResults = (String)jsonObj.get("totalResults"); 
+        
+        JSONArray memberArray = (JSONArray)jsonObj.get("item");
+        System.out.println(memberArray.toString());
+		
+        List<Map<String, Object>> recommandList = new ArrayList<Map<String,Object>>();
+		for(int i=0;i<memberArray.size();i++) {
+			JSONObject jsonObjSpecial = (JSONObject)memberArray.get(i);
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			String title=(String) jsonObjSpecial.get("title");
+			map.put("title", title);	//제목
+			System.out.println(title);
+			String author=(String) jsonObjSpecial.get("author");
+			map.put("author", author); //지은이
+			System.out.println(author);
+			map.put("publisher", jsonObjSpecial.get("publisher"));	//출판사
+	        map.put("pubDate", jsonObjSpecial.get("pubDate"));	//출간일
+			//map.put("discription", jsonObjSpecial.get("discription"));	//설명
+			map.put("priceStandard", jsonObjSpecial.get("priceStandard"));	//가격
+			map.put("priceSales", jsonObjSpecial.get("priceSales"));	//가격
+			map.put("cover", jsonObjSpecial.get("cover"));	//표지
+			map.put("isbn13", jsonObjSpecial.get("isbn13"));	//isbn13(13자리)
+			//map.put("totalResults", totalResults);
+			
+			recommandList.add(map);
+        }
+		return recommandList;
 	}
 	
 	public String optionsCover() {

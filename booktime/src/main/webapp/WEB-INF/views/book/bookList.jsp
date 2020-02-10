@@ -266,6 +266,14 @@ div#FavoriteOk {
     margin-left: 587px;
     margin-top: 230px;
 }
+
+.widget.thumb {
+    width: 93px;
+}
+
+.bookList {
+    max-width: 1400px;
+}
 </style>
 
 <script type="text/javascript">
@@ -486,7 +494,7 @@ div#FavoriteOk {
 </div>
 
 <!-- Page Content -->
-<div class="container" id="container_div">
+<div class="container bookList" id="container_div">
 
 	<!-- Content Row -->
 	<div class="row">
@@ -695,6 +703,8 @@ div#FavoriteOk {
 						</table>
 					</div>
 				</form>
+				<!-- 추천 리스트 -->
+				<c:import url="/book/bookRecommandList.do"></c:import>
 				<div class="divPage">
 					<!-- 이전블럭으로 이동 -->
 					<c:if test="${pagingInfo.firstPage>1 }">	
