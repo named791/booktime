@@ -45,6 +45,7 @@
  .cover{
  	transform: perspective(750px) rotateY(-35deg) translateZ(-50px) translateX(-80px);
  	max-height: 100%;
+ 	min-height: 100%;
  	filter: contrast(0.9);
  }
  .selBar{
@@ -87,11 +88,16 @@
 	});
 </script>
   
-  <header>
+  <header style="margin-top: 5px;">
 
 	<div id="carouselExampleIndicators" class="carousel slide"
 		data-ride="carousel">
 		<ol class="carousel-indicators">
+			<c:if test="${empty list2 }">
+				<li class="selBar border-0" 
+					data-target="#carouselExampleIndicators" data-slide-to="0"></li>
+			</c:if>
+		
 			<c:if test="${!empty list2 }">
 				<c:set var="size" value="${fn:length(list2)-1 }"/>
 				<c:if test="${size>3 }">
@@ -106,6 +112,16 @@
 		</ol>
 		<div class="carousel-inner" role="listbox">
 			<!-- Slide One - Set the background image for this slide in the line below -->
+			<c:if test="${empty list2 }">
+				<div class="carousel-item active"
+						style="background-image: url('${list2[i].cover}'); ">
+						<div class="carousel-caption d-none d-md-block">
+							<h3 style="text-shadow: black 0 0 5px;">책 읽기 좋은 시간</h3>
+							<p style="text-shadow: black 0 0 5px;">어서오세요 책 읽기 좋은 시간 입니다.</p>
+						</div>
+					</div>
+			</c:if>
+			
 			<c:if test="${!empty list2 }">
 				<c:forEach var="i" begin="0" end="${size}">
 					<div class="carousel-item bg_i <c:if test='${i==0}'>active</c:if>"

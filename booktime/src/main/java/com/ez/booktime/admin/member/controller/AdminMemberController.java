@@ -87,6 +87,23 @@ public class AdminMemberController {
 		return bool;		
 	}
 	
+	@RequestMapping("/memberReturn.do")
+	public String memberReturn(@RequestParam String userid
+			,Model model) {
+		logger.info("멤버 복귀 처리 파라미터 userid={}",userid);
+		
+		int cnt = userService.returnMember(userid);
+		String msg = "탈퇴에서 복귀하였습니다.", url="/admin/memberEditForm.do?userid="+userid+"&mode=reload";
+		if(cnt<0) {
+			msg = "복귀 처리중 에러가 발생하였습니다.";
+		}
+		
+		model.addAttribute("msg", msg);
+		model.addAttribute("url", url);
+		
+		return "common/message";
+	}
+	
 	@RequestMapping(value="/memberEditForm.do", method=RequestMethod.GET)
 	public void memberEditForm_get(@RequestParam String userid,
 			Model model) {
@@ -177,7 +194,7 @@ public class AdminMemberController {
 				userVo.setUserid(userid);
 				userVo.setWithdrawalreason(withdrawalreason);
 				
-				String msg="", url="/admin/withdrowForm.do";
+				String msg="", url="/admin/withdrowForm.do?mode=close";
 				int cnt=userService.deleteUser(userVo);
 				if(cnt>0) {
 					msg="회원을 탈퇴 시켰습니다.";

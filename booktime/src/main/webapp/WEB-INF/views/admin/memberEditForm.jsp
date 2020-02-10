@@ -85,6 +85,10 @@
 </script>
 <script>
 	$(function() {
+		if("reload"=='${param.mode}'){
+			opener.location.reload();
+		}
+		
 		$("#close").click(function(){
 			self.close();		
 		});
@@ -112,143 +116,154 @@
 </head>
 
 <body class="bg-dark">
+	<c:if test="${empty userVo }">
+		<form action="<c:url value='/admin/memberReturn.do'/>" method="post" name="frmRe">
+			<input type="hidden" name="userid" value="${param.userid }">
+			<div class="text-center m-3 p-3" style="background-color: white;border-radius: 10px;">
+				<h2 class="text-danger">탈퇴한 회원 입니다.</h2>
+				<input type="submit" class="btn btn-danger" value="탈퇴 취소">
+			</div>
+		</form>
+	</c:if>
 
-	<div class="container">
-		<div class="card card-register mx-auto mt-5">
-			<div class="card-body">
-
-				<form name="loginForm" method="post"
-					action="<c:url value='/admin/memberEditForm.do'/>">
-					<div class="form-group">
-						<input type="hidden" id="grade" name="grade" class="form-control"
-							value="A">
-						<input type="hidden" id="pwd" name="pwd" class="form-control"
-							value="${userVo.pwd }">	
-						<div class="form-label-group">
-							<label for="userid">회원 아이디</label> <input type="text" id="userid"
-								name="userid" class="form-control" placeholder="아이디"
-								value="${param.userid}" readonly>
-						</div>
-					</div>
-
-					<div class="form-group">
-						<div class="form-label-group">
-							<label for="name">이름</label> <input type="text" id="name"
-								class="form-control" name="name" value="${userVo.name }"
-								readonly>
-						</div>
-					</div>
-
-					<div class="form-row">
-						<div class="form-group col-auto">
-							<label for="email1">이메일</label> <input type="text" id="email1"
-								name="email1" class="form-control" placeholder="이메일"
-								required="required" value="${userVo.email1 }">
-
-						</div>
-
-						<div class="form-group col-auto">
-							<label for="email2">&nbsp;</label> <select name="email2"
-								id="email2" name="email2" class="form-control" required>
-								<!-- if select -->
-								<option value="naver.com"
-								<c:if test="${vo.email2=='naver.com'}">
-            					selected
-            					</c:if>
-								>naver.com</option>
-								<option value="gmail.com"
-								<c:if test="${vo.email2=='gmail.com'}">
-            					selected
-            					</c:if>
-								>gmail.com</option>
-								<option value="daum.net"
-								<c:if test="${vo.email2=='daum.net'}">
-            					selected
-            					</c:if>
-								>daum.net</option>
-								<option value="nate.com"
-								<c:if test="${vo.email2=='nate.com'}">
-            					selected
-            					</c:if>
-								>nate.com</option>
-								<option value="etc">직접입력</option>
-							</select> <input type="text" id="email3" name="email3"
-								class="form-control" placeholder="이메일 직접입력"
-								style="visibility: hidden">
-						</div>
-					</div>
-
-					<div class="form-group">
-						<div class="form-label-group">
-							<label for="birthCal">생년월일</label> <input class="form-control"
-								type="date" value="${userVo.birth }" id="birthCal" name="birth"
-								readonly>
-						</div>
-					</div>
-
-
-					<div class="form-row">
+	<c:if test="${!empty userVo }">
+		<div class="container">
+			<div class="card card-register mx-auto mt-5">
+				<div class="card-body">
+	
+					<form name="loginForm" method="post"
+						action="<c:url value='/admin/memberEditForm.do'/>">
 						<div class="form-group">
-							<label for="phone">연락처</label> 
-							<input type="text" name="phone" id="phone"
-								class="form-control" required="required" value="${userVo.phone }">
-
+							<input type="hidden" id="grade" name="grade" class="form-control"
+								value="A">
+							<input type="hidden" id="pwd" name="pwd" class="form-control"
+								value="${userVo.pwd }">	
+							<div class="form-label-group">
+								<label for="userid">회원 아이디</label> <input type="text" id="userid"
+									name="userid" class="form-control" placeholder="아이디"
+									value="${param.userid}" readonly>
+							</div>
 						</div>
-					</div>
-
-					<div class="form-group">
+	
+						<div class="form-group">
+							<div class="form-label-group">
+								<label for="name">이름</label> <input type="text" id="name"
+									class="form-control" name="name" value="${userVo.name }"
+									readonly>
+							</div>
+						</div>
+	
 						<div class="form-row">
-							<div class="col-md-5">
-								<label for="zipcode">주소</label> <input type="text" id="zipcode"
-									name="zipcode" class="form-control" placeholder="우편번호"
-									required="required" value="${userVo.zipcode}">
-
+							<div class="form-group col-auto">
+								<label for="email1">이메일</label> <input type="text" id="email1"
+									name="email1" class="form-control" placeholder="이메일"
+									required="required" value="${userVo.email1 }">
+	
 							</div>
-
-							<div class="col-md-3">
-
-								<button type="button" class="btn btn-info"
-									onclick="sample4_execDaumPostcode()">우편번호 찾기</button>
-
+	
+							<div class="form-group col-auto">
+								<label for="email2">&nbsp;</label> <select name="email2"
+									id="email2" name="email2" class="form-control" required>
+									<!-- if select -->
+									<option value="naver.com"
+									<c:if test="${vo.email2=='naver.com'}">
+	            					selected
+	            					</c:if>
+									>naver.com</option>
+									<option value="gmail.com"
+									<c:if test="${vo.email2=='gmail.com'}">
+	            					selected
+	            					</c:if>
+									>gmail.com</option>
+									<option value="daum.net"
+									<c:if test="${vo.email2=='daum.net'}">
+	            					selected
+	            					</c:if>
+									>daum.net</option>
+									<option value="nate.com"
+									<c:if test="${vo.email2=='nate.com'}">
+	            					selected
+	            					</c:if>
+									>nate.com</option>
+									<option value="etc">직접입력</option>
+								</select> <input type="text" id="email3" name="email3"
+									class="form-control" placeholder="이메일 직접입력"
+									style="visibility: hidden">
 							</div>
 						</div>
-					</div>
-
-					<div class="form-group">
-
-						<input name="newaddress" type="text" class="form-control"
-							id="newaddress" placeholder="도로명 주소"
-							value="${userVo.newaddress }" required>
-
-					</div>
-
-					<div class="form-group">
-
-						<input name="parseladdress" type="text" class="form-control"
-							id="parseladdress" placeholder="지번 주소"
-							value="${userVo.parseladdress }" required> <span
-							id="addressError" style="color: red; font-size: 0.8em;"></span> <span
-							id="guide" style="color: #999; display: none"></span>
-
-					</div>
-
-					<div class="form-group">
-
-						<input name="addressdetail" type="text" class="form-control"
-							id="addressdetail" placeholder="상세주소"
-							value="${userVo.addressdetail }" required> <input
-							type="text" id="extraAddress" style="display: none;">
-
-					</div>
-
-					<div class="text-center mt-2">
-						<a href="#" class="btn btn-danger" id="close">취소</a>
-						<button class="btn btn-info" name="submit" type="submit"
-						id="edit">수정</a>
-					</div>
-				</form>
+	
+						<div class="form-group">
+							<div class="form-label-group">
+								<label for="birthCal">생년월일</label> <input class="form-control"
+									type="date" value="${userVo.birth }" id="birthCal" name="birth"
+									readonly>
+							</div>
+						</div>
+	
+	
+						<div class="form-row">
+							<div class="form-group">
+								<label for="phone">연락처</label> 
+								<input type="text" name="phone" id="phone"
+									class="form-control" required="required" value="${userVo.phone }">
+	
+							</div>
+						</div>
+	
+						<div class="form-group">
+							<div class="form-row">
+								<div class="col-md-5">
+									<label for="zipcode">주소</label> <input type="text" id="zipcode"
+										name="zipcode" class="form-control" placeholder="우편번호"
+										required="required" value="${userVo.zipcode}">
+	
+								</div>
+	
+								<div class="col-md-3">
+	
+									<button type="button" class="btn btn-info"
+										onclick="sample4_execDaumPostcode()">우편번호 찾기</button>
+	
+								</div>
+							</div>
+						</div>
+	
+						<div class="form-group">
+	
+							<input name="newaddress" type="text" class="form-control"
+								id="newaddress" placeholder="도로명 주소"
+								value="${userVo.newaddress }" required>
+	
+						</div>
+	
+						<div class="form-group">
+	
+							<input name="parseladdress" type="text" class="form-control"
+								id="parseladdress" placeholder="지번 주소"
+								value="${userVo.parseladdress }" required> <span
+								id="addressError" style="color: red; font-size: 0.8em;"></span> <span
+								id="guide" style="color: #999; display: none"></span>
+	
+						</div>
+	
+						<div class="form-group">
+	
+							<input name="addressdetail" type="text" class="form-control"
+								id="addressdetail" placeholder="상세주소"
+								value="${userVo.addressdetail }" required> <input
+								type="text" id="extraAddress" style="display: none;">
+	
+						</div>
+	
+						<div class="text-center mt-2">
+							<a href="#" class="btn btn-danger" id="close">취소</a>
+							<button class="btn btn-info" name="submit" type="submit"
+							id="edit">수정</a>
+						</div>
+					</form>
+				</div>
 			</div>
 		</div>
-	</div>
+	</c:if>
 </body>
 </html>

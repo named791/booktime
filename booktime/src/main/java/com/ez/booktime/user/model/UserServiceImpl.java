@@ -114,4 +114,9 @@ public class UserServiceImpl implements UserService{
 	public List<Map<String, Object>> selectEmails() {
 		return userDao.selectEmails();
 	}
+
+	@Override
+	public int returnMember(String userid) {
+		return userDao.returnMember(userid);
+	}
 }

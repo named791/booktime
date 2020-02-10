@@ -91,6 +91,12 @@
 		select distinct email1||'@'||email2 as "email" from "USER"
 		where grade!='A' and emailAgree='Y'
 	</select>
+	
+	<update id="returnMember" parameterType="String">
+		update "USER"
+		set WITHDRAWALDATE = null, WITHDRAWALREASON = null
+		where userid=#{userid}
+	</update>
 </mapper>
 
 
