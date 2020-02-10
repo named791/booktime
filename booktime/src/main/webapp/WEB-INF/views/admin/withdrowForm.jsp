@@ -17,6 +17,7 @@
 <script type="text/javascript">
 $(function() {
 	$("#close").click(function(){
+		opener.location.reload();
 		self.close();		
 	});
 });	
@@ -41,7 +42,7 @@ $(function() {
 					<textarea name="reason" class="form-control" id="reason" 
 						rows="10" style="width: 100%;"></textarea>
 					<div class="text-center mt-2">
-						<a href="" class="btn btn-danger" id="close">취소</a>
+						<a href="" class="btn btn-danger" id="close">닫기</a>
 						<button class="btn btn-info" name="submit" type="submit"
 						id="drow">탈퇴</a>
 					</div>

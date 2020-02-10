@@ -32,14 +32,14 @@
 			},
 			success : function(result){
 				alert("추천도서 등록 완료");
+				opener.location.reload();
+				self.close();
 			},
 			error:function(xhr, status, error){
 				alert("Error:"+ status+"=>"+ error);
 			}
 				
-		});
-			opener.location.reload();
-			self.close();		
+		});		
 	});
 });
 	function pageFunc(curPage){		

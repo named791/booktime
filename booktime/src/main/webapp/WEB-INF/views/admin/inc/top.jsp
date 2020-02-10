@@ -17,13 +17,18 @@
 
   <!-- Custom styles for this template-->
   <link href="${pageContext.request.contextPath}/resources/css/sb-admin.css" rel="stylesheet">
+	
+	<style>
+@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic&display=swap');
+</style>
 
 	<!-- chart.js source -->
 	
 	<!-- chart.js CDN-->
 	<script src="<c:url value='https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js' />"></script>	
 	
-	<script async src="<c:url value='http://www.google-analytics.com/analytics.js' />"></script><script src="./Bar Chart_files/Chart.min.js.다운로드"></script>
+	<script async src="<c:url value='http://www.google-analytics.com/analytics.js' />"></script>
+	<script src="./Bar Chart_files/Chart.min.js.다운로드"></script>
 	<script src="<c:url value='/resources/js/utils.js' />"></script>
 	<style>
 	canvas {
@@ -165,13 +170,13 @@ to {
           <span>회원 관리</span>
         </a>
       </li>
-      <!-- 
+      
       <li class="nav-item">
         <a class="nav-link" href="${pageContext.request.contextPath}/admin/adminEvent.do">
           <span>이벤트 관리</span>
         </a>
       </li>
-       -->
+      
       <li class="nav-item">
       <a class="nav-link" href="${pageContext.request.contextPath}/admin/adminRe.do">
           <span>노출관리</span></a>

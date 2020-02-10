@@ -39,6 +39,16 @@
 			deleteRecommend(recombookNo);
 	
 		});
+		
+		$(".bt_detail").click(function(){
+			var checkBtn = $(this);
+	          
+	        var i=checkBtn.parent();
+	        var isbn=i.find("input[name='detail']").val();
+	          
+	        //alert(isbn);
+	        location.href="/booktime/book/bookDetail.do?ItemId="+isbn;
+		});
 
 	});
 
@@ -310,9 +320,9 @@ img {
 
 									</div>
 									<div class="widget-content-right">
+										<input type="hidden" name="detail" value="${vo.isbn }">
 										<button
-											class="border-0 btn-transition btn btn-outline-success"
-											id="bt_detail">
+											class="border-0 btn-transition btn btn-outline-success bt_detail">
 											상세보기</button>
 									</div>
 								</div>

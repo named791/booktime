@@ -50,29 +50,32 @@
 					<c:if test="${!empty list}">
 						<c:forEach var="vo" items="${list }">
 							<tr>
+														
 								<td>${vo.name }</td>
 								<td>${vo.userid }</td>
 								<td>${vo.email1 }</td>
 								<td>${vo.phone }</td>
 								<td>${vo.zipcode }</td>
 								<td>${vo.birth }</td>
-					<th>
-					<input type="hidden" id="userid" value="${vo.userid }">
+					
+					<td>
+					<input type="hidden" name="withdrawaldate" value="${vo.withdrawaldate }">					
                     <a class="btn btn-info edit"
 					href="#"
 					role="button">수정</a>
-					</th>
-                    <th>
+					</td>
+                    <td>
                     <c:if test="${empty vo.withdrawaldate}">
                     <a class="btn btn-danger withdrow"
 					href="#"
 					role="button">탈퇴</a>
 					</c:if>
+					
 					<c:if test="${!empty vo.withdrawaldate}">
                     탈퇴된 회원
 					</c:if>
-					</th>		
-							</tr>
+					</td>		
+</tr>
 						</c:forEach>
 					</c:if>
 					<!-- 반복문 끝 -->
@@ -92,21 +95,48 @@
       </div>
       <!-- /.container-fluid -->
 <script type="text/javascript">
+$(function(){
+
       $(".withdrow").click(function(){
-				/*탈퇴 여부 검사 추가*/
-				var id=$("#userid").val();
-				win = window.open("<c:url value='/admin/withdrowForm.do?userid="+id+"'/>","refund","top=100,left=300,resizable=no,location=no,width=550,height=650");
+              
+              var btn = $(this);
+              
+              var trr = btn.parent().parent();
+              var tdd = trr.children();
+    	  
+              var userid = tdd.eq(1).text();
+				win = window.open("<c:url value='/admin/withdrowForm.do?userid="+userid+"'/>","refund","top=100,left=300,resizable=no,location=no,width=550,height=650");
 
 				win.focus();
 	});
       
       $(".edit").click(function(){
-			/*탈퇴 여부 검사 추가*/
-			var id=$("#userid").val();
+          
+          var checkBtn = $(this);
+          
+          var tr = checkBtn.parent().parent();
+          var td = tr.children();
+          
+          var i=checkBtn.parent();
+          var input=i.find("input[name='withdrawaldate']").val();
+          
+          //console.log("클릭한 Row의 모든 데이터 : "+tr.text());
+          
+          var id = td.eq(1).text();
+          //alert(id);
+          
+          //alert(input);
+
+    	  if ( input =="") {
 			win = window.open("<c:url value='/admin/memberEditForm.do?userid="+id+"'/>","refund","top=100,left=300,resizable=no,location=no,width=550,height=650");
 
 			win.focus();
-});
+    	  }else{
+    		  alert("이미 탈퇴된 회원입니다");
+    	  }
+    	  
+	});
+})
 </script>
 
      <%@ include file="inc/bottom.jsp" %>

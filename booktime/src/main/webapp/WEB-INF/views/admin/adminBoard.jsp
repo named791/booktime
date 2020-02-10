@@ -94,7 +94,12 @@
 <script>
 $(function(){
 	$(".delete").click(function(){
-		var no=$("#boardNo").val();
+		var checkBtn = $(this);
+        
+        var i=checkBtn.parent();
+        var no=i.find("input[name='boardNo']").val();
+          
+        alert(no);
 		
 		if(confirm("정말로 삭제하시겠습니까?"))
 		 {
