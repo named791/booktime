@@ -144,8 +144,8 @@ to {
 							${sessionScope.useridA }님 </b></li>
 				</c:if>
 				
-				<li class="nav-item" style="width: 90px"><a class="nav-link mailing"
-					href="#"> 메일 쓰기 </a></li>
+				<!-- <li class="nav-item" style="width: 90px"><a class="nav-link mailing"
+					href="#"> 메일 쓰기 </a></li> -->
 					
 				<li class="nav-item dropdown no-arrow">
 					<a class="nav-link dropdown-toggle" href="#" id="userDropdown"

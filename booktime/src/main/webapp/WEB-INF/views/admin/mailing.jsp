@@ -38,7 +38,7 @@
 			$(".agree option").prop("selected", $(this).prop("checked"));
 		});
 		
-		/* $("input[name=addEmail]").autocomplete({
+/* 		$("input[name=addEmail]").autocomplete({
 			source : ${arr},	// source 는 자동 완성 대상
 			select : function(event, ui) {	//아이템 선택시
 				console.log(ui.item);
@@ -58,8 +58,8 @@
 				console.log(event);
 			}
 
-		}); */
-	});
+		});
+ */	});
 </script>
 </head>
 <body class="bg-info">
