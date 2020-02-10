@@ -22,9 +22,7 @@
  font-family:'Black Han Sans', sans-serif;
  color:#00bcd5;
  }
- .margin10{
- margin-bottom:10px; margin-right:10px;
- }
+ .margin10{margin-bottom:10px; margin-right:10px;}
  .card-title a{
  font-family:'Nanum Myeongjo', serif;
  font-weight:bold;
@@ -36,50 +34,107 @@
   .card-body{
  	height:150px;
  }
-
+ .side{
+ 	background-color: #f5f5f5;
+ 	width:70px;
+ 	display: inline-block;
+ 	height: 100%;
+ 	vertical-align: top;
+ 	transform: perspective(750px) rotateY(35deg) translateZ(-40px) translateX(-60px);
+ }
+ .cover{
+ 	transform: perspective(750px) rotateY(-35deg) translateZ(-50px) translateX(-80px);
+ 	max-height: 100%;
+ 	filter: contrast(0.9);
+ }
+ .selBar{
+    margin-bottom: 10px;
+    box-shadow: black 0 0 5px;
+ }
+ .bg_i{
+ 	background-position-y: -350px;
+ }
+ .bg_i:hover{
+ 	cursor: pointer;
+ }
+ 
+ .book{
+ 	filter: drop-shadow(5px 5px 5px #222);
+ 	backdrop-filter: blur(5px);
+ }
+ .banner{
+ 	color: white;
+ 	font-weight: bold;
+ }
+ .banner:hover{
+ 	color: white;
+ 	font-weight: bold;
+ }
+ 
 </style>  
+<script type="text/javascript">
+	$(function(){
+		$(".bg_i").click(function(){
+			var link = $(this).find(".banner").attr("href");
+			location.href = link;
+		});
+	});
+</script>
   
   <header>
-  
-    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-      <ol class="carousel-indicators">
-        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-      </ol>
-      <div class="carousel-inner" role="listbox">
-        <!-- Slide One - Set the background image for this slide in the line below -->
-        <div class="carousel-item active" style="background-image: url('https://19wan424aiu917var915d3yx-wpengine.netdna-ssl.com/ibiza/wp-content/uploads/sites/2/2017/02/170529_AMISTAT-IBZ_Jordi-Cervera-9573-1900x1080.jpg')">
-          <div class="carousel-caption d-none d-md-block">
-            <h3>First Slide</h3>
-            <p>This is a description for the first slide.</p>
-          </div>
-        </div>
-        <!-- Slide Two - Set the background image for this slide in the line below -->
-        <div class="carousel-item" style="background-image: url('https://cdn.designraid.net/wp-content/uploads/2019/05/22180108/LIBRO_vwdc00_Hero_designraid-1900x1080.jpg')">
-          <div class="carousel-caption d-none d-md-block">
-            <h3>Second Slide</h3>
-            <p>This is a description for the second slide.</p>
-          </div>
-        </div>
-        <!-- Slide Three - Set the background image for this slide in the line below -->
-        <div class="carousel-item" style="background-image: url('https://caseantiques.com/wp-content/uploads/auctions/2018-01-27/265_19-1900x1080.jpg')">
-          <div class="carousel-caption d-none d-md-block">
-            <h3>Third Slide</h3>
-            <p>This is a description for the third slide.</p>
-          </div>
-        </div>
-      </div>
-      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
-    </div>
-  </header>
+
+	<div id="carouselExampleIndicators" class="carousel slide"
+		data-ride="carousel">
+		<ol class="carousel-indicators">
+			<c:if test="${!empty list2 }">
+				<c:set var="size" value="${fn:length(list2)-1 }"/>
+				<c:if test="${size>3 }">
+					<c:set var="size" value="2"/>
+				</c:if>
+				
+				<c:forEach var="i" begin="0" end="${size}">
+					<li class="selBar border-0 <c:if test='${i<1}'>active</c:if>" 
+					data-target="#carouselExampleIndicators" data-slide-to="${i}"></li>
+				</c:forEach>
+			</c:if>
+		</ol>
+		<div class="carousel-inner" role="listbox">
+			<!-- Slide One - Set the background image for this slide in the line below -->
+			<c:if test="${!empty list2 }">
+				<c:forEach var="i" begin="0" end="${size}">
+					<div class="carousel-item bg_i <c:if test='${i==0}'>active</c:if>"
+						style="background-image: url('${list2[i].cover}'); ">
+						<div style="width: 100%;height:100%;position: absolute;" class="text-center book">
+							<img alt="cover" src="${list2[i].cover }" class="cover"><div class="side"></div>
+							
+						</div>
+						<div class="carousel-caption d-none d-md-block">
+							<h3 style="text-shadow: black 0 0 5px;">오늘의 추천도서</h3>
+							<c:set var="bookName" value="${list2[i].bookName }"/>
+							<c:if test="${fn:length(bookName)>30 }">
+								<c:set var="bookName" value="${fn:substring(bookName,0,30)}"/>
+							</c:if>
+							<p style="text-shadow: black 0 0 5px;">
+							<a class="banner" id="banner${i}" 
+								href="<c:url value="/book/bookDetail.do?ItemId=${list2[i].isbn}"/>">
+							${bookName }</a></p>
+						</div>
+					</div>
+				</c:forEach>
+			</c:if>
+			
+		</div>
+		<a class="carousel-control-prev" href="#carouselExampleIndicators"
+			role="button" data-slide="prev"> <span
+			class="carousel-control-prev-icon" aria-hidden="true"></span> <span
+			class="sr-only">Previous</span>
+		</a> <a class="carousel-control-next" href="#carouselExampleIndicators"
+			role="button" data-slide="next"> <span
+			class="carousel-control-next-icon" aria-hidden="true"></span> <span
+			class="sr-only">Next</span>
+		</a>
+	</div>
+</header>
 
   <!-- Page Content -->
   <div class="container" id="mainView">

@@ -85,6 +85,7 @@
 	<select id="selectUserid" parameterType="userVo" resultType="string">
 		select userid from "USER" where name=#{name} and email1=#{email1} 
 		and email2=#{email2} and withdrawaldate is null
+	</select>
 
 	<select id="selectEmails" resultType="map">
 		select distinct email1||'@'||email2 as "email" from "USER"

@@ -94,7 +94,7 @@ public class AdminRecommendBookController {
 			HttpSession session,
 			Model model) {
 		
-		String userid=(String)session.getAttribute("userid");
+		String userid=(String)session.getAttribute("useridA");
 		logger.info("관리자 아이디={}",userid);
 		
 		recommendVo.setManagerId(userid);
