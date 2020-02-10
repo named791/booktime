@@ -225,7 +225,11 @@ public class AladinAPI {
 			map.put("stockstatus", jsonObj.get("stockstatus"));	//재고상태 정상유통일경우 공백
 			
 			String cates = (String)jsonObj.get("categoryName");
-			map.put("cateName", cates.split(">")[1].trim());	//카테고리 명
+			String cate = "";
+			if(cates!=null && !cates.isEmpty()) {
+				cate = cates.split(">")[1].trim();
+			}
+			map.put("cateName", cate);	//카테고리 명
 	
 			String coverURL = (String)jsonObj.get("cover");
 			map.put("cover", coverURL.replace("/cover/", "/cover500/"));	//표지

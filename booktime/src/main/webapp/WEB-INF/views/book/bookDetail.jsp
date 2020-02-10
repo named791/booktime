@@ -71,7 +71,12 @@
 	#cover .details{
 		transition-duration: 1s;
 	}
-	
+	.eventContent img{
+		display: none;
+	}
+	.eventOne>img{
+		width: 150px;
+	}
 </style>
 <script type="text/javascript">
 	$(function(){
@@ -324,18 +329,24 @@
 	</a>
 	<hr>
 	
-	<!-- 
-	<h3>이벤트</h3>
-	<div>
-		<img alt="이벤트 이미지" class="pull-left"
-			src="http://image.yes24.com/images/13_EventWorld/162028_01(1).jpg">
-		<div>
-			<b>2020년 나의 대박 운세는?</b><br>
-			2020년 운세 확인하고 1천원 상품권 받자!<br>
-			2020년 01월 01일 ~ 2020년 01월 31일
-		</div>
+	<c:if test="${!empty eventList }">
+		<h3>이벤트</h3>
+		<c:forEach var="map" items="${eventList}">
+			<div class="mb-2 eventOne" style="background-color: #dee2e6;border-radius: 10px;">
+				<c:if test="${!empty map['imgUrl']}">
+					${map['imgUrl']}
+				</c:if>
+				<c:if test="${empty map['imgUrl']}">
+					<img alt="빈이미지" src="<c:url value='/resources/images/bookTimeSquare.png'/>">
+				</c:if>
+				<div style="display: inline-block;" class="ml-2">
+					<b><a href="<c:url value='/freeBoard/Detail.do?boardNo=${map["no"]}'/>">${map['title']}</a></b><br>
+					<div class="eventContent">${map['content']}</div>
+				</div>
+			</div>
+		</c:forEach>
 		<hr style="clear: both;">
-	</div> -->
+	</c:if>
 	
 	<c:import url="/review/review.do?isbn=${map['isbn13']}"></c:import>
 </div>

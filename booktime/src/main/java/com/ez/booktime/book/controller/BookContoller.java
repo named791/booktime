@@ -1,5 +1,8 @@
 package com.ez.booktime.book.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.ez.booktime.api.AladinAPI;
 import com.ez.booktime.category.model.BookCategoryService;
 import com.ez.booktime.category.model.BookCategoryVO;
+import com.ez.booktime.freeBoard.controller.UploadController;
 import com.ez.booktime.freeBoard.model.FreeBoardService;
 import com.ez.booktime.freeBoard.model.FreeBoardVO;
 import com.ez.booktime.inquiry.model.BoardVO;
@@ -37,6 +41,9 @@ public class BookContoller {
 	
 	@Autowired
 	private FreeBoardService boardService;
+	
+	@Autowired
+	private UploadController ckEdior;
 	
 	@RequestMapping("/bookDetail.do")
 	public String productDetail(@RequestParam(required = false) String ItemId, Model model) {
@@ -70,8 +77,11 @@ public class BookContoller {
 		bVo.setCategory(ItemId);
 		int reviewCnt = boardService.countReviews(bVo);
 		
+		List<Map<String, Object>> eventList = ckEdior.getEventMapList(150);
+		
 		model.addAttribute("map", map);
 		model.addAttribute("reviewCnt", reviewCnt);
+		model.addAttribute("eventList", eventList);
 		
 		return "book/bookDetail";
 	}
