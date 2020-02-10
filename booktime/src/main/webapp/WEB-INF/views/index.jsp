@@ -71,6 +71,12 @@
  	font-weight: bold;
  }
  
+ a.moveTop {
+    position: fixed;
+    bottom: 20px;
+    right: 25px;
+    color:gray;
+}
 </style>  
 <script type="text/javascript">
 	$(function(){
@@ -185,6 +191,11 @@
 	
 	</div>
 	</div>
+	<a href="#" class="moveTop">
+					<i class="fa fa-caret-up">
+					맨 위로
+					</i>
+				</a>
   <!-- /.container -->
 </div>
   <!-- Footer -->

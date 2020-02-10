@@ -19,11 +19,11 @@
 
 
 <!-- 썸네일 위젯 -->
-<div class="widget thumb" style="border: 3px solid cornflowerblue" id="floatMenu">
+<div class="widget sticky" style="border: 3px solid cornflowerblue" id="floatMenu">
 	<!-- 원하는 내용을 입력하세요. -->
 	<p class="recTitle">MD추천리스트</p>
 	<p class="recInfo">
-		<c:forEach var="map" items="${recommandList }" end="4">
+		<c:forEach var="map" items="${recommandList }" end="9">
 			<a href='<c:url value="/book/bookDetail.do?ItemId=${map['isbn13'] }"/>' class="cover">
 				<img src="${map['cover'] }" />
 			</a> 
@@ -43,3 +43,4 @@
 		</c:forEach>
 	<p>
 </div>
+
