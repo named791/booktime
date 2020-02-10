@@ -7,7 +7,8 @@
     background-color: #37d980;
     border-color: #37d980;
     border-radius:0;
-    margin-bottom:10px
+    margin-bottom:10px;
+    margin-top:10px;
 }
 .btn-blog:hover,
 .btn-blog:focus,
@@ -19,7 +20,8 @@
     border-color: #34ca78;
 }
  h2{color:#1c1c1c;}
- .margin10{margin-bottom:10px; margin-right:10px;}
+ .margin10{margin-bottom:10px; margin-right:10px;
+ }
 </style>  
   
   <!--검색 Navbar-->

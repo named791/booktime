@@ -5,6 +5,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
     
+<script type="text/javascript" src="<c:url value='/resources/js/jquery-3.4.1.min.js'/>"></script>
 <style type="text/css">
 .top_div {
     margin-bottom: 75px;
@@ -103,11 +104,12 @@ ul.book {
 }
 .ss_line4 {
     margin-bottom: 15px;
-    padding-right: 13px;
+    padding-right: 290px;
     margin-top: 15px;
 }
 .ss_book_table{
 	margin-bottom: 20px;
+	width: 1000px;
 }
 img.img_all {
     resize: both;
@@ -132,7 +134,7 @@ img.image_circle {
 }
 
 .bookBestSection {
-    margin-left: 6px;
+    width: 928px;
 }
 .bookBestTable {
     float: left;
@@ -141,6 +143,7 @@ img.image_circle {
     margin-bottom: 10px;
     text-align: center;
     margin-top: 10px;
+    margin-right: 165px;
 }
 .search_t_g{
 	margin-top: 10px;
@@ -201,7 +204,7 @@ input[type="checkbox"] {
 
 .ss_book_list {
     /* margin-bottom: 65px; */
-    margin-left: -31px;
+    margin-left: -27px;
     margin-top: -98px;
     
 }
@@ -229,13 +232,13 @@ input.button_search_storage.btFavorite {
 
 td.td_bt {
     width: 10px;
-    padding-right: 130px;
+    float: left;
+    margin-left: 266px;
 }
 
 td.td_line.td_info {
     width: 398px;
     float: left;
-    /* padding-left: 81px; */
     padding-top: 98px;
 }
 
@@ -253,10 +256,6 @@ input.button_search_buyitnow_new {
     padding-bottom: 24px;
 }
 
-table.ss_book_table {
-    margin-left: 50px;
-}
-
 td.td_cover {
     width: 180px;
 }
@@ -268,11 +267,45 @@ div#FavoriteOk {
 }
 
 .widget.thumb {
-    width: 93px;
+    width: 126px;
+    float: right;
+    margin-right: 93px;
+    text-align: center;
+    background-color:white;
 }
 
 .bookList {
-    max-width: 1400px;
+    max-width: 1500px;
+}
+
+table.header_new {
+    float: left;
+}
+
+p.recTitle {
+    font-size: 14px;
+    font-family: inherit;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    background-color: cornflowerblue;
+}
+
+.recTitleList {
+    font-size: 12px;
+    margin-left: 5px;
+    font-family: fantasy;
+    font-weight: 600;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.mb-4, .my-4 {
+    margin-bottom: 1.5rem !important;
+    margin-top: 10px;
 }
 </style>
 
@@ -446,6 +479,23 @@ div#FavoriteOk {
 	       
 	    });
 		
+		// 기존 css에서 플로팅 배너 위치(top)값을 가져와 저장한다.
+		   var floatPosition = parseInt($("div#moveTop").css('top'));
+		   // 250px 이런식으로 가져오므로 여기서 숫자만 가져온다. parseInt( 값 );
+
+		   $(window).scroll(function() {
+		      // 현재 스크롤 위치를 가져온다.
+		      var scrollTop = $(window).scrollTop();
+		      var newPosition = scrollTop + floatPosition + "px";
+
+		      // 애니메이션 없이 바로 따라감
+		      $("div#moveTop").css('top', newPosition);
+
+		      $("div#moveTop").stop().animate({
+		         "top" : newPosition
+		      }, 500);
+
+		   }).scroll();		
 	});
 	
 	//페이징 처리 폼 넘기기
@@ -455,6 +505,8 @@ div#FavoriteOk {
 	}
 	
 </script>	
+
+
 
 <!-- 페이징 처리 관련 form -->
 <form action="<c:url value='/book/bookList.do'/>" 
@@ -505,7 +557,7 @@ div#FavoriteOk {
     	<!-- Content Column -->
     	<div class="col-lg-10 mt-3">
 	    	<div class="top_div">
-				<table align="right" cellpadding="0" >
+				<table class="header_new" align="right" cellpadding="0" >
 				    <tbody>
 				    	<tr>
 					        <td>
@@ -623,7 +675,7 @@ div#FavoriteOk {
 								<c:forEach var="i" begin="0" end="${fn:length(list)-1}" varStatus="status">
 									<c:set var="map" value="${list[i] }"/>
 									<tr class="tb_row" data-value="${status.count }">
-										<td class="td_line">
+										<td class="td_line checkboxLine">
 											<input name="checkbox" type="checkbox" class="checkbox"
 											data-isbn=${map['isbn13'] }>
 										</td>
@@ -700,11 +752,12 @@ div#FavoriteOk {
 									</tr>
 								</c:forEach>
 							</tbody>
+								<!-- 추천 리스트 -->
+								<c:import url="/book/bookRecommandList.do"></c:import>
 						</table>
 					</div>
 				</form>
-				<!-- 추천 리스트 -->
-				<c:import url="/book/bookRecommandList.do"></c:import>
+				
 				<div class="divPage">
 					<!-- 이전블럭으로 이동 -->
 					<c:if test="${pagingInfo.firstPage>1 }">	
@@ -762,6 +815,11 @@ div#FavoriteOk {
 								</tr>
 							</tbody>
 						</table>
+						<div id="moveTop">
+							<a href="#">
+								<img src="" class="topMove" alt="맨위로이동" >
+							</a>
+						</div>
 					</div>
 					<br style="clear: both;">
 				</div>
