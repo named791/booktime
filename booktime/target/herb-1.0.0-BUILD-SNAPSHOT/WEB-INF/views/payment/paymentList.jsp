@@ -13,10 +13,6 @@
 	table tr:nth-of-type(odd) {
 		background-color: #00000005;
 	}
-	.target{
-		position: relative;
-		top: -70px;
-	}
 	.paging a{
 		border: 1px solid #17a2b8;
 	}
@@ -48,11 +44,9 @@
 		
 		$(window).resize(function(){
 			if(window.outerWidth<=1005){
-				$(".target").css("top", "0");
 				$(".table *").css("font-size", "0.95em");
 				$(".table img").css("width", "30px");
 			}else{
-				$(".target").css("top", "-70px");
 				$(".table *").css("font-size", "");
 				$(".table img").css("width", "50px");
 			}

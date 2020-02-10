@@ -21,7 +21,7 @@
 		select * from reply
 		where boardno=#{boardNo}
 		and replydeletedate is null
-		order by groupno desc,step
+		order by groupNo ,step
 	</select>
 	
 	<update id="drawReply" parameterType="int">

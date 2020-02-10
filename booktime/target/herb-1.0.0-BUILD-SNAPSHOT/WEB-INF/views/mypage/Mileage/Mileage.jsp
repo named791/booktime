@@ -2,6 +2,16 @@
 	pageEncoding="UTF-8"%>
 <%@include file="../../inc/top.jsp"%>
 <%@include file="../includeMy.jsp" %>
+
+<style type="text/css">
+	.table td, .table th{
+		text-align: center;
+	}
+	
+	td:nth-of-type(odd) {
+		background-color: #e9ecef45;
+	}
+</style>
 <script>
 $(function(){		
 	$("form[name=frm1]").submit(function(){
@@ -25,9 +35,8 @@ function pageFunc(curPage){
 </script>
 
 <div class="col">
-	<br>
 	<h1>마일리지</h1>
-	<table style="border: 1px solid #bcbcbc;">
+	<table style="border: 1px solid #bcbcbc;width: 100%;" class="mb-3">
 		<tr>
 			<td>
 			<p style="margin:20px;">
@@ -60,11 +69,12 @@ function pageFunc(curPage){
 	<table class="table" id="mileageList">
 		<thead class="thead-light">
 			<tr>
-				<th scope="col">적립일</th>
+				<th scope="col">변동일</th>
 				<th scope="col">적립 포인트</th>
 				<th scope="col">결제 번호</th>
-				<th scope="col">결제 포인트</th>
+				<th scope="col">차감 포인트</th>
 				<th scope="col">만료일 </th>
+				<th scope="col">변동사유</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -78,19 +88,8 @@ function pageFunc(curPage){
 
 			<!-- 자유게시판 반복문 시작 -->
 			<c:if test="${!empty list}">
-			
-			<c:set var="savingPoint" value="0" />
-			<c:set var="usePoint" value="0" />
-			<c:set var="tmp1" value="0" />
-			<c:set var="tmp2" value="0" />
-			<c:set var="sumPoint" value="0" />
-			<c:set var="minusPoint" value="0" />
-			<c:set var="totalPoint" value="0" />
-			
 				<c:forEach var="vo" items="${list }">
-				
-				<c:set var="savingPoint" value="${vo.savingPoint }" />
-				<c:set var="usePoint" value="${vo.usePoint }" />
+
 					<tr>
 						<td><fmt:formatDate value="${vo.savingDate }"
 								pattern="yyyy-MM-dd" /></td>
@@ -99,12 +98,7 @@ function pageFunc(curPage){
 						<td>${vo.usePoint }</td>
 						<td><fmt:formatDate value="${vo.endDate }"
 								pattern="yyyy-MM-dd" /></td>
-				<c:set var="sumPoint" value="${savingPoint+tmp1 }" />
-				<c:set var="minusPoint" value="${usePoint+tmp2 }" />
-
-				<c:set var="tmp1" value="${sumPoint }" />
-				<c:set var="tmp2" value="${useminusPoint }" />	
-					
+						<td>${fn:replace(vo.reason,'set','') }</td>
 					</tr>
 				</c:forEach>
 			</c:if>
@@ -113,12 +107,10 @@ function pageFunc(curPage){
 	</table>
 
 	<br>
-	<c:set var="totalPoint" value="${tmp1-tmp2 }" />
 	
 	<div class="text-right">
 	<span>보유한 마일리지 총액 : </span>
-	<span style="color:orange;font-weight:bold;font-size:3em;">${totalPoint }</span>
-	<span> 원</span>
+	<span style="color:orange;font-weight:bold;font-size:3em;"><fmt:formatNumber value="${vo.mileage }" pattern="#,###"/>P</span>
 	</div>
 	<br>
 	<div class="row justify-content-center" id="paging">

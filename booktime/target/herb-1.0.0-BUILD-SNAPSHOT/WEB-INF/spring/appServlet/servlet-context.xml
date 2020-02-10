@@ -65,8 +65,19 @@
 			<mapping path="/favorite/favorite.do"/>
 			<beans:ref bean="loginIntercepter"/>
 		</interceptor>
+		<interceptor>
+			<mapping path="/mypage/mypage.do"/>
+			<mapping path="/mypage/Mileage/Mileage.do"/>
+			<mapping path="/payment/paymentSheet.do"/>
+			<beans:ref bean="mileageIntercepter"/>
+		</interceptor>
 		
-
+		<interceptor>
+			<mapping path="/admin/**"/>
+			<exclude-mapping path="/admin/adminLogin.do"/>
+			<exclude-mapping path="/admin/adminPassword.do"/>
+			<beans:ref bean="adminInterceptor"/>
+		</interceptor>
 	</interceptors>
 	
 </beans:beans>

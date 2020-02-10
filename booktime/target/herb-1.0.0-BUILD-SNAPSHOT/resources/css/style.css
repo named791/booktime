@@ -7,13 +7,6 @@ html {
 	height: 100%;
 }
 
-body {
-	background: #728eaa;
-	background: -moz-linear-gradient(top, #25303C 0%, #728EAA 100%); /* firefox */	
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#25303C), color-stop(100%,#728EAA)); /* webkit */
-	font-family: sans-serif; 
-}
-
 #contact {
 	width: 560px;
     margin: 85px auto;;

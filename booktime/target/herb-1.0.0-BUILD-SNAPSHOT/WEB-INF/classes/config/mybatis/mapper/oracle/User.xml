@@ -12,7 +12,7 @@
 	</insert>
 
 	<select id="chkUserid" parameterType="string" resultType="int">
-		select count(*) from "USER" where userid=#{userid}
+		select count(*) from "USER" where userid=#{userid} and withdrawaldate is null
 	</select>
 	
 	<select id="userGetPwd" parameterType="string" resultType="string">
@@ -21,10 +21,10 @@
 	</select>
 	
 	<select id="selectByUserid" parameterType="string" resultType="userVo">
-		select * from "USER" where userid=#{userid}
+		select * from "USER" where userid=#{userid} and withdrawaldate is null
 	</select>
 	
-	<update id="deleteUser" parameterType="string">
+	<update id="deleteUser" parameterType="userVo">
 		update "USER"
 		set withdrawaldate = sysdate , withdrawalreason=#{withdrawalreason}
 		where userid=#{userid} and withdrawaldate is null
@@ -45,7 +45,7 @@
 	<select id="selectByEmail" parameterType="userVo" resultType="String">
 		select userid from "USER" where email1=#{email1} and email2=#{email2}
 	</select>
-
+	
 	<update id="resetPwd" parameterType="userVo">
 		update "USER"
 		set pwd = #{pwd}
@@ -68,6 +68,24 @@
 		update "USER" set pwd=#{pwd} where userid=#{userid}
 	</update>
 	
+	<update id="updateUser2" parameterType="userVo">
+		update "USER"
+		set phone=#{phone}, email1=#{email1}, email2=#{email2}, 
+		zipcode=#{zipcode}, parseladdress=#{parseladdress}, 
+		newaddress=#{newaddress}, addressdetail=#{addressdetail}
+		where userid=#{userid}
+	</update>
+
+	<select id="searchMember" parameterType="userVo" resultType="int">
+		select count(*) from "USER" 
+		where userid=#{userid} and name=#{name} and email1=#{email1} 
+		and email2=#{email2} and withdrawaldate is null
+	</select>
+
+	<select id="selectEmails" resultType="map">
+		select distinct email1||'@'||email2 as "email" from "USER"
+		where grade!='A' and emailAgree='Y'
+	</select>
 </mapper>
 
 

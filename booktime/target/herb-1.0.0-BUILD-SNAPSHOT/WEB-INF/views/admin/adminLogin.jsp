@@ -22,7 +22,8 @@
       <div class="card-body">
         <form name="loginForm" method="post" action="<c:url value='/admin/adminLogin.do'/>" >
           <div class="form-group">
-              <input type="text" id="userid" name="userid" class="form-control" placeholder="아이디" required="required" autofocus="autofocus">
+              <input type="text" id="userid" name="userid" class="form-control" placeholder="아이디"
+             	value="${cookie.ck_useridA.value }" required="required" autofocus="autofocus">
           </div>
           <div class="form-group">
               <input type="password" id="pwd" name="pwd" class="form-control" placeholder="비밀번호" required="required">
@@ -31,7 +32,8 @@
           <div class="form-group">
             <div class="checkbox">
               <label>
-                <input type="checkbox" value="아이디 저장하기" id="idSave">
+                <input type="checkbox" value="아이디 저장하기" id="idSave" name="idSave"
+                	<c:if test="${!empty cookie.ck_useridA.value }">checked="checked"</c:if>>
                 아이디 저장하기
               </label>
             </div>

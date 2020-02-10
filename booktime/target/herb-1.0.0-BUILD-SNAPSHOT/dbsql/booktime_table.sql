@@ -1,12 +1,28 @@
---임시
+/*
+--임시(주문 테이블과 유저의 아이디 연결 끊)
 ALTER TABLE PAYMENT
 	DROP
 		CONSTRAINT FK_USER_TO_PAYMENT; -- 멤버 -> 주문
---임시
+--임시(마일리지 테이블과 유저의 아이디 연결 끊)
 ALTER TABLE MILEAGE
 	DROP
 		CONSTRAINT FK_USER_TO_MILEAGE;
-		
+
+--2020-02-05
+--임시(마일리지 테이블에 변동이유 컬럼 추가)
+alter table mileage
+add (reason varchar2(300));
+
+--임시(마일리지 테이블과 주문테이블의 주문번호 연결 끊)
+ALTER TABLE MILEAGE
+	DROP
+		CONSTRAINT FK_PAYMENT_TO_MILEAGE;-- 주문 -> 마일리지
+
+--임시(추천도서 테이블에 북커버 이미지 링크 컬럼 추가)
+alter table recommendbook
+add (cover varchar2(4000));
+*/
+	
 -- 멤버
 drop table "USER" cascade constraints;
 CREATE TABLE "USER" (
@@ -252,7 +268,8 @@ CREATE TABLE MILEAGE (
 	savingPoint number       NULL,     -- 적립포인트
 	payNo       number       NULL,     -- 결제 번호
 	usePoint    number       NULL,     -- 결제포인트
-	endDate     date         NULL  -- 만료일
+	endDate     date         NULL,  -- 만료일
+	reason      varchar2(300) null
 );
 
 drop sequence mileage_seq;
@@ -280,12 +297,13 @@ drop table RECOMMENDBOOK cascade constraints;
 CREATE TABLE RECOMMENDBOOK (
 	recomBookNo number        NOT NULL, -- 추천도서번호
 	isbn        number        NOT NULL, -- 책번호
-	cateCode    number        NOT NULL,     -- 카테고리 번호
+	cateCode    number        NULL,     -- 카테고리 번호
 	bookName    varchar2(300) NOT NULL, -- 책이름
 	price       number        NOT NULL, -- 가격
 	publisher   varchar2(50)  NOT NULL, -- 출판사
 	writer      varchar2(300)  NOT NULL, -- 저자
-	managerid   varchar2(30)  NULL  -- 관리자아이디
+	managerid   varchar2(30)  NULL,  -- 관리자아이디
+	cover       varchar2(4000) null
 );
 
 drop sequence recommendbook_seq;
@@ -447,7 +465,7 @@ ALTER TABLE MILEAGE
 		);
 */
 
-
+/*
 -- 마일리지
 ALTER TABLE MILEAGE
 	ADD
@@ -458,6 +476,7 @@ ALTER TABLE MILEAGE
 		REFERENCES PAYMENT ( -- 주문
 			payNo -- 결제 번호
 		);
+*/
 
 -- 추천도서
 ALTER TABLE RECOMMENDBOOK

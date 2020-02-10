@@ -22,16 +22,16 @@
 
   <!-- Custom styles for this template -->
   <link href="${pageContext.request.contextPath}/resources/css/modern-business.css" rel="stylesheet">
-	
-	<!-- 웹폰트 : 나눔명조 -->
+
+	<!-- 웹폰트 : 나눔고딕,나눔명조,한산스,송명조 -->
 	<style>
-	@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic&display=swap');
+	@import url('https://fonts.googleapis.com/css?family=Black+Han+Sans|Nanum+Gothic|Nanum+Myeongjo|Song+Myung&display=swap');
 	</style>
 
 <body>
 
   <!-- Navigation -->
-  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-info fixed-top">
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-info fixed-top shift" style="background-color:#00bcd5">
     <div class="container">
       <a class="navbar-brand" href="${pageContext.request.contextPath}/index.do">
       	<img src="<c:url value='/resources/images/logo.png'/>">

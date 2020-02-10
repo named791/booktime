@@ -413,7 +413,7 @@ public class Category {
 				System.out.println(author);
 				map.put("publisher", jsonObj2.get("publisher"));	//출판사
 		        map.put("pubDate", jsonObj2.get("pubDate"));	//출간일
-				//map.put("discription", jsonObj2.get("discription"));	//설명
+				map.put("discription", jsonObj2.get("discription"));	//설명
 				map.put("priceStandard", jsonObj2.get("priceStandard"));	//정가
 				map.put("priceSales", jsonObj2.get("priceSales"));
 				map.put("cover", jsonObj2.get("cover"));	//표지
@@ -423,7 +423,21 @@ public class Category {
 				map.put("startIndex", jsonObj2.get("startIndex"));
 				map.put("start", jsonObj2.get("Start"));	//검색결과 시작페이지
 				map.put("maxResult", jsonObj.get("MaxResults"));	//검색결과 한 페이지당 최대 출력 개수
-				
+
+				if(jsonObj2.get("bestRank") == null) {
+				}else {
+					int rank;
+					try{
+					    rank = Integer.parseInt(jsonObj2.get("bestRank").toString());
+					    
+					    String bestRank = Integer.toString(rank);
+					    map.put("bestRank", bestRank);	//제목
+						System.out.println(bestRank);
+					} catch(NumberFormatException e) {
+					 e.printStackTrace();
+					}
+				}
+					
 				list.add(map);
 	        }
 			return list;

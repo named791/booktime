@@ -1,9 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+
+<c:if test="${empty sessionScope.userid }">
+	<div class="card my-4" style="border-bottom: 0;">
+		<div class="card-header">댓글 목록 (로그인 후 작성할 수 있습니다.)</div>
+	</div>
+</c:if>
+<c:if test="${!empty sessionScope.userid }">    
 <!-- Comments Form -->
         <div class="card my-4">
-          <h5 class="card-header">댓글쓰기 (회원만 이용 가능합니다) : </h5>
+          <h5 class="card-header">댓글쓰기 : </h5>
           <div class="card-body">
             <form name="replyWrite" method="post">
               <div class="form-group">
@@ -14,7 +20,7 @@
             </form>
           </div>
         </div>
-
+</c:if>
 <!-- Single Comment -->
 <div id="result">
 
@@ -31,7 +37,12 @@
 		 getCommentList(); 
 		 
 		 $("#bt_reply").click(function(){
-		
+			if(!$("#replyContent").val()){
+				alert("댓글을 입력해주세요!");
+				$("#replyContent").focus();
+				return;
+			}
+			 
 			$.ajax({
 			url : "<c:url value='/freeBoard/reply/replyWrite.do'/> ",
 			type : "post",
@@ -72,11 +83,11 @@
 					
 					//대댓글 레이아웃 처리
 					if(item.step=='2'){
-						str+='└ Re : ';
 						str+='<div class="media mb-4">';
 						str+='<div class="media-body">';
 						str+='<div class=row>';
-						str+='<div class="col text-left">';
+						str+='<div class="ml-5 col text-left">';
+						str+='└ Re : ';
 						str+='<input type="hidden" name="replyNo" class="replyNo" value='+item.replyNo +' />';
 						str+='<input type="hidden" name="groupNo" class="groupNo" value='+item.groupNo +' />'
 						str+='<input type="hidden" name="step" value='+item.step +' />';
@@ -86,7 +97,7 @@
 						str+='</div>';
 					}else{
 
-					str+='<div class="media mb-4">';					
+					str+='<div class="media mb-4 pl-2">';					
 					str+='<div class="media-body">';
 					str+='<div class=row>';
 					str+='<div class="col text-left">';
@@ -106,7 +117,7 @@
 					//세션 아이디 받아오기
 					var sId='<%=session.getAttribute("userid") %>';
 					
-					if(item.step=='1'){
+					if(sId!='null' && parseInt(item.step)>=1){
 						str+='<button class="border-0 btn-transition btn btn-outline-success selectGroup">';
 						str+='<i class="fas fa-pencil-alt"></i></button>';
 					}
@@ -118,7 +129,7 @@
 
 					str+='</div></div>';
 					
-					str+='<div id="rewrite"></div>';
+					str+='<div id="rewrite" class="rewrite"></div>';
 				
 					str+='<hr></div></div>';
 		
@@ -127,9 +138,9 @@
 				$("#result").html(str+"<br>");
 				
 				$(".selectGroup").click(function(){
-					var p=$(this).parent().parent().parent().parent();				
+					var p=$(this).parents(".row").next(".rewrite");				
 					
-					var no=p.find(".groupNo").val();
+					var no=$(this).parent().prev().find(".groupNo").val();
 					
 					openComment(no, p);
 				});
@@ -149,36 +160,44 @@
 		 });
 	}
 //대댓글 창 열기
- function openComment(no){
+ function openComment(no, p){
  	var res="";
  	
  	res+='<div class="card-body">'
            +' <form name="replyWrite2" method="post">'
            +    '<div class="form-group">'
-           +'<input type="hidden" name="groupNo" value='
+           +'<input type="hidden" name="groupNo" value="'
            +no
-           +'/>'
+           +'"/>'
            +    '<textarea class="form-control" rows="3" id="replyContent2" name="replyContent2"></textarea>'
            +    '<input type="hidden" id="boardNo2" name="boardNo2" value="${param.boardNo }" />'
            +    '</div>'
-           +    '<button type="button" class="btn btn-primary" id="bt_reply2">작성완료</button>'
+           +    '<button type="button" class="btn btn-primary bt_reply2" id="bt_reply2">작성완료</button>'
            +  '</form>'
          +'</div>';
- 	$("#rewrite").html(res+"<br>");
- 	
+ 	p.html(res+"<br>");
+	$(".rewrite").not(p).html("");
 	
-	$("#bt_reply2").click(function(){
-		writeReComment();
+	$(".bt_reply2").click(function(){
+		var cmt = $(this).prev("div").find("textarea[name=replyContent2]");
+		if(cmt.val().length<1){
+			alert("내용을 입력해주세요");
+			cmt.focus();
+			return;
+		}
+		
+		var no = $(this).prev().find("input[name=groupNo]").val();
+		writeReComment(no);
 	});
  }
 	//대댓글 입력
-	 function writeReComment(){
+	 function writeReComment(no){
 		$.ajax({
 			url : "<c:url value='/freeBoard/reply/replyWrite2.do'/> ",
 			type : "post",
 			data : {
 				"boardNo": $("#boardNo2").val(),
-				"groupNo": $("input[name=groupNo]").val(),
+				"groupNo": no,
 				"replyContent": $("#replyContent2").val()
 			},
 			success : function(result){

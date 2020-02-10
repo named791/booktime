@@ -13,14 +13,23 @@
 			alert("아이디를 입력해주세요");
 			frmChk.userid.focus();
 			return false;
+		}else if($("#userid").val().length<8){
+			alert("아이디는 8자리 이상 입력하셔야 합니다.");
+			return false;
 		}		
 		return true;
 	}
 	
 	function setUserid(){
-		opener.frm1.userid.value=frmChk.userid.value;
-		opener.frm1.chkid.value="Y"; //중복확인을 한경우
-		self.close();
+		if($("#userid").val().length<8){
+			alert("아이디는 8자리 이상 입력하셔야 합니다.");
+			event.preventDefault();
+			$("#userid").focus();
+		}else{
+			opener.frm1.userid.value=frmChk.userid.value;
+			opener.frm1.chkid.value="Y"; //중복확인을 한경우
+			self.close();
+		}
 	}
 </script>
 <style type="text/css">

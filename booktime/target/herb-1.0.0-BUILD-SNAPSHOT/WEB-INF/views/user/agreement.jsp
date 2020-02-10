@@ -33,13 +33,18 @@ src="${pageContext.request.contextPath }/resources/vendor/jquery/jquery.js"></sc
 	#sub,#res{
 		width: 80px;
 		border: none;
-		background-color: lightgray;
+		background-color: gray;
 		height: 30px;
+		color: white;
+		border-radius: 3px;
+		font-size: 0.8em;
 	}
 	#frmAgree{
-	margin-left: 300px;
-	width: 800px;
+	margin-left: 650px;
+	width: 900px;
 	height: 300px;
+	text-align: center;
+	mar
 	}
 	#frmAgree label{
 		font-size: 0.8em;

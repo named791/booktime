@@ -36,8 +36,8 @@
 
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
                 document.getElementById('zipcode').value = data.zonecode;
-                document.getElementById("newaddress").value = roadAddr;
-                document.getElementById("parseladdress").value = data.autoJibunAddress;
+                document.getElementById("newaddress").value =data.roadAddress;
+                document.getElementById("parseladdress").value =data.jibunAddress;
                 
                 // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
                 if(roadAddr !== ''){
@@ -116,6 +116,14 @@
 				alert("비밀번호를 입력해주세요");
 				event.preventDefault();
 				$("#pwd").focus();
+			}else if($("#hp2").val().length>4){
+				alert("입력하신 휴대폰 번호를 다시 확인해 주세요");
+				event.preventDefault();
+				$("#hp2").focus();
+			}else if($("#hp3").val().length>4){
+				alert("입력하신 휴대폰 번호를 다시 확인해 주세요");
+				event.preventDefault();
+				$("#hp3").focus();
 			}
 		});
 		
@@ -212,6 +220,8 @@
 			<button type="submit" id="btn1">나의정보 수정</button>
 		</div>
 	</div>
+</div>
+</div>
 </form>
 <%@include file="editPWD.jsp" %>
 

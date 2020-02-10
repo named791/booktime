@@ -18,27 +18,26 @@
     background-color:#34ca78;
     border-color: #34ca78;
 }
- h4{
- color:#1c1c1c;
+ h2{
+ font-family:'Black Han Sans', sans-serif;
+ color:#00bcd5;
  }
- .margin10{margin-bottom:10px; margin-right:10px;}
+ .margin10{
+ margin-bottom:10px; margin-right:10px;
+ }
+ .card-title a{
+ font-family:'Nanum Myeongjo', serif;
+ font-weight:bold;
+ color:#374047;
+ }
+ .card-img-top{
+ 	height:300px;
+ }
+  .card-body{
+ 	height:150px;
+ }
+
 </style>  
-  
-  <!--검색 Navbar-->
-<nav class="navbar navbar-expand-lg">
-
-  <!-- Collapsible content -->
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <form class="form-inline mx-auto" action="search.do">
-      <input class="form-control-lg" type="text" placeholder="'알라딘'을 입력해보세요" aria-label="Search" name="searchKeyword" id="searchKeyword">
-      <button class="btn btn-primary btn-lg" type="submit">검색</button>
-    </form>
-
-  </div>
-  <!-- Collapsible content -->
-
-</nav>
-<!--/.Navbar-->
   
   <header>
   
@@ -92,8 +91,8 @@
       <!-- Content Column -->
       <div class="col-lg-10 mb-4">
       <br>
-      <h4>&nbsp;추천도서</h4>
-      <hr>
+      <h2>&nbsp; <i class="fas fa-book" style="color: #d3d3d3 "></i>&nbsp; 추천도서</h2>
+      <hr style="border: thin solid;color:#00bcd5;">
       <br>
       <div class="row justify-content-around">
 <%@include file="recomend.jsp" %>
@@ -109,8 +108,8 @@
     <!-- Content Column -->
       <div class="col-lg-10 mb-4">
       <br>
-      <h4>&nbsp;베스트 셀러</h4>
-      <hr>
+      <h2>&nbsp;<i class="fas fa-book" style="color: #d3d3d3 "></i>&nbsp; 베스트 셀러</h2>
+      <hr style="border: thin solid;color:#00bcd5;">
       <br>
       <div class="row justify-content-around">  
     	<%@include file="bestseller.jsp" %>

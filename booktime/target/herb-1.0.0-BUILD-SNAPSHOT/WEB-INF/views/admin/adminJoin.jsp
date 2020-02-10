@@ -123,12 +123,15 @@
 			}
 		});
 
-		$('#pwd2').bind("change keyup input", function() {
-			if($('#pwd2').val()!=''){
-				if ($('#pwd').val() != $('#pwd2').val()) {
+		$('#pwd2').blur("change keyup input", function() {
+			
+			if(pwd2!=""){
+				if ($('#pwd1').val() != $('#pwd2').val()) {
 					$("#error2").html("비밀번호 확인란이 비밀번호와 일치하지 않습니다");
 					$("#error2").show();
-
+				}else{
+					$("#error2").html("비밀번호 확인 완료");
+					$("#error2").show();
 				}
 			}
 		});
@@ -178,9 +181,9 @@
 						<div class="form-row">
 							<div class="col-md-6">
 								<div class="form-label-group">
-									<input type="password" id="inputPassword" name="pwd"
+									<input type="password" id="pwd1" name="pwd1"
 										class="form-control" placeholder="Password"
-										required="required"> <label for="inputPassword">비밀번호</label>
+										required="required"> <label for="pwd1">비밀번호</label>
 								</div>
 							</div>
 							<div class="col-md-6">
