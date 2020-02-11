@@ -32,7 +32,10 @@ public class AdminMemberController {
 	@RequestMapping(value="/adminJoin.do", method=RequestMethod.POST)
 	public String adminJoin_post(@ModelAttribute UserVO userVo,@RequestParam String hp1,
 			@RequestParam String hp2, @RequestParam String hp3, @RequestParam String email3,
+			@RequestParam String pwd1,
 			Model model) {
+		userVo.setPwd(pwd1);
+		
 		logger.info("회원가입 처리하기, 파라미터 userVo={}, hp1={}", userVo, hp1);
 		logger.info("hp2={}, hp3={}",hp2, hp3 );
 		logger.info("email3={}", email3);

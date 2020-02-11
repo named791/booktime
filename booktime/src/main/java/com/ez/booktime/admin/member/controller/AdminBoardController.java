@@ -29,7 +29,7 @@ public class AdminBoardController {
 	@RequestMapping(value="/Write.do",method=RequestMethod.GET)
 	public void adminBoardWrite_get(HttpSession session,
 			Model model) {
-		String userid=(String)session.getAttribute("userid");
+		String userid=(String)session.getAttribute("useridA");
 		
 		logger.info("관리자 글쓰기 화면");
 		logger.info("아이디={}",userid);

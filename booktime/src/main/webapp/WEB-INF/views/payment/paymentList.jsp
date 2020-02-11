@@ -60,7 +60,7 @@
 				if(temp!=null){
 					temp.close();
 				}
-				win = window.open("<c:url value='/payment/refundForm.do?"+frmData+"'/>","refund","top=100,left=300,resizable=no,location=no,width=550,height=650");
+				win = window.open("<c:url value='/payment/refundForm.do?"+frmData+"'/>","refund","top=100,left=300,resizable=no,location=no,width=600,height=650");
 				temp = win;
 				win.focus();
 			}else if($(this).text()=='구매확정'){
