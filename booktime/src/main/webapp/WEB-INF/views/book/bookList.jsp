@@ -297,6 +297,23 @@ a.moveTop {
  	-moz-text-shadow: -1px 0 litegray, 0 1px litegray, 1px 0 litegray, 0 -1px litegray;
  	webkit-text-shadow: -1px 0 litegray 0 1px litegray, 1px 0 gray, 0 -1px gray; */
 }
+
+.sideLayout {
+    float: right;
+}
+
+img.bannerImage {
+    margin-top: 10px;
+}
+
+img.bottomBanner {
+    margin-top: 22px;
+    margin-left: 129px;
+}
+
+.bottmBannerArea{
+	height: 0px;
+}
 </style>
 
 <script type="text/javascript">
@@ -819,6 +836,12 @@ a.moveTop {
 								</tr>
 							</tbody>
 						</table>
+					</div>
+					<div class="bottmBannerArea">
+						<a href="<c:url value='/book/bookList.do?cateNo=2551&author=조금산'/>">
+						<img src="<c:url value='/resources/images/banner/bn_event_753x100.jpg'/>"
+						class="bottomBanner">
+						</a>
 					</div>
 					<br style="clear: both;">
 				</div>
