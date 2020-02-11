@@ -72,9 +72,7 @@
 					</div>
 					<p id="chkNum" style="display: none;">*비밀번호가 틀립니다.</p>
 					
-					<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
-						<input type="text" value="${newpass }" id="newpass" name="newpass">
-					</div>
+					<input type="hidden" value="${newpass }" id="newpass" name="newpass">
 					
 					<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
 						<button class="login100-form-btn" id="btnPWD">

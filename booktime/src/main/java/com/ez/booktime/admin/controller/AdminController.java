@@ -129,9 +129,7 @@ public class AdminController {
 		
 		List<UserVO> list=userService.selectAllUser();
 		logger.info("리스트 크기={}",list.size());
-		
 		model.addAttribute("list",list);
-		
 	}
 	
 	@RequestMapping("/adminEvent.do")

@@ -78,7 +78,7 @@
 		where userid=#{userid} and category=#{isbn}
 	</select>
 
-	<select id="selectBoardByCate" resultType="freeBoardVo">
+	<select id="selectBoardByCate" parameterType="String" resultType="freeBoardVo">
 		select * from board
 		where deletedate is null
 		and category=#{category}

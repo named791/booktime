@@ -204,6 +204,7 @@ to {
 	<div id="wrapper">
 		<!-- Sidebar -->
 		<ul class="sidebar navbar-nav">
+
 			<li class="nav-item"><a class="nav-link"
 				href="${pageContext.request.contextPath}/admin/adminMember.do">
 					<span>회원 관리</span>

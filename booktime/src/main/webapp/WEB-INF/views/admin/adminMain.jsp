@@ -226,7 +226,6 @@
 				<script type="text/javascript">
 						var ctx = document.getElementById("genders");
 						var total = ${map['Male']+map['Female']+map['nonMember']};
-						
 						var myPieChart = new Chart(ctx, {
 						  type: 'pie',
 						  data: {

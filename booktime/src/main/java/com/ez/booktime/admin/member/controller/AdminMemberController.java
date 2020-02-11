@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ez.booktime.mileage.model.MileageService;
+import com.ez.booktime.mileage.model.MileageVO;
 import com.ez.booktime.user.model.UserService;
 import com.ez.booktime.user.model.UserVO;
 
@@ -22,6 +24,9 @@ public class AdminMemberController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private MileageService mileageService;
 	
 	//관리자 등록하기
 	@RequestMapping(value="/adminJoin.do", method=RequestMethod.POST)
@@ -87,6 +92,23 @@ public class AdminMemberController {
 		return bool;		
 	}
 	
+	@RequestMapping("/memberReturn.do")
+	public String memberReturn(@RequestParam String userid
+			,Model model) {
+		logger.info("멤버 복귀 처리 파라미터 userid={}",userid);
+		
+		int cnt = userService.returnMember(userid);
+		String msg = "탈퇴에서 복귀하였습니다.", url="/admin/memberEditForm.do?userid="+userid+"&mode=reload";
+		if(cnt<0) {
+			msg = "복귀 처리중 에러가 발생하였습니다.";
+		}
+		
+		model.addAttribute("msg", msg);
+		model.addAttribute("url", url);
+		
+		return "common/message";
+	}
+	
 	@RequestMapping(value="/memberEditForm.do", method=RequestMethod.GET)
 	public void memberEditForm_get(@RequestParam String userid,
 			Model model) {
@@ -112,6 +134,8 @@ public class AdminMemberController {
 			@RequestParam(required = false) String newaddress,
 			@RequestParam(required = false) String parseladdress,
 			@RequestParam(required = false) String addressdetail,
+			@RequestParam(defaultValue = "0") int mileage,
+			@RequestParam(required = false) String reason,
 			Model model) {
 		
 		UserVO userVo= new UserVO();
@@ -123,6 +147,7 @@ public class AdminMemberController {
 		logger.info("zipcode={}", zipcode);
 		logger.info("newaddress={}, parseladdress={}",newaddress, parseladdress);
 		logger.info("addressdetail={}", parseladdress);
+		logger.info("mileage={}, reason={}", mileage, reason);
 		
 		userVo.setUserid(userid);
 		userVo.setPwd(pwd);
@@ -135,15 +160,42 @@ public class AdminMemberController {
 		userVo.setParseladdress(parseladdress);
 		userVo.setZipcode(zipcode);
 		
+		MileageVO mVo = new MileageVO();
+		if(mileage!=0 && reason!=null && !reason.isEmpty()) {
+			userVo.setMileage(mileage);
+			
+			mVo.setUserid(userid);
+			mVo.setReason(reason);
+			mVo.setPayNo("");
+			
+			if(mileage<0) {
+				mVo.setUsePoint(mileage*-1);
+			}else if(mileage>0) {
+				mVo.setSavingPoint(mileage);
+			}
+			
+			logger.info("mVO={}", mVo);
+		}
+		
 		logger.info("userVo={}", userVo);
 		
 		String msg="", url="";
 
-			int cnt=userService.updateUser(userVo);
-			logger.info("회원정보 수정 결과 cnt={}", cnt);
+		int cnt=userService.updateUser(userVo);
+		logger.info("회원정보 수정 결과 cnt={}", cnt);
+	
 		if(cnt>0) {	
+			if(mileage!=0 && reason!=null && !reason.isEmpty()) {
+				cnt = mileageService.insertMileage(mVo);
+			}	
+			
 			msg="회원정보 수정 완료!";
 			url="/admin/memberEditForm.do?userid="+userid;
+			
+			if(cnt<0) {
+				msg="회원정보 수정 실패!";
+				url="/admin/memberEditForm.do?userid="+userid;
+			}
 		}else {
 			msg="회원정보 수정 실패!";
 			url="/admin/memberEditForm.do?userid="+userid;
@@ -177,7 +229,7 @@ public class AdminMemberController {
 				userVo.setUserid(userid);
 				userVo.setWithdrawalreason(withdrawalreason);
 				
-				String msg="", url="/admin/withdrowForm.do";
+				String msg="", url="/admin/withdrowForm.do?mode=close";
 				int cnt=userService.deleteUser(userVo);
 				if(cnt>0) {
 					msg="회원을 탈퇴 시켰습니다.";

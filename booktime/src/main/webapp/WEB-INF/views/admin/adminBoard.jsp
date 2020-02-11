@@ -93,14 +93,14 @@
        <!-- 글 삭제 모달창 --> 
 <script>
 $(function(){
-	$(".delete").click(function(){
+	$("#dataTable tbody").on("click", ".delete", function(){
 		var checkBtn = $(this);
         
         var i=checkBtn.parent();
         var no=i.find("input[name='boardNo']").val();
-          
+
         //alert(no);
-		
+
 		if(confirm("정말로 삭제하시겠습니까?"))
 		 {
 	  		location.href="/booktime/admin/Delete.do?boardNo="+no;
