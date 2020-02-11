@@ -115,19 +115,6 @@
     	<%@include file="bestseller.jsp" %>
     </div><!-- row -->
 	
-	
-	
-	 <!-- Content Column -->
- <!--     <div class="col-lg-10 mb-4">
-      <br>
-      <h4>&nbsp;신간</h4>
-      <hr>
-      <br>
-      <div class="row justify-content-around">
-      <%@include file="new.jsp" %>
-    </div>  
-    </div>--><!-- row -->
-	
 	</div>
 	</div>
   <!-- /.container -->

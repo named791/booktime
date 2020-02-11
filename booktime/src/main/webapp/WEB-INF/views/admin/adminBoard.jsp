@@ -99,7 +99,7 @@ $(function(){
         var i=checkBtn.parent();
         var no=i.find("input[name='boardNo']").val();
           
-        alert(no);
+        //alert(no);
 		
 		if(confirm("정말로 삭제하시겠습니까?"))
 		 {

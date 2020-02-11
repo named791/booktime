@@ -19,29 +19,34 @@
 	href="${pageContext.request.contextPath}/resources/vendor/datatables/dataTables.bootstrap4.css"
 	rel="stylesheet">
 
-  <!-- Custom styles for this template-->
-  <link href="${pageContext.request.contextPath}/resources/css/sb-admin.css" rel="stylesheet">
-	
-	<style>
-@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic&display=swap');
+<!-- Custom styles for this template-->
+<link
+	href="${pageContext.request.contextPath}/resources/css/sb-admin.css"
+	rel="stylesheet">
+
+<style>
+@import
+	url('https://fonts.googleapis.com/css?family=Nanum+Gothic&display=swap')
+	;
 </style>
 
-	<!-- chart.js source -->
-	
-	<!-- chart.js CDN-->
-	<script src="<c:url value='https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js' />"></script>	
-	
-	<script async src="<c:url value='http://www.google-analytics.com/analytics.js' />"></script>
-	<script src="./Bar Chart_files/Chart.min.js.다운로드"></script>
-	<script src="<c:url value='/resources/js/utils.js' />"></script>
-	<style>
-	canvas {
-		-moz-user-select: none;
-		-webkit-user-select: none;
-		-ms-user-select: none;
-	}
-	</style>
-=======
+<!-- chart.js source -->
+
+<!-- chart.js CDN-->
+<script
+	src="<c:url value='https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js' />"></script>
+
+<script async
+	src="<c:url value='http://www.google-analytics.com/analytics.js' />"></script>
+<script src="./Bar Chart_files/Chart.min.js.다운로드"></script>
+<script src="<c:url value='/resources/js/utils.js' />"></script>
+<style>
+canvas {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+}
+</style>
 <!-- chart.js source -->
 
 <!-- chart.js CDN-->
@@ -61,6 +66,7 @@
 		});
 	});
 </script>
+
 <style>
 canvas {
 	-moz-user-select: none;
@@ -68,7 +74,6 @@ canvas {
 	-ms-user-select: none;
 }
 </style>
->>>>>>> branch 'master' of https://github.com/named791/booktime
 <style type="text/css">/* Chart.js */
 @
 keyframes chartjs-render-animation {
@@ -152,88 +157,62 @@ to {
 			id="sidebarToggle" href="#">
 			<i class="fas fa-bars"></i>
 		</button>-->
-		
+
 		<!-- Navbar -->
 		<div class="row" style="width: 1100px">
 			<ul class="navbar-nav" style="width: 1100px">
 				<div class="col offset-md-8"></div>
-				
+
 				<c:if test="${!empty sessionScope.useridA }">
 					<li class="nav-item" style="width: 90px"><b class="nav-link">
 							${sessionScope.useridA }님 </b></li>
 				</c:if>
-				
+
 				<!-- <li class="nav-item" style="width: 90px"><a class="nav-link mailing"
 					href="#"> 메일 쓰기 </a></li> -->
-					
-				<li class="nav-item dropdown no-arrow">
-					<a class="nav-link dropdown-toggle" href="#" id="userDropdown"
-						role="button" data-toggle="dropdown" aria-haspopup="true"
-						aria-expanded="false"> 관리자 설정 </a>
-						
+
+				<li class="nav-item dropdown no-arrow"><a
+					class="nav-link dropdown-toggle" href="#" id="userDropdown"
+					role="button" data-toggle="dropdown" aria-haspopup="true"
+					aria-expanded="false"> 관리자 설정 </a>
+
 					<div class="dropdown-menu dropdown-menu-right"
 						aria-labelledby="userDropdown">
-						
+
 						<a class="dropdown-item"
 							href="${pageContext.request.contextPath}/admin/adminJoin.do">
-							새 관리자 등록</a>
-						<a class="dropdown-item" href="#">관리자 목록</a>
+							새 관리자 등록</a> <a class="dropdown-item" href="#">관리자 목록</a>
 						<div class="dropdown-divider"></div>
 						<a class="dropdown-item" href="#" data-toggle="modal"
 							data-target="#logoutModal">로그아웃</a>
-					</div>
-				</li>
+					</div></li>
 			</ul>
 		</div>
 
 	</nav>
 
 	<div id="wrapper">
+		<div class="dropdown-menu dropdown-menu-right"
+			aria-labelledby="alertsDropdown">
+			<a class="dropdown-item" href="#">새 회원</a> <a class="dropdown-item"
+				href="#">새 주문</a>
+			<div class="dropdown-divider"></div>
+			<a class="dropdown-item" href="#">새 글</a>
+		</div>
+	</div>
 
-<<<<<<< HEAD
-        </a>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
-          <a class="dropdown-item" href="#">새 회원</a>
-          <a class="dropdown-item" href="#">새 주문</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">새 글</a>
-        </div>
-      </li>
-      <li class="nav-item" style="width:90px">
-        <a class="nav-link" href="#">
-          메일 쓰기
-        </a>
-      </li>
-      <li class="nav-item dropdown no-arrow">
-        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          관리자 설정
-        </a>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-          <a class="dropdown-item" 
-          href="${pageContext.request.contextPath}/admin/adminJoin.do">
-          새 관리자 등록</a>
-          <a class="dropdown-item" href="#">관리자 목록</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">로그아웃</a>
-        </div>
-      </li>
-    </ul>
-    </div>
-
-  </nav>
-
-  <div id="wrapper">
-
-    <!-- Sidebar -->
-    <ul class="sidebar navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="${pageContext.request.contextPath}/admin/adminMember.do">
-          <span>회원 관리</span>
-        </a>
-      </li>
-
+	<div id="wrapper">
+		<!-- Sidebar -->
+		<ul class="sidebar navbar-nav">
 			<li class="nav-item"><a class="nav-link"
-				href="${pageContext.request.contextPath}/admin/adminRe.do"> <span>노출관리</span></a>
+				href="${pageContext.request.contextPath}/admin/adminMember.do">
+					<span>회원 관리</span>
+			</a></li>
+			<li class="nav-item"><a class="nav-link"
+				href="${pageContext.request.contextPath}/admin/adminEvent.do"> <span>이벤트 관리</span></a>
+			</li>
+			<li class="nav-item"><a class="nav-link"
+				href="${pageContext.request.contextPath}/admin/adminRe.do"> <span>노출 관리</span></a>
 			</li>
 			<li class="nav-item"><a class="nav-link"
 				href="${pageContext.request.contextPath}/admin/adminBoard.do"> <span>게시글

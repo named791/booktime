@@ -50,7 +50,7 @@ public class adminMailController {
 			userVo.setEmail2(email2);
 			
 			//비밀번호 변경하기
-			/*
+			
 			String userid=userService.selectByEmail(userVo);//유저 아이디 검색
 			
 			userVo.setUserid(userid);
@@ -62,7 +62,7 @@ public class adminMailController {
 			}else {
 				System.out.println("비밀번호 변경 실패");
 			}
-			*/
+			
 		} catch (MessagingException e) {
 			logger.info("이메일 발송 실패!!");
 			e.printStackTrace();
