@@ -57,6 +57,8 @@
 				$(function() {
 
 					CKEDITOR.replace('content', {//해당 이름으로 된 textarea에 에디터를 적용
+						extraPlugins: 'imageresize,wordcount,notification',
+						imageResize:{maxWidth:400,maxHeight:400},
 						width : '100%',
 						height : '400px',
 						filebrowserImageUploadUrl : '${pageContext.request.contextPath }/freeBoard/imageUpload.do' //여기 경로로 파일을 전달하여 업로드 시킨다.

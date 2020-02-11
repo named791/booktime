@@ -204,13 +204,16 @@ to {
 	<div id="wrapper">
 		<!-- Sidebar -->
 		<ul class="sidebar navbar-nav">
+
 			<li class="nav-item"><a class="nav-link"
 				href="${pageContext.request.contextPath}/admin/adminMember.do">
 					<span>회원 관리</span>
 			</a></li>
-
 			<li class="nav-item"><a class="nav-link"
-				href="${pageContext.request.contextPath}/admin/adminRe.do"> <span>노출관리</span></a>
+				href="${pageContext.request.contextPath}/admin/adminEvent.do"> <span>이벤트 관리</span></a>
+			</li>
+			<li class="nav-item"><a class="nav-link"
+				href="${pageContext.request.contextPath}/admin/adminRe.do"> <span>노출 관리</span></a>
 			</li>
 			<li class="nav-item"><a class="nav-link"
 				href="${pageContext.request.contextPath}/admin/adminBoard.do"> <span>게시글
