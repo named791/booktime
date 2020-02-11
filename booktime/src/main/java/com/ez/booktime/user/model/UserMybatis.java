@@ -98,4 +98,11 @@ public class UserMybatis implements UserDAO{
 	public List<Map<String, Object>> selectEmails() {
 		return sqlSession.selectList(namespace+"selectEmails");
 	}
+
+	@Override
+	public int returnMember(String userid) {
+		return sqlSession.update(namespace+"returnMember", userid);
+	}
+	
+	
 }

@@ -6,11 +6,11 @@
  font-family:'Black Han Sans', sans-serif;
  color:#00bcd5;
  }
- li a{
+ li.freeboard a{
  color:white;
  	background-color: #00bcd5;
  }
- li a:hover{
+ li.freeboard a:hover{
  	color:white;
  	font-weight:bold;
  	background-color: #264b6f;
@@ -40,11 +40,11 @@ $(function() {
 	<br>
 
 		<ul class="nav nav-tabs" id="myTab">
-		<li class="nav-item" id="list1"><a class="nav-link active" data-toggle="tab"
+		<li class="nav-item freeboard" id="list1"><a class="nav-link active" data-toggle="tab"
 			href="#qwe">공지사항</a></li>
-		<li class="nav-item" id="list2"><a class="nav-link" data-toggle="tab"
+		<li class="nav-item freeboard" id="list2"><a class="nav-link" data-toggle="tab"
 			href="#asd">이벤트</a></li>
-		<li class="nav-item" id="list3"><a class="nav-link" data-toggle="tab"
+		<li class="nav-item freeboard" id="list3"><a class="nav-link" data-toggle="tab"
 			href="#zxc">자유게시판</a></li>
 		</ul>
 		

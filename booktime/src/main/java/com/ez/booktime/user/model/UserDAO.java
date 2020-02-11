@@ -26,4 +26,5 @@ public interface UserDAO {
 	
 	String selectUserid(UserVO userVo);
 	List<Map<String, Object>>selectEmails();
+	int returnMember(String userid);
 }

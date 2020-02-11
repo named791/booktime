@@ -31,8 +31,8 @@
 <body>
 
   <!-- Navigation -->
-  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-info fixed-top shift" style="background-color:#00bcd5">
-    <div class="container">
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-info fixed-top shift p-0" style="background-color:#00bcd5">
+    <div class="container my-2">
       <a class="navbar-brand" href="${pageContext.request.contextPath}/index.do">
       	<img src="<c:url value='/resources/images/logo.png'/>">
       </a>

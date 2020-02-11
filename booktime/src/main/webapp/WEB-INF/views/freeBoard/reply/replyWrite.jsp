@@ -117,7 +117,7 @@
 					//세션 아이디 받아오기
 					var sId='<%=session.getAttribute("userid") %>';
 					
-					if(sId!='null' && parseInt(item.step)>=1){
+					if(sId!='null' && parseInt(item.step)<2){
 						str+='<button class="border-0 btn-transition btn btn-outline-success selectGroup">';
 						str+='<i class="fas fa-pencil-alt"></i></button>';
 					}

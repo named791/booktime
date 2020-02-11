@@ -32,4 +32,5 @@ public interface UserService {
 	
 	String selectUserid(UserVO userVo); //아이디 찾기
 	List<Map<String, Object>>selectEmails();
+	int returnMember(String userid);
 }
