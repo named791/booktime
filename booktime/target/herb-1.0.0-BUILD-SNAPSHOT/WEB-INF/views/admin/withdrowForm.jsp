@@ -16,6 +16,11 @@
 <script src="<c:url value='/resources/vendor/jquery/jquery.min.js'/>"></script>
 <script type="text/javascript">
 $(function() {
+	if('close'=='${param.mode}'){
+		opener.location.reload();
+		self.close();
+	}
+	
 	$("#close").click(function(){
 		opener.location.reload();
 		self.close();		

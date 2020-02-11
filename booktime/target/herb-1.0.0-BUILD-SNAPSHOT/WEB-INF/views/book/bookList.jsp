@@ -5,29 +5,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
     
-<script type="text/javascript" src="<c:url value='/resources/js/jquery-3.4.1.min.js'/>"></script>
 <style type="text/css">
-.top_div {
-    margin-bottom: 75px;
-}
-table.box2 {
-    margin: 0 auto;
-    width: 94%;
-    font-size: 12px;
-}
-hr.top_hr {
-    margin-bottom: 4px;
-    background: #929292;
-}
-hr.bottom_hr {
-    margin-top: 4px;
-    background: #929292;
-}
-table.box2 {
-    margin: 0 auto;
-    width: 94%;
-    text-align: center;
-}
 
 .ss_book_box {
     margin-bottom: 10px;
@@ -266,7 +244,7 @@ div#FavoriteOk {
     margin-top: 230px;
 }
 
-.widget.thumb {
+.widget.sticky {
     width: 126px;
     float: right;
     margin-right: 93px;
@@ -296,6 +274,7 @@ p.recTitle {
     margin-left: 5px;
     font-family: fantasy;
     font-weight: 600;
+    color:gray;
 }
 
 p {
@@ -306,6 +285,34 @@ p {
 .mb-4, .my-4 {
     margin-bottom: 1.5rem !important;
     margin-top: 10px;
+}
+
+a.moveTop {
+    position: fixed;
+    bottom: 20px;
+    right: 25px;
+    color:gray;
+    
+    /* text-shadow: -1px 0 litegray, 0 1px litegray, 1px 0 litegray, 0 -1px litegray;
+ 	-moz-text-shadow: -1px 0 litegray, 0 1px litegray, 1px 0 litegray, 0 -1px litegray;
+ 	webkit-text-shadow: -1px 0 litegray 0 1px litegray, 1px 0 gray, 0 -1px gray; */
+}
+
+.sideLayout {
+    float: right;
+}
+
+img.bannerImage {
+    margin-top: 10px;
+}
+
+img.bottomBanner {
+    margin-top: 22px;
+    margin-left: 129px;
+}
+
+.bottmBannerArea{
+	height: 0px;
 }
 </style>
 
@@ -418,8 +425,8 @@ p {
 		       		}
 		       	},
 		       	error:function(xhr, status, error){
-					alert("ERROR : "+status+", "+error);
-					alert(xhr.status+"#"+xhr.response);
+					/* alert("ERROR : "+status+", "+error); */
+					alert("장바구니에 등록할 상품을 선택해주세요.");
 				}
 		    }); 	
 		});
@@ -447,8 +454,8 @@ p {
 		       		}
 		       	},
 		       	error:function(xhr, status, error){
-					alert("ERROR : "+status+", "+error);
-					alert(xhr.status+"#"+xhr.response);
+					/* alert("ERROR : "+status+", "+error); */
+					alert("찜목록에 등록할 상품을 선택해주세요.");
 				}
 		    }); 	
 		});
@@ -605,12 +612,14 @@ p {
 					</table>
 				</div>
 				<div class="divPage">
-					<!-- 이전블럭으로 이동 -->
-					<c:if test="${pagingInfo.firstPage>1 }">	
+					<!-- 1page로 이동 -->
+					<c:if test="${pagingInfo.firstPage>1 }">
+						<a href="#" onclick="pageFunc(1)">
+							<i class="fas fa-angle-double-left"></i>
+						</a>
+					<!-- 이전블럭으로 이동 -->	
 						<a href="#" onclick="pageFunc(${pagingInfo.firstPage-1})">
-							<img class="img_bt_previous"
-							src="<c:url value='/resources/images/button/bt_previous.jpg'/>" 
-							alt="이전 블럭으로">
+							<i class="fas fa-angle-left"></i>
 						</a>
 					</c:if>
 					<!-- 페이지 번호 추가 -->						
@@ -630,9 +639,13 @@ p {
 					<!-- 다음블럭으로 이동 -->
 					<c:if test="${pagingInfo.lastPage<pagingInfo.totalPage }">
 						<a href="#" onclick="pageFunc(${pagingInfo.lastPage+1})">	
-							<img class="img_bt_next" 
-							src="<c:url value='/resources/images/button/bt_next.jpg'/>" 
-							alt="다음 블럭으로">
+							<i class="fas fa-angle-right"></i>
+						</a>
+					</c:if>	
+					<!-- 마지막페이지로 이동 -->
+					<c:if test="${pagingInfo.lastPage<pagingInfo.totalPage }">
+						<a href="#" onclick="pageFunc(${pagingInfo.totalPage})">	
+							<i class="fas fa-angle-double-right"></i>
 						</a>
 					</c:if>	
 				</div>
@@ -759,11 +772,14 @@ p {
 				</form>
 				
 				<div class="divPage">
-					<!-- 이전블럭으로 이동 -->
-					<c:if test="${pagingInfo.firstPage>1 }">	
+					<!-- 1page로 이동 -->
+					<c:if test="${pagingInfo.firstPage>1 }">
+						<a href="#" onclick="pageFunc(1)">
+							<i class="fas fa-angle-double-left"></i>
+						</a>
+					<!-- 이전블럭으로 이동 -->	
 						<a href="#" onclick="pageFunc(${pagingInfo.firstPage-1})">
-							<img class="img_bt_previous"
-							src="<c:url value='/resources/images/button/bt_previous.jpg'/>" alt="이전 블럭으로">
+							<i class="fas fa-angle-left"></i>
 						</a>
 					</c:if>
 					<!-- 페이지 번호 추가 -->						
@@ -783,8 +799,13 @@ p {
 					<!-- 다음블럭으로 이동 -->
 					<c:if test="${pagingInfo.lastPage<pagingInfo.totalPage }">
 						<a href="#" onclick="pageFunc(${pagingInfo.lastPage+1})">	
-							<img class="img_bt_next" 
-							src="<c:url value='/resources/images/button/bt_next.jpg'/>" alt="다음 블럭으로">
+							<i class="fas fa-angle-right"></i>
+						</a>
+					</c:if>	
+					<!-- 마지막페이지로 이동 -->
+					<c:if test="${pagingInfo.lastPage<pagingInfo.totalPage }">
+						<a href="#" onclick="pageFunc(${pagingInfo.totalPage})">	
+							<i class="fas fa-angle-double-right"></i>
 						</a>
 					</c:if>	
 				</div>
@@ -815,14 +836,20 @@ p {
 								</tr>
 							</tbody>
 						</table>
-						<div id="moveTop">
-							<a href="#">
-								<img src="" class="topMove" alt="맨위로이동" >
-							</a>
-						</div>
+					</div>
+					<div class="bottmBannerArea">
+						<a href="<c:url value='/book/bookList.do?cateNo=2551&author=조금산'/>">
+						<img src="<c:url value='/resources/images/banner/bn_event_753x100.jpg'/>"
+						class="bottomBanner">
+						</a>
 					</div>
 					<br style="clear: both;">
 				</div>
+				<a href="#" class="moveTop">
+					<i class="fa fa-caret-up">
+					맨 위로
+					</i>
+				</a>
 			</div>
 		</div>
 	</div>

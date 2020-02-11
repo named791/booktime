@@ -70,6 +70,12 @@ img,
     filter: blur(2px);
 }
 
+a.linkBox {
+ height: 100%;
+ width: 100%;
+ display: block;
+}
+
 @media screen and (max-width: 1148px) {
     .bg {
         max-width: 48%;
@@ -85,22 +91,26 @@ img,
     }
 }
 </style>
-
+<!-- 추천도서 리스트 반복 시작-->
 <c:forEach var="list" items="${list2 }">
 
 <div class="col-lg-3 col-sm-6 portfolio-item">
         <div class="card">
 <div class="bg">
-	          <a href='<c:url value="/book/bookDetail.do?ItemId=${list.isbn}"/>'>
-	          <img class="card-img-top" src="${list.cover}" alt="bookcover"></a>
-	<!-- 오버레이 애니메이션 -->
-	<div class="overlay">
+	<!-- 책표지 -->
+	    <img class="card-img-top" src="${list.cover}" alt="bookcover"></a>
+	<!-- 오버레이 애니메이션 div start-->
+	<div class="overlay">	
+	<a href='<c:url value="/book/bookDetail.do?ItemId=${list.isbn}"/>'
+	 class="linkBox" style="color:white; text-decoration:none;">
 		<br><br>
       <h4>${list.managerId}의 추천</h4>
       <br>
-      <p>책 제목을 누르면 더 자세한 책 정보를 볼 수 있습니다</p>
+      <p>2월, 발렌타인에 초콜렛보다 더 달콤한 책을 선물해 보세요</p></a>	
     </div>
+    <!-- 오버레이 애니메이션 div end-->
 </div>
+	<!-- 책제목 -->
         	<div class="card-body" style="height:100px">
 	            <p class="card-title">
 	              <a href='<c:url value="/book/bookDetail.do?ItemId=${list.isbn}"/>'>
@@ -113,16 +123,9 @@ img,
 							</c:if>	
 	              </a>
 	            </p>
-	           <!-- 
-	            <p class="card-text">
-	           ${list.writer}
-					지음 | ${list.publisher} <br>
-					<fmt:formatNumber value="${list.price}" />
-					원
-	            </p>
-	           -->   
 	         </div>
         </div>
       </div>
 
 </c:forEach>
+<!-- 추천도서 리스트 반복 끝-->

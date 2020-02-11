@@ -27,7 +27,17 @@
 </style>
 <script type="text/javascript">
 	$(function(){
-		
+		$("form[name=reviewFrm]").submit(function(){
+			if(!$("input[name=title]").val()){
+				alert("제목을 입력해주세요!");
+				$("input[name=title]").focus();
+				return false;
+			}else if($("textarea[name=content]").val().length<10){
+				alert("내용을 10자이상 입력해주세요!");
+				$("textarea[name=content]").focus();
+				return false;
+			}
+		});
 	});
 	
 	function pageFunc(idx){

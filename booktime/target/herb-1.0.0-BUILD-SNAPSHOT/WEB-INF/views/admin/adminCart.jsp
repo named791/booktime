@@ -19,6 +19,7 @@
 		background-color: white;
 		display: none;
 		width: 80%;
+		z-index: 1000;
 	}
 	.refund{
 		border: 2px solid lightGray;

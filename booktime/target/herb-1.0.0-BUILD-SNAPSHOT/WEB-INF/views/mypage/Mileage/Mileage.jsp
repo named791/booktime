@@ -79,8 +79,8 @@ function pageFunc(curPage){
 		</thead>
 		<tbody>
 			<c:if test="${empty list}">
-				<tr><td class="text-center align-middle" colspan="5">
-				마일리지 조회 결과가 없습니다<br>
+				<tr><td class="text-center align-middle" colspan="6">
+				<div>마일리지 조회 결과가 없습니다</div>
 							<img alt="coin" src="<c:url value='/resources/images/icons/coin.png'/>" height="300px;">
 				
 				</td></tr>

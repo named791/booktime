@@ -7,6 +7,10 @@ div.sticky {
   position: sticky;
   top: 0;
 }
+img {
+  max-width: 100%;
+  height: auto;
+}
 </style>
 <script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5e3d940968a5cf00125e013f&product=inline-share-buttons" async="async"></script>
 <script>

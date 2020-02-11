@@ -88,7 +88,7 @@ public class FileUploadUtil {
 			String dirName = "";
 			
 			if(uploadPathType==REVIEW_IMG_UPLOAD) {
-				dirName = props.getProperty("reviewImg");
+				dirName = props.getProperty("reviewImgFile.upload.path");
 			}
 			
 			path = request.getServletContext().getRealPath(dirName);

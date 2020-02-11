@@ -47,33 +47,34 @@
 				alert("이메일을 입력해주세요");
 				event.preventDefault();
 				$("#email").focus();
-			}else{
-				window.open("<c:url value='/login/getId.do?name="+name+"&email="+email+"'/>","","width=500,height=500");
 			}
 		});
 	});
+	
 </script>
 <body>
-	
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100 p-t-50 p-b-90">
-				<form class="login100-form validate-form flex-sb flex-w" name="frm1">
-					<span class="login100-form-title p-b-51">
+				<form class="login100-form validate-form flex-sb flex-w" method="post"
+					action="<c:url value='/login/getId.do'/>">
+				<span class="login100-form-title p-b-51">
 						아이디 찾기
 					</span>
 					<p style="font-size: 0.8em; color: green;">
 					- 이름과 E-mail 주소를 입력 후 "가입 여부 확인하기" 버튼을 클릭해주시면 가입 여부를 알려드립니다.</p>
 					<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
-						<input id="name" class="input100" type="text" name="name" placeholder="이름을 입력하세요" required>
+						<input id="email" class="input100" type="text" name="email" placeholder="가입하신 E-mail 주소를 입력해주세요" required value="${email }">
 						<span class="focus-input100"></span>
 					</div>
 					<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
-						<input id="email" class="input100" type="text" name="email" placeholder="E-mail 주소" required>
+						<input id="name" class="input100" type="text" name="name" placeholder="이름을 입력하세요" required value="${name }">
 						<span class="focus-input100"></span>
+						<input type="hidden" name="userid" value="${userid }" id="userid">
 					</div>
+					
 					<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required" required>
-						<button type="submit" class="login100-form-btn" id="btnId">
+						<button type="submit" class="login100-form-btn" id="btnId" onclick="myfunction()">
 							가입 여부 확인
 						</button>
 					</div>
@@ -93,6 +94,7 @@
 
 	<div id="dropDownSelect1"></div>
 	
+
 <!--===============================================================================================-->
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->

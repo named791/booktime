@@ -21,7 +21,7 @@
                 <thead>
                   <tr>
                     <th>이름</th>
-                    <th>아이디</th>
+                    <th>아이디 <span class="text-primary">(관리자)</span></th>
                     <th>이메일</th>
                     <th>전화번호</th>
                     <th>주소</th>
@@ -33,7 +33,7 @@
                 <tfoot>
                   <tr>
                     <th>이름</th>
-                    <th>아이디</th>
+                    <th>아이디 <span class="text-primary">(관리자)</span></th>
                     <th>이메일</th>
                     <th>전화번호</th>
                     <th>주소</th>
@@ -52,10 +52,25 @@
 							<tr>
 														
 								<td>${vo.name }</td>
-								<td>${vo.userid }</td>
-								<td>${vo.email1 }</td>
+								<c:if test="${fn:contains(vo.grade, 'A')}">
+									<td class="text-primary">${vo.userid }</td>
+								</c:if>
+								<c:if test="${fn:contains(vo.grade, 'M')}">
+									<td>${vo.userid }</td>
+								</c:if>
+								<c:if test="${fn:contains(vo.emailagree, 'Y')}">
+									<td>${vo.email1 }@${vo.email2 }</td>
+								</c:if>
+								<c:if test="${!fn:contains(vo.emailagree,'Y')}">
+									<td class="text-danger">
+									${vo.email1 }@${vo.email2 }<br>
+									<small>(이메일 수신거부)</small>
+									</td>
+								</c:if>
 								<td>${vo.phone }</td>
-								<td>${vo.zipcode }</td>
+								<td>${vo.zipcode }<br>${vo.newaddress }<br><small>(${vo.parseladdress })
+									<br>${vo.addressdetail }</small>
+								</td>
 								<td>${vo.birth }</td>
 					
 					<td>
@@ -97,7 +112,8 @@
 <script type="text/javascript">
 $(function(){
 
-      $(".withdrow").click(function(){
+		
+	$("#dataTable").on("click", ".withdrow", function(){
               
               var btn = $(this);
               
@@ -110,7 +126,7 @@ $(function(){
 				win.focus();
 	});
       
-      $(".edit").click(function(){
+	$("#dataTable").on("click", ".edit", function(){
           
           var checkBtn = $(this);
           
@@ -127,13 +143,9 @@ $(function(){
           
           //alert(input);
 
-    	  if ( input =="") {
 			win = window.open("<c:url value='/admin/memberEditForm.do?userid="+id+"'/>","refund","top=100,left=300,resizable=no,location=no,width=550,height=650");
 
 			win.focus();
-    	  }else{
-    		  alert("이미 탈퇴된 회원입니다");
-    	  }
     	  
 	});
 })

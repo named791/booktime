@@ -341,7 +341,6 @@
 				</c:if>
 				<div style="display: inline-block;" class="ml-2">
 					<b><a href="<c:url value='/freeBoard/Detail.do?boardNo=${map["no"]}'/>">${map['title']}</a></b><br>
-					<div class="eventContent">${map['content']}</div>
 				</div>
 			</div>
 		</c:forEach>

@@ -14,8 +14,18 @@
   crossorigin="anonymous'/> "></script>
 <script type="text/javascript">
 	$(function() {
-		$("#btnChoose").click(function(){
-			var checked = $("input[type=checkbox]:checked");
+		$(".choose").click(function(){
+			var checkBtn = $(this);
+	        
+	        var i=checkBtn.parent();
+	        var isbn=i.find("input[name='isbn']").val();
+	        var bookName=i.find("input[name='bookName']").val();
+	        var price=i.find("input[name='price']").val();
+	        var publisher=i.find("input[name='publisher']").val();
+	        var writer=i.find("input[name='writer']").val();
+	        var cover=i.find("input[name='cover']").val();
+	          
+	        alert(bookName+", "+writer);
 
 			//ajax 통신으로 isbn,제목,가격,출판사,가격,표지 보낼것
 			
@@ -23,12 +33,12 @@
 			url : "<c:url value='/admin/adminRecommendAdd.do'/> ",
 			type : "post",
 			data : {
-				"isbn": $("#isbn").val(),
-				"bookName": $("#bookName").val(),
-				"price": $("#price").val(),
-				"publisher": $("#publisher").val(),
-				"writer": $("#writer").val(),
-				"cover": $("#cover").val()
+				"isbn": isbn,
+				"bookName": bookName,
+				"price": price,
+				"publisher": publisher,
+				"writer": writer,
+				"cover": cover
 			},
 			success : function(result){
 				alert("추천도서 등록 완료");
@@ -135,14 +145,17 @@ h1 {
 									href='<c:url value="/book/bookDetail.do?ItemId=${map['isbn13'] }"/>'
 									target="_blank"> ${map['title'] } </a></td>
 								<td>${map['author'] }</td>
-								<td style="width: 50px"><input class="form-check-input" id="btnChoose"
-								type="checkbox" value="${vo.isbn13 }"></td>
-								<input type="hidden" id="isbn" value="${map['isbn13'] }">
-								<input type="hidden" id="bookName" value="${map['title'] }">
-								<input type="hidden" id="price" value="${map['priceSales'] }">
-								<input type="hidden" id="publisher" value="${map['publisher'] }">
-								<input type="hidden" id="writer" value="${map['author'] }">
-								<input type="hidden" id="cover" value="${map['cover'] }">
+								<td style="width: 50px">
+								<input class="form-check-input choose" id="btnChoose"
+								type="checkbox" value="${vo.isbn13 }">
+								<input type="hidden" id="isbn" name="isbn" value="${map['isbn13'] }">
+								<input type="hidden" id="bookName" name="bookName" value="${map['title'] }">
+								<input type="hidden" id="price" name="price" value="${map['priceSales'] }">
+								<input type="hidden" id="publisher" name="publisher" value="${map['publisher'] }">
+								<input type="hidden" id="writer" name="writer" value="${map['author'] }">
+								<input type="hidden" id="cover" name="cover" value="${map['cover'] }">
+								</td>
+								
 							</tr>
 						</c:forEach>
 						<!-- 반복끝 -->
@@ -153,7 +166,7 @@ h1 {
 					<!-- 이전블럭으로 이동 -->
 					<c:if test="${pagingInfo.firstPage>1 }">	
 						<a href="#" onclick="pageFunc(${pagingInfo.firstPage-1})">
-							<img src="<c:url value='/resources/images/first.JPG'/>" alt="이전 블럭으로">
+							<i class="fas fa-chevron-left"></i>
 						</a>
 					</c:if>
 					<!-- 페이지 번호 추가 -->						
@@ -173,7 +186,7 @@ h1 {
 					<!-- 다음블럭으로 이동 -->
 					<c:if test="${pagingInfo.lastPage<pagingInfo.totalPage }">
 						<a href="#" onclick="pageFunc(${pagingInfo.lastPage+1})">	
-							<img src="<c:url value='/resources/images/last.JPG'/>" alt="다음 블럭으로">
+							<i class="fas fa-chevron-right"></i>
 						</a>
 					</c:if>	
 

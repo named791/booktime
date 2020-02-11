@@ -1,10 +1,8 @@
-<%@page import="com.ez.booktime.user.model.UserService"%>
-<%@page import="com.ez.booktime.user.model.UserDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@include file="../inc/top.jsp" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-<!-- post방식으로 이메일, 아이디, 가입일을 가져옴 -->
 <html>
 <head>
 <meta charset="UTF-8">
@@ -28,54 +26,53 @@
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/util.css">
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/main.css">
 <!--===============================================================================================-->
-</head>
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.js"></script>
-<script type="text/javascript">
-	function btOk() {
-		self.close();
-	}		
-</script>
 <style type="text/css">
-#getIdForm{
-	border-radius: 1px solid green;
-}
-#p1{
-	font-size: 0.8em;
-	color: red;
-}
-.div1 button{
-	width: 300px;
-}
-.div1{
-	text-align: center;	
-}
+	p{
+		margin-bottom: 20px;
+	}
+	input[type='button'] {
+		width: 192px;
+		height: 50px;
+		background: rgb(0 153 174);
+		color: white;
+		border-radius: 3px;
+	}
+	span1{
+		color: gray;
+	}
+	#userid{
+		color: red;
+		text-align: center;
+		margin: 20px;
+	}
 </style>
-<body>
+</head>
+<script type="text/javascript" src="<c:url value='/resources/vendor/jquery/jquery.min.js'/>"></script>
+<script type="text/javascript">
+	$(function(){
+		$("#searchPwd").click(function(){
+			location.href="<c:url value='/login/searchPWD.do'/>";
+		});
+		
+		$("#onlogin").click(function(){
+			location.href="<c:url value='/login/login.do'/>";
+		});
+	});
 	
+</script>
+<body>
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100 p-t-50 p-b-90">
-				<form class="login100-form validate-form flex-sb flex-w" >
-					<span class="login100-form-title p-b-51">
-						아이디 찾기
-					</span>
-					<!-- if문 사용 -->
-					<c:if test="${empty vo.userid}">
-						<p id="p1">입력하신 E-mail 주소로 가입된 계정이 없습니다!</p>
-					</c:if>
-					<c:if test="${!empty vo.userid}">
-						<p id="p1">입력하신 E-mail 주소로 가입된 계정이 있습니다.</p>
-						<div class="wrap-login100 p-t-50 p-b-90">
-							<span>아이디</span>
-							<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
-								<label class="userid">${vo.userid }</label>
-							</div>
-							<div class="div1">
-							<button type="button" class="btn btn-info" onclick="btOk()">확인</button>
-							</div>
-						</div>
-					</c:if>
-				</form>
+				<span class="login100-form-title p-b-51" id="span1">
+					회원님의 아이디는 
+					<input type="text" value="[ ${userid } ]" id="userid"><br>
+					입니다.
+				</span>
+				<div>
+					<input type="button" id="searchPwd" value="비밀번호 찾기">
+					<input type="button" id="onlogin" value="로그인하러가기">
+				</div>
 			</div>
 		</div>
 	</div>
@@ -83,6 +80,7 @@
 
 	<div id="dropDownSelect1"></div>
 	
+
 <!--===============================================================================================-->
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->
@@ -100,3 +98,4 @@
 <!--===============================================================================================-->
 	<script src="js/main.js"></script>
 
+<%@include file="../inc/bottom.jsp" %>
