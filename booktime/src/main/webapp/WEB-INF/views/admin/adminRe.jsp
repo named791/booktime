@@ -26,6 +26,10 @@
 		
 		$("#bt_delete").click(function(){
 			var checked = $("input[type=checkbox]:checked");
+			if(checked.length<1){
+				alert("선택된 항목이 없습니다.");
+				return;
+			}
 
 			var recombookNo = "";
 			checked.each(function(idx,item){
@@ -263,26 +267,28 @@ img {
 	<div class="card-body">
 		<div class="table-responsive">
 			<ul class=" list-group list-group-flush">
-				<li class="list-group-item">
-					<div class="widget-content p-0">
-						<div class="widget-content-wrapper">
-							<div class="widget-content-left mr-2">
-								<div class="custom-checkbox custom-control">
-									<input class="form-check-input" id="checkbox0"
-										type="checkbox" value="0"><label class="form-check-label"
-										for="checkbox0">&nbsp;</label>
+				<c:if test="${!empty list }">
+					<li class="list-group-item">
+						<div class="widget-content p-0">
+							<div class="widget-content-wrapper">
+								<div class="widget-content-left mr-2">
+									<div class="custom-checkbox custom-control">
+										<input class="form-check-input" id="checkbox0"
+											type="checkbox" value="0"><label class="form-check-label"
+											for="checkbox0">&nbsp;</label>
+									</div>
 								</div>
+								<div class="widget-content-left flex4"></div>
+								<div class="widget-content-right">
+									<button class="btn btn-outline-danger"
+									id="bt_delete">
+										선택삭제</button>
+								</div>
+	
 							</div>
-							<div class="widget-content-left flex4"></div>
-							<div class="widget-content-right">
-								<button class="btn btn-outline-danger"
-								id="bt_delete">
-									선택삭제</button>
-							</div>
-
 						</div>
-					</div>
-				</li>
+					</li>
+				</c:if>
 				<!-- 반복문 시작 -->
 				<c:if test="${empty list }">
 					<li>추천도서가 없습니다.</li>

@@ -89,6 +89,10 @@
 			opener.location.reload();
 		}
 		
+		if(${empty userVo}){
+			window.resizeTo(550,220);
+		}
+		
 		$("#close").click(function(){
 			self.close();		
 		});
@@ -103,6 +107,14 @@
 			}
 		});
 
+		
+		$("form[name=loginForm]").submit(function(){
+			if($("#mileage").val()!=0 && !$("input[name=reason]").val()){
+				alert("마일리지 변경시, 변경사유를 입력해야 합니다.");
+				$("input[name=reason]").focus();
+				return false;
+			}
+		});
 	});
 </script>
 
@@ -202,11 +214,18 @@
 	
 	
 						<div class="form-row">
-							<div class="form-group">
+							<div class="form-group col">
 								<label for="phone">연락처</label> 
 								<input type="text" name="phone" id="phone"
 									class="form-control" required="required" value="${userVo.phone }">
-	
+							</div>
+							
+							<div class="form-group col">
+								<label for="mileage">마일리지 변경(${userVo.mileage }P 보유)</label><br>
+								<input type="number" id="mileage" name="mileage" class="form-control" step="100"
+									value="0" style="width: 40%;display: inline-block;">
+								<input type="text" name="reason" class="form-control" placeholder="변경 사유"
+									style="width: 55%;display: inline-block;">
 							</div>
 						</div>
 	

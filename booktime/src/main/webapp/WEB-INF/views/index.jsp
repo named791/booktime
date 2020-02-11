@@ -40,10 +40,10 @@
  	display: inline-block;
  	height: 100%;
  	vertical-align: top;
- 	transform: perspective(750px) rotateY(35deg) translateZ(-40px) translateX(-60px);
+ 	transform: perspective(750px) rotateY(35deg) translateZ(-45px) translateX(-17px);
  }
  .cover{
- 	transform: perspective(750px) rotateY(-35deg) translateZ(-50px) translateX(-80px);
+ 	transform: perspective(750px) rotateY(-35deg) translateZ(-95px) translateX(-60px);
  	max-height: 100%;
  	min-height: 100%;
  	filter: contrast(0.9);
@@ -85,6 +85,12 @@
 			var link = $(this).find(".banner").attr("href");
 			location.href = link;
 		});
+		
+		if(${!empty list2 && fn:length(list2)<=4}){
+			$(".bestZone").css("top", "-920px");
+		}else if(${!empty list2 && fn:length(list2)<=8}){
+			$(".bestZone").css("top", "-520px");
+		}
 	});
 </script>
   
@@ -93,10 +99,6 @@
 	<div id="carouselExampleIndicators" class="carousel slide"
 		data-ride="carousel">
 		<ol class="carousel-indicators">
-			<c:if test="${empty list2 }">
-				<li class="selBar border-0" 
-					data-target="#carouselExampleIndicators" data-slide-to="0"></li>
-			</c:if>
 		
 			<c:if test="${!empty list2 }">
 				<c:set var="size" value="${fn:length(list2)-1 }"/>
@@ -114,11 +116,7 @@
 			<!-- Slide One - Set the background image for this slide in the line below -->
 			<c:if test="${empty list2 }">
 				<div class="carousel-item active"
-						style="background-image: url('${list2[i].cover}'); ">
-						<div class="carousel-caption d-none d-md-block">
-							<h3 style="text-shadow: black 0 0 5px;">책 읽기 좋은 시간</h3>
-							<p style="text-shadow: black 0 0 5px;">어서오세요 책 읽기 좋은 시간 입니다.</p>
-						</div>
+						style="background-image: url('<c:url value="/resources/images/MainBanner.png"/>');background-position-y: bottom;">
 					</div>
 			</c:if>
 			
@@ -146,15 +144,17 @@
 			</c:if>
 			
 		</div>
-		<a class="carousel-control-prev" href="#carouselExampleIndicators"
-			role="button" data-slide="prev"> <span
-			class="carousel-control-prev-icon" aria-hidden="true"></span> <span
-			class="sr-only">Previous</span>
-		</a> <a class="carousel-control-next" href="#carouselExampleIndicators"
-			role="button" data-slide="next"> <span
-			class="carousel-control-next-icon" aria-hidden="true"></span> <span
-			class="sr-only">Next</span>
-		</a>
+		<c:if test="${!empty list2 }">
+			<a class="carousel-control-prev" href="#carouselExampleIndicators"
+				role="button" data-slide="prev"> <span
+				class="carousel-control-prev-icon" aria-hidden="true"></span> <span
+				class="sr-only">Previous</span>
+			</a> <a class="carousel-control-next" href="#carouselExampleIndicators"
+				role="button" data-slide="next"> <span
+				class="carousel-control-next-icon" aria-hidden="true"></span> <span
+				class="sr-only">Next</span>
+			</a>
+		</c:if>
 	</div>
 </header>
 
@@ -164,26 +164,27 @@
     <div class="row justify-content-end">
       <!-- Sidebar Column -->
       <c:import url="/inc/categoryBar.do"></c:import>
-      
-      <!-- Content Column -->
-      <div class="col-lg-10 mb-4">
-      <br>
-      <h2>&nbsp; <i class="fas fa-book" style="color: #d3d3d3 "></i>&nbsp; 추천도서</h2>
-      <hr style="border: thin solid;color:#00bcd5;">
-      <br>
-      <div class="row justify-content-around">
-<%@include file="recomend.jsp" %>
-    </div>
-    </div><!-- row -->
-
-    <div class="col-lg-2 mb-4">
-        <div class="list-group">
-        &nbsp;
-        </div>
-    </div>
+      <c:if test="${!empty list2}">
+	      <!-- Content Column -->
+	      <div class="col-lg-10 mb-4">
+	      <br>
+	      <h2>&nbsp; <i class="fas fa-book" style="color: #d3d3d3 "></i>&nbsp; 추천도서</h2>
+	      <hr style="border: thin solid;color:#00bcd5;">
+	      <br>
+	      <div class="row justify-content-around">
+	<%@include file="recomend.jsp" %>
+	    </div>
+	    </div><!-- row -->
+	
+	    <div class="col-lg-2 mb-4">
+	        <div class="list-group">
+	        &nbsp;
+	        </div>
+	    </div>
+    </c:if>
 
     <!-- Content Column -->
-      <div class="col-lg-10 mb-4">
+      <div class="col-lg-10 mb-4 bestZone">
       <br>
       <h2>&nbsp;<i class="fas fa-book" style="color: #d3d3d3 "></i>&nbsp; 베스트 셀러</h2>
       <hr style="border: thin solid;color:#00bcd5;">

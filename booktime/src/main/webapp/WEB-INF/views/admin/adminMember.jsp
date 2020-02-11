@@ -68,7 +68,9 @@
 									</td>
 								</c:if>
 								<td>${vo.phone }</td>
-								<td>${vo.zipcode }</td>
+								<td>${vo.zipcode }<br>${vo.newaddress }<br><small>(${vo.parseladdress })
+									<br>${vo.addressdetail }</small>
+								</td>
 								<td>${vo.birth }</td>
 					
 					<td>
@@ -110,7 +112,8 @@
 <script type="text/javascript">
 $(function(){
 
-      $(".withdrow").click(function(){
+		
+	$("#dataTable").on("click", ".withdrow", function(){
               
               var btn = $(this);
               
@@ -123,7 +126,7 @@ $(function(){
 				win.focus();
 	});
       
-      $(".edit").click(function(){
+	$("#dataTable").on("click", ".edit", function(){
           
           var checkBtn = $(this);
           
