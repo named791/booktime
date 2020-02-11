@@ -49,7 +49,7 @@ public class adminMailController {
 			userVo.setEmail1(email1);
 			userVo.setEmail2(email2);
 			
-			//비밀번호 변경하기
+			//비밀번호 변경하기(재설정 유저가)
 			
 			String userid=userService.selectByEmail(userVo);//유저 아이디 검색
 			
