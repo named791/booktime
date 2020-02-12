@@ -64,7 +64,13 @@ public class AdminRecommendBookController {
 			}
 			logger.info("검색 리스트, list.size={}",list.size());
 			
-			int total = Integer.parseInt(list.get(0).get("totalResult").toString());
+			int total = 0;
+			
+			String totalStr = list.get(0).get("totalResult").toString();
+			logger.info(totalStr);
+			if(totalStr!=null && !totalStr.isEmpty()) {
+				total = Integer.parseInt(totalStr);
+			}
 			
 			pagingInfo.setTotalRecord(total);
 			pagingInfo.setBlockSize(10);

@@ -408,7 +408,7 @@
 								<span style="font-size: 1.5em;" id="sum">
 									<fmt:formatNumber value="${sum}" pattern="#,###"/>원
 								</span>
-								<input type="text" value="${sum}" name="price">
+								<input type="hidden" value="${sum}" name="price">
 							</b>
 						</td>
 					</tr>

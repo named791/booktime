@@ -21,7 +21,7 @@
 		,(select
 			(select sum(price) from payment
     			where progress='구매확정')
-			+(select sum(usePoint) 
+			+(select nvl(sum(usePoint),0) 
 			    from mileage where reason='기간만료')
 			-(select sum(usePoint)
 			    from mileage

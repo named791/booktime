@@ -33,14 +33,19 @@
 					action="<c:url value='/admin/adminPassword.do'/>">
           <div class="form-group">
             <div class="form-label-group">
-              <input type="email" id="inputEmail" name="inputEmail" class="form-control" placeholder="가입시 입력한 이메일을 입력해주세요" required="required" autofocus="autofocus">
-              <label for="inputEmail">가입시 입력한 이메일을 입력해주세요</label>
+           		<input type="text" id="userid" name="userid" class="form-control" 
+              		placeholder="아이디를 입력해주세요." required="required" autofocus="autofocus">
+              	<label for="userid">아이디를 입력해주세요.</label>
+            </div>
+            <div class="form-label-group">
+              <input type="email" id="inputEmail" name="inputEmail" class="form-control" 
+              	placeholder="가입시 입력한 이메일을 입력해주세요." required="required" autofocus="autofocus">
+              <label for="inputEmail">가입시 입력한 이메일을 입력해주세요.</label>
             </div>
           </div>
           <button type="submit" class="btn btn-primary btn-block">비밀번호 초기화</button>
         </form>
-        <div class="text-center">
-          <a class="d-block small mt-3" href="<c:url value='/admin/adminJoin.do' />">새 관리자 등록</a>
+        <div class="text-center mt-4">
           <a class="d-block small" href="<c:url value='/admin/adminLogin.do' />">로그인 화면으로</a>
         </div>
       </div>

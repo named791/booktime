@@ -40,7 +40,7 @@
  	display: inline-block;
  	height: 100%;
  	vertical-align: top;
- 	transform: perspective(750px) rotateY(35deg) translateZ(-45px) translateX(-17px);
+ 	transform: perspective(750px) rotateY(35deg) translateZ(-50px) translateX(-11px);
  }
  .cover{
  	transform: perspective(750px) rotateY(-35deg) translateZ(-95px) translateX(-60px);

@@ -50,10 +50,10 @@ src="${pageContext.request.contextPath }/resources/vendor/jquery/jquery.js"></sc
 		font-size: 0.8em;
 	}
 	#frmAgree input[type=checkbox]{
-		margin-left: 650px;
+		margin-left: 600px;
 	}
 	#btn{
-		margin-right: 100px;
+		margin-right: 150px;
 	}
 </style>
 <body>

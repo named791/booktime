@@ -45,6 +45,9 @@
 		text-align: center;
 		margin: 20px;
 	}
+	#span2{
+		color: red;	
+	}
 </style>
 </head>
 <script type="text/javascript" src="<c:url value='/resources/vendor/jquery/jquery.min.js'/>"></script>
@@ -64,11 +67,18 @@
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100 p-t-50 p-b-90">
-				<span class="login100-form-title p-b-51" id="span1">
-					회원님의 아이디는 
-					<input type="text" value="[ ${userid } ]" id="userid"><br>
-					입니다.
-				</span>
+				<c:if test="${!empty userid }">
+					<span class="login100-form-title p-b-51" id="span1">
+						회원님의 아이디는 
+						<input type="text" value="[ ${userid } ]" id="userid"><br>
+						입니다.
+					</span>
+				</c:if>
+				<c:if test="${empty userid }">
+					<span class="login100-form-title p-b-51" id="span2">
+						아이디가 존재하지 않습니다.
+					</span>
+				</c:if>
 				<div>
 					<input type="button" id="searchPwd" value="비밀번호 찾기">
 					<input type="button" id="onlogin" value="로그인하러가기">
