@@ -32,6 +32,10 @@
 				alert("제목을 입력해주세요!");
 				$("input[name=title]").focus();
 				return false;
+			}else if($("input[name=title]").val().length>20){
+				alert("제목은 20자내로 작성해주세요");
+				$("input[name=title]").focus();
+				return false;
 			}else if($("textarea[name=content]").val().length<10){
 				alert("내용을 10자이상 입력해주세요!");
 				$("textarea[name=content]").focus();

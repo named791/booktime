@@ -64,6 +64,10 @@ canvas {
 			window.open("<c:url value='/admin/mailing.do'/>", "mailing", "width=500px,height=650px,top=50px,left=100px,location=no,resizable=no");
 			
 		});
+		
+		$("#changePwd").click(function(){
+			window.open("<c:url value='/admin/adminRePwd.do'/>", "newPwd", "width=500px,height=350px,top=100px,left=200px,location=no,resizable=no");
+		});
 	});
 </script>
 
@@ -181,7 +185,8 @@ to {
 
 						<a class="dropdown-item"
 							href="${pageContext.request.contextPath}/admin/adminJoin.do">
-							새 관리자 등록</a> <a class="dropdown-item" href="#">관리자 목록</a>
+							새 관리자 등록</a>
+						<a class="dropdown-item" href="#" id="changePwd">비밀번호 변경</a>
 						<div class="dropdown-divider"></div>
 						<a class="dropdown-item" href="#" data-toggle="modal"
 							data-target="#logoutModal">로그아웃</a>
@@ -209,9 +214,9 @@ to {
 				href="${pageContext.request.contextPath}/admin/adminMember.do">
 					<span>회원 관리</span>
 			</a></li>
-			<li class="nav-item"><a class="nav-link"
+			<%-- <li class="nav-item"><a class="nav-link"
 				href="${pageContext.request.contextPath}/admin/adminEvent.do"> <span>이벤트 관리</span></a>
-			</li>
+			</li> --%>
 			<li class="nav-item"><a class="nav-link"
 				href="${pageContext.request.contextPath}/admin/adminRe.do"> <span>노출 관리</span></a>
 			</li>

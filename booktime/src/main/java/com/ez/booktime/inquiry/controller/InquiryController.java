@@ -2,6 +2,7 @@ package com.ez.booktime.inquiry.controller;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.ez.booktime.common.EmailSender;
+
 @Controller
 public class InquiryController {
 	private static final Logger logger
@@ -21,6 +24,9 @@ public class InquiryController {
 	@Autowired
 	private JavaMailSender mailSender;
 	
+	@Autowired
+	private EmailSender emSender;
+	
 	@RequestMapping(value="/inquiry/inquiryPage.do", method = RequestMethod.GET )
 	public String inquiry_get() {
 		logger.info("1:1 문의 화면 보여주기");
@@ -28,15 +34,25 @@ public class InquiryController {
 		return "inquiry/inquiryPage";
 	}
 	
-	@RequestMapping(value="/mail/mailSending.do", method = RequestMethod.POST)
-	public String mailSending(HttpServletRequest request, Model model) {
-		String tomail  = "yjwyhg@gmail.com";     // 받는 사람 이메일
+	@RequestMapping(value = "/mail/mailSending.do", method = RequestMethod.POST)
+	public String mailSending(HttpServletRequest request
+			, HttpSession session
+			, Model model) {
+		String tomail  = "stjgh505@gmail.com";     // 받는 사람 이메일
 		String setfrom = request.getParameter("email");         
 		String title   = request.getParameter("title");      // 제목
 		String type = request.getParameter("qType");
 		String name = request.getParameter("name");
-		String userid = request.getParameter("userid");
 		String msg = request.getParameter("message");
+		
+		String userid = (String) session.getAttribute("userid");
+		if(userid==null || userid.isEmpty()) {
+			userid = "비회원";
+		}
+		logger.info("tomail={}, setFrom={}",tomail, setfrom);
+		logger.info("title={}, type={}",title, type);
+		logger.info("name={}, userid={}",name, userid);
+		logger.info("msg={}", msg);
 		
 	    String content ="<strong>문의 유형</strong> : "+ type + 
 	    				"<br>" + "<br>"
@@ -48,10 +64,14 @@ public class InquiryController {
 	    				"<br>" + "<br>"
 	    				+ "<strong>내용</strong> : "+ msg;// 내용
 	   
-	    String alert="", url="/mail/mailSending.do";
+	    String alert="", url="/inquiry/inquiryPage.do";
 	    setfrom = setfrom.toLowerCase();
 	    tomail = tomail.toLowerCase();
 	    
+	    emSender.sendMail(title, content, tomail, setfrom);
+	    alert="문의 메일을 발송하였습니다.";
+	    url="/index.do";
+	    /*
 	    try {
 	      MimeMessage message = mailSender.createMimeMessage();
 	      MimeMessageHelper messageHelper 
@@ -67,9 +87,10 @@ public class InquiryController {
 	      alert="문의 메일을 발송하였습니다.";
 	      url="/index.do";
 	    } catch(Exception e){
-	      System.out.println(e);
+	      e.printStackTrace();
 	      alert="메일 발송에 실패하였습니다.";
 	    }
+	    */
 	   
 	    model.addAttribute("msg", alert);
 	    model.addAttribute("url", url);
