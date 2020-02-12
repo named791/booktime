@@ -74,7 +74,7 @@
 						입니다.
 					</span>
 				</c:if>
-				<c:if test="${empty userids }">
+				<c:if test="${empty userid }">
 					<span class="login100-form-title p-b-51" id="span2">
 						아이디가 존재하지 않습니다.
 					</span>
