@@ -83,7 +83,7 @@
 		and email2=#{email2} and withdrawaldate is null
 	</select>
 	
-	<select id="selectUserid" parameterType="userVo" resultType="string">
+	<select id="selectUserid" parameterType="userVo" resultType="String">
 		select userid from "USER" where name=#{name} and email1=#{email1} 
 		and email2=#{email2} and withdrawaldate is null
 	</select>

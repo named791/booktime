@@ -224,6 +224,8 @@ public class AladinAPI {
 			map.put("adult", jsonObj.get("adult"));	//성인유무
 			map.put("stockstatus", jsonObj.get("stockstatus"));	//재고상태 정상유통일경우 공백
 			
+			logger.info("json데이터 title ={}, publisher={}", jsonObj.get("title"),jsonObj.get("publisher").toString());
+			
 			String cates = (String)jsonObj.get("categoryName");
 			String cate = "";
 			if(cates!=null && !cates.isEmpty()) {
@@ -238,7 +240,6 @@ public class AladinAPI {
 			map.put("startIndex", jsonTemp.get("startIndex"));
 			map.put("start", jsonObj.get("Start"));	//검색결과 시작페이지
 			map.put("maxResult", jsonObj.get("MaxResults"));	//검색결과 한 페이지당 최대 출력 개수 
-			
 			
 			//상품 조회 API의 경우 subInfo 담기
 			JSONObject subObj = (JSONObject)jsonObj.get("subInfo");	//부가정보
@@ -313,10 +314,10 @@ public class AladinAPI {
 				int responseCode = con.getResponseCode();
 		        BufferedReader br;
 		        if(responseCode==200) { // 정상 호출
-		            br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+		            br = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
 		        } else {  // 에러 발생
 		        	logger.info("에러 발생 responseCode={}",responseCode);
-		            br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+		            br = new BufferedReader(new InputStreamReader(con.getErrorStream(), "UTF-8"));
 		        }
 		        
 		        JSONParser jsonParser = new JSONParser();

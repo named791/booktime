@@ -688,7 +688,7 @@ img.bottomBanner {
 								<c:forEach var="i" begin="0" end="${fn:length(list)-1}" varStatus="status">
 									<c:set var="map" value="${list[i] }"/>
 									<tr class="tb_row" data-value="${status.count }">
-										<td class="td_line checkboxLine">
+										<td class="td_line checkboxLine">${map }
 											<input name="checkbox" type="checkbox" class="checkbox"
 											data-isbn=${map['isbn13'] }>
 										</td>

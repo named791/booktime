@@ -153,7 +153,7 @@ public class loginController {
 		
 		model.addAttribute("userid", userid);
 		
-		return "/login/getId";
+		return "login/getId";
 	}
 	
 	//인증번호 페이지 보여주기

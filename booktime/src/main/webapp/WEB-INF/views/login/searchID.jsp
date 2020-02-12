@@ -67,10 +67,9 @@
 						<input id="email" class="input100" type="text" name="email" placeholder="가입하신 E-mail 주소를 입력해주세요" required value="${email }">
 						<span class="focus-input100"></span>
 					</div>
-					<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
+					<div class="wrap-input100 validate-sinput m-b-16" data-validate = "Username is required">
 						<input id="name" class="input100" type="text" name="name" placeholder="이름을 입력하세요" required value="${name }">
 						<span class="focus-input100"></span>
-						<input type="hidden" name="userid" value="${userid }" id="userid">
 					</div>
 					
 					<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required" required>
