@@ -234,7 +234,7 @@
 	    <input name="hp3" type="text" class="" id="hp3" required>
     </div>
   <input class="submit" type="submit" value="회원가입">
-</div> 
+</div>
 </form>
 </body>
 </html>

@@ -115,7 +115,7 @@
 			dataType:"text",
 			type:"POST",
 			success:function(res){
-				alert(res+"개를 즐겨찾기에서 삭제하였습니다.");
+				alert(res+"개를 찜 목록에서 삭제하였습니다.");
 				location.reload();
 			},
 			error:function(xhr, status, error){
@@ -140,12 +140,12 @@
 <div class="container favorites col-lg-9">
 
 	<div class="table-responsive">
-			<table class="table" title="즐겨찾기 목록">
+			<table class="table" title="찜 목록">
 				<thead>
 					
 					<tr>
 						<th scope="col" class="border-0 bg-light py-0">
-							<div class="p-2"><i class="fa fa-heart"></i> <b>즐겨찾기</b></div>
+							<div class="p-2"><i class="fa fa-heart"></i> <b>찜 목록</b></div>
 						</th>
 						<c:if test="${!empty list }">
 							<th scope="col" class="border-0 bg-light text-center py-0">
