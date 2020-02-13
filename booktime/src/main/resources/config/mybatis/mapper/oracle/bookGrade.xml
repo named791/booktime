@@ -15,7 +15,7 @@
 	
 	<select id="gradeByIsbn" parameterType="bookGradeVo" resultType="float">
 		select
-		<if test="userid==null or userid==''">nvl(round(avg(BOOKGRADE),1),5)</if>
+		<if test="userid==null or userid==''">nvl(round(avg(BOOKGRADE),1),0)</if>
 		<if test="userid!=null and userid!=''">BOOKGRADE</if>
 		from bookGrade
 		where isbn=#{isbn}
