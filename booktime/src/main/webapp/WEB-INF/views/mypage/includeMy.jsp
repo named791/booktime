@@ -39,7 +39,7 @@
 			<a href="<c:url value='/mypage/Mileage/Mileage.do'/>" class="list-group-item list-group-item-action">마일리지</a>
 			  
 			<a id="a3" class="list-group-item list-group-item-action active"> 관심상품</a>
-			<a href="<c:url value='/favorite/favorite.do'/>" class="list-group-item list-group-item-action">WISH LIST</a>
+			<a href="<c:url value='/favorite/favorite.do'/>" class="list-group-item list-group-item-action">찜 목록</a>
 			<a href="<c:url value='/favorite/cart.do'/>" class="list-group-item list-group-item-action">장바구니</a>
 			  
 			<a id="a4" class="list-group-item list-group-item-action active"> 회원정보</a>

@@ -140,7 +140,7 @@
 							
 							var group = $("input[name=group]").val();
 							if(group=="FAVORITE"){
-								$(".addResult").text("즐겨찾기");
+								$(".addResult").text("찜 목록");
 							}else if(group=="CART"){
 								$(".addResult").text("장바구니");
 								$(".btn-goFavorite").attr("href"
@@ -166,7 +166,7 @@
 
 <div id="cover">
 	<div id="FavoriteOk" class="card border-primary" >
-		<div class="card-header bg-primary text-center"><b><span class="addResult"></span>를 추가했습니다</b></div>
+		<div class="card-header bg-primary text-center"><b><span class="addResult"></span>에 추가했습니다</b></div>
 		<div class="card-body text-center">
 			<a href="<c:url value="/favorite/favorite.do"/>" 
 				class="btn btn-info btn-goFavorite"><span class="addResult"></span> 확인</a>
@@ -274,7 +274,7 @@
 					<div class="btn-group" style="position: absolute;bottom: 0;">
 						<c:if test="${!empty sessionScope.userid }"> <!-- 로그인 되어 있을때 -->
 							<input type="button" id="btFavorite"
-								class="btn col" value="즐겨찾기 등록"
+								class="btn col" value="찜 하기"
 								style="border: 2px solid lightgray;width: 25%;color: #555;">
 						</c:if>
 						

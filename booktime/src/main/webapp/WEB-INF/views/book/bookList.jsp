@@ -383,7 +383,7 @@ img.bottomBanner {
 	        			$("#cover").siblings().css("filter", "blur(10px)");
 						$("#cover").fadeIn();
 						
-						$(".addResult").text("즐겨찾기");
+						$(".addResult").text("찜 목록");
 	        		}
 	        	},
 	        	error:function(xhr, status, error){
@@ -450,12 +450,12 @@ img.bottomBanner {
 		       			$("#cover").siblings().css("filter", "blur(10px)");
 						$("#cover").fadeIn();
 						
-						$(".addResult").text("즐겨찾기");
+						$(".addResult").text("찜 목록");
 		       		}
 		       	},
 		       	error:function(xhr, status, error){
 					/* alert("ERROR : "+status+", "+error); */
-					alert("찜목록에 등록할 상품을 선택해주세요.");
+					alert("찜 목록에 등록할 상품을 선택해주세요.");
 				}
 		    }); 	
 		});
@@ -542,7 +542,7 @@ img.bottomBanner {
 
 <div id="cover">
 	<div id="FavoriteOk" class="card border-primary" >
-		<div class="card-header bg-primary text-center"><b><span class="addResult"></span>를 추가했습니다</b></div>
+		<div class="card-header bg-primary text-center"><b><span class="addResult"></span>에 추가했습니다</b></div>
 		<div class="card-body text-center">
 			<a href="<c:url value="/favorite/favorite.do"/>" 
 				class="btn btn-info btn-goFavorite"><span class="addResult"></span> 확인</a>
@@ -669,8 +669,8 @@ img.bottomBanner {
 										<td style="padding: 0px 0px 0px 5px;"><input type="image"
 											class="all_Favorite" 
 											name="submit.AddMyListAll" id="btFavorite"
-											alt="체크한 상품을 즐겨찾기에 등록합니다."
-											src="//image.aladin.co.kr/img/search/btn_mylist_s.jpg"
+											alt="체크한 상품을 찜 목록에 등록합니다."
+											src="<c:url value='/resources/images/button/btn_mylist_s.jpg'/>"
 											border="0"></td>
 									</c:if>
 								</tr>
@@ -829,8 +829,8 @@ img.bottomBanner {
 										<td style="padding: 0px 0px 0px 5px;"><input type="image"
 											class="all_Favorite" 
 											name="submit.AddMyListAll" id="btFavorite"
-											alt="체크한 상품을 즐겨찾기에 등록합니다."
-											src="//image.aladin.co.kr/img/search/btn_mylist_s.jpg"
+											alt="체크한 상품을 찜 목록에 등록합니다."
+											src="<c:url value='/resources/images/button/btn_mylist_s.jpg'/>"
 											border="0"></td>
 									</c:if>
 								</tr>
