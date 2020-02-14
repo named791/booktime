@@ -131,9 +131,14 @@
 						<div class="carousel-caption d-none d-md-block">
 							<h3 style="text-shadow: black 0 0 5px;">오늘의 추천도서</h3>
 							<c:set var="bookName" value="${list2[i].bookName }"/>
+							
+							<c:if test="${fn:contains(bookName, '-')}">
+								<c:set var="bookName" value="${fn:substring(bookName,0,fn:indexOf(bookName, '-')-1)}"/>
+							</c:if>
 							<c:if test="${fn:length(bookName)>30 }">
 								<c:set var="bookName" value="${fn:substring(bookName,0,30)}"/>
 							</c:if>
+							
 							<p style="text-shadow: black 0 0 5px;">
 							<a class="banner" id="banner${i}" 
 								href="<c:url value="/book/bookDetail.do?ItemId=${list2[i].isbn}"/>">

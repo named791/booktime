@@ -15,7 +15,7 @@
 		    and category='자유') "newBoard"
 	    ,(select count(*) from board 
 		    where category='이벤트'
-		    and deleteDate is not null) "events"
+		    and deleteDate is null) "events"
 		,(select count(*) from "USER"
 			where WITHDRAWALDATE >= to_char(sysdate, 'yyyy-mm-dd')) "newOutUser"
 		,(select

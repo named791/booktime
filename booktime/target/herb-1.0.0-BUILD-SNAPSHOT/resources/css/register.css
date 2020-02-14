@@ -44,7 +44,7 @@ input[name=birth]{
 	border-radius: 3px;
 	height: 30px;
 }
-input[type=button],button{
+.allBox input[type=button],.allBox button{
 	background: rgb(128 128 128);
 	border-radius: 0.2em;
 	color: white;
@@ -80,5 +80,5 @@ input[type=button],button{
 	color: white;
 }
 .allBox {
-	padding-left: 600px;
+	padding-left: 35%;
 }

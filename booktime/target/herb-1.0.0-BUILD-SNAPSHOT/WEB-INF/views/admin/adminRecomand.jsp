@@ -1,17 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+    pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>admin/adminRecomand.jsp</title>
+<title>추천 도서 검색</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-<script type="text/javascript"
-	src="<c:url value='https://code.jquery.com/jquery-3.4.1.min.js"
-  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-  crossorigin="anonymous'/> "></script>
+<style type="text/css">
+	.page{
+		border-radius: 10px;
+		margin: 2% 0;
+	}
+	a{
+	color:#00bcd5;
+	}
+</style>
+
+<!-- Bootstrap core JavaScript -->
+  <script src="<c:url value='/resources/vendor/jquery/jquery.min.js'/>"></script>
+  <script src="<c:url value='/resources/vendor/bootstrap/js/bootstrap.bundle.min.js'/>"></script>
+
 <script type="text/javascript">
 	$(function() {
 		$(".choose").click(function(){
@@ -58,19 +68,20 @@
 	}
 	
 </script>
-
+<!-- 아이콘용 Font Awesome -->
+  <script src="https://kit.fontawesome.com/a73e110cf5.js" crossorigin="anonymous"></script>
+<style>
+@import
+	url('https://fonts.googleapis.com/css?family=Nanum+Gothic&display=swap')
+	;
+</style>
 <style type="text/css">
 p, label {
 	font-size: 0.9em;
 }
 
-.box2 {
-	width: 600px;
-}
-
 #divTable {
-	width: 700px;
-	margin: 15px 0;
+	width: 450px;
 }
 
 h1 {
@@ -84,15 +95,17 @@ h1 {
 }
 
 #page {
-	margin: 10px 0;
+	margin: 10xp 0;
 	text-align: center;
 }
 </style>
 
 </head>
-<body>
-	<h1>추천도서 검색</h1>
-	<p>찾고 싶은 책 제목을 입력해 주세요</p>
+<body class="bg-dark">
+<div class="container">
+		<div class="container page" style="width: 100%; height:100%; background-color: white;">
+	<h1 style="color:#00bcd5"><i class="fas fa-search" style="color:gray"></i>&nbsp;추천도서 검색</h1>
+	<p style="color:gray">찾고 싶은 책 제목을 입력해 주세요</p>
 
 <!-- 페이징 처리 관련 form -->
 <form action="<c:url value='/admin/adminRecomand.do'/>" 
@@ -107,20 +120,29 @@ h1 {
 	<input type="hidden" name="start" value="${pagingInfo.currentPage }">
 	<input type="hidden" value="${pagingInfo.firstPage }">
 	<input type="hidden" value="${pagingInfo.lastPage }">
-
-	<label for="title">책 제목</label>
-	<input class="form-control" type="text" name="title" id="title" value="${param.title }">
-	<button class="btn btn-primary" id="btSearch" type="submit" title="search">찾기</button>
+	
+	<div class="form-row">
+	<div class="form-group mr-2">
+		<label for="title">책 제목</label>
+	</div>	
+	<div class="form-group md-8">
+		<input class="form-control" type="text" name="title" id="title" value="${param.title }">
+	</div>
+	<div class="form-group">
+		<button class="btn btn-info" id="btSearch" type="submit" title="search">찾기</button>
+	</div>
 	<span class="error">제목을 입력하세요</span>
+	
+	</div>
 </form>
 	<c:if test="${list!=null }">
 		<div id="divTable">
-			<table class="box2" summary="알라딘 도서 검색 결과" style="padding:10px">
+			<table class="table table-hover box2" summary="알라딘 도서 검색 결과">
 				<colgroup>
-					<col style="width: 20%">
-					<col style="width: *">
+					<col style="width:20%">
+					<col style="width:*">
 				</colgroup>
-				<thead>
+				<thead class="thead-dark" style="width:100%">
 					<tr>
 						<th scope="col">책 표지</th>
 						<th scope="col">책 제목</th>
@@ -140,7 +162,7 @@ h1 {
 						<!-- 반복시작 -->
 						<c:forEach var="map" items="${list }">
 							<tr>
-								<td><img src="${map['cover'] }" alt="cover" style="width: 100px"></td>
+								<td scope="row"><img src="${map['cover'] }" alt="cover" style="width: 100px"></td>
 								<td><a
 									href='<c:url value="/book/bookDetail.do?ItemId=${map['isbn13'] }"/>'
 									target="_blank"> ${map['title'] } </a></td>
@@ -148,21 +170,24 @@ h1 {
 								<td style="width: 50px">
 								<input class="form-check-input choose" id="btnChoose"
 								type="checkbox" value="${vo.isbn13 }">
+								
 								<input type="hidden" id="isbn" name="isbn" value="${map['isbn13'] }">
 								<input type="hidden" id="bookName" name="bookName" value="${map['title'] }">
 								<input type="hidden" id="price" name="price" value="${map['priceSales'] }">
 								<input type="hidden" id="publisher" name="publisher" value="${map['publisher'] }">
 								<input type="hidden" id="writer" name="writer" value="${map['author'] }">
 								<input type="hidden" id="cover" name="cover" value="${map['cover'] }">
+								
 								</td>
 								
 							</tr>
+							
 						</c:forEach>
 						<!-- 반복끝 -->
 					</c:if>
 				</tbody>
 			</table>
-			<div class="divPage">
+			<div class="divPage text-center">
 					<!-- 이전블럭으로 이동 -->
 					<c:if test="${pagingInfo.firstPage>1 }">	
 						<a href="#" onclick="pageFunc(${pagingInfo.firstPage-1})">
@@ -193,5 +218,7 @@ h1 {
 			</div>
 		</div>
 	</c:if>
+	</div>
+	</div>
 </body>
 </html>
